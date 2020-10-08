@@ -1,11 +1,10 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BoardManager :MonoBehaviour
+public class BoardManager : MonoBehaviour
 {
     public int roomCount = 15;
-    public int width = 32;
-    public int height = 32;
 
     public Tilemap tileMapGround;
     public Tilemap tileMapWall;
@@ -14,32 +13,16 @@ public class BoardManager :MonoBehaviour
 
     private void Awake()
     {
-        BoardBuilder b = new BoardBuilder( width, height, roomCount );
+        List<BoardBuilder.Room> rooms = BoardBuilder.Build( roomCount );
 
-        for ( int y = 0; y < height; y++ )
+        foreach ( BoardBuilder.Room item in rooms )
         {
-            for ( int x = 0; x < width; x++ )
+            for ( int x = 0; x < item.width; x++ )
             {
-                switch ( b.GetTileTypeAt(x, y))
+                for ( int y = 0; y < item.height; y++ )
                 {
-                    case BoardBuilder.Type.unknown:
-                        break;
-                    case BoardBuilder.Type.floor:
-                        tileMapGround.SetTile( new Vector3Int( x, y, 0 ), floor );
-                        break;
-                    case BoardBuilder.Type.wall:
-                        tileMapWall.SetTile( new Vector3Int( x, y, 0 ), wall );
-                        break;
-                    case BoardBuilder.Type.stone:
-                        break;
-                }                    
-
-
-                //south wall
-
-                //if ( b.GetTileAt( x, y ) == 1 )
-
-
+                    tileMapGround.SetTile( new Vector3Int( item.left + x, item.top + y, 0 ), floor );
+                }
             }
         }
     }

@@ -1,9 +1,11 @@
 ﻿using UnityEngine;
+using System.Drawing;
 using System.Collections.Generic;
+using UnityEngine.Tilemaps;
 
 public class BoardBuilder
 {
-	protected class DRoom
+	public class Room
 	{
 		public int left;
 		public int top;
@@ -32,7 +34,7 @@ public class BoardBuilder
 			get { return top + height / 2; }
 		}
 
-		public bool CollidesWith( DRoom other )
+		public bool CollidesWith( Room other )
 		{
 			if ( left - 2 > other.right + 2 )
 				return false;
@@ -48,222 +50,54 @@ public class BoardBuilder
 
 			return true;
 		}
-
-
 	}
 
-	int size_x;
-	int size_y;
+	private enum Direction { up, down, left, right };
 
-	int[,] map_data;
-
-	List<DRoom> rooms;
-
-	public enum Type
+	public static List<Room> Build( int roomCount )
 	{
-		unknown,
-		floor,
-		wall,
-		stone
-	};
+		List<Room> rooms = new List<Room>();
 
-	public BoardBuilder( int size_x, int size_y, int roomCount )
-	{
-		DRoom r;
-		this.size_x = size_x;
-		this.size_y = size_y;
+		Room r = new Room();
+		r.left = Random.Range( 0, 5 );
+		r.top = Random.Range(  0, 5 );
+		r.width = 5;
+		r.height = 5;
 
-		map_data = new int[size_x, size_y];
+		rooms.Add( r );
 
-		for ( int x = 0; x < size_x; x++ )
+		for ( int i = 0; i < roomCount; i++ )
 		{
-			for ( int y = 0; y < size_y; y++ )
-			{
-				map_data[x, y] = 3;
-			}
+			Vector2Int dir = GetRandomDirVector2Int();
+
+			//randomize next room parameters
+			r.left += (dir.x * 5);
+			r.top += (dir.y * 5);
+
+			rooms.Add( r );
 		}
 
-		rooms = new List<DRoom>();
+		return rooms;
+	}
 
-		int maxFails = 10;
-
-		while ( rooms.Count < roomCount )
+	private static Vector2Int GetRandomDirVector2Int()
+	{
+		switch ( GetRandomDir() )
 		{
-			int rsx = Random.Range( 5, 5 );
-			int rsy = Random.Range( 5, 5 );
-
-			r = new DRoom();
-			r.left = Random.Range( 0, size_x - rsx );
-			r.top = Random.Range( 0, size_y - rsy );
-			r.width = rsx;
-			r.height = rsy;
-
-			if ( !RoomCollides( r ) )
-			{
-				rooms.Add( r );
-			}
-			else
-			{
-				maxFails--;
-				if ( maxFails <= 0 )
-					break;
-			}
-
+			case Direction.up:
+				return Vector2Int.up;
+			case Direction.down:
+				return Vector2Int.down;
+			case Direction.left:
+				return Vector2Int.left;
+			case Direction.right:
+				return Vector2Int.right;
 		}
-
-		foreach ( DRoom r2 in rooms )
-		{
-			MakeRoom( r2 );
-		}
-
-
-		for ( int i = 0; i < rooms.Count; i++ )
-		{
-			if ( !rooms[i].isConnected )
-			{
-				int j = Random.Range( 1, rooms.Count );
-				MakeCorridor( rooms[i], rooms[( i + j ) % rooms.Count] );
-			}
-		}
-
-		MakeWalls();
-
-		//ExtrudeWalls();
+		return Vector2Int.zero;
 	}
 
-	bool RoomCollides( DRoom r )
+	private static Direction GetRandomDir()
 	{
-		foreach ( DRoom r2 in rooms )
-		{
-			if ( r.CollidesWith( r2 ) )
-			{
-				return true;
-			}
-		}
-
-		return false;
-	}
-
-	public int GetTileAt( int x, int y )
-	{
-		return map_data[x, y];
-	}
-
-	public Type GetTileTypeAt(int x, int y)
-	{
-		return (Type)map_data[x, y];
-	}
-
-	void MakeRoom( DRoom r )
-	{
-
-		for ( int x = 0; x < r.width; x++ )
-		{
-			for ( int y = 0; y < r.height; y++ )
-			{
-				if ( x == 0 || x == r.width - 1 || y == 0 || y == r.height - 1 )
-				{
-					map_data[r.left + x, r.top + y] = 2;
-				}
-				else
-				{
-					map_data[r.left + x, r.top + y] = 1;
-				}
-			}
-		}
-
-	}
-
-	void MakeCorridor( DRoom r1, DRoom r2 )
-	{
-		int x = r1.center_x;
-		int y = r1.center_y;
-
-		while ( x != r2.center_x )
-		{
-			map_data[x, y] = 1;
-
-			x += x < r2.center_x ? 1 : -1;
-		}
-
-		while ( y != r2.center_y )
-		{
-			map_data[x, y] = 1;
-
-			y += y < r2.center_y ? 1 : -1;
-		}
-
-		r1.isConnected = true;
-		r2.isConnected = true;
-
-	}
-
-	void MakeWalls()
-	{
-		for ( int x = 0; x < size_x; x++ )
-		{
-			for ( int y = 0; y < size_y; y++ )
-			{
-				if ( map_data[x, y] == 3 && HasAdjacentFloor( x, y ) )
-				{
-					map_data[x, y] = 2;
-				}
-			}
-		}
-	}
-
-	void ExtrudeWalls()
-	{
-		for ( int x = 0; x < size_x; x++ )
-		{
-			for ( int y = size_y; y > 0; y-- )
-			{
-				if ( HasWallBelow( x, y ) && map_data[x, y] == 3)
-				{
-					map_data[x, y] = 2;
-				}
-			}
-		}
-	}
-
-	bool HasAdjacentFloor( int x, int y )
-	{
-		if ( x > 0 && map_data[x - 1, y] == 1 )
-			return true;
-		if ( x < size_x - 1 && map_data[x + 1, y] == 1 )
-			return true;
-		if ( y > 0 && map_data[x, y - 1] == 1 )
-			return true;
-		if ( y < size_y - 1 && map_data[x, y + 1] == 1 )
-			return true;
-
-		if ( x > 0 && y > 0 && map_data[x - 1, y - 1] == 1 )
-			return true;
-		if ( x < size_x - 1 && y > 0 && map_data[x + 1, y - 1] == 1 )
-			return true;
-
-		if ( x > 0 && y < size_y - 1 && map_data[x - 1, y + 1] == 1 )
-			return true;
-		if ( x < size_x - 1 && y < size_y - 1 && map_data[x + 1, y + 1] == 1 )
-			return true;
-
-
-		return false;
-	}
-
-	bool HasWallBelow(int x, int y)
-	{
-		if ( y > 1 && y < size_y - 1 && map_data[x, y - 1] == 2 )
-			return true;
-
-		return false;
-	}
-
-	bool HasFloorBelowBelow(int x, int y)
-	{
-		if ( y > 2 && y < size_y - 2 && map_data[x, y - 2] == 1 )
-			return true;
-
-		return false;
+		return (Direction)UnityEngine.Random.Range( 0, 4 );
 	}
 }
