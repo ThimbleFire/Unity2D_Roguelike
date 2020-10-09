@@ -34,18 +34,24 @@ public class BoardBuilder
 			get { return top + height / 2; }
 		}
 
+		//the left and top position
+		public Vector2Int position
+		{
+			get { return new Vector2Int( left, top ); }
+		}
+
 		public bool CollidesWith( Room other )
 		{
-			if ( left - 2 > other.right + 2 )
+			if ( left > other.right )
 				return false;
 
-			if ( top - 2 > other.bottom + 2 )
+			if ( top > other.bottom )
 				return false;
 
-			if ( right + 2 < other.left - 2 )
+			if ( right < other.left )
 				return false;
 
-			if ( bottom + 2 < other.top - 2 )
+			if ( bottom < other.top )
 				return false;
 
 			return true;
@@ -58,26 +64,53 @@ public class BoardBuilder
 	{
 		List<Room> rooms = new List<Room>();
 
-		Room r = new Room();
-		r.left = Random.Range( 0, 5 );
-		r.top = Random.Range(  0, 5 );
-		r.width = 5;
-		r.height = 5;
+		int maxFails = 10;
 
-		rooms.Add( r );
+		int x = Random.Range( 0, 5 );
+		int y = Random.Range( 0, 5 );
 
-		for ( int i = 0; i < roomCount; i++ )
+		int i = 0;
+
+		while ( rooms.Count < roomCount )
 		{
 			Vector2Int dir = GetRandomDirVector2Int();
 
-			//randomize next room parameters
-			r.left += (dir.x * 5);
-			r.top += (dir.y * 5);
+			Room r = new Room()
+			{
+				left = x += i == 0 ? 0 : dir.x * 5,
+				top  = y += i == 0 ? 0 : dir.y * 5,
+				width = 5,
+				height = 5
+			};
 
-			rooms.Add( r );
+			if ( !RoomCollides( r, rooms ) )
+			{
+				i++;
+				rooms.Add( r );
+				Debug.Log( "room added" );
+			}
+			else
+			{
+				maxFails--;
+				if ( maxFails <= 0 )
+					break;
+			}
 		}
 
 		return rooms;
+	}
+
+	private static bool RoomCollides( Room r, List<Room> rooms )
+	{
+		foreach ( Room item in rooms )
+		{
+			if ( r.CollidesWith( item ) )
+			{
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	private static Vector2Int GetRandomDirVector2Int()
@@ -96,8 +129,15 @@ public class BoardBuilder
 		return Vector2Int.zero;
 	}
 
-	private static Direction GetRandomDir()
+	private static Direction GetRandomDir( /*Direction lastDir*/ )
 	{
-		return (Direction)UnityEngine.Random.Range( 0, 4 );
+		int rand = Random.Range( 0, 4 );
+
+		//while ( (int)lastDir == rand )
+		//{
+		//	rand = Random.Range( 0, 4 );
+		//}
+
+		return (Direction)rand;
 	}
 }
