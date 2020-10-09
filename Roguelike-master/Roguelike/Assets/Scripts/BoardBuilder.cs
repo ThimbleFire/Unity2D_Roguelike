@@ -7,8 +7,8 @@ public class BoardBuilder
 {
 	public class Room
 	{
-		public int left;
-		public int top;
+		public int left = 0;
+		public int top = 0;
 		public int width;
 		public int height;
 
@@ -32,6 +32,16 @@ public class BoardBuilder
 		public int center_y
 		{
 			get { return top + height / 2; }
+		}
+
+		public int radius_x
+		{
+			get { return ( width - 1 ) / 2; }
+		}
+
+		public int radius_y
+		{
+			get { return ( height - 1 ) / 2; }
 		}
 
 		//the left and top position
@@ -66,34 +76,43 @@ public class BoardBuilder
 
 		int maxFails = 10;
 
-		int x = Random.Range( 0, 5 );
-		int y = Random.Range( 0, 5 );
+		Room r = new Room()
+		{
+			width = 3,
+			height = 3
+		};
 
-		int i = 0;
+		rooms.Add( r );
 
 		while ( rooms.Count < roomCount )
 		{
 			Vector2Int dir = GetRandomDirVector2Int();
 
-			Room r = new Room()
+			//get a random room in the list
+			int randomRoom = Random.Range( 0, rooms.Count );
+			Room sample = rooms[randomRoom];
+
+			//decide how big the room you want to make will be
+			int w = 1 + Random.Range( 1, 5 ) * 2;
+			int h = 1 + Random.Range( 1, 5 ) * 2;
+
+			//calculate the distance you need to make in order to make this new room
+
+			r = new Room()
 			{
-				left = x += i == 0 ? 0 : dir.x * 5,
-				top  = y += i == 0 ? 0 : dir.y * 5,
-				width = 5,
-				height = 5
+				left = dir.x < 0 ? sample.left - w : dir.x == 0 ? sample.center_x : sample.right  + 1,
+				top  = dir.y < 0 ? sample.top  - h : dir.y == 0 ? sample.center_y  : sample.bottom + 1,
+				width = w,
+				height = h
 			};
 
 			if ( !RoomCollides( r, rooms ) )
 			{
-				i++;
 				rooms.Add( r );
-				Debug.Log( "room added" );
 			}
 			else
 			{
-				maxFails--;
-				if ( maxFails <= 0 )
-					break;
+				Debug.LogWarning( "Failed to generate room" );
 			}
 		}
 
