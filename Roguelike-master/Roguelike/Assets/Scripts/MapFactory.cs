@@ -2,23 +2,50 @@
 using System.Drawing;
 using System.Collections.Generic;
 using UnityEngine.Tilemaps;
+using System.Net.NetworkInformation;
 
-public class BoardBuilder
+public class MapFactory
 {
 	public class Room
 	{
+		public Room()
+		{
+			width = 3;
+			height = 3;
+		}
+
+		public Room(Room parent, Vector2Int offset)
+		{
+			//decide how big the room you want to make will be
+			int radius_x = Random.Range( 1, 10 );
+			int radius_y = Random.Range( 1, 10 );
+
+			width = 1 + radius_x * 2;
+			height = 1 + radius_y * 2;
+
+			//set center to parent center
+			top = parent.center_y - radius_y;
+			left = parent.center_x - radius_x;
+
+			//adjust center in the direction of offset
+			left += offset.x * ((radius_x+parent.radius_x)+1);
+			top += offset.y * ((radius_y + parent.radius_y)+1);
+		}
+
 		public int left = 0;
 		public int top = 0;
 		public int width;
 		public int height;
 
-		public bool isConnected = false;
+		public Vector2Int size
+		{
+			get { return new Vector2Int( width, height ); }
+		}
 
 		public int right
 		{
 			get { return left + width - 1; }
 		}
-
 		public int bottom
 		{
 			get { return top + height - 1; }
@@ -28,7 +55,6 @@ public class BoardBuilder
 		{
 			get { return left + width / 2; }
 		}
-
 		public int center_y
 		{
 			get { return top + height / 2; }
@@ -38,10 +64,14 @@ public class BoardBuilder
 		{
 			get { return ( width - 1 ) / 2; }
 		}
-
 		public int radius_y
 		{
 			get { return ( height - 1 ) / 2; }
+		}
+
+		public Vector2Int center
+		{
+			get { return new Vector2Int( center_x, center_y ); }
 		}
 
 		//the left and top position
@@ -70,49 +100,35 @@ public class BoardBuilder
 
 	private enum Direction { up, down, left, right };
 
-	public static List<Room> Build( int roomCount )
+	public static List<Room> BuildFloor( int roomCount )
 	{
 		List<Room> rooms = new List<Room>();
 
-		int maxFails = 10;
-
-		Room r = new Room()
-		{
-			width = 3,
-			height = 3
-		};
+		Room r = new Room();
 
 		rooms.Add( r );
+
+		int roomFailTimeout = 10;
 
 		while ( rooms.Count < roomCount )
 		{
 			Vector2Int dir = GetRandomDirVector2Int();
 
-			//get a random room in the list
-			int randomRoom = Random.Range( 0, rooms.Count );
-			Room sample = rooms[randomRoom];
-
-			//decide how big the room you want to make will be
-			int w = 1 + Random.Range( 1, 5 ) * 2;
-			int h = 1 + Random.Range( 1, 5 ) * 2;
-
-			//calculate the distance you need to make in order to make this new room
-
-			r = new Room()
-			{
-				left = dir.x < 0 ? sample.left - w : dir.x == 0 ? sample.center_x : sample.right  + 1,
-				top  = dir.y < 0 ? sample.top  - h : dir.y == 0 ? sample.center_y  : sample.bottom + 1,
-				width = w,
-				height = h
-			};
+			r = new Room( rooms[Random.Range( 0, rooms.Count )], dir );
 
 			if ( !RoomCollides( r, rooms ) )
 			{
 				rooms.Add( r );
+				roomFailTimeout = 10;
 			}
 			else
 			{
 				Debug.LogWarning( "Failed to generate room" );
+
+				if ( roomFailTimeout < 1 )
+					break;
+				else 
+					roomFailTimeout--;
 			}
 		}
 

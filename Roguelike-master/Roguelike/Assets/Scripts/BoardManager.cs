@@ -13,10 +13,22 @@ public class BoardManager : MonoBehaviour
 
     private void Awake()
     {
-        List<BoardBuilder.Room> rooms = BoardBuilder.Build( roomCount );
+        //tileMapGround.BoxFill( Vector3Int.zero, wall, -25, -25, 25, 25 );
 
-        foreach ( BoardBuilder.Room item in rooms )
+        List<MapFactory.Room> rooms = MapFactory.BuildFloor( roomCount );
+
+        int left = 0;
+        int right = 1;
+        int top = 1;
+        int bottom = 0;
+
+        foreach ( MapFactory.Room item in rooms )
         {
+            left    = item.left     < left      ? item.left     : left;
+            right   = item.right    > right     ? item.right    : right;
+            top     = item.top      > top       ? item.top      : top;
+            bottom  = item.bottom   < bottom    ? item.bottom   : bottom;
+
             for ( int x = 0; x < item.width; x++ )
             {
                 for ( int y = 0; y < item.height; y++ )
