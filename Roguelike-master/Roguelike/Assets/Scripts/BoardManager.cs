@@ -5,6 +5,8 @@ using UnityEngine.Tilemaps;
 public class BoardManager : MonoBehaviour
 {
     public int roomCount = 15;
+    public int width = 64;
+    public int height = 64;
 
     public Tilemap tileMapGround;
     public Tilemap tileMapWall;
@@ -15,25 +17,20 @@ public class BoardManager : MonoBehaviour
     {
         //tileMapGround.BoxFill( Vector3Int.zero, wall, -25, -25, 25, 25 );
 
-        List<MapFactory.Room> rooms = MapFactory.BuildFloor( roomCount );
+        MapFactory.Type[,] rooms = MapFactory.BuildFloor( width, height, roomCount );
 
-        int left = 0;
-        int right = 1;
-        int top = 1;
-        int bottom = 0;
-
-        foreach ( MapFactory.Room item in rooms )
+        for ( int y = 0; y < height; y++ )
         {
-            left    = item.left     < left      ? item.left     : left;
-            right   = item.right    > right     ? item.right    : right;
-            top     = item.top      > top       ? item.top      : top;
-            bottom  = item.bottom   < bottom    ? item.bottom   : bottom;
-
-            for ( int x = 0; x < item.width; x++ )
+            for ( int x = 0; x < width; x++ )
             {
-                for ( int y = 0; y < item.height; y++ )
+                switch ( rooms[x, y] )
                 {
-                    tileMapGround.SetTile( new Vector3Int( item.left + x, item.top + y, 0 ), floor );
+                    case MapFactory.Type.wall:
+                        tileMapGround.SetTile( new Vector3Int( x, y, 0 ), wall );
+                        break;
+                    case MapFactory.Type.floor:
+                        tileMapGround.SetTile( new Vector3Int( x, y, 0 ), floor );
+                        break;
                 }
             }
         }

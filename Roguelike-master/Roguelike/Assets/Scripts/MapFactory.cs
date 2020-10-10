@@ -8,10 +8,12 @@ public class MapFactory
 {
 	public class Room
 	{
-		public Room()
+		public Room(int left, int top)
 		{
 			width = 3;
 			height = 3;
+			this.left = left;
+			this.top = top;
 		}
 
 		public Room(Room parent, Vector2Int offset)
@@ -28,8 +30,8 @@ public class MapFactory
 			left = parent.center_x - radius_x;
 
 			//adjust center in the direction of offset
-			left += offset.x * ((radius_x+parent.radius_x)+1);
-			top += offset.y * ((radius_y + parent.radius_y)+1);
+			left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
+			top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
 		}
 
 		public int left = 0;
@@ -99,40 +101,99 @@ public class MapFactory
 	}
 
 	private enum Direction { up, down, left, right };
+	public enum Type { empty, floor, wall };
+	private static Type[,] mapData;
 
-	public static List<Room> BuildFloor( int roomCount )
+	public static Type[,] BuildFloor( int width, int height, int roomCount )
 	{
-		List<Room> rooms = new List<Room>();
+		// Design rooms
 
-		Room r = new Room();
+		List<Room> rooms = new List<Room>() { new Room(width / 2, height / 2) };
 
-		rooms.Add( r );
-
-		int roomFailTimeout = 10;
+		int failsafe = 16;
 
 		while ( rooms.Count < roomCount )
 		{
 			Vector2Int dir = GetRandomDirVector2Int();
 
-			r = new Room( rooms[Random.Range( 0, rooms.Count )], dir );
+			Room r = new Room( rooms[Random.Range( 0, rooms.Count )], dir );
 
-			if ( !RoomCollides( r, rooms ) )
+			if ( !RoomCollides( r, rooms ) && InBounds( r, width, height ) )
 			{
 				rooms.Add( r );
-				roomFailTimeout = 10;
+				failsafe = 16;
 			}
 			else
 			{
-				Debug.LogWarning( "Failed to generate room" );
+				failsafe--;
 
-				if ( roomFailTimeout < 1 )
+				if ( failsafe <= 0 )
 					break;
-				else 
-					roomFailTimeout--;
 			}
 		}
 
-		return rooms;
+		Debug.Log( "room count: " + rooms.Count );
+
+		mapData = new Type[width, height];
+
+		// Make rooms
+
+		foreach ( Room room in rooms )
+		{
+			for ( int x = 0; x < room.width; x++ )
+			{
+				for ( int y = 0; y < room.height; y++ )
+				{
+					try
+					{
+						mapData[room.left + x, room.top + y] = Type.floor;
+					}
+					catch ( System.Exception )
+					{
+
+						throw;
+					}
+					
+				}
+			}
+		}
+
+		// Make walls
+
+		for ( int x = 0; x < width; x++ )
+		{
+			for ( int y = 0; y < height; y++ )
+			{
+				if ( mapData[x, y] == Type.empty && HasAdjacentFloor( x, y, width, height ) )
+				{
+					mapData[x, y] = Type.wall;
+				}
+			}
+		}
+
+		return mapData;
+	}
+
+	private static bool HasAdjacentFloor( int x, int y, int width, int height )
+	{
+		if ( x > 0 && mapData[x - 1, y] == Type.floor )
+			return true;
+		if ( x < width - 1 && mapData[x + 1, y] == Type.floor )
+			return true;
+		if ( y > 0 && mapData[x, y - 1] == Type.floor )
+			return true;
+		if ( y < height - 1 && mapData[x, y + 1] == Type.floor )
+			return true;
+		if ( x > 0 && y > 0 && mapData[x - 1, y - 1] == Type.floor )
+			return true;
+		if ( x < width - 1 && y > 0 && mapData[x + 1, y - 1] == Type.floor )
+			return true;
+		if ( x > 0 && y < height - 1 && mapData[x - 1, y + 1] == Type.floor )
+			return true;
+		if ( x < width - 1 && y < height - 1 && mapData[x + 1, y + 1] == Type.floor )
+			return true;
+
+		return false;
 	}
 
 	private static bool RoomCollides( Room r, List<Room> rooms )
@@ -146,6 +207,31 @@ public class MapFactory
 		}
 
 		return false;
+	}
+
+	private static bool InBounds(Room r, int width, int height)
+	{
+		if ( r.left < 2 || r.left > width - 2)
+		{
+			return false;
+		}
+
+		if(r.top < 2 || r.top > height - 2)
+		{
+			return false;
+		}
+
+		if ( r.right < 2 || r.right > width - 2)
+		{
+			return false;
+		}
+
+		if ( r.bottom < 2 || r.bottom > height - 2)
+		{
+			return false;
+		}
+
+		return true;
 	}
 
 	private static Vector2Int GetRandomDirVector2Int()
