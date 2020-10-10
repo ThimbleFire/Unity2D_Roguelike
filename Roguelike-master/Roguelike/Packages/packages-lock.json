@@ -19,15 +19,6 @@
       "source": "builtin",
       "dependencies": {}
     },
-    "com.unity.2d.tilemap.extras": {
-      "version": "file:com.unity.2d.tilemap.extras",
-      "depth": 0,
-      "source": "embedded",
-      "dependencies": {
-        "com.unity.modules.tilemap": "1.0.0",
-        "com.unity.2d.tilemap": "1.0.0"
-      }
-    },
     "com.unity.ide.visualstudio": {
       "version": "2.0.2",
       "depth": 0,
