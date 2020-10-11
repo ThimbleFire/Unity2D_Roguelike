@@ -14,6 +14,8 @@ public class MapFactory
 			height = 3;
 			this.left = left;
 			this.top = top;
+
+			PlayerCharacter.Instance.SetPosition( left + 1, top + 1 );
 		}
 
 		public Room(Room parent, Vector2Int offset)
@@ -170,6 +172,8 @@ public class MapFactory
 				}
 			}
 		}
+
+		// Remove thin walls
 
 		for ( int x = 0; x < width; x++ )
 		{

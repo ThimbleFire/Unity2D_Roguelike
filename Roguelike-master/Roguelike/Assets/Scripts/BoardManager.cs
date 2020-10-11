@@ -8,7 +8,8 @@ public class BoardManager : MonoBehaviour
     public int width = 64;
     public int height = 64;
 
-    public Tilemap tileMap;
+    public Tilemap tileMapWalls;
+    public Tilemap tileMapGround;
 
     public TileBase[] floor;
     public TileBase[] north_walls;
@@ -31,68 +32,68 @@ public class BoardManager : MonoBehaviour
                     case MapFactory.Type.wall:
 
                         if ( rooms[x + 1, y] == MapFactory.Type.wall && rooms[x, y - 1] == MapFactory.Type.wall )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), west_walls[Random.Range( 0, west_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), west_walls[Random.Range( 0, west_walls.Length )] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.wall && rooms[x, y - 1] == MapFactory.Type.wall )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), east_walls[Random.Range( 0, east_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), east_walls[Random.Range( 0, east_walls.Length )] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.wall && rooms[x, y - 1] == MapFactory.Type.wall &&
                              rooms[x + 1, y - 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), west_walls[Random.Range( 0, west_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), west_walls[Random.Range( 0, west_walls.Length )] );
 
                         if ( rooms[x + 1, y] == MapFactory.Type.wall && rooms[x, y - 1] == MapFactory.Type.wall &&
                              rooms[x - 1, y - 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), east_walls[Random.Range( 0, east_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), east_walls[Random.Range( 0, east_walls.Length )] );
 
                         if ( rooms[x, y - 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
 
                         if ( rooms[x, y + 1] == MapFactory.Type.floor && rooms[x, y-1] != MapFactory.Type.floor)
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), south_walls[Random.Range( 0, south_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), south_walls[Random.Range( 0, south_walls.Length )] );
 
                         if ( rooms[x + 1, y] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), west_walls[Random.Range( 0, west_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), west_walls[Random.Range( 0, west_walls.Length )] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), east_walls[Random.Range( 0, east_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), east_walls[Random.Range( 0, east_walls.Length )] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.floor && rooms[x, y - 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
 
                         if ( rooms[x + 1, y] == MapFactory.Type.floor && rooms[x, y - 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
 
                         if ( rooms[x + 1, y] == MapFactory.Type.wall && rooms[x, y + 1] == MapFactory.Type.wall &&
                              rooms[x + 1, y + 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), corners[0] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), corners[0] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.wall && rooms[x, y + 1] == MapFactory.Type.wall &&
                              rooms[x - 1, y + 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), corners[1] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), corners[1] );
 
                         if ( rooms[x + 1, y] == MapFactory.Type.wall && rooms[x, y - 1] == MapFactory.Type.wall &&
                              rooms[x, y + 1] == MapFactory.Type.floor && rooms[x - 1, y] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), corners[2] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), corners[2] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.wall && rooms[x, y - 1] == MapFactory.Type.wall &&
                              rooms[x, y + 1] == MapFactory.Type.floor && rooms[x + 1, y] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), corners[3] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), corners[3] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.floor && rooms[x + 1, y] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), corners[6] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), corners[6] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.floor && rooms[x + 1, y] == MapFactory.Type.floor &&
                              rooms[x, y + 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), corners[7] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), corners[7] );
 
                         if ( rooms[x - 1, y] == MapFactory.Type.floor && rooms[x + 1, y] == MapFactory.Type.floor &&
                              rooms[x, y - 1] == MapFactory.Type.floor )
-                            tileMap.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
+                            tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
 
                         break;
                     case MapFactory.Type.floor:
 
-                        tileMap.SetTile( new Vector3Int( x, y, 0 ), floor[Random.Range( 0, floor.Length )] );
+                        tileMapGround.SetTile( new Vector3Int( x, y, 0 ), floor[Random.Range( 0, floor.Length )] );
 
                         break;
                 }
