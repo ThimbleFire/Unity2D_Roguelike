@@ -171,6 +171,22 @@ public class MapFactory
 			}
 		}
 
+		for ( int x = 0; x < width; x++ )
+		{
+			for ( int y = 0; y < height; y++ )
+			{
+				if ( mapData[x, y] == Type.wall && mapData[x - 1, y] == Type.floor && mapData[x + 1, y] == Type.floor )
+				{
+					mapData[x, y] = Type.floor;
+				}
+
+				if ( mapData[x, y] == Type.wall && mapData[x, y - 1] == Type.floor && mapData[x, y + 1] == Type.floor )
+				{
+					mapData[x, y] = Type.floor;
+				}
+			}
+		}
+
 		return mapData;
 	}
 
