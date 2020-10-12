@@ -18,8 +18,12 @@ public class BoardManager : MonoBehaviour
     public TileBase[] west_walls;
     public TileBase[] corners;
 
-
     private void Awake()
+    {
+        Application.targetFrameRate = 60;
+    }
+
+    private void Start()
     {
         MapFactory.Type[,] rooms = MapFactory.BuildFloor( width, height, roomCount );
 
@@ -99,5 +103,8 @@ public class BoardManager : MonoBehaviour
                 }
             }
         }
+
+        tileMapWalls.CompressBounds();
+        tileMapGround.CompressBounds();
     }
 }
