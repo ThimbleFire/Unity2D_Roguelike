@@ -10,6 +10,7 @@ public class BoardManager : MonoBehaviour
 
     public Tilemap tileMapWalls;
     public Tilemap tileMapGround;
+    public List<Interactable> interactables;
 
     public TileBase[] floor;
     public TileBase[] north_walls;
@@ -18,6 +19,7 @@ public class BoardManager : MonoBehaviour
     public TileBase[] west_walls;
     public TileBase[] corners;
 
+
     private void Awake()
     {
         Application.targetFrameRate = 30;
@@ -25,7 +27,15 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        MapFactory.Type[,] rooms = MapFactory.BuildFloor( width, height, roomCount );
+        Build();
+    }
+
+    public void Build()
+    {
+        tileMapGround.ClearAllTiles();
+        tileMapWalls.ClearAllTiles();
+
+        MapFactory.Type[,] rooms = MapFactory.BuildFloor( width, height, roomCount, interactables );
 
         for ( int y = 0; y < height; y++ )
         {
@@ -52,7 +62,7 @@ public class BoardManager : MonoBehaviour
                         if ( rooms[x, y - 1] == MapFactory.Type.floor )
                             tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
 
-                        if ( rooms[x, y + 1] == MapFactory.Type.floor && rooms[x, y-1] != MapFactory.Type.floor)
+                        if ( rooms[x, y + 1] == MapFactory.Type.floor && rooms[x, y - 1] != MapFactory.Type.floor )
                             tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), south_walls[Random.Range( 0, south_walls.Length )] );
 
                         if ( rooms[x + 1, y] == MapFactory.Type.floor )

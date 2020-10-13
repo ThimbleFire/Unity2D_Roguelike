@@ -10,6 +10,8 @@ public class PlayerCharacter : MonoBehaviour
 
     Vector2 mobile = Vector2.zero;
 
+    public List<Interactable> collidingWith = new List<Interactable>();
+
     private void Awake()
     {
         Instance = this;
@@ -24,6 +26,18 @@ public class PlayerCharacter : MonoBehaviour
         
     }
 
+    private void OnCollisionEnter2D( Collision2D collision )
+    {
+        if(collision.gameObject.tag != "Wall")
+            collidingWith.Add( collision.gameObject.GetComponent<Interactable>() );
+    }
+
+    private void OnCollisionExit2D( Collision2D collision )
+    {
+        if ( collision.gameObject.tag != "Wall" )
+            collidingWith.Remove( collision.gameObject.GetComponent<Interactable>() );
+    }
+
     public void SetPosition( int x, int y )
     {
         transform.position = new Vector3( x, y, 0.0f );
@@ -34,35 +48,38 @@ public class PlayerCharacter : MonoBehaviour
         mobile = v;
     }
 
-    public void MobileAttack()
+    public void Action()
     {
-        animator.SetTrigger( "Attack" );
+        if ( collidingWith.Count > 0 )
+        {
+            collidingWith[0].Interact();
+        }
+        else
+        {
+            animator.SetTrigger( "Attack" );
+        }
     }
 
     private void FixedUpdate()
     {
-        Vector3 momentum = Vector3.zero;
+        Vector3 momentum = mobile;
 
-        if ( Input.GetKey( KeyCode.A ) || mobile.x < -0.25f )
+        if ( Input.GetKey( KeyCode.A ) )
         {
             momentum += Vector3.left;
-
-            animator.SetFloat( "LastMoveX", momentum.x );
         }
 
-        if ( Input.GetKey( KeyCode.D ) || mobile.x > 0.25f )
+        if ( Input.GetKey( KeyCode.D ) )
         {
             momentum += Vector3.right;
-
-            animator.SetFloat( "LastMoveX", momentum.x );
         }
 
-        if ( Input.GetKey( KeyCode.W ) || mobile.y > 0.25f )
+        if ( Input.GetKey( KeyCode.W ) )
         {
             momentum += Vector3.up;
         }
 
-        if ( Input.GetKey( KeyCode.S ) || mobile.y < -0.25f )
+        if ( Input.GetKey( KeyCode.S ) )
         {
             momentum += Vector3.down;
         }
@@ -70,6 +87,11 @@ public class PlayerCharacter : MonoBehaviour
         if ( Input.GetKeyDown(KeyCode.F ) )
         {
             animator.SetTrigger( "Attack" );
+        }
+
+        if ( momentum.x <= -0.1f || momentum.x >= 0.1f)
+        {
+            animator.SetFloat( "LastMoveX", momentum.x );
         }
 
         Vector3 p = transform.position + ( momentum * speed * Time.fixedDeltaTime );

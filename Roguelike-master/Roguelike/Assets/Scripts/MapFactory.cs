@@ -16,6 +16,7 @@ public class MapFactory
 			this.top = top;
 
 			PlayerCharacter.Instance.SetPosition( left + 1, top + 1 );
+			occupied = true;
 		}
 
 		public Room(Room parent, Vector2Int offset)
@@ -78,11 +79,13 @@ public class MapFactory
 			get { return new Vector2Int( center_x, center_y ); }
 		}
 
-		//the left and top position
 		public Vector2Int position
 		{
 			get { return new Vector2Int( left, top ); }
 		}
+
+		// whether the room has something in it or not
+		public bool occupied = false;
 
 		public bool CollidesWith( Room other )
 		{
@@ -106,7 +109,7 @@ public class MapFactory
 	public enum Type { empty, floor, wall };
 	private static Type[,] mapData;
 
-	public static Type[,] BuildFloor( int width, int height, int roomCount )
+	public static Type[,] BuildFloor( int width, int height, int roomCount, List<Interactable> interactables )
 	{
 		// Design rooms
 
@@ -191,7 +194,16 @@ public class MapFactory
 			}
 		}
 
-		Ladder.Instance.SetPosition( rooms[rooms.Count - 1].center_x, rooms[rooms.Count - 1].center_y );
+        foreach ( Interactable item in interactables )
+        {
+			int randomRoom = Random.Range( 1, rooms.Count - 1 );
+
+			rooms[randomRoom].occupied = true;
+
+			item.SetPosition(rooms[randomRoom].center );
+        }
+
+		 
 
 		return mapData;
 	}
