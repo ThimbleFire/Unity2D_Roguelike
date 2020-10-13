@@ -78,5 +78,5 @@ public class PlayerCharacter : MonoBehaviour
         animator.SetBool( "Moving", momentum != Vector3.zero );
         animator.SetFloat( "MoveX", momentum.x );
         animator.SetFloat( "MoveY", momentum.y );
-    }dicks
+    }
 }
