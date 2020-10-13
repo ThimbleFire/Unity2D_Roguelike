@@ -1,21 +1,14 @@
 #using UnityEngine
 
-public Enum weapons
-{
-Short sword, arming sword, great sword,
+/*Short sword, arming sword, great sword,
 Small axe, battle axe, great axe,
 Hammer, warhammer, maul,
-}
 
-public Enum Armour
-{
-Cloth, leather, studded leather, iron plate, steel plate
-}
+Cloth, leather, studded, plate
 
-public Enum Offhand
-{
 Parrying dagger, targe, kite, wall
-}
+
+Ring/amulet of life, stamina, regen, strength, crit, light, fools, horses*/
 
 class ItemBinary
 {
