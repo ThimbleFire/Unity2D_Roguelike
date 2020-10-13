@@ -191,6 +191,8 @@ public class MapFactory
 			}
 		}
 
+		Ladder.Instance.SetPosition( rooms[rooms.Count - 1].center_x, rooms[rooms.Count - 1].center_y );
+
 		return mapData;
 	}
 

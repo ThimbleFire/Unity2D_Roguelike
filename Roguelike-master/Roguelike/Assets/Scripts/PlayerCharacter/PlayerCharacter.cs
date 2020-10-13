@@ -39,7 +39,7 @@ public class PlayerCharacter : MonoBehaviour
         animator.SetTrigger( "Attack" );
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
         Vector3 momentum = Vector3.zero;
 
