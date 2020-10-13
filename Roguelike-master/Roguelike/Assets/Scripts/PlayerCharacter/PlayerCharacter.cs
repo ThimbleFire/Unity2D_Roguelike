@@ -34,6 +34,11 @@ public class PlayerCharacter : MonoBehaviour
         mobile = v;
     }
 
+    public void MobileAttack()
+    {
+        animator.SetTrigger( "Attack" );
+    }
+
     private void Update()
     {
         Vector3 momentum = Vector3.zero;
