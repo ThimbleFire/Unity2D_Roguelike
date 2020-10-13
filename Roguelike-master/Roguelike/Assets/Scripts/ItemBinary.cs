@@ -1,5 +1,22 @@
 #using UnityEngine
 
+public Enum weapons
+{
+Short sword, arming sword, great sword,
+Small axe, battle axe, great axe,
+Hammer, warhammer, maul,
+}
+
+public Enum Armour
+{
+Cloth, leather, studded leather, iron plate, steel plate
+}
+
+public Enum Offhand
+{
+Parrying dagger, targe, kite, wall
+}
+
 class ItemBinary
 {
     string binary;
