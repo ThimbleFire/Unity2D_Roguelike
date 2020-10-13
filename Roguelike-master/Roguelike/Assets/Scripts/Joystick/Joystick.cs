@@ -8,6 +8,7 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public float Horizontal { get { return (snapX) ? SnapFloat(input.x, AxisOptions.Horizontal) : input.x; } }
     public float Vertical { get { return (snapY) ? SnapFloat(input.y, AxisOptions.Vertical) : input.y; } }
     public Vector2 Direction { get { return new Vector2(Horizontal, Vertical); } }
+    protected Vector2 center = new Vector2( 0.5f, 0.5f );
 
     public float HandleRange
     {
@@ -25,14 +26,14 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
     public bool SnapX { get { return snapX; } set { snapX = value; } }
     public bool SnapY { get { return snapY; } set { snapY = value; } }
 
-    [SerializeField] private float handleRange = 1;
-    [SerializeField] private float deadZone = 0;
-    [SerializeField] private AxisOptions axisOptions = AxisOptions.Both;
-    [SerializeField] private bool snapX = false;
-    [SerializeField] private bool snapY = false;
+    public float handleRange = 1;
+    public float deadZone = 0;
+    public AxisOptions axisOptions = AxisOptions.Both;
+    public bool snapX = false;
+    public bool snapY = false;
 
-    [SerializeField] protected RectTransform background = null;
-    [SerializeField] private RectTransform handle = null;
+    public RectTransform background = null;
+    public RectTransform handle = null;
     private RectTransform baseRect = null;
 
     private Canvas canvas;
@@ -55,6 +56,18 @@ public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPoint
         handle.anchorMax = center;
         handle.pivot = center;
         handle.anchoredPosition = Vector2.zero;
+    }
+
+    private void Update()
+    {
+        if ( handle != null )
+        {
+            RectTransform handleRect = handle;
+            handleRect.anchorMax = center;
+            handleRect.anchorMin = center;
+            handleRect.pivot = center;
+            handleRect.anchoredPosition = Vector2.zero;
+        }
     }
 
     public virtual void OnPointerDown(PointerEventData eventData)

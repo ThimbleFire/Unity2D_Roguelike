@@ -595,7 +595,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 931535509, guid: 4f83a200bb20ecc4db5d070e1a9ed2e6, type: 3}
       propertyPath: speed
-      value: 3
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 931535509, guid: 4f83a200bb20ecc4db5d070e1a9ed2e6, type: 3}
       propertyPath: positionSnap
@@ -655,6 +655,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f83a200bb20ecc4db5d070e1a9ed2e6, type: 3}
+--- !u!224 &927556909 stripped
+RectTransform:
+  m_CorrespondingSourceObject: {fileID: 2929252285020697096, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+  m_PrefabInstance: {fileID: 1054623511}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1054623511
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -752,6 +757,32 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+--- !u!1 &1226887553 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2929252283123773939, guid: aaa2c939c0359ac4dbce3f49e8b90252, type: 3}
+  m_PrefabInstance: {fileID: 1054623511}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1226887554
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226887553}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45977bbae16431c46a013576a1aea384, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  handleRange: 1
+  deadZone: 0
+  axisOptions: 0
+  snapX: 0
+  snapY: 0
+  background: {fileID: 252520074}
+  handle: {fileID: 927556909}
+  input: {x: 0, y: 0}
+  pc: {fileID: 1517785551}
 --- !u!1 &1384075365
 GameObject:
   m_ObjectHideFlags: 0
@@ -887,6 +918,17 @@ TilemapCollider2D:
   m_Offset: {x: 0, y: 0}
   m_MaximumTileChangeCount: 1000
   m_ExtrusionFactor: 0.00001
+--- !u!114 &1517785551 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 931535509, guid: 4f83a200bb20ecc4db5d070e1a9ed2e6, type: 3}
+  m_PrefabInstance: {fileID: 584865872}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f7fe088582db4654f87885ba3b0b4787, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1548169090
 GameObject:
   m_ObjectHideFlags: 0

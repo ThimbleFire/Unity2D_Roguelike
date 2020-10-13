@@ -38,8 +38,6 @@ public class PlayerCharacter : MonoBehaviour
     {
         Vector3 momentum = Vector3.zero;
 
-        
-
         if ( Input.GetKey( KeyCode.A ) || mobile.x < -0.25f )
         {
             momentum += Vector3.left;
@@ -70,8 +68,6 @@ public class PlayerCharacter : MonoBehaviour
         }
 
         Vector3 p = transform.position + ( momentum * speed * Time.fixedDeltaTime );
-
-        Debug.Log( Time.fixedDeltaTime );
 
         transform.position = p;
 

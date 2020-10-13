@@ -1,14 +1,10 @@
-#using UnityEngine
+using UnityEngine;
 
-/*Short sword, arming sword, great sword,
-Small axe, battle axe, great axe,
-Hammer, warhammer, maul,
-
-Cloth, leather, studded, plate
-
-Parrying dagger, targe, kite, wall
-
-Ring/amulet of life, stamina, regen, strength, crit, light, fools, horses*/
+/*  Short sword, arming sword, great sword, small axe, battle axe, great axe, hammer, warhammer, maul,
+    Cloth, leather, studded, plate
+    Parrying dagger, targe, kite, wall
+    Ring/amulet of life, stamina, regen, strength, crit, light, fools, horses
+*/
 
 class ItemBinary
 {
