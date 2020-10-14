@@ -5,11 +5,8 @@ using UnityEngine;
 public class PlayerCharacter : MonoBehaviour
 {
     public static PlayerCharacter Instance;
-
     public Animator animator;
-
     Vector2 mobile = Vector2.zero;
-
     public List<Interactable> collidingWith = new List<Interactable>();
 
     private void Awake()
@@ -62,6 +59,11 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Update()
     {
+        if ( Input.GetKeyDown(KeyCode.F ) )
+        {
+            Action();
+        }
+
         Vector3 momentum = mobile;
 
         if ( Input.GetKey( KeyCode.A ) )
@@ -84,22 +86,22 @@ public class PlayerCharacter : MonoBehaviour
             momentum += Vector3.down;
         }
 
-        if ( Input.GetKeyDown(KeyCode.F ) )
-        {
-            animator.SetTrigger( "Attack" );
-        }
-
-        if ( momentum.x <= -0.1f || momentum.x >= 0.1f)
+        if ( momentum.x <= -0.01f || momentum.x >= 0.01f)
         {
             animator.SetFloat( "LastMoveX", momentum.x );
         }
 
-        Vector3 p = transform.position + ( momentum * speed * Time.fixedDeltaTime );
-
-        transform.position = p;
-
         animator.SetBool( "Moving", momentum != Vector3.zero );
         animator.SetFloat( "MoveX", momentum.x );
         animator.SetFloat( "MoveY", momentum.y );
+
+        if ( momentum == Vector3.zero )
+            return;        
+
+
+        Vector2 newPosition = transform.position + ( momentum * speed * Time.smoothDeltaTime );
+        float nextX = Mathf.Round( Game.PPU * newPosition.x );
+        float nextY = Mathf.Round( Game.PPU * newPosition.y );
+        transform.position = new Vector3( nextX / Game.PPU, nextY / Game.PPU, 0.0f );
     }
 }
