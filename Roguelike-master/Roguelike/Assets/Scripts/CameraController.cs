@@ -3,12 +3,10 @@ using UnityEngine;
 public class CameraController : MonoBehaviour {
 	
 	public GameObject followTarget;
-	
 	public Camera _camera;
-	
 	private float _pixelLockedPPU = 16.0f; // change this to PixelPerfectCamera component and directly get PPU from that component
 	
-	public void FixedUpdate(){
+	public void LateUpdate(){
 		
 		if(_camera && followTarget){
 			Vector2 newPosition = new Vector2(followTarget.transform.position.x, followTarget.transform.position.y);
