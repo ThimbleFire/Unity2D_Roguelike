@@ -1,12 +1,12 @@
 using UnityEngine;
 
-public class PixelPerfectCam : MonoBehaviour {
+public class CameraController : MonoBehaviour {
 	
 	public GameObject followTarget;
 	
 	public Camera _camera;
 	
-	private float _pixelLockedPPU = 16.0f;
+	private float _pixelLockedPPU = 16.0f; // change this to PixelPerfectCamera component and directly get PPU from that component
 	
 	public void FixedUpdate(){
 		
