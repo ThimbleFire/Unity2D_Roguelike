@@ -60,7 +60,7 @@ public class PlayerCharacter : MonoBehaviour
         }
     }
 
-    private void FixedUpdate()
+    private void Update()
     {
         Vector3 momentum = mobile;
 
