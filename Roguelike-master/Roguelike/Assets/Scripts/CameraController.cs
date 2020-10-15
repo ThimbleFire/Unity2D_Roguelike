@@ -7,7 +7,6 @@ public class CameraController : MonoBehaviour
 
 	public void LateUpdate()
 	{
-
 		if ( _camera && followTarget )
 		{
 			Vector2 newPosition = new Vector2( followTarget.transform.position.x, followTarget.transform.position.y );

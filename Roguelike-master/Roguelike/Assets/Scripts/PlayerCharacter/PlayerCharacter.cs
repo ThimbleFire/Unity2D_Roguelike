@@ -6,7 +6,7 @@ public class PlayerCharacter : MonoBehaviour
 {
     public static PlayerCharacter Instance;
     public Animator animator;
-    Vector2 mobile = Vector2.zero;
+    public Joystick joystick;
     public List<Interactable> collidingWith = new List<Interactable>();
 
     private void Awake()
@@ -42,7 +42,10 @@ public class PlayerCharacter : MonoBehaviour
 
     public void MobileMove(Vector2 v)
     {
-        mobile = v;
+        //mobile = new Vector2( v.x < 0 ? -1.0f : v.x > 0.0f ?  1.0f : 0.0f,
+        //                      v.y > 0 ?  1.0f : v.x < 0.0f ? -1.0f : 0.0f );
+
+        //mobile = v;
     }
 
     public void Action()
@@ -64,7 +67,7 @@ public class PlayerCharacter : MonoBehaviour
             Action();
         }
 
-        Vector3 momentum = mobile;
+        Vector3 momentum = joystick.input.normalized;
 
         if ( Input.GetKey( KeyCode.A ) )
         {
@@ -96,12 +99,12 @@ public class PlayerCharacter : MonoBehaviour
         animator.SetFloat( "MoveY", momentum.y );
 
         if ( momentum == Vector3.zero )
-            return;        
-
+            return;
 
         Vector2 newPosition = transform.position + ( momentum * speed * Time.smoothDeltaTime );
         float nextX = Mathf.Round( Game.PPU * newPosition.x );
         float nextY = Mathf.Round( Game.PPU * newPosition.y );
+
         transform.position = new Vector3( nextX / Game.PPU, nextY / Game.PPU, 0.0f );
     }
 }
