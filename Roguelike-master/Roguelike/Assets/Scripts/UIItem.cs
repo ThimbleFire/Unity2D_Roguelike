@@ -1,13 +1,12 @@
 using UnityEngine;
-using UnityEngine.UI;
 
 class UIItem : UIDraggable
 {
     public Vector2Int inventoryCellPosition;
     public string Binary { get; set; }
-    private bool Occupied { get { return Binary.Empty; } }
+    private bool Occupied { get { return Binary.Length > 0; } }
 
-    public virtul void Select()
+    public virtual void Select()
     {
         Game.InventorySelect(inventoryCellPosition, Binary);
     }

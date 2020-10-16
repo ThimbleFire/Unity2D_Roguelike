@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 /*  Short sword, arming sword, great sword, small axe, battle axe, great axe, hammer, warhammer, maul,
@@ -15,10 +16,9 @@ class ItemBinary
         this.binary = binary;
     }
 
-    public void Build()
+    public static int Build(string b)
     {
-        //substring to find region
-        //Convert.ToInt32("1001101", 2).ToString(); 
+        return Convert.ToInt32(b, 2); 
     }
 
     public void Save()

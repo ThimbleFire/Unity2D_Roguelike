@@ -40,14 +40,6 @@ public class PlayerCharacter : MonoBehaviour
         transform.position = new Vector3( x, y, 0.0f );
     }
 
-    public void MobileMove(Vector2 v)
-    {
-        //mobile = new Vector2( v.x < 0 ? -1.0f : v.x > 0.0f ?  1.0f : 0.0f,
-        //                      v.y > 0 ?  1.0f : v.x < 0.0f ? -1.0f : 0.0f );
-
-        //mobile = v;
-    }
-
     public void Action()
     {
         if ( collidingWith.Count > 0 )
