@@ -5,10 +5,14 @@ using UnityEngine.EventSystems;
 
 public class UIDraggable : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-
     public virtual void OnPointerDown(PointerEventData eventData)
     {
         OnDrag(eventData);
+    }
+
+    public virtual void OnPointerPress(PointerEventData eventData)
+    {
+
     }
 
     public virtual void OnDrag(PointerEventData eventData)
