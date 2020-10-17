@@ -5,15 +5,6 @@ class Game
 {
     public const float PPU = 16;
 
-    public static Vector2Int selectedInventoryCellPosition;
-    private static string selectedInventoryBinary = string.Empty;
-
-    public static void InventorySelect( Vector2Int inventoryCellPosition, string binary )
-    {
-        selectedInventoryCellPosition = inventoryCellPosition;
-        selectedInventoryBinary = binary;
-    }
-
     //for loading data from mongo
     public static void LoadOnline()
     {
@@ -23,7 +14,12 @@ class Game
     //for loading data from phone
     public static void LoadOffline()
     {
+        Inventory inventory = GameObject.Find( "GameManager" ).GetComponent<Inventory>();
 
+        for ( int i = 0; i < 21; i++ )
+        {
+            inventory.AddItem( "0000000100000000000000000000000000000000000000000000000000000000000000000000000000000000" );
+        }
     }
 
     //for saving data to mongo
@@ -49,19 +45,6 @@ class Game
         //    case 1: LoadOffline();  break;
         //}
 
-        SetupNewGame();
-    }
-
-    public static void SetupNewGame()
-    {
-        PlayerPrefs.SetInt( "firsttimesetup", 1 );
-        //add startup items
-
-        Inventory inventory = GameObject.Find( "GameManager" ).GetComponent<Inventory>();
-
-        for ( int i = 0; i < 21; i++ )
-        {
-            inventory.AddItem( "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" );
-        }
+        LoadOffline();
     }
 }
