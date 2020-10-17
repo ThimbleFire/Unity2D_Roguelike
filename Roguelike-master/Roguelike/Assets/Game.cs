@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
-using System.Threading.Tasks;
 using UnityEngine;
 
 class Game
@@ -17,5 +12,16 @@ class Game
     {
         selectedInventoryCellPosition = inventoryCellPosition;
         selectedInventoryBinary = binary;
+    }
+
+    public static void LoadAccount()
+    {
+        //gets player and inventory info from database
+        //load the 28 inventory slots and however many gear slots there are.
+    }
+
+    public static void SaveState(into playerID, string v)
+    {
+
     }
 }
