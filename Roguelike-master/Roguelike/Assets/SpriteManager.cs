@@ -15,20 +15,34 @@ public class SpriteManager : MonoBehaviour
     {
         Instance = this;
 
-        //string path = "UI/Inventory/Items/" + (byte)item.property[(byte)Item.Properties.Subcategory];
-        //int index = item.property[(byte)Item.Properties.ItemType];
+        string root = "UI/Inventory/Items/";
 
-        //UI / Inventory / Items /< Subcategory >[ItemType]
-        //See Item.SubCategories for a list of sub categories
+        int i = 0;
 
-        //image.sprite = Resources.LoadAll<Sprite>( path )[index];
+        while ( true )
+        {
+            try
+            {
+                Sprite[] s = Resources.LoadAll<Sprite>( root + i.ToString() );
+
+                for ( int j = 0; j < s.Length; j++ )
+                {
+                    sprites.Add( i + ", " + j, s[j] );
+                }
+            }
+            catch ( Exception )
+            {
+                Debug.LogWarning( "Sprites Loaded: " + sprites.Count );
+                break;
+            }
+        }
     }
 
     internal Sprite Get( byte subcategory, byte v )
     {
         try
         {
-            return sprites["0000000000000000"];
+            return sprites[subcategory + ", " + v];
         }
         catch ( Exception )
         {
