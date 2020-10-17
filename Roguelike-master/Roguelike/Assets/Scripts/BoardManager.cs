@@ -19,7 +19,6 @@ public class BoardManager : MonoBehaviour
     public TileBase[] west_walls;
     public TileBase[] corners;
 
-
     private void Awake()
     {
         Application.targetFrameRate = 60;
@@ -27,6 +26,8 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
+        Game.Setup();
+
         Build();
     }
 

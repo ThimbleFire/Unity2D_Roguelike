@@ -14,14 +14,54 @@ class Game
         selectedInventoryBinary = binary;
     }
 
-    public static void LoadAccount()
+    //for loading data from mongo
+    public static void LoadOnline()
     {
-        //gets player and inventory info from database
-        //load the 28 inventory slots and however many gear slots there are.
+
     }
 
-    public static void SaveState(into playerID, string v)
+    //for loading data from phone
+    public static void LoadOffline()
     {
 
+    }
+
+    //for saving data to mongo
+    public static void SaveStateOnline( int playerID, string v )
+    {
+
+    }
+
+
+    //for saving data to the phone
+    public static void SaveStateOffline( string v )
+    {
+        PlayerPrefs.SetString( "everything", v );
+    }
+
+    public static void Setup()
+    {
+        //int a = PlayerPrefs.GetInt( "firsttimesetup", 0);
+
+        //switch ( a )
+        //{
+        //    case 0: SetupNewGame(); break;
+        //    case 1: LoadOffline();  break;
+        //}
+
+        SetupNewGame();
+    }
+
+    public static void SetupNewGame()
+    {
+        PlayerPrefs.SetInt( "firsttimesetup", 1 );
+        //add startup items
+
+        Inventory inventory = GameObject.Find( "GameManager" ).GetComponent<Inventory>();
+
+        for ( int i = 0; i < 21; i++ )
+        {
+            inventory.AddItem( "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000" );
+        }
     }
 }

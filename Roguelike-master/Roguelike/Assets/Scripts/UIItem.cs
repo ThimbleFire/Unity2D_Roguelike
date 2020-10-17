@@ -1,10 +1,13 @@
 using UnityEngine;
 
-class UIItem : UIDraggable
+public class UIItem : UIDraggable
 {
+    [SerializeField]
+    private string binary;
+    public string Binary { get { return binary; } set { binary = value; } }
+    public bool Occupied { get { return Binary.Length > 0; } }
     public Vector2Int inventoryCellPosition;
-    public string Binary { get; set; }
-    private bool Occupied { get { return Binary.Length > 0; } }
+    public Item item;
 
     public virtual void Select()
     {

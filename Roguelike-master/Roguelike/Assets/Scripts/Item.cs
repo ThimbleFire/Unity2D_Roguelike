@@ -1,6 +1,6 @@
 using System;
 
-class Item
+public class Item
 {
     //Property arrangement determines the properties binary index
     public enum Properties
@@ -31,7 +31,7 @@ class Item
 
         for ( int i = 0; i < item.property.Length; i++ )
         {
-            string snippet = binary.Substring( i * 8, 1 + i * 8 );
+            string snippet = binary.Substring( i * 8, 8 );
             item.property[i] = ItemBinary.Build( snippet );
         }
 
