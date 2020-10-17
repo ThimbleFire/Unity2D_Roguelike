@@ -27,9 +27,10 @@ public class Inventory : MonoBehaviour
         joystick.SetActive( !joystick.activeSelf );
     }
 
-    public void InventoryDrag( Item item )
+    public void InventoryOnBeginDrag( Item item )
     {
-
+        itemDragHandle.SetActive( !itemDragHandle.activeSelf );
+        //itemDragHandle.GetComponent<>
     }
 
     public void InventoryEndDrag()
@@ -49,7 +50,7 @@ public class Inventory : MonoBehaviour
     {
         byte i = FindEmptyInventorySlot();
 
-        items[i].Setup(Item.Build( bin ));
+        items[i].Setup( bin );
     }
 
 
@@ -64,9 +65,7 @@ public class Inventory : MonoBehaviour
 
         foreach ( UIItem item in items )
         {
-            string snippet = item.Binary.Substring( i * 8, 8 );
-
-            if ( ItemBinary.Build( snippet ) == 0 )
+            if ( Binary.ToDecimal( item.binary, i ) == 0 )
                 return i;
             else
                 i++;

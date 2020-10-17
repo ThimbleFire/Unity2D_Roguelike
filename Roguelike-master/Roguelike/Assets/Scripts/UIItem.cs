@@ -7,15 +7,18 @@ public class UIItem : MonoBehaviour
 {
     public RectTransform rectTransform;
     public Image image; 
-    [SerializeField]
-    private string binary;
-    public string Binary { get { return binary; } set { binary = value; } }
-    public bool Occupied { get { return Binary.Length > 0; } }
+    public string binary;
+    public bool Occupied { get { return Binary.ToDecimal( binary, 0 ) > 0; } }
     public Item item;
+
+    private void Awake()
+    {
+        item = new Item();
+    }
 
     public void OnBeginDrag( )
     {
-        Inventory.Instance.InventoryDrag( item );
+        Inventory.Instance.InventoryOnBeginDrag( item );
     }
 
     public void OnPointerUp( )
@@ -33,10 +36,16 @@ public class UIItem : MonoBehaviour
         Inventory.Instance.InventorySelect( rectTransform.anchoredPosition, item);
     }
 
-    public void Setup( Item item )
+    public void Setup( string bin )
     {
-        this.item = item;
-        image.sprite = Resources.LoadAll<Sprite>( "UI/Inventory/Items/spritesheet" )[(byte)item.property[0]];
-        image.color = Color.white;
+        binary = bin;
+
+        item.Build( bin );
+
+        if ( Occupied )
+        {
+            image.sprite = item.sprite;
+            image.color = Color.white;
+        }
     }
 }

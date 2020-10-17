@@ -1,7 +1,30 @@
 using System;
+using UnityEngine;
 
 public class Item
 {
+    public enum SubCategories
+    {
+        Helmet,
+        Chest,
+        Belt,
+        Legs,
+        Foot_L,
+        Foot_R,
+        Hand_L,
+        Hand_R,
+        Offhand,
+        Weapon,
+        Shoulder_L,
+        Shoulder_R,
+        Cape,
+        Neck,
+        Ring,
+        Bracelet
+    }
+
+    public SubCategories subcategory;
+
     //Property arrangement determines the properties binary index
     public enum Properties
     {
@@ -18,23 +41,30 @@ public class Item
         Suffix3,
     }
 
+    public Sprite sprite { get; set; }
+
     public int[] property;
 
     public Item()
     {
-        property = new int[Enum.GetValues( typeof( Properties ) ).Length];
+
     }
 
-    public static Item Build(string binary)
+    public void Build(string binary)
     {
-        Item item = new Item();
+        property = new int[Enum.GetValues( typeof( Properties ) ).Length];
 
-        for ( int i = 0; i < item.property.Length; i++ )
+        for ( int i = 0; i < property.Length; i++ )
         {
-            string snippet = binary.Substring( i * 8, 8 );
-            item.property[i] = ItemBinary.Build( snippet );
+            property[i] = Binary.ToDecimal( binary, i );
         }
 
-        return item;
+        subcategory = (SubCategories)property[(byte)Properties.Subcategory];
+
+        // to do: setup a sprite manager system.
+        // organise files by <sub>[<type>]
+        //replace type with index
+
+        sprite = SpriteManager.Instance.Get( (byte)subcategory, (byte)property[0] );
     }
 }

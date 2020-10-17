@@ -370,6 +370,7 @@ GameObject:
   - component: {fileID: 46031532}
   - component: {fileID: 46031533}
   - component: {fileID: 46031534}
+  - component: {fileID: 46031535}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -484,6 +485,18 @@ MonoBehaviour:
   - {fileID: 736008407}
   - {fileID: 176055874}
   itemDragHandle: {fileID: 1623605155}
+--- !u!114 &46031535
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 46031531}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8f5ea00fab44b5142b91914ce1e71687, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &56384101 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2092727895929586700, guid: aaec1f3943c8bdf4981651a20de459ab, type: 3}
@@ -4583,7 +4596,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 2095986855, guid: 4c59c890502b1e445b5ab48a7d4bdb59, type: 3}
       propertyPath: binary
-      value: 0000000100000000000000000000000000000000000000000000000000000000000000000000000000000000
+      value: 0000000100000000000000010000000000000000000000000000000000000000000000000000000000000000
       objectReference: {fileID: 0}
     - target: {fileID: 799780720335742494, guid: 4c59c890502b1e445b5ab48a7d4bdb59, type: 3}
       propertyPath: m_Name
