@@ -5,6 +5,7 @@ public class Item
 {
     public enum SubCategories
     {
+        Empty,
         Helmet,
         Chest,
         Belt,
@@ -47,12 +48,11 @@ public class Item
 
     public Item()
     {
+        property = new int[Enum.GetValues( typeof( Properties ) ).Length];
     }
 
     public void Build( string binary )
     {
-        property = new int[Enum.GetValues( typeof( Properties ) ).Length];
-
         for ( int i = 0; i < property.Length; i++ )
         {
             property[i] = Binary.ToDecimal( binary, i );

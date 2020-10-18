@@ -63,7 +63,7 @@ public class Inventory : MonoBehaviour
     {
         byte i = FindEmptyInventorySlot();
 
-        items[i].Setup( );
+        items[i].SetItem( );
     }
 
     public void EquipItem( string bin )

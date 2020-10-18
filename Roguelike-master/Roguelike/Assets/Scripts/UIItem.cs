@@ -16,12 +16,22 @@ public class UIItem : MonoBehaviour
 
         string savedData = PlayerPrefs.GetString( "i" + childIndex );
 
-        if(savedData != string.Empty)
-            if ( Binary.ToDecimal( savedData, 0 ) > 0 )
-                binary = savedData;
+        if ( savedData != string.Empty )
+            binary = savedData;
 
         if ( Occupied )
-            Setup( );
+            SetItem( );
+    }
+
+    public void SetItem( )
+    {
+        item.Build( binary );
+
+        if ( Occupied )
+        {
+            image.sprite = item.sprite;
+            image.color = Color.white;
+        }
     }
 
     public void OnBeginDrag()
@@ -42,16 +52,5 @@ public class UIItem : MonoBehaviour
     public void OnPointerClick()
     {
         Inventory.Instance.InventorySelect( rectTransform.anchoredPosition, item );
-    }
-
-    public void Setup( )
-    {
-        item.Build( binary );
-
-        if ( Occupied )
-        {
-            image.sprite = item.sprite;
-            image.color = Color.white;
-        }
     }
 }

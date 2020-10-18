@@ -16,31 +16,24 @@ public class SpriteManager : MonoBehaviour
 
         string root = "UI/Inventory/Items/";
 
-        int i = 0;
-
-        while ( true )
+        for ( int i = 0; i < 17; i++ )
         {
-            try
-            {
-                Sprite[] s = Resources.LoadAll<Sprite>( root + i.ToString() );
+            Sprite[] s = Resources.LoadAll<Sprite>( root + i.ToString() );
 
-                for ( int j = 0; j < s.Length; j++ )
-                {
-                    sprites.Add( i + ", " + j, s[j] );
-                }
-            }
-            catch ( Exception )
+            for ( int j = 0; j < s.Length; j++ )
             {
-                Debug.LogWarning( "Sprites Loaded: " + sprites.Count );
-                break;
+                sprites.Add( i + ", " + j, s[j] );
             }
         }
+
+        Debug.LogWarning( "sprites loaded: " + sprites.Count );
     }
 
     internal Sprite Get( byte subcategory, byte v )
     {
         try
         {
+            Debug.Log( string.Format( "Fetching {0}[{1}]", subcategory, v ) );
             return sprites[subcategory + ", " + v];
         }
         catch ( Exception )
