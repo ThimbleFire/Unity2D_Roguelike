@@ -9,7 +9,7 @@ public class UIItem : MonoBehaviour
     public Image image; 
     public string binary;
     public bool Occupied { get { return Binary.ToDecimal( binary, 0 ) > 0; } }
-    public Item item;
+    public Item item = new Item();
     public int childIndex;
 
     private void Awake()
@@ -20,8 +20,6 @@ public class UIItem : MonoBehaviour
 
         if(Binary.ToDecimal(savedData, 0) > 0)
             binary = savedData;
-
-        item = new Item();
 
         if(Occupied)
             Setup(binary);
@@ -39,7 +37,7 @@ public class UIItem : MonoBehaviour
 
     public void OnDrop( )
     {
-
+        item = Inventory.Instance.itemBeingDragged;
     }
 
     public void OnPointerClick( )
