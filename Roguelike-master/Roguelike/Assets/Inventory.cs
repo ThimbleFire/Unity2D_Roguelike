@@ -29,13 +29,13 @@ public class Inventory : MonoBehaviour
 
     public void InventoryOnBeginDrag( Item item )
     {
-        itemDragHandle.SetActive( !itemDragHandle.activeSelf );
-        //itemDragHandle.GetComponent<>
+        itemDragHandle.SetActive( true );
+        itemDragHandle.GetComponent<Image>().Sprite = item.sprite;
     }
 
     public void InventoryEndDrag()
     {
-
+        itemDragHandle.SetActive( false );
     }
 
     public static Vector2Int selectedInventoryCellPosition;
@@ -43,7 +43,7 @@ public class Inventory : MonoBehaviour
 
     public void InventorySelect( Vector2 rectTransform, Item item )
     {
-
+        //d
     }
 
     public void AddItem( string bin )
