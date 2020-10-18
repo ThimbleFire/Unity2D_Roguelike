@@ -15,6 +15,8 @@ public class Inventory : MonoBehaviour
 
     public GameObject itemDragHandle;
 
+    public Item itemBeingDragged;
+
     private void Awake()
     {
         Instance = this;
@@ -29,6 +31,7 @@ public class Inventory : MonoBehaviour
 
     public void InventoryOnBeginDrag( Item item )
     {
+        itemBeingDragged = item;
         itemDragHandle.SetActive( true );
         itemDragHandle.GetComponent<Image>().Sprite = item.sprite;
     }
