@@ -10,10 +10,21 @@ public class UIItem : MonoBehaviour
     public string binary;
     public bool Occupied { get { return Binary.ToDecimal( binary, 0 ) > 0; } }
     public Item item;
+    public int childIndex;
 
     private void Awake()
     {
+        childIndex = transform.GetSiblingIndex();
+
+        string savedData = PlayerPrefs.GetString('i'+childIndex);
+
+        if(Binary.ToDecimal(savedData, 0) > 0)
+            binary = savedData;
+
         item = new Item();
+
+        if(Occupied)
+            Setup(binary);
     }
 
     public void OnBeginDrag( )
