@@ -26,8 +26,6 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        Game.Setup();
-
         Build();
     }
 
@@ -106,6 +104,7 @@ public class BoardManager : MonoBehaviour
                             tileMapWalls.SetTile( new Vector3Int( x, y, 0 ), north_walls[Random.Range( 0, north_walls.Length )] );
 
                         break;
+
                     case MapFactory.Type.floor:
 
                         tileMapGround.SetTile( new Vector3Int( x, y, 0 ), floor[Random.Range( 0, floor.Length )] );

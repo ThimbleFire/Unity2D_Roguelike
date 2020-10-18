@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class PlayerCharacter : MonoBehaviour
@@ -20,12 +19,11 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Start()
     {
-        
     }
 
     private void OnCollisionEnter2D( Collision2D collision )
     {
-        if(collision.gameObject.tag != "Wall")
+        if ( collision.gameObject.tag != "Wall" )
             collidingWith.Add( collision.gameObject.GetComponent<Interactable>() );
     }
 
@@ -54,7 +52,7 @@ public class PlayerCharacter : MonoBehaviour
 
     private void Update()
     {
-        if ( Input.GetKeyDown(KeyCode.F ) )
+        if ( Input.GetKeyDown( KeyCode.F ) )
         {
             Action();
         }
@@ -81,7 +79,7 @@ public class PlayerCharacter : MonoBehaviour
             momentum += Vector3.down;
         }
 
-        if ( momentum.x <= -0.01f || momentum.x >= 0.01f)
+        if ( momentum.x <= -0.01f || momentum.x >= 0.01f )
         {
             animator.SetFloat( "LastMoveX", momentum.x );
         }

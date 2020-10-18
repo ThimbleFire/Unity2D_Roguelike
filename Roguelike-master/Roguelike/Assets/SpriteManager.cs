@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ public class SpriteManager : MonoBehaviour
 {
     public static SpriteManager Instance;
 
-    Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
+    private Dictionary<string, Sprite> sprites = new Dictionary<string, Sprite>();
 
     public const string InventoryItemRoot = "UI/Inventory/Items/";
 
@@ -49,6 +48,5 @@ public class SpriteManager : MonoBehaviour
             Debug.LogError( string.Format( InventoryItemRoot + "{0}[{1}] not found.", subcategory, v ) );
             throw;
         }
-
     }
 }

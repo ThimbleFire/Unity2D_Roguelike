@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Interactable : MonoBehaviour
 {
@@ -8,7 +6,7 @@ public class Interactable : MonoBehaviour
 
     public void SetPosition( Vector2Int position )
     {
-        transform.position = new Vector3(position.x, position.y);
+        transform.position = new Vector3( position.x, position.y );
     }
 
     public void Interact()

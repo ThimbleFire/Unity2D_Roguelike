@@ -1,12 +1,10 @@
-using System;
 using UnityEngine;
-using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 public class UIItem : MonoBehaviour
 {
     public RectTransform rectTransform;
-    public Image image; 
+    public Image image;
     public string binary;
     public bool Occupied { get { return Binary.ToDecimal( binary, 0 ) > 0; } }
     public Item item = new Item();
@@ -16,40 +14,39 @@ public class UIItem : MonoBehaviour
     {
         childIndex = transform.GetSiblingIndex();
 
-        string savedData = PlayerPrefs.GetString('i'+childIndex);
+        string savedData = PlayerPrefs.GetString( "i" + childIndex );
 
-        if(Binary.ToDecimal(savedData, 0) > 0)
-            binary = savedData;
+        if(savedData != string.Empty)
+            if ( Binary.ToDecimal( savedData, 0 ) > 0 )
+                binary = savedData;
 
-        if(Occupied)
-            Setup(binary);
+        if ( Occupied )
+            Setup( );
     }
 
-    public void OnBeginDrag( )
+    public void OnBeginDrag()
     {
         Inventory.Instance.InventoryOnBeginDrag( item );
     }
 
-    public void OnPointerUp( )
+    public void OnPointerUp()
     {
         Inventory.Instance.InventoryEndDrag();
     }
 
-    public void OnDrop( )
+    public void OnDrop()
     {
         item = Inventory.Instance.itemBeingDragged;
     }
 
-    public void OnPointerClick( )
+    public void OnPointerClick()
     {
-        Inventory.Instance.InventorySelect( rectTransform.anchoredPosition, item);
+        Inventory.Instance.InventorySelect( rectTransform.anchoredPosition, item );
     }
 
-    public void Setup( string bin )
+    public void Setup( )
     {
-        binary = bin;
-
-        item.Build( bin );
+        item.Build( binary );
 
         if ( Occupied )
         {

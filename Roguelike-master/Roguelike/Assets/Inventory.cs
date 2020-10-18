@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class Inventory : MonoBehaviour
 {
@@ -13,9 +11,11 @@ public class Inventory : MonoBehaviour
 
     public UIItem[] items;
 
-    public GameObject itemDragHandle;
+    public RectTransform itemDragHandle;
 
     public Item itemBeingDragged;
+
+    private bool dragging = false;
 
     private void Awake()
     {
@@ -32,13 +32,23 @@ public class Inventory : MonoBehaviour
     public void InventoryOnBeginDrag( Item item )
     {
         itemBeingDragged = item;
-        itemDragHandle.SetActive( true );
-        itemDragHandle.GetComponent<Image>().Sprite = item.sprite;
+        itemDragHandle.gameObject.SetActive( true );
+        itemDragHandle.GetComponent<Image>().sprite = item.sprite;
+        dragging = true;
     }
 
     public void InventoryEndDrag()
     {
-        itemDragHandle.SetActive( false );
+        itemDragHandle.gameObject.SetActive( false );
+        dragging = false;
+    }
+
+    private void Update()
+    {
+        if(dragging)
+        {
+            itemDragHandle.position = Input.mousePosition;
+        }
     }
 
     public static Vector2Int selectedInventoryCellPosition;
@@ -53,13 +63,11 @@ public class Inventory : MonoBehaviour
     {
         byte i = FindEmptyInventorySlot();
 
-        items[i].Setup( bin );
+        items[i].Setup( );
     }
-
 
     public void EquipItem( string bin )
     {
-
     }
 
     private byte FindEmptyInventorySlot()

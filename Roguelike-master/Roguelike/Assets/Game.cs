@@ -1,7 +1,4 @@
-﻿using System;
-using UnityEngine;
-
-class Game
+﻿internal class Game
 {
     public const float PPU = 16;
 }

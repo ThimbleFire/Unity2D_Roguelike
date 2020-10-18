@@ -47,10 +47,9 @@ public class Item
 
     public Item()
     {
-
     }
 
-    public void Build(string binary)
+    public void Build( string binary )
     {
         property = new int[Enum.GetValues( typeof( Properties ) ).Length];
 

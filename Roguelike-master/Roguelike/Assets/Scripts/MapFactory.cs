@@ -1,298 +1,299 @@
-﻿using UnityEngine;
-using System.Drawing;
-using System.Collections.Generic;
-using UnityEngine.Tilemaps;
-using System.Net.NetworkInformation;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class MapFactory
 {
-	public class Room
-	{
-		public Room(int left, int top)
-		{
-			width = 3;
-			height = 3;
-			this.left = left;
-			this.top = top;
+    public class Room
+    {
+        public Room( int left, int top )
+        {
+            width = 3;
+            height = 3;
+            this.left = left;
+            this.top = top;
 
-			PlayerCharacter.Instance.SetPosition( left + 1, top + 1 );
-			occupied = true;
-		}
+            PlayerCharacter.Instance.SetPosition( left + 1, top + 1 );
+            occupied = true;
+        }
 
-		public Room(Room parent, Vector2Int offset)
-		{
-			//decide how big the room you want to make will be
-			int radius_x = Random.Range( 1, 10 );
-			int radius_y = Random.Range( 1, 10 );
+        public Room( Room parent, Vector2Int offset )
+        {
+            //decide how big the room you want to make will be
+            int radius_x = Random.Range( 1, 10 );
+            int radius_y = Random.Range( 1, 10 );
 
-			width = 1 + radius_x * 2;
-			height = 1 + radius_y * 2;
+            width = 1 + radius_x * 2;
+            height = 1 + radius_y * 2;
 
-			//set center to parent center
-			top = parent.center_y - radius_y;
-			left = parent.center_x - radius_x;
+            //set center to parent center
+            top = parent.center_y - radius_y;
+            left = parent.center_x - radius_x;
 
-			//adjust center in the direction of offset
-			left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
-			top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
-		}
+            //adjust center in the direction of offset
+            left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
+            top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
+        }
 
-		public int left = 0;
-		public int top = 0;
-		public int width;
-		public int height;
+        public int left = 0;
+        public int top = 0;
+        public int width;
+        public int height;
 
-		public Vector2Int size
-		{
-			get { return new Vector2Int( width, height ); }
-		}
+        public Vector2Int size
+        {
+            get { return new Vector2Int( width, height ); }
+        }
 
-		public int right
-		{
-			get { return left + width - 1; }
-		}
-		public int bottom
-		{
-			get { return top + height - 1; }
-		}
+        public int right
+        {
+            get { return left + width - 1; }
+        }
 
-		public int center_x
-		{
-			get { return left + width / 2; }
-		}
-		public int center_y
-		{
-			get { return top + height / 2; }
-		}
+        public int bottom
+        {
+            get { return top + height - 1; }
+        }
 
-		public int radius_x
-		{
-			get { return ( width - 1 ) / 2; }
-		}
-		public int radius_y
-		{
-			get { return ( height - 1 ) / 2; }
-		}
+        public int center_x
+        {
+            get { return left + width / 2; }
+        }
 
-		public Vector2Int center
-		{
-			get { return new Vector2Int( center_x, center_y ); }
-		}
+        public int center_y
+        {
+            get { return top + height / 2; }
+        }
 
-		public Vector2Int position
-		{
-			get { return new Vector2Int( left, top ); }
-		}
+        public int radius_x
+        {
+            get { return ( width - 1 ) / 2; }
+        }
 
-		// whether the room has something in it or not
-		public bool occupied = false;
+        public int radius_y
+        {
+            get { return ( height - 1 ) / 2; }
+        }
 
-		public bool CollidesWith( Room other )
-		{
-			if ( left > other.right )
-				return false;
+        public Vector2Int center
+        {
+            get { return new Vector2Int( center_x, center_y ); }
+        }
 
-			if ( top > other.bottom )
-				return false;
+        public Vector2Int position
+        {
+            get { return new Vector2Int( left, top ); }
+        }
 
-			if ( right < other.left )
-				return false;
+        // whether the room has something in it or not
+        public bool occupied = false;
 
-			if ( bottom < other.top )
-				return false;
+        public bool CollidesWith( Room other )
+        {
+            if ( left > other.right )
+                return false;
 
-			return true;
-		}
-	}
+            if ( top > other.bottom )
+                return false;
 
-	private enum Direction { up, down, left, right };
-	public enum Type { empty, floor, wall };
-	private static Type[,] mapData;
+            if ( right < other.left )
+                return false;
 
-	public static Type[,] BuildFloor( int width, int height, int roomCount, List<Interactable> interactables )
-	{
-		// Design rooms
+            if ( bottom < other.top )
+                return false;
 
-		List<Room> rooms = new List<Room>() { new Room(width / 2, height / 2) };
+            return true;
+        }
+    }
 
-		int failsafe = 16;
+    private enum Direction { up, down, left, right };
 
-		while ( rooms.Count < roomCount )
-		{
-			Vector2Int dir = GetRandomDirVector2Int();
+    public enum Type { empty, floor, wall };
 
-			Room r = new Room( rooms[Random.Range( 0, rooms.Count )], dir );
+    private static Type[,] mapData;
 
-			if ( !RoomCollides( r, rooms ) && InBounds( r, width, height ) )
-			{
-				rooms.Add( r );
-				failsafe = 16;
-			}
-			else
-			{
-				failsafe--;
+    public static Type[,] BuildFloor( int width, int height, int roomCount, List<Interactable> interactables )
+    {
+        // Design rooms
 
-				if ( failsafe <= 0 )
-					break;
-			}
-		}
+        List<Room> rooms = new List<Room>() { new Room( width / 2, height / 2 ) };
 
-		Debug.Log( "room count: " + rooms.Count );
+        int failsafe = 16;
 
-		mapData = new Type[width, height];
+        while ( rooms.Count < roomCount )
+        {
+            Vector2Int dir = GetRandomDirVector2Int();
 
-		// Make rooms
+            Room r = new Room( rooms[Random.Range( 0, rooms.Count )], dir );
 
-		foreach ( Room room in rooms )
-		{
-			for ( int x = 0; x < room.width; x++ )
-			{
-				for ( int y = 0; y < room.height; y++ )
-				{
-					try
-					{
-						mapData[room.left + x, room.top + y] = Type.floor;
-					}
-					catch ( System.Exception )
-					{
+            if ( !RoomCollides( r, rooms ) && InBounds( r, width, height ) )
+            {
+                rooms.Add( r );
+                failsafe = 16;
+            }
+            else
+            {
+                failsafe--;
 
-						throw;
-					}
-					
-				}
-			}
-		}
+                if ( failsafe <= 0 )
+                    break;
+            }
+        }
 
-		// Make walls
+        Debug.Log( "room count: " + rooms.Count );
 
-		for ( int x = 0; x < width; x++ )
-		{
-			for ( int y = 0; y < height; y++ )
-			{
-				if ( mapData[x, y] == Type.empty && HasAdjacentFloor( x, y, width, height ) )
-				{
-					mapData[x, y] = Type.wall;
-				}
-			}
-		}
+        mapData = new Type[width, height];
 
-		// Remove thin walls
+        // Make rooms
 
-		for ( int x = 0; x < width; x++ )
-		{
-			for ( int y = 0; y < height; y++ )
-			{
-				if ( mapData[x, y] == Type.wall && mapData[x - 1, y] == Type.floor && mapData[x + 1, y] == Type.floor )
-				{
-					mapData[x, y] = Type.floor;
-				}
+        foreach ( Room room in rooms )
+        {
+            for ( int x = 0; x < room.width; x++ )
+            {
+                for ( int y = 0; y < room.height; y++ )
+                {
+                    try
+                    {
+                        mapData[room.left + x, room.top + y] = Type.floor;
+                    }
+                    catch ( System.Exception )
+                    {
+                        throw;
+                    }
+                }
+            }
+        }
 
-				if ( mapData[x, y] == Type.wall && mapData[x, y - 1] == Type.floor && mapData[x, y + 1] == Type.floor )
-				{
-					mapData[x, y] = Type.floor;
-				}
-			}
-		}
+        // Make walls
+
+        for ( int x = 0; x < width; x++ )
+        {
+            for ( int y = 0; y < height; y++ )
+            {
+                if ( mapData[x, y] == Type.empty && HasAdjacentFloor( x, y, width, height ) )
+                {
+                    mapData[x, y] = Type.wall;
+                }
+            }
+        }
+
+        // Remove thin walls
+
+        for ( int x = 0; x < width; x++ )
+        {
+            for ( int y = 0; y < height; y++ )
+            {
+                if ( mapData[x, y] == Type.wall && mapData[x - 1, y] == Type.floor && mapData[x + 1, y] == Type.floor )
+                {
+                    mapData[x, y] = Type.floor;
+                }
+
+                if ( mapData[x, y] == Type.wall && mapData[x, y - 1] == Type.floor && mapData[x, y + 1] == Type.floor )
+                {
+                    mapData[x, y] = Type.floor;
+                }
+            }
+        }
 
         foreach ( Interactable item in interactables )
         {
-			int randomRoom = Random.Range( 1, rooms.Count - 1 );
+            int randomRoom = Random.Range( 1, rooms.Count - 1 );
 
-			rooms[randomRoom].occupied = true;
+            rooms[randomRoom].occupied = true;
 
-			item.SetPosition(rooms[randomRoom].center );
+            item.SetPosition( rooms[randomRoom].center );
         }
 
-		 
+        return mapData;
+    }
 
-		return mapData;
-	}
+    private static bool HasAdjacentFloor( int x, int y, int width, int height )
+    {
+        if ( x > 0 && mapData[x - 1, y] == Type.floor )
+            return true;
+        if ( x < width - 1 && mapData[x + 1, y] == Type.floor )
+            return true;
+        if ( y > 0 && mapData[x, y - 1] == Type.floor )
+            return true;
+        if ( y < height - 1 && mapData[x, y + 1] == Type.floor )
+            return true;
+        if ( x > 0 && y > 0 && mapData[x - 1, y - 1] == Type.floor )
+            return true;
+        if ( x < width - 1 && y > 0 && mapData[x + 1, y - 1] == Type.floor )
+            return true;
+        if ( x > 0 && y < height - 1 && mapData[x - 1, y + 1] == Type.floor )
+            return true;
+        if ( x < width - 1 && y < height - 1 && mapData[x + 1, y + 1] == Type.floor )
+            return true;
 
-	private static bool HasAdjacentFloor( int x, int y, int width, int height )
-	{
-		if ( x > 0 && mapData[x - 1, y] == Type.floor )
-			return true;
-		if ( x < width - 1 && mapData[x + 1, y] == Type.floor )
-			return true;
-		if ( y > 0 && mapData[x, y - 1] == Type.floor )
-			return true;
-		if ( y < height - 1 && mapData[x, y + 1] == Type.floor )
-			return true;
-		if ( x > 0 && y > 0 && mapData[x - 1, y - 1] == Type.floor )
-			return true;
-		if ( x < width - 1 && y > 0 && mapData[x + 1, y - 1] == Type.floor )
-			return true;
-		if ( x > 0 && y < height - 1 && mapData[x - 1, y + 1] == Type.floor )
-			return true;
-		if ( x < width - 1 && y < height - 1 && mapData[x + 1, y + 1] == Type.floor )
-			return true;
+        return false;
+    }
 
-		return false;
-	}
+    private static bool RoomCollides( Room r, List<Room> rooms )
+    {
+        foreach ( Room item in rooms )
+        {
+            if ( r.CollidesWith( item ) )
+            {
+                return true;
+            }
+        }
 
-	private static bool RoomCollides( Room r, List<Room> rooms )
-	{
-		foreach ( Room item in rooms )
-		{
-			if ( r.CollidesWith( item ) )
-			{
-				return true;
-			}
-		}
+        return false;
+    }
 
-		return false;
-	}
+    private static bool InBounds( Room r, int width, int height )
+    {
+        if ( r.left < 2 || r.left > width - 2 )
+        {
+            return false;
+        }
 
-	private static bool InBounds(Room r, int width, int height)
-	{
-		if ( r.left < 2 || r.left > width - 2)
-		{
-			return false;
-		}
+        if ( r.top < 2 || r.top > height - 2 )
+        {
+            return false;
+        }
 
-		if(r.top < 2 || r.top > height - 2)
-		{
-			return false;
-		}
+        if ( r.right < 2 || r.right > width - 2 )
+        {
+            return false;
+        }
 
-		if ( r.right < 2 || r.right > width - 2)
-		{
-			return false;
-		}
+        if ( r.bottom < 2 || r.bottom > height - 2 )
+        {
+            return false;
+        }
 
-		if ( r.bottom < 2 || r.bottom > height - 2)
-		{
-			return false;
-		}
+        return true;
+    }
 
-		return true;
-	}
+    private static Vector2Int GetRandomDirVector2Int()
+    {
+        switch ( GetRandomDir() )
+        {
+            case Direction.up:
+                return Vector2Int.up;
 
-	private static Vector2Int GetRandomDirVector2Int()
-	{
-		switch ( GetRandomDir() )
-		{
-			case Direction.up:
-				return Vector2Int.up;
-			case Direction.down:
-				return Vector2Int.down;
-			case Direction.left:
-				return Vector2Int.left;
-			case Direction.right:
-				return Vector2Int.right;
-		}
-		return Vector2Int.zero;
-	}
+            case Direction.down:
+                return Vector2Int.down;
 
-	private static Direction GetRandomDir( /*Direction lastDir*/ )
-	{
-		int rand = Random.Range( 0, 4 );
+            case Direction.left:
+                return Vector2Int.left;
 
-		//while ( (int)lastDir == rand )
-		//{
-		//	rand = Random.Range( 0, 4 );
-		//}
+            case Direction.right:
+                return Vector2Int.right;
+        }
+        return Vector2Int.zero;
+    }
 
-		return (Direction)rand;
-	}
+    private static Direction GetRandomDir( /*Direction lastDir*/ )
+    {
+        int rand = Random.Range( 0, 4 );
+
+        //while ( (int)lastDir == rand )
+        //{
+        //	rand = Random.Range( 0, 4 );
+        //}
+
+        return (Direction)rand;
+    }
 }
