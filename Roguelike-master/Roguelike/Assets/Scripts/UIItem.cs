@@ -7,7 +7,7 @@ public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private Transform startParent;
     private Vector3 startPosition;
     public static GameObject itemBeingDragged;
-    public binary;
+    public string binary;
     public Item item;
 
     private void Start()
