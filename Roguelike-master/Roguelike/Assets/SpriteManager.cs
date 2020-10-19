@@ -29,7 +29,7 @@ public class SpriteManager : MonoBehaviour
         Debug.LogWarning( "sprites loaded: " + sprites.Count );
     }
 
-    internal Sprite Get( byte subcategory, byte v )
+    internal Sprite Get( int subcategory, int v )
     {
         try
         {

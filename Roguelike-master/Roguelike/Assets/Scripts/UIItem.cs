@@ -1,56 +1,52 @@
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class UIItem : MonoBehaviour
+public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHandler
 {
-    public RectTransform rectTransform;
-    public Image image;
-    public string binary;
-    public bool Occupied { get { return Binary.ToDecimal( binary, 0 ) > 0; } }
-    public Item item = new Item();
-    public int childIndex;
+    private Transform startParent;
+    private Vector3 startPosition;
+    public static GameObject itemBeingDragged;
 
-    private void Awake()
+    private void Start()
     {
-        childIndex = transform.GetSiblingIndex();
+        //childIndex = transform.GetSiblingIndex();
 
-        string savedData = PlayerPrefs.GetString( "i" + childIndex );
+        //string savedData = PlayerPrefs.GetString( childIndex.ToString() );
 
-        if ( savedData != string.Empty )
-            binary = savedData;
+        //item = new Item( savedData != string.Empty ? savedData : Binary.EmptyItem );
+        //item.Build();
 
-        if ( Occupied )
-            SetItem( );
+        //image.sprite = item.Sprite;
     }
 
-    public void SetItem( )
+    public void OnBeginDrag( PointerEventData eventData )
     {
-        item.Build( binary );
+        itemBeingDragged = gameObject;
+        startPosition = transform.position;
+        startParent = transform.parent;
+        GetComponent<CanvasGroup>().blocksRaycasts = false;
+        Debug.Log( gameObject.name + " on begin drag" );
+        startParent.SetAsLastSibling();
+    }
 
-        if ( Occupied )
+    public void OnDrag( PointerEventData eventData )
+    {
+        transform.position = Input.mousePosition;
+        Debug.Log( gameObject.name + " on drag" );
+    }
+
+    public void OnEndDrag( PointerEventData eventData )
+    {
+        itemBeingDragged = null;
+        GetComponent<CanvasGroup>().blocksRaycasts = true;
+
+        if(transform.parent == startParent)
         {
-            image.sprite = item.sprite;
-            image.color = Color.white;
+            transform.position = startPosition;
         }
+        Debug.Log( gameObject.name + " on end drag" );
+
     }
 
-    public void OnBeginDrag()
-    {
-        Inventory.Instance.InventoryOnBeginDrag( item );
-    }
-
-    public void OnPointerUp()
-    {
-        Inventory.Instance.InventoryEndDrag();
-    }
-
-    public void OnDrop()
-    {
-        item = Inventory.Instance.itemBeingDragged;
-    }
-
-    public void OnPointerClick()
-    {
-        Inventory.Instance.InventorySelect( rectTransform.anchoredPosition, item );
-    }
 }

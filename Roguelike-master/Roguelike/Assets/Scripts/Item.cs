@@ -23,10 +23,6 @@ public class Item
         Ring,
         Bracelet
     }
-
-    public SubCategories subcategory;
-
-    //Property arrangement determines the properties binary index
     public enum Properties
     {
         ItemType,      //greatsword
@@ -42,28 +38,28 @@ public class Item
         Suffix3,
     }
 
-    public Sprite sprite { get; set; }
+    public Sprite Sprite { get; set; }
+    private string Binary { get; set; }
 
-    public int[] property;
+    public int ItemType { get { return global::Binary.ToDecimal( Binary, 0 ); } }
+    public int Category { get { return global::Binary.ToDecimal( Binary, 1 ); } }
+    public int Subcategory { get { return global::Binary.ToDecimal( Binary, 2 ); } }
+    public int Material { get { return global::Binary.ToDecimal( Binary, 3 ); } }
+    public int Tier { get { return global::Binary.ToDecimal( Binary, 4 ); } }
+    public int Prefix1 { get { return global::Binary.ToDecimal( Binary, 5 ); } }
+    public int Prefix2 { get { return global::Binary.ToDecimal( Binary, 6 ); } }
+    public int Prefix3 { get { return global::Binary.ToDecimal( Binary, 7 ); } }
+    public int Suffix1 { get { return global::Binary.ToDecimal( Binary, 8 ); } }
+    public int Suffix2 { get { return global::Binary.ToDecimal( Binary, 9 ); } }
+    public int Suffix3 { get { return global::Binary.ToDecimal( Binary, 10 ); } }
 
-    public Item()
+    public Item(string binary)
     {
-        property = new int[Enum.GetValues( typeof( Properties ) ).Length];
+        this.Binary = binary;
     }
 
-    public void Build( string binary )
+    public void Build( )
     {
-        for ( int i = 0; i < property.Length; i++ )
-        {
-            property[i] = Binary.ToDecimal( binary, i );
-        }
-
-        subcategory = (SubCategories)property[(byte)Properties.Subcategory];
-
-        // to do: setup a sprite manager system.
-        // organise files by <sub>[<type>]
-        //replace type with index
-
-        sprite = SpriteManager.Instance.Get( (byte)subcategory, (byte)property[0] );
+        Sprite = SpriteManager.Instance.Get( Subcategory, ItemType );
     }
 }
