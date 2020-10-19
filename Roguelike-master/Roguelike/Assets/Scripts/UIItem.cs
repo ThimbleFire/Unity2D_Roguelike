@@ -7,17 +7,22 @@ public class UIItem : MonoBehaviour, IBeginDragHandler, IDragHandler, IEndDragHa
     private Transform startParent;
     private Vector3 startPosition;
     public static GameObject itemBeingDragged;
+    public binary;
+    public Item item;
 
     private void Start()
     {
-        //childIndex = transform.GetSiblingIndex();
+        string savedData = PlayerPrefs.GetString( gameObject.name );
 
-        //string savedData = PlayerPrefs.GetString( childIndex.ToString() );
+        item = new Item( savedData != string.Empty ? savedData : Binary.EmptyItem );
+        item.Build();
 
-        //item = new Item( savedData != string.Empty ? savedData : Binary.EmptyItem );
-        //item.Build();
+        image.sprite = item.Sprite;
+    }
 
-        //image.sprite = item.Sprite;
+    private void OnDestroy()
+    {
+        PlayerPrefs.SetString( gameObject.name, binary );
     }
 
     public void OnBeginDrag( PointerEventData eventData )
