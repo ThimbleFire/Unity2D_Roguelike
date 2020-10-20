@@ -18,6 +18,6 @@ public class Binary
 
     public static string ToBinary( int v )
     {
-        return Convert.ToString( v, 2 );
+        return Convert.ToString( v, 2 ).PadLeft( 8, '0' );
     }
 }

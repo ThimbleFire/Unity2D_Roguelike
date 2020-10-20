@@ -39,7 +39,7 @@ public class Item
     }
 
     public Sprite Sprite { get; set; }
-    private string Binary { get; set; }
+    public string Binary { get; set; }
 
     public int ItemType { get { return global::Binary.ToDecimal( Binary, 0 ); } }
     public int Category { get { return global::Binary.ToDecimal( Binary, 1 ); } }
@@ -56,10 +56,27 @@ public class Item
     public Item(string binary)
     {
         this.Binary = binary;
+
+        Sprite = SpriteManager.Instance.Get( Subcategory, ItemType );
     }
 
-    public void Build( )
+    public string BuildBinary()
     {
-        Sprite = SpriteManager.Instance.Get( Subcategory, ItemType );
+        string 
+        bin  = global::Binary.ToBinary( ItemType );
+        bin += global::Binary.ToBinary( Category );
+        bin += global::Binary.ToBinary( Subcategory );
+        bin += global::Binary.ToBinary( Material );
+        bin += global::Binary.ToBinary( Tier );
+
+        bin += global::Binary.ToBinary( Prefix1 );
+        bin += global::Binary.ToBinary( Prefix2 );
+        bin += global::Binary.ToBinary( Prefix3 );
+
+        bin += global::Binary.ToBinary( Suffix1 );
+        bin += global::Binary.ToBinary( Suffix2 );
+        bin += global::Binary.ToBinary( Suffix3 );
+
+        return bin;
     }
 }

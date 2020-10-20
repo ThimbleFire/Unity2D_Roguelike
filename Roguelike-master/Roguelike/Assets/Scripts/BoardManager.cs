@@ -22,6 +22,7 @@ public class BoardManager : MonoBehaviour
     private void Awake()
     {
         Application.targetFrameRate = 60;
+        PlayerPrefs.DeleteAll();
     }
 
     private void Start()
