@@ -8,6 +8,8 @@ public class Inventory : MonoBehaviour, IHasChanged
     public GameObject mobileButton;
     public GameObject joystick;
 
+
+
     public void Toggle()
     {
         inventory.SetActive( !inventory.activeSelf );
@@ -15,7 +17,7 @@ public class Inventory : MonoBehaviour, IHasChanged
         joystick.SetActive( !joystick.activeSelf );
     }
 
-    public void EquipItem( string bin )
+    public static void Pickup(Item item)
     {
 
     }

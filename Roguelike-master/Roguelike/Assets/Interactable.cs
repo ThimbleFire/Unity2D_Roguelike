@@ -2,6 +2,15 @@
 
 public class Interactable : MonoBehaviour
 {
+    public enum OnInteraction
+    {
+        PICK_UP,
+        GO_DOWN_STAIRS,
+        OPEN_CHEST
+
+    } public OnInteraction onInteract;
+
+
     public BoardManager boardManager;
 
     public void SetPosition( Vector2Int position )
@@ -11,6 +20,16 @@ public class Interactable : MonoBehaviour
 
     public void Interact()
     {
-        boardManager.Build();
+        switch ( onInteract )
+        {
+            case OnInteraction.PICK_UP:
+
+                break;
+            case OnInteraction.GO_DOWN_STAIRS:
+                boardManager.Build();
+                break;
+            case OnInteraction.OPEN_CHEST:
+                break;
+        }
     }
 }
