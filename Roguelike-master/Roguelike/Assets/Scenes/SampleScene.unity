@@ -372,7 +372,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8771583b65cb1748a30df98bcdc8040, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomCount: 16
+  roomCount: 2
   width: 128
   height: 128
   tileMapWalls: {fileID: 1384075368}
