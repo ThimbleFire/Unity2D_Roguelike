@@ -13,6 +13,11 @@ public class AccessPoint
 
     public Dir Direction;
     public Vector3Int position;
+
+    [NonSerialized]
+    public int Width;
+    [NonSerialized]
+    public int Height;
 }
 
 [XmlRoot("Chunk")]
