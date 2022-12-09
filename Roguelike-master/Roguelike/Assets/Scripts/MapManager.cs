@@ -66,9 +66,32 @@ public class MapManager : MonoBehaviour
         // Calculate brush position so that parent and child opposite APs are adjacent, or something, idfk
         
         brushPosition = parent.Origin;
-        brushPosition += parentAP[0].position;
+        
+        switch(parentAP[0].direction)
+        {
+            case AccessPoint.Dir.Left:
+            brushPosition += Vector3Int.Left * child.Width;
+            break;
+            case AccessPoint.Dir.Right:
+            brushPosition += Vector3Int.Right * parent.Width);
+            break;
+            case AccessPoint.Dir.Up:
+            brushPosition += Vector3Int.Up * parent.Height;
+            break;
+            case AccessPoint.Dir.Down:
+            brushPosition += Vector3Int.Down * child.Height;
+            break;
+        }
+        
+        for(int i = 0; i < parentAP.Count; i++)
+        {
+            parent.Entrance.Remove(parentAP[i]);
+            child.Entrance.Remove(childAP[i]);
+        }
 
-        return null;
+        // ensure changes made to parent and child are within scope
+
+        return child;
         
         /*
         # # w w w # #       X = origin
