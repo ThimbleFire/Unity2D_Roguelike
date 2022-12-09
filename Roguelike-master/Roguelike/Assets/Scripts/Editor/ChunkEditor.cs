@@ -104,9 +104,6 @@ public class ChunkEditor : EditorWindow
 
         Chunk data = XMLUtility.Load<Chunk>( popupOptions[popupIndex] );
 
-        if ( data == null )
-            return;
-
         List<TileData> curios = data.Curios;
         List<TileData> walls = data.Walls;
         List<TileData> floors = data.Floors;

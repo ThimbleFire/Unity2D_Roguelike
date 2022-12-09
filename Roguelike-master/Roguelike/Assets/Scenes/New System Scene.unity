@@ -548,10 +548,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bc0f94a79d4022a4981032bebddca789, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  roomsToPlace: 5
   Curio: {fileID: 370942038}
   Walls: {fileID: 1672044662}
   Ground: {fileID: 2124662240}
+  placedChunks: []
 --- !u!1 &2124662237
 GameObject:
   m_ObjectHideFlags: 0

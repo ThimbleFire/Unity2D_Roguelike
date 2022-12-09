@@ -1,6 +1,61 @@
 <?xml version="1.0"?>
 <Chunk xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Vertical.xml</Name>
+  <Origin>
+    <x>0</x>
+    <y>0</y>
+    <z>0</z>
+  </Origin>
+  <AccessPoints>
+    <AccessPoint>
+      <Direction>DOWN</Direction>
+      <position>
+        <x>2</x>
+        <y>0</y>
+        <z>0</z>
+      </position>
+    </AccessPoint>
+    <AccessPoint>
+      <Direction>DOWN</Direction>
+      <position>
+        <x>3</x>
+        <y>0</y>
+        <z>0</z>
+      </position>
+    </AccessPoint>
+    <AccessPoint>
+      <Direction>DOWN</Direction>
+      <position>
+        <x>4</x>
+        <y>0</y>
+        <z>0</z>
+      </position>
+    </AccessPoint>
+    <AccessPoint>
+      <Direction>UP</Direction>
+      <position>
+        <x>2</x>
+        <y>6</y>
+        <z>0</z>
+      </position>
+    </AccessPoint>
+    <AccessPoint>
+      <Direction>UP</Direction>
+      <position>
+        <x>3</x>
+        <y>6</y>
+        <z>0</z>
+      </position>
+    </AccessPoint>
+    <AccessPoint>
+      <Direction>UP</Direction>
+      <position>
+        <x>4</x>
+        <y>6</y>
+        <z>0</z>
+      </position>
+    </AccessPoint>
+  </AccessPoints>
   <Width>7</Width>
   <Height>7</Height>
   <Curios>
@@ -449,54 +504,4 @@
       <name>Dungeon_Tileset_24</name>
     </TileData>
   </Floors>
-  <AccessPoints>
-    <AccessPoint>
-      <Direction>DOWN</Direction>
-      <position>
-        <x>2</x>
-        <y>0</y>
-        <z>0</z>
-      </position>
-    </AccessPoint>
-    <AccessPoint>
-      <Direction>DOWN</Direction>
-      <position>
-        <x>3</x>
-        <y>0</y>
-        <z>0</z>
-      </position>
-    </AccessPoint>
-    <AccessPoint>
-      <Direction>DOWN</Direction>
-      <position>
-        <x>4</x>
-        <y>0</y>
-        <z>0</z>
-      </position>
-    </AccessPoint>
-    <AccessPoint>
-      <Direction>UP</Direction>
-      <position>
-        <x>2</x>
-        <y>6</y>
-        <z>0</z>
-      </position>
-    </AccessPoint>
-    <AccessPoint>
-      <Direction>UP</Direction>
-      <position>
-        <x>3</x>
-        <y>6</y>
-        <z>0</z>
-      </position>
-    </AccessPoint>
-    <AccessPoint>
-      <Direction>UP</Direction>
-      <position>
-        <x>4</x>
-        <y>6</y>
-        <z>0</z>
-      </position>
-    </AccessPoint>
-  </AccessPoints>
 </Chunk>

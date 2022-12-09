@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Xml.Serialization;
 using UnityEngine;
 
-[System.Serializable]
-public class AccessPoint
+[Serializable]
+public struct AccessPoint
 {
     public enum Dir
     {
@@ -13,20 +13,20 @@ public class AccessPoint
 
     public Dir Direction;
     public Vector3Int position;
-
-    [NonSerialized]
-    public int Width;
-    [NonSerialized]
-    public int Height;
 }
 
 [XmlRoot("Chunk")]
+[Serializable]
 public class Chunk
 {
-    public string Name { get; set; }
+    [SerializeField]
+    public string Name;
 
     public int Width { get; set; }
     public int Height { get; set; }
+
+    [NonSerialized]
+    public Vector3Int Origin;
 
     [XmlArray( "Curios" )]
     public List<TileData> Curios { get; set; }
@@ -35,5 +35,6 @@ public class Chunk
     [XmlArray( "Floors" )]
     public List<TileData> Floors { get; set; }
     [XmlArray( "AccessPoints" )]
-    public List<AccessPoint> Entrance { get; set; }
+    [SerializeField]
+    public List<AccessPoint> Entrance;
 }

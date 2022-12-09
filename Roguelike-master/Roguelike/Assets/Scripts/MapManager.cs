@@ -6,17 +6,23 @@ using UnityEngine.Tilemaps;
 
 public class MapManager : MonoBehaviour
 {
-    public int roomsToPlace;
+    //public int roomsToPlace;
 
     public Tilemap Curio;
     public Tilemap Walls;
     public Tilemap Ground;
 
-    private List<Chunk> chunksInMemory = new List<Chunk>();
-    private List<Chunk> placedChunks = new List<Chunk>();
-    
+    public List<Chunk> chunksInMemory = new List<Chunk>();
+
+    [SerializeField]
+    public List<Chunk> placedChunks = new List<Chunk>();
+
     private Vector3Int brushPosition = Vector3Int.zero;
 
+    private System.Random random;
+
+    private int entrances = 0;
+ 
     private void Start()
     {
         // Load all chunks to memory
@@ -29,37 +35,48 @@ public class MapManager : MonoBehaviour
             chunksInMemory.Add( r );
         }
 
-        for ( int i = 0; i < roomsToPlace; i++ )
+        for ( int i = 0; i < 32; i++ )
         {
+            random = new System.Random( System.Guid.NewGuid().GetHashCode() );
             BuildChunk( GetCompatibleChunk() );
+        }
+    }
+
+    private void Update()
+    {
+        if ( Input.GetKeyDown(KeyCode.Space) )
+        {
         }
     }
 
     private Chunk GetCompatibleChunk( )
     {
         // If there is no parent, return a random chunk
-        if(placedChunks.Count == 0)
-            return chunksInMemory[Random.Range( 0, chunksInMemory.Count )];
-
+        if ( placedChunks.Count == 0 )
+        {
+            Chunk c = chunksInMemory[random.Next( 0, chunksInMemory.Count )];
+            entrances = c.Entrance.Count;
+            return c;
+        }
         // Get a list rooms with entrances / exits
         List<Chunk> placedChunksWithEntrances = placedChunks.FindAll( x => x.Entrance.Count > 0 );
         
-        // Select a random room from that list 
-        Chunk parent = placedChunksWithEntrances[Random.Range( 0, placedChunksWithEntrances.Count )];
+        // Select a random parent from that list 
+        Chunk parent = placedChunksWithEntrances[random.Next( 0, placedChunksWithEntrances.Count )];
 
         // Select an exit from that room
-        int exitIndex = Random.Range( 0, parent.Entrance.Count );
-        AccessPoint.Dir parentOutputDir = parent.Entrance[exitIndex].direction;
+        int exitIndex = random.Next( 0, parent.Entrance.Count );
+        AccessPoint.Dir parentOutputDir = parent.Entrance[exitIndex].Direction;
         
         // Get the access points from parent 
         AccessPoint[] parentAP = GetAPFacing(parent, parentOutputDir);
         
         // Flip the exit direction
-        AccessPoint.Dir childInputDir = Flip(parentAP.direction);
-        
+        AccessPoint.Dir childInputDir = Flip(parentAP[0].Direction);
+
         // Find a room compatible for parent
         Chunk child = GetChildRoom(childInputDir);
-        
+                        
         // Get the accessPoints from child
         AccessPoint[] childAP = GetAPFacing(child, childInputDir);
         
@@ -67,41 +84,30 @@ public class MapManager : MonoBehaviour
         
         brushPosition = parent.Origin;
         
-        switch(parentAP[0].direction)
+        switch(parentAP[0].Direction)
         {
-            case AccessPoint.Dir.Left:
-            brushPosition += Vector3Int.Left * child.Width;
+            case AccessPoint.Dir.LEFT:
+            brushPosition += Vector3Int.left * child.Width;
             break;
-            case AccessPoint.Dir.Right:
-            brushPosition += Vector3Int.Right * parent.Width);
+            case AccessPoint.Dir.RIGHT:
+            brushPosition += Vector3Int.right * parent.Width;
             break;
-            case AccessPoint.Dir.Up:
-            brushPosition += Vector3Int.Up * parent.Height;
+            case AccessPoint.Dir.UP:
+            brushPosition += Vector3Int.up * parent.Height;
             break;
-            case AccessPoint.Dir.Down:
-            brushPosition += Vector3Int.Down * child.Height;
+            case AccessPoint.Dir.DOWN:
+            brushPosition += Vector3Int.down * child.Height;
             break;
         }
         
-        for(int i = 0; i < parentAP.Count; i++)
+        for(int i = 0; i < parentAP.Length; i++)
         {
             parent.Entrance.Remove(parentAP[i]);
             child.Entrance.Remove(childAP[i]);
+            entrances -= 2;
         }
 
-        // ensure changes made to parent and child are within scope
-
         return child;
-        
-        /*
-        # # w w w # #       X = origin
-        #           #       w = access point
-        w           w       # = wall
-        w           w
-        w           w        
-        #           #
-        X # w w w # #
-        */
     }
 
     private AccessPoint.Dir Flip(AccessPoint.Dir direction)
@@ -121,18 +127,40 @@ public class MapManager : MonoBehaviour
         return AccessPoint.Dir.DOWN;
     }
 
-    private Chunk GetChildRoom(AccessPoint.Dir direction)
+    private Chunk GetChildRoom( AccessPoint.Dir direction )
     {
-        foreach(Chunk chunk in chunksInMemory)
+        int potentialRooms = 0;
+
+        foreach ( Chunk chunk in placedChunks )
         {
-            foreach(AccessPoint accessPoint in chunk.Entrance)
+            potentialRooms += chunk.Entrance.Count / 3;
+            potentialRooms++;
+        }
+
+        // Filter chunks by number of exits
+
+        List<Chunk> chunksByExits = new List<Chunk>( 
+            chunksInMemory.FindAll( x => x.Entrance.Count / 3 < 5 - potentialRooms ) );
+
+        // Filter chunks by direction of those exits
+
+        List<Chunk> chunksByDirection = new List<Chunk>();
+
+        foreach ( Chunk chunk in chunksByExits )
+        {
+            foreach ( AccessPoint accessPoint in chunk.Entrance )
             {
-                if(accessPoint.direction == childInputDir)
+                if ( accessPoint.Direction == direction )
                 {
-                    return chunk;
+                    if(chunksByDirection.Contains(chunk) == false)
+                        chunksByDirection.Add(chunk);
                 }
             }
-        }    
+        }
+
+        if ( chunksByDirection.Count == 0 ) 
+             return new Chunk();
+        else return chunksByDirection[random.Next( 0, chunksByDirection.Count )];
     }
     
     private AccessPoint[] GetAPFacing(Chunk chunk, AccessPoint.Dir dir)
@@ -141,7 +169,7 @@ public class MapManager : MonoBehaviour
     
         foreach(AccessPoint accessPoint in chunk.Entrance)
         {
-            if(accessPoint.direction == dir)
+            if(accessPoint.Direction == dir)
             {
                 accessPoints.Add(accessPoint);
             }
