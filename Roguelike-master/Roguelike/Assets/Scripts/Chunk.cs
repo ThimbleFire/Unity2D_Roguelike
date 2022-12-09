@@ -11,13 +11,15 @@ public struct AccessPoint
         RIGHT, LEFT, DOWN, UP
     };
 
+    [HideInInspector]
     public Dir Direction;
+    [HideInInspector]
     public Vector3Int position;
 }
 
 [XmlRoot("Chunk")]
 [Serializable]
-public class Chunk
+public struct Chunk
 {
     [SerializeField]
     public string Name;
