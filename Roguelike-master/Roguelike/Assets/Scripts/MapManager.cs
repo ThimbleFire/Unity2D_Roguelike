@@ -14,6 +14,8 @@ public class MapManager : MonoBehaviour
 
     private List<Chunk> chunksInMemory = new List<Chunk>();
     private List<Chunk> placedChunks = new List<Chunk>();
+    
+    private Vector3Int brushPosition = Vector3Int.zero;
 
     private void Start()
     {
@@ -35,19 +37,44 @@ public class MapManager : MonoBehaviour
 
     private Chunk GetCompatibleChunk( )
     {
-        // If there is no root, return a random chunk
+        // If there is no parent, return a random chunk
 
         if(placedChunks.Count == 0)
             return chunksInMemory[Random.Range( 0, chunksInMemory.Count )];
 
-        // Get a random root with a valid point of entry
+        // Get a list rooms with entrances / exits
 
         List<Chunk> placedChunksWithEntrances = placedChunks.FindAll( x => x.Entrance.Count > 0 );
-        Chunk root = placedChunksWithEntrances[Random.Range( 0, placedChunksWithEntrances.Count )];
+        
+        // Select a random room from that list 
+        
+        Chunk parent = placedChunksWithEntrances[Random.Range( 0, placedChunksWithEntrances.Count )];
 
-        // Get an exit from room
+        // Select an exit from that room
 
-        int exit = Random.Range( 0, root.Entrance.Count );
+        int exitIndex = Random.Range( 0, parent.Entrance.Count );
+        AccessPoint accessPoint = root.Entrance[exitIndex];
+        
+        // Flip the exit direction
+        
+        AccessPoint.Dir childInputDir = Flip(accessPoint.direction);
+        
+        // Find a room compatible for parent
+        
+        Chunk child = Untitled(childInputDir);
+        
+        // Get the accessPoint from child
+        
+        foreach(AccessPoint accessPoint in chunk.Entrance)
+        {
+            if(accessPoint.direction == childInputDir)
+            {
+                AccessPoint childInput = accessPoint;
+                break;
+            }
+        }
+        
+        //brushPosition = root.Origin + root.Entrance[exitIndex].position;
 
         return null;
     }
@@ -69,20 +96,37 @@ public class MapManager : MonoBehaviour
         return AccessPoint.Dir.DOWN;
     }
 
+    private Chunk Untitled(AccessPoint.Dir direction)
+    {
+        foreach(Chunk chunk in chunksInMemory)
+        {
+            foreach(AccessPoint accessPoint in chunk.Entrance)
+            {
+                if(accessPoint.direction == childInputDir)
+                {
+                    return chunk;
+                }
+            }
+        }    
+    }
+
     private void BuildChunk(Chunk chunk)
     {
+        // If we store the chunks origin we can locate its doors by calling Origin + Entrance[index].position
+        chunk.Origin = brushPosition;
+    
         List<TileData> curios = chunk.Curios;
         List<TileData> walls = chunk.Walls;
         List<TileData> floors = chunk.Floors;
 
         foreach ( TileData tile in floors )
-            Ground.SetTile( tile.position, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
+            Ground.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
 
         foreach ( TileData tile in walls )
-            Walls.SetTile( tile.position, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
+            Walls.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
 
         foreach ( TileData tile in curios )
-            Curio.SetTile( tile.position, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
+            Curio.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
 
         placedChunks.Add( chunk );
     }
