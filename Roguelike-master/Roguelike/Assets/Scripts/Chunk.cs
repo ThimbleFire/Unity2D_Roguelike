@@ -48,6 +48,8 @@ public class Chunk
         {
             obj.Entrance.Add(entrance.Clone());
         }
+        
+        return obj;
     }
     
     [SerializeField]
