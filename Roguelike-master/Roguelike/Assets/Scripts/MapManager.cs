@@ -50,7 +50,7 @@ public class MapManager : MonoBehaviour
         // If there is no parent, return a random chunk
         if ( placedChunks.Count == 0 )
         {
-            Chunk c = chunksInMemory[random.Next( 0, chunksInMemory.Count )];
+            Chunk c = chunksInMemory[random.Next( 0, chunksInMemory.Count )].Clone();
             entrances = c.Entrance.Count;
             return c;
         }
@@ -125,28 +125,16 @@ public class MapManager : MonoBehaviour
     {
         // Filter chunks by number of exits
 
-        //List<Chunk> chunksByExits = new List<Chunk>( 
-        //    chunksInMemory.FindAll( x => x.Entrance.Count / 3 < 5 - potentialRooms ) );
+        List<Chunk> chunksByExits = new List<Chunk>(
+            chunksInMemory.FindAll( x => x.Entrance.Count / 3 < 5 - potentialRooms ) );
 
         // Filter chunks by direction of those exits
 
-        //List<Chunk> chunksByExits = new List<Chunk>( 
-        //    chunksInMemory.FindAll( x => x.Entrance.Count / 3 < 5 - potentialRooms ) );
+        //List<Chunk> chunksByDirection = new List<Chunk>();
+        //chunksByDirection.FindAll( x => x.Entrance.Count / 3 < 5 - potentialRooms ) );
 
-
-        List<Chunk> chunksByDirection = new List<Chunk>();
-
-        foreach ( Chunk chunk in chunksInMemory )
-        {
-            foreach ( AccessPoint accessPoint in chunk.Entrance )
-            {
-                if ( accessPoint.Direction == direction )
-                {
-                    if(chunksByDirection.Contains(chunk) == false)
-                        chunksByDirection.Add(chunk);
-                }
-            }
-        }
+        if(chunksByDirection.Contains(chunk) == false)
+           chunksByDirection.Add(chunk.Clone());
 
         if ( chunksByDirection.Count == 0 ) 
              return new Chunk();
