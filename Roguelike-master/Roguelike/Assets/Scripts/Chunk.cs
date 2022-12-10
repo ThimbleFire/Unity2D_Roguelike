@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 [Serializable]
-public struct AccessPoint
+public class AccessPoint
 {
     public enum Dir
     {
@@ -15,12 +15,41 @@ public struct AccessPoint
     public Dir Direction;
     [HideInInspector]
     public Vector3Int position;
+    
+    public AccessPoint Clone()
+    {
+        var obj = new AccessPoint
+        {
+            Direction = this.Direction,
+            position = this.position
+        };
+        
+        return obj;
+    }
 }
 
 [XmlRoot("Chunk")]
 [Serializable]
-public struct Chunk
+public class Chunk
 {
+    public Chunk Clone()
+    {
+        var obj = new Chunk();
+        
+        obj.Name = this.Name;
+        obj.Width = this.Width;
+        obj.Origin = this.Origin;
+        obj.Curios = this.Curios;
+        obj.Walls = this.Walls;
+        obj.Floors = this.Floors;        
+        obj.Entrance = new List<AccessPoint>();
+        
+        foreach(AccessPoint entrance in this.Entrance)
+        {
+            obj.Entrance.Add(entrance.Clone());
+        }
+    }
+    
     [SerializeField]
     public string Name;
 
