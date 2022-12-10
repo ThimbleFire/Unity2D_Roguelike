@@ -4,7 +4,7 @@ using System.IO;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapManager : MonoBehaviour
+public class MapManager : BaseMonoBehaviour
 {
     //public int roomsToPlace;
 
@@ -12,17 +12,17 @@ public class MapManager : MonoBehaviour
     public Tilemap Walls;
     public Tilemap Ground;
 
-    public List<Chunk> chunksInMemory = new List<Chunk>();
+    private List<Chunk> chunksInMemory = new List<Chunk>();
 
     [SerializeField]
-    public List<Chunk> placedChunks = new List<Chunk>();
+    private List<Chunk> placedChunks = new List<Chunk>();
 
     private Vector3Int brushPosition = Vector3Int.zero;
 
+    public int entrances = 0;
+
     private System.Random random;
 
-    private int entrances = 0;
- 
     private void Start()
     {
         // Load all chunks to memory
@@ -34,11 +34,8 @@ public class MapManager : MonoBehaviour
             Chunk r = XMLUtility.Load<Chunk>( filenames[i] );
             chunksInMemory.Add( r );
         }
-    }
 
-    private void Update()
-    {
-        if ( Input.GetKeyDown(KeyCode.Space) )
+        for ( int i = 0; i < maxRooms; i++ )
         {
             random = new System.Random( System.Guid.NewGuid().GetHashCode() );
             BuildChunk( GetCompatibleChunk() );
@@ -50,9 +47,9 @@ public class MapManager : MonoBehaviour
         // If there is no parent, return a random chunk
         if ( placedChunks.Count == 0 )
         {
-            Chunk c = chunksInMemory[random.Next( 0, chunksInMemory.Count )].Clone();
-            entrances = c.Entrance.Count;
-            return c;
+            Chunk root = chunksInMemory[random.Next( 0, chunksInMemory.Count )].Clone();
+            entrances = root.Entrance.Count / 3;
+            return root;
         }
 
         //// Find a parent room with an access point
@@ -70,6 +67,8 @@ public class MapManager : MonoBehaviour
 
         //// Find a room compatible for parent
         Chunk child = GetChildRoom(childInputDir);
+
+        entrances += child.Entrance.Count / 3;
 
         //// Get the accessPoints from child
         AccessPoint[] childAP = GetAPFacing(child, childInputDir);
@@ -98,8 +97,9 @@ public class MapManager : MonoBehaviour
         {
             parent.Entrance.Remove( parentAP[i] );
             child.Entrance.Remove( childAP[i] );
-            entrances -= 2;
         }
+        
+        entrances -= 2;
 
         return child;
     }
@@ -121,24 +121,38 @@ public class MapManager : MonoBehaviour
         return AccessPoint.Dir.DOWN;
     }
 
+    private const int maxRooms = 32;
+
     private Chunk GetChildRoom( AccessPoint.Dir direction )
     {
-        // Filter chunks by number of exits
+        //List<Chunk> restrictMiminum = new List<Chunk>(
+        //    chunksInMemory.FindAll( x => potential > 1 ? x.Entrance.Count / 3 > 1 : x.Entrance.Count / 3 == 1 ) );
+
+        // Filter chunks, not exceeding maximum
 
         List<Chunk> chunksByExits = new List<Chunk>(
-            chunksInMemory.FindAll( x => x.Entrance.Count / 3 < 5 - potentialRooms ) );
+            chunksInMemory.FindAll( x => x.Entrance.Count / 3 + 1 + entrances <= maxRooms )
+            );
 
         // Filter chunks by direction of those exits
 
-        //List<Chunk> chunksByDirection = new List<Chunk>();
-        //chunksByDirection.FindAll( x => x.Entrance.Count / 3 < 5 - potentialRooms ) );
+        List<Chunk> chunksByDirection = new List<Chunk>();
 
-        if(chunksByDirection.Contains(chunk) == false)
-           chunksByDirection.Add(chunk.Clone());
+        foreach ( Chunk chunk in chunksByExits )
+        {
+            foreach ( AccessPoint accessPoint in chunk.Entrance )
+            {
+                if(accessPoint.Direction == direction)
+                {
+                    chunksByDirection.Add( chunk );
+                    break;
+                }
+            }
+        }
 
         if ( chunksByDirection.Count == 0 ) 
              return new Chunk();
-        else return chunksByDirection[random.Next( 0, chunksByDirection.Count )];
+        else return chunksByDirection[random.Next( 0, chunksByDirection.Count )].Clone();
     }
     
     private Chunk GetParentRoom()
@@ -180,9 +194,10 @@ public class MapManager : MonoBehaviour
         foreach ( TileData tile in walls )
             Walls.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
 
-        foreach ( TileData tile in curios )
-            Curio.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
+        //foreach ( TileData tile in curios )
+        //    Curio.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
 
         placedChunks.Add( chunk );
+        entrances++;
     }
 }

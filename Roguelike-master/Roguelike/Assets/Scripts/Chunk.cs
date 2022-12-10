@@ -38,6 +38,7 @@ public class Chunk
         
         obj.Name = this.Name;
         obj.Width = this.Width;
+        obj.Height = this.Height;
         obj.Origin = this.Origin;
         obj.Curios = this.Curios;
         obj.Walls = this.Walls;
