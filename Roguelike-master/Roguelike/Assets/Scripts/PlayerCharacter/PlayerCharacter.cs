@@ -7,6 +7,7 @@ public class PlayerCharacter : MonoBehaviour
     public Animator animator;
     public Joystick joystick;
     public List<Interactable> collidingWith = new List<Interactable>();
+    public UnityEngine.UI.Text debugText;
 
     private void Awake()
     {
@@ -91,7 +92,15 @@ public class PlayerCharacter : MonoBehaviour
         if ( momentum == Vector3.zero )
             return;
 
-        Vector2 newPosition = transform.position + ( momentum * speed * Time.smoothDeltaTime );
+#if PLATFORM_ANDROID
+        Vector3 velocity = momentum * speed * Time.smoothDeltaTime * 1.5f;
+#else
+        Vector3 velocity = momentum * speed * Time.smoothDeltaTime;
+#endif
+
+        //debugText.text = Time.smoothDeltaTime.ToString();
+
+        Vector2 newPosition = transform.position + velocity;
         float nextX = Mathf.Round( Game.PPU * newPosition.x );
         float nextY = Mathf.Round( Game.PPU * newPosition.y );
 
