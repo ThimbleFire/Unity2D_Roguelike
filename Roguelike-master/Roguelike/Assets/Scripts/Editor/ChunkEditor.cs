@@ -89,8 +89,8 @@ public class ChunkEditor : EditorWindow
             Floors = GetTileMapTilesByName( "Ground" ),
             Entrance = GetAccessPoints(),
             //this assumes walls extends to the far north-east-south and west side of the map.
-            Width = Walls.size.x,
-            Height = Walls.size.y
+            Width = Floor.size.x,
+            Height = Floor.size.y
         };
 
         XMLUtility.Save( chunk, chunk.Name );

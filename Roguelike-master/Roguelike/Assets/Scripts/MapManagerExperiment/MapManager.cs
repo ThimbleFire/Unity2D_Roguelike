@@ -194,8 +194,8 @@ public class MapManager : BaseMonoBehaviour
         foreach ( TileData tile in walls )
             Walls.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
 
-        //foreach ( TileData tile in curios )
-        //    Curio.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
+        foreach ( TileData tile in curios )
+            Curio.SetTile( tile.position + chunk.Origin, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
 
         placedChunks.Add( chunk );
         entrances++;

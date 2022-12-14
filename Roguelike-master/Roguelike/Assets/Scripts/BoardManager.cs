@@ -10,7 +10,9 @@ public class BoardManager : MonoBehaviour
 
     public Tilemap tileMapWalls;
     public Tilemap tileMapGround;
-    public List<Interactable> interactables;
+    public Tilemap tileMapCurios;
+
+    public List<GameObject> interactables;
 
     public TileBase[] floor;
     public TileBase[] north_walls;
@@ -34,8 +36,11 @@ public class BoardManager : MonoBehaviour
     {
         tileMapGround.ClearAllTiles();
         tileMapWalls.ClearAllTiles();
+        tileMapCurios.ClearAllTiles();
 
-        MapFactory.Type[,] rooms = MapFactory.BuildFloor( width, height, roomCount, interactables );
+        List<Chunk> prefabData = new List<Chunk>();
+
+        MapFactory.Type[,] rooms = MapFactory.BuildFloor( width, height, roomCount );
 
         for ( int y = 0; y < height; y++ )
         {
@@ -117,5 +122,6 @@ public class BoardManager : MonoBehaviour
 
         tileMapWalls.CompressBounds();
         tileMapGround.CompressBounds();
+        tileMapCurios.CompressBounds();
     }
 }
