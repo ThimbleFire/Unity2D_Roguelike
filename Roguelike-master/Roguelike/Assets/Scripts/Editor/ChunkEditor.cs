@@ -89,8 +89,8 @@ public class ChunkEditor : EditorWindow
             Floors = GetTileMapTilesByName( "Ground" ),
             Entrance = GetAccessPoints(),
             //this assumes walls extends to the far north-east-south and west side of the map.
-            Width = Floor.size.x,
-            Height = Floor.size.y
+            Width = Walls.size.x,
+            Height = Walls.size.y
         };
 
         XMLUtility.Save( chunk, chunk.Name );
@@ -160,6 +160,8 @@ public class ChunkEditor : EditorWindow
         TileBase arrowDown = Resources.Load<TileBase>( "Dungeon Tileset/Dungeon_Tileset_112" );
         TileBase arrowUp = Resources.Load<TileBase>( "Dungeon Tileset/Dungeon_Tileset_113" );
 
+        int up = 0, down = 0, left = 0, right = 0;
+
         if ( Curios.ContainsTile( arrowRight ) || Curios.ContainsTile( arrowLeft ) || Curios.ContainsTile( arrowDown ) || Curios.ContainsTile( arrowUp )  )
         {
             for ( int y = Curios.cellBounds.yMin; y < Curios.cellBounds.yMax; y++ )
@@ -169,19 +171,31 @@ public class ChunkEditor : EditorWindow
                     Vector3Int position = new Vector3Int( x, y, 0 );
 
                     if ( Curios.GetTile( position ) == arrowRight )
-                        accesspoints.Add( new AccessPoint { position = position, Direction = AccessPoint.Dir.RIGHT } );
+                        right++;
 
                     if ( Curios.GetTile( position ) == arrowLeft )
-                        accesspoints.Add( new AccessPoint { position = position, Direction = AccessPoint.Dir.LEFT } );
+                        left++;
 
                     if ( Curios.GetTile( position ) == arrowDown )
-                        accesspoints.Add( new AccessPoint { position = position, Direction = AccessPoint.Dir.DOWN } );
+                        down++;
 
                     if ( Curios.GetTile( position ) == arrowUp )
-                        accesspoints.Add( new AccessPoint { position = position, Direction = AccessPoint.Dir.UP } );
+                        up++;
                 }
             }
         }
+
+        if ( Curios.ContainsTile( arrowRight ) )
+            accesspoints.Add( new AccessPoint { axis = AccessPoint.Axis.VERTICAL, Direction = AccessPoint.Dir.RIGHT, size = right } );
+
+        if ( Curios.ContainsTile( arrowLeft ) )
+            accesspoints.Add( new AccessPoint { axis = AccessPoint.Axis.VERTICAL, Direction = AccessPoint.Dir.LEFT, size = left } );
+
+        if ( Curios.ContainsTile( arrowDown ) )
+            accesspoints.Add( new AccessPoint { axis = AccessPoint.Axis.HORIZONTAL, Direction = AccessPoint.Dir.DOWN, size = down } );
+
+        if ( Curios.ContainsTile( arrowUp ) )
+            accesspoints.Add( new AccessPoint { axis = AccessPoint.Axis.HORIZONTAL, Direction = AccessPoint.Dir.UP, size = up } );
 
         return accesspoints;
     }

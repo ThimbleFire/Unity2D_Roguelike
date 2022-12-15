@@ -16,12 +16,14 @@ public class MapFactory
         List<Room> rooms = new List<Room>() { new Room( width / 2, height / 2 ) };
 
         int failsafe = 16;
+        int counter = 1;
 
         while ( rooms.Count < roomCount )
         {
             Vector2Int dir = GetRandomDirVector2Int();
+            List<Room> possibleRoot = rooms.FindAll( /*x => x.HasExitDown*/ );
 
-            Room r = new Room( rooms[Random.Range( 0, rooms.Count )], dir );
+            Room r = new Room( possibleRoot[Random.Range( 0, rooms.Count )], dir, counter++ );
 
             if ( !RoomCollides( r, rooms ) && InBounds( r, width, height ) )
             {

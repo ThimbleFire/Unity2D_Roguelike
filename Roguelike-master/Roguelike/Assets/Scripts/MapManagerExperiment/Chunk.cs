@@ -10,18 +10,28 @@ public class AccessPoint
     {
         RIGHT, LEFT, DOWN, UP
     };
+    
+    //Axis is the direction the arrows run along. For example 3 arrows to the right of one another would be horizontal. 3 arrows underneath eachother would be vertical.
+    public enum Axis
+    {
+        VERTICAL, HORIZONTAL
+    };
 
     [HideInInspector]
     public Dir Direction;
     [HideInInspector]
-    public Vector3Int position;
+    //Axis is the direction the arrows run along. For example 3 arrows to the right of one another would be horizontal. 3 arrows underneath eachother would be vertical.
+    public Axis axis;
+    [HideInInspector]
+    public int size = 3;
     
     public AccessPoint Clone()
     {
         var obj = new AccessPoint
         {
             Direction = this.Direction,
-            position = this.position
+            axis = this.axis,
+            size = this.size
         };
         
         return obj;
