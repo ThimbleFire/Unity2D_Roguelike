@@ -20,14 +20,26 @@ public class MapFactory
 
         while ( rooms.Count < roomCount )
         {
-            Vector2Int dir = GetRandomDirVector2Int();
-            List<Room> possibleRoot = rooms.FindAll( /*x => x.HasExitDown*/ );
+            // Get all rooms with available exits
+            List<Room> possibleRoot = rooms.FindAll( x => x.availableExits > 0 );
 
-            Room r = new Room( possibleRoot[Random.Range( 0, rooms.Count )], dir, counter++ );
+            // Select one of those rooms at random
+            Room root = possibleRoot[Random.Range( 0, possibleRoot.Count )];
+            
+            // Get an entrance index
+            int index = Random.Range(0, root.chunk.Entrances.Count);
+            
+            // Get the direction of an exit door from that room
+            Vector2Int dir = GetDirVector2Int( root.chunk.Entrances[index].Direction );
+            
+            // Select one 
+            Room r = new Room( root, dir, counter++ );
 
             if ( !RoomCollides( r, rooms ) && InBounds( r, width, height ) )
             {
                 rooms.Add( r );
+                root.chunk.Entrances.Remove(root.chunk.entrances[index]);
+                root.size --;
                 failsafe = 16;
             }
             else
@@ -186,5 +198,25 @@ public class MapFactory
         //}
 
         return (Direction)rand;
+    }
+    
+    private static Vector2Int GetDirVector2Int(AccessPoint.Dir direction)
+    {
+        switch(direction)
+        {
+            case Direction.up:
+                return Vector2Int.up;
+
+            case Direction.down:
+                return Vector2Int.down;
+
+            case Direction.left:
+                return Vector2Int.left;
+
+            case Direction.right:
+                return Vector2Int.right;
+        }
+        
+        return Vector2Int.zero;
     }
 }
