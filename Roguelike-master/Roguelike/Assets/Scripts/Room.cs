@@ -27,6 +27,8 @@ public class Room
 
         chunk = // Get chunk which has a door in the opposite direction of the parent room, of the same axis and size.
 
+        availableExits = chunk.Entrances.Count;
+            
         //set center to parent center
         top = parent.center_y - radius_y;
         left = parent.center_x - radius_x;
@@ -43,6 +45,7 @@ public class Room
     public int width;
     public int height;
     public int roomIndex = 0;
+    public int availableExits = 0;
 
     public Chunk chunk = null;
 
