@@ -77,7 +77,28 @@ public class Room
         width = 1 + radius_x * 2;
         height = 1 + radius_y * 2;
 
-            
+
+        //set center to parent center
+        top = parent.center_y - radius_y;
+        left = parent.center_x - radius_x;
+
+        //adjust center in the direction of offset
+        left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
+        top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
+    }
+
+    public Room( Room parent, Vector2Int offset )
+    {
+        int radius_x = 1;
+        int radius_y = 1;
+
+        radius_x = 3;
+        radius_y = 3;
+
+        width = 1 + radius_x * 2;
+        height = 1 + radius_y * 2;
+
+
         //set center to parent center
         top = parent.center_y - radius_y;
         left = parent.center_x - radius_x;

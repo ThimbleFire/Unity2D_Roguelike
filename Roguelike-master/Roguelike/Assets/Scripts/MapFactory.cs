@@ -35,18 +35,38 @@ public class MapFactory
             AccessPoint.Dir childInputDir = AccessPoint.Flip( parentOutputDir );
 
             // Select one 
-            Room newRoom = new Room( parent, offset, childInputDir );
+            Room child = new Room( parent, offset, childInputDir );
 
-            if ( !RoomCollides( newRoom, rooms ) && InBounds( newRoom, width, height ) )
+            //Ensure exits aren't leading into walls
+
+            bool exitLeadsToWall = false;
+
+            foreach ( var item in child.chunk.Entrance )
             {
-                rooms.Add( newRoom );
-                
-                newRoom.Build();
+                if ( item.Direction == childInputDir )
+                    continue;
 
-                AvailableEntrances += newRoom.chunk.Entrance.Count;
+                Vector2Int prototypeOffset = GetDirVector2Int( item.Direction );
+                Room prototype = new Room( child, prototypeOffset );
+                if ( RoomCollides( prototype, rooms ) == true || InBounds( prototype, width, height ) == false )
+                {
+                    exitLeadsToWall = true;
+                }
+            }
+
+            if ( exitLeadsToWall )
+                continue;
+
+            if ( !RoomCollides( child, rooms ) && InBounds( child, width, height ) )
+            {
+                rooms.Add( child );
+                
+                child.Build();
+
+                AvailableEntrances += child.chunk.Entrance.Count;
 
                 parent.RemoveAccessPoint( parentOutputDir );
-                newRoom.RemoveAccessPoint( childInputDir );
+                child.RemoveAccessPoint( childInputDir );
 
                 AvailableEntrances -= 2;
                 
@@ -100,25 +120,6 @@ public class MapFactory
         }
 
         return true;
-    }
-
-    private static Vector2Int GetRandomDirVector2Int()
-    {
-        switch ( (AccessPoint.Dir)Random.Range( 0, 4 ) )
-        {
-            case AccessPoint.Dir.UP:
-                return Vector2Int.up;
-
-            case AccessPoint.Dir.DOWN:
-                return Vector2Int.down;
-
-            case AccessPoint.Dir.LEFT:
-                return Vector2Int.left;
-
-            case AccessPoint.Dir.RIGHT:
-                return Vector2Int.right;
-        }
-        return Vector2Int.zero;
     }
     
     private static Vector2Int GetDirVector2Int(AccessPoint.Dir direction)

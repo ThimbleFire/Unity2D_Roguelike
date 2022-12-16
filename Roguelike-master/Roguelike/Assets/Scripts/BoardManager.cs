@@ -22,7 +22,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        RoomLimit = 9;
+        RoomLimit = 32;
         Build();
     }
 
