@@ -19,7 +19,7 @@
     </AccessPoint>
   </AccessPoints>
   <Width>7</Width>
-  <Height>6</Height>
+  <Height>7</Height>
   <Curios>
     <TileData>
       <position>
@@ -153,8 +153,24 @@
     </TileData>
     <TileData>
       <position>
-        <x>1</x>
+        <x>6</x>
         <y>5</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_3</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>0</x>
+        <y>6</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_0</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>1</x>
+        <y>6</y>
         <z>0</z>
       </position>
       <name>Dungeon_Tileset_1</name>
@@ -162,42 +178,42 @@
     <TileData>
       <position>
         <x>2</x>
-        <y>5</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_1</name>
-    </TileData>
-    <TileData>
-      <position>
-        <x>3</x>
-        <y>5</y>
+        <y>6</y>
         <z>0</z>
       </position>
       <name>Dungeon_Tileset_2</name>
     </TileData>
     <TileData>
       <position>
-        <x>4</x>
-        <y>5</y>
+        <x>3</x>
+        <y>6</y>
         <z>0</z>
       </position>
       <name>Dungeon_Tileset_3</name>
     </TileData>
     <TileData>
       <position>
-        <x>5</x>
-        <y>5</y>
+        <x>4</x>
+        <y>6</y>
         <z>0</z>
       </position>
       <name>Dungeon_Tileset_4</name>
     </TileData>
     <TileData>
       <position>
-        <x>6</x>
-        <y>5</y>
+        <x>5</x>
+        <y>6</y>
         <z>0</z>
       </position>
-      <name>Dungeon_Tileset_3</name>
+      <name>Dungeon_Tileset_1</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>6</x>
+        <y>6</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_5</name>
     </TileData>
   </Walls>
   <Floors>
@@ -367,7 +383,7 @@
         <y>4</y>
         <z>0</z>
       </position>
-      <name>Dungeon_Tileset_11</name>
+      <name>Dungeon_Tileset_21</name>
     </TileData>
     <TileData>
       <position>
@@ -375,7 +391,7 @@
         <y>4</y>
         <z>0</z>
       </position>
-      <name>Dungeon_Tileset_12</name>
+      <name>Dungeon_Tileset_17</name>
     </TileData>
     <TileData>
       <position>
@@ -383,7 +399,7 @@
         <y>4</y>
         <z>0</z>
       </position>
-      <name>Dungeon_Tileset_13</name>
+      <name>Dungeon_Tileset_17</name>
     </TileData>
     <TileData>
       <position>
@@ -391,7 +407,7 @@
         <y>4</y>
         <z>0</z>
       </position>
-      <name>Dungeon_Tileset_13</name>
+      <name>Dungeon_Tileset_18</name>
     </TileData>
     <TileData>
       <position>
@@ -399,7 +415,7 @@
         <y>4</y>
         <z>0</z>
       </position>
-      <name>Dungeon_Tileset_13</name>
+      <name>Dungeon_Tileset_18</name>
     </TileData>
     <TileData>
       <position>
@@ -408,6 +424,46 @@
         <z>0</z>
       </position>
       <name>Dungeon_Tileset_13</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>1</x>
+        <y>5</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_11</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>2</x>
+        <y>5</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_13</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>3</x>
+        <y>5</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_12</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>4</x>
+        <y>5</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_13</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>5</x>
+        <y>5</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_14</name>
     </TileData>
   </Floors>
 </Chunk>

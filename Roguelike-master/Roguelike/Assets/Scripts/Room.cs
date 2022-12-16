@@ -1,20 +1,72 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class Room
 {
-    public Room( int left, int top )
+    public Vector2Int size
     {
-        chunk = ChunkRepository.Get( ChunkRepository.GetRandom( ref width, ref height ) );
-        this.left = left;
-        this.top = top;
-
-        PlayerCharacter.Instance.SetPosition( left + 1, top + 1 );
-        occupied = true;
-        roomIndex = 0;
+        get { return new Vector2Int( width, height ); }
+    }
+    public int right
+    {
+        get { return left + width - 1; }
+    }
+    public int bottom
+    {
+        get { return top + height - 1; }
+    }
+    public int center_x
+    {
+        get { return left + width / 2; }
+    }
+    public int center_y
+    {
+        get { return top + height / 2; }
+    }
+    public int radius_x
+    {
+        get { return ( width - 1 ) / 2; }
+    }
+    public int radius_y
+    {
+        get { return ( height - 1 ) / 2; }
+    }
+    public Vector2Int center
+    {
+        get { return new Vector2Int( center_x, center_y ); }
+    }
+    public Vector3Int position
+    {
+        get { return new Vector3Int( left, top, 0 ); }
     }
 
-    public Room( Room parent, Vector2Int offset, int counter = 0 )
+    public int left = 0;
+    public int top = 0;
+    public int width;
+    public int height;
+    public Chunk chunk = null;
+
+    public Room( int left, int top )
     {
+        chunk = ChunkRepository.Get( ChunkRepository.GetRandom() );
+
+        this.left = left;
+        this.top = top;
+        width = chunk.Width;
+        height = chunk.Height;
+
+        PlayerCharacter.Instance.SetPosition( center );
+
+        Build();
+
+        MapFactory.AvailableEntrances += chunk.Entrance.Count;
+    }
+
+    public Room( Room parent, Vector2Int offset, AccessPoint.Dir inputDir )
+    {
+        // Filter 
+        chunk = ChunkRepository.GetFiltered( inputDir );
+
         int radius_x = 1;
         int radius_y = 1;
 
@@ -25,9 +77,6 @@ public class Room
         width = 1 + radius_x * 2;
         height = 1 + radius_y * 2;
 
-        chunk = // Get chunk which has a door in the opposite direction of the parent room, of the same axis and size.
-
-        availableExits = chunk.Entrances.Count;
             
         //set center to parent center
         top = parent.center_y - radius_y;
@@ -36,66 +85,17 @@ public class Room
         //adjust center in the direction of offset
         left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
         top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
-
-        roomIndex = counter;
     }
 
-    public int left = 0;
-    public int top = 0;
-    public int width;
-    public int height;
-    public int roomIndex = 0;
-    public int availableExits = 0;
-
-    public Chunk chunk = null;
-
-    public Vector2Int size
+    public AccessPoint GetRandomAccessPoint()
     {
-        get { return new Vector2Int( width, height ); }
+        return chunk.Entrance[UnityEngine.Random.Range( 0, chunk.Entrance.Count )];
     }
 
-    public int right
+    public void RemoveAccessPoint(AccessPoint.Dir direction)
     {
-        get { return left + width - 1; }
+        chunk.Entrance.RemoveAll( x => x.Direction == direction );
     }
-
-    public int bottom
-    {
-        get { return top + height - 1; }
-    }
-
-    public int center_x
-    {
-        get { return left + width / 2; }
-    }
-
-    public int center_y
-    {
-        get { return top + height / 2; }
-    }
-
-    public int radius_x
-    {
-        get { return ( width - 1 ) / 2; }
-    }
-
-    public int radius_y
-    {
-        get { return ( height - 1 ) / 2; }
-    }
-
-    public Vector2Int center
-    {
-        get { return new Vector2Int( center_x, center_y ); }
-    }
-
-    public Vector2Int position
-    {
-        get { return new Vector2Int( left, top ); }
-    }
-
-    // whether the room has something in it or not
-    public bool occupied = false;
 
     public bool CollidesWith( Room other )
     {
@@ -112,5 +112,17 @@ public class Room
             return false;
 
         return true;
+    }
+
+    public void Build()
+    {
+        foreach ( TileData data in chunk.Walls )
+            BoardManager.tileMapWalls.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+        foreach ( TileData data in chunk.Curios )
+            BoardManager.tileMapCurios.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+        foreach ( TileData data in chunk.Floors )
+            BoardManager.tileMapGround.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+
+        MapFactory.PlacedRooms++;
     }
 }

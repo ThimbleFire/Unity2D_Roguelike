@@ -26,7 +26,7 @@ public class Interactable : MonoBehaviour
 
                 break;
             case OnInteraction.GO_DOWN_STAIRS:
-                boardManager.Build();
+                BoardManager.Build();
                 break;
             case OnInteraction.OPEN_CHEST:
                 break;

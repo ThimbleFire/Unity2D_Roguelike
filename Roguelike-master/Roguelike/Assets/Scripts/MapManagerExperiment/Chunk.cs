@@ -36,6 +36,23 @@ public class AccessPoint
         
         return obj;
     }
+
+    public static Dir Flip( Dir direction )
+    {
+        switch ( direction )
+        {
+            case Dir.RIGHT:
+                return Dir.LEFT;
+            case Dir.LEFT:
+                return Dir.RIGHT;
+            case Dir.DOWN:
+                return Dir.UP;
+            case Dir.UP:
+                return Dir.DOWN;
+        }
+
+        return Dir.DOWN;
+    }
 }
 
 [XmlRoot("Chunk")]

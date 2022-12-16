@@ -3,35 +3,53 @@ using UnityEngine;
 
 public class MapFactory
 {
-    public static void Build( int width, int height, int roomCount )
+    public static int AvailableEntrances = 0;
+    public static int PlacedRooms = 0;
+
+    public static void Build( int width, int height )
     {
+        AvailableEntrances = 0;
+
         List<Room> rooms = new List<Room>() { new Room( width / 2, height / 2 ) };
 
         int failsafe = 16;
-        int counter = 1;
 
-        while ( rooms.Count < roomCount )
+        while ( rooms.Count < BoardManager.RoomLimit )
         {
             // Get all rooms with available exits
-            List<Room> possibleRoot = rooms.FindAll( x => x.availableExits > 0 );
+            List<Room> possibleRoot = rooms.FindAll( x => x.chunk.Entrance.Count > 0 );
+
+            if ( possibleRoot.Count == 0 )
+                return;
 
             // Select one of those rooms at random
-            Room root = possibleRoot[Random.Range( 0, possibleRoot.Count )];
-            
-            // Get an entrance index
-            int index = Random.Range(0, root.chunk.Entrances.Count);
-            
-            // Get the direction of an exit door from that room
-            Vector2Int dir = GetDirVector2Int( root.chunk.Entrances[index].Direction );
-            
-            // Select one 
-            Room r = new Room( root, dir, counter++ );
+            Room parent = possibleRoot[Random.Range( 0, possibleRoot.Count )];
 
-            if ( !RoomCollides( r, rooms ) && InBounds( r, width, height ) )
+            // Get an exit index
+            AccessPoint parentAP = parent.GetRandomAccessPoint();
+
+            // Get the direction from the parent to the new room we're about to place
+            Vector2Int offset = GetDirVector2Int( parentAP.Direction );
+
+            AccessPoint.Dir parentOutputDir = parentAP.Direction;
+            AccessPoint.Dir childInputDir = AccessPoint.Flip( parentOutputDir );
+
+            // Select one 
+            Room newRoom = new Room( parent, offset, childInputDir );
+
+            if ( !RoomCollides( newRoom, rooms ) && InBounds( newRoom, width, height ) )
             {
-                rooms.Add( r );
-                root.chunk.Entrances.Remove(root.chunk.entrances[index]);
-                root.size --;
+                rooms.Add( newRoom );
+                
+                newRoom.Build();
+
+                AvailableEntrances += newRoom.chunk.Entrance.Count;
+
+                parent.RemoveAccessPoint( parentOutputDir );
+                newRoom.RemoveAccessPoint( childInputDir );
+
+                AvailableEntrances -= 2;
+                
                 failsafe = 16;
             }
             else
@@ -44,28 +62,6 @@ public class MapFactory
         }
 
         Debug.Log( "room count: " + rooms.Count );
-    }
-
-    private static bool HasAdjacentFloor( int x, int y, int width, int height )
-    {
-        if ( x > 0 && mapData[x - 1, y] == Type.floor )
-            return true;
-        if ( x < width - 1 && mapData[x + 1, y] == Type.floor )
-            return true;
-        if ( y > 0 && mapData[x, y - 1] == Type.floor )
-            return true;
-        if ( y < height - 1 && mapData[x, y + 1] == Type.floor )
-            return true;
-        if ( x > 0 && y > 0 && mapData[x - 1, y - 1] == Type.floor )
-            return true;
-        if ( x < width - 1 && y > 0 && mapData[x + 1, y - 1] == Type.floor )
-            return true;
-        if ( x > 0 && y < height - 1 && mapData[x - 1, y + 1] == Type.floor )
-            return true;
-        if ( x < width - 1 && y < height - 1 && mapData[x + 1, y + 1] == Type.floor )
-            return true;
-
-        return false;
     }
 
     private static bool RoomCollides( Room r, List<Room> rooms )
@@ -108,18 +104,18 @@ public class MapFactory
 
     private static Vector2Int GetRandomDirVector2Int()
     {
-        switch ( (AccessPoint.Dir)Random.Range( 0, 4 ); )
+        switch ( (AccessPoint.Dir)Random.Range( 0, 4 ) )
         {
-            case Direction.up:
+            case AccessPoint.Dir.UP:
                 return Vector2Int.up;
 
-            case Direction.down:
+            case AccessPoint.Dir.DOWN:
                 return Vector2Int.down;
 
-            case Direction.left:
+            case AccessPoint.Dir.LEFT:
                 return Vector2Int.left;
 
-            case Direction.right:
+            case AccessPoint.Dir.RIGHT:
                 return Vector2Int.right;
         }
         return Vector2Int.zero;
@@ -129,19 +125,19 @@ public class MapFactory
     {
         switch(direction)
         {
-            case Direction.up:
+            case AccessPoint.Dir.UP:
                 return Vector2Int.up;
 
-            case Direction.down:
+            case AccessPoint.Dir.DOWN:
                 return Vector2Int.down;
 
-            case Direction.left:
+            case AccessPoint.Dir.LEFT:
                 return Vector2Int.left;
 
-            case Direction.right:
+            case AccessPoint.Dir.RIGHT:
                 return Vector2Int.right;
         }
-        
+
         return Vector2Int.zero;
     }
 }
