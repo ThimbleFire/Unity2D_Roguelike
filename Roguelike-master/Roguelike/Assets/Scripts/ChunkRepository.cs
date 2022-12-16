@@ -1,16 +1,19 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
+using UnityEngine.Tilemap;
 
 public class ChunkRepository : MonoBehaviour
 {
     private static List<Chunk> chunksInMemory;
+    public static Dictionary<string, Tilebase> Tile;
 
     private void Awake()
     {
         // load maps
 
         chunksInMemory = new List<Chunk>();
+        Tile = new Dictionary<string, Tilebase>();
 
         string[] filenames = Directory.GetFiles( Application.streamingAssetsPath, "*.xml" );
         for ( int i = 0; i < filenames.Length; i++ )
@@ -18,6 +21,15 @@ public class ChunkRepository : MonoBehaviour
             filenames[i] = filenames[i].Remove( 0, Application.streamingAssetsPath.Length + 1 );
             Chunk r = XMLUtility.Load<Chunk>( filenames[i] );
             chunksInMemory.Add( r );
+        }
+        
+        // load tiles
+        
+        Tilebase[] t = Resouruces.LoadAll<Tilebase>("Dungeon Tileset/");
+        
+        foreach(Tilebase tile in t)
+        {
+            Tile.Add(t.name, t);
         }
     }
 
