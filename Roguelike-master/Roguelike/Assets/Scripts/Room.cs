@@ -39,6 +39,7 @@ public class Room
     {
         get { return new Vector3Int( left, top, 0 ); }
     }
+    public bool IsGhost { get { return chunk == null; } }
 
     public int left = 0;
     public int top = 0;
@@ -46,6 +47,9 @@ public class Room
     public int height;
     public Chunk chunk = null;
 
+    /// <summary>
+    /// Start room
+    /// </summary>
     public Room( int left, int top )
     {
         chunk = ChunkRepository.Get( ChunkRepository.GetRandom() );
@@ -62,21 +66,19 @@ public class Room
         MapFactory.AvailableEntrances += chunk.Entrance.Count;
     }
 
+    /// <summary>
+    /// Ordinary child room
+    /// </summary>
     public Room( Room parent, Vector2Int offset, AccessPoint.Dir inputDir )
     {
         // Filter 
         chunk = ChunkRepository.GetFiltered( inputDir );
 
-        int radius_x = 1;
-        int radius_y = 1;
-
-        //decide how big the room you want to make will be
-        radius_x = 3; // Random.Range( 1, 10 );
-        radius_y = 3; // Random.Range( 1, 10 );
+        int radius_x = chunk.radius_x;
+        int radius_y = chunk.radius_y;
 
         width = 1 + radius_x * 2;
         height = 1 + radius_y * 2;
-
 
         //set center to parent center
         top = parent.center_y - radius_y;
@@ -87,6 +89,9 @@ public class Room
         top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
     }
 
+    /// <summary>
+    /// Ghost room
+    /// </summary>
     public Room( Room parent, Vector2Int offset )
     {
         int radius_x = 1;
@@ -97,7 +102,6 @@ public class Room
 
         width = 1 + radius_x * 2;
         height = 1 + radius_y * 2;
-
 
         //set center to parent center
         top = parent.center_y - radius_y;

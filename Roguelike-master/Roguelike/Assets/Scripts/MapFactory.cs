@@ -12,7 +12,7 @@ public class MapFactory
 
         List<Room> rooms = new List<Room>() { new Room( width / 2, height / 2 ) };
 
-        int failsafe = 16;
+        int failsafe = 32;
 
         while ( rooms.Count < BoardManager.RoomLimit )
         {
