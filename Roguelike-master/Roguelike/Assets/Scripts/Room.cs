@@ -4,7 +4,7 @@ public class Room
 {
     public Room( int left, int top )
     {
-        chunk = ChunkRepository.Get( ChunkRepository.GetRandom( ref width, ref height ) ).Clone();
+        chunk = ChunkRepository.Get( ChunkRepository.GetRandom( ref width, ref height ) );
         this.left = left;
         this.top = top;
 
@@ -48,23 +48,6 @@ public class Room
     public int availableExits = 0;
 
     public Chunk chunk = null;
-
-    public bool HasExitRight
-    {
-        get { return chunk.Entrance.FindAll( x => x.Direction == AccessPoint.Dir.RIGHT ) != null; }
-    }
-    public bool HasExitLeft
-    {
-        get { return chunk.Entrance.FindAll( x => x.Direction == AccessPoint.Dir.LEFT ) != null; }
-    }
-    public bool HasExitUp
-    {
-        get { return chunk.Entrance.FindAll( x => x.Direction == AccessPoint.Dir.UP ) != null; }
-    }
-    public bool HasExitDown
-    {
-        get { return chunk.Entrance.FindAll( x => x.Direction == AccessPoint.Dir.DOWN ) != null; }
-    }
 
     public Vector2Int size
     {
