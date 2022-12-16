@@ -3,16 +3,8 @@ using UnityEngine;
 
 public class MapFactory
 {
-    private enum Direction { up, down, left, right };
-
-    public enum Type { empty, floor, wall, ladder, chest, enemy, currency, item, destructable };
-
-    private static Type[,] mapData;
-
-    public static Type[,] BuildFloor( int width, int height, int roomCount )
+    public static void Build( int width, int height, int roomCount )
     {
-        // Design rooms
-
         List<Room> rooms = new List<Room>() { new Room( width / 2, height / 2 ) };
 
         int failsafe = 16;
@@ -52,61 +44,6 @@ public class MapFactory
         }
 
         Debug.Log( "room count: " + rooms.Count );
-
-        mapData = new Type[width, height];
-
-        // Make rooms
-
-        foreach ( Room room in rooms )
-        {
-            for ( int x = 0; x < room.width; x++ )
-            {
-                for ( int y = 0; y < room.height; y++ )
-                {
-                    try
-                    {
-                        mapData[room.left + x, room.top + y] = Type.floor;
-                    }
-                    catch ( System.Exception )
-                    {
-                        throw;
-                    }
-                }
-            }
-        }    
-
-        // Make walls
-
-        for ( int x = 0; x < width; x++ )
-        {
-            for ( int y = 0; y < height; y++ )
-            {
-                if ( mapData[x, y] == Type.empty && HasAdjacentFloor( x, y, width, height ) )
-                {
-                    mapData[x, y] = Type.wall;
-                }
-            }
-        }
-
-        // Remove thin walls
-
-        for ( int x = 0; x < width; x++ )
-        {
-            for ( int y = 0; y < height; y++ )
-            {
-                if ( mapData[x, y] == Type.wall && mapData[x - 1, y] == Type.floor && mapData[x + 1, y] == Type.floor )
-                {
-                    mapData[x, y] = Type.floor;
-                }
-
-                if ( mapData[x, y] == Type.wall && mapData[x, y - 1] == Type.floor && mapData[x, y + 1] == Type.floor )
-                {
-                    mapData[x, y] = Type.floor;
-                }
-            }
-        }
-
-        return mapData;
     }
 
     private static bool HasAdjacentFloor( int x, int y, int width, int height )
@@ -171,7 +108,7 @@ public class MapFactory
 
     private static Vector2Int GetRandomDirVector2Int()
     {
-        switch ( GetRandomDir() )
+        switch ( (AccessPoint.Dir)Random.Range( 0, 4 ); )
         {
             case Direction.up:
                 return Vector2Int.up;
@@ -186,18 +123,6 @@ public class MapFactory
                 return Vector2Int.right;
         }
         return Vector2Int.zero;
-    }
-
-    private static Direction GetRandomDir( /*Direction lastDir*/ )
-    {
-        int rand = Random.Range( 0, 4 );
-
-        //while ( (int)lastDir == rand )
-        //{
-        //	rand = Random.Range( 0, 4 );
-        //}
-
-        return (Direction)rand;
     }
     
     private static Vector2Int GetDirVector2Int(AccessPoint.Dir direction)
