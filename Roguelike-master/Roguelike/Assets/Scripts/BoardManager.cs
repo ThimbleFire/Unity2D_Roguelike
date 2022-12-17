@@ -32,8 +32,8 @@ public class BoardManager : MonoBehaviour
         tileMapWalls.ClearAllTiles();
         tileMapCurios.ClearAllTiles();
 
-        int width = 128;
-        int height = 128;
+        int width = 64;
+        int height = 64;
 
         MapFactory.Build( width, height );
 

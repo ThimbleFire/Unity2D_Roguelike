@@ -31,6 +31,7 @@ public class Room
     {
         get { return ( height - 1 ) / 2; }
     }
+    public Vector3 centerWorldSpace { get { return new Vector3( center.x, center.y, 0.0f ); } }
     public Vector2Int center
     {
         get { return new Vector2Int( center_x, center_y ); }

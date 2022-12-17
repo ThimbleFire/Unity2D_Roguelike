@@ -20,8 +20,10 @@ public class MapFactory
             List<Room> possibleRoot = rooms.FindAll( x => x.chunk.Entrance.Count > 0 );
 
             if ( possibleRoot.Count == 0 )
-                return;
-
+            {
+                Debug.LogWarning( "possible root count is zero, breaking from MapFactory.Build early." );
+                break;
+            }
             // Select one of those rooms at random
             Room parent = possibleRoot[Random.Range( 0, possibleRoot.Count )];
 
@@ -70,7 +72,7 @@ public class MapFactory
 
                 AvailableEntrances -= 2;
                 
-                failsafe = 16;
+                failsafe = 32;
             }
             else
             {
@@ -81,7 +83,14 @@ public class MapFactory
             }
         }
 
+        GameObject stairs = GameObject.Find( "Ladder(Clone)" );
+        if ( stairs == null )
+            GameObject.Instantiate( Resources.Load<GameObject>( "Prefabs/Ladder" ), rooms[Random.Range( 0, rooms.Count )].centerWorldSpace, Quaternion.identity );
+        else
+            stairs.transform.position = rooms[Random.Range( 0, rooms.Count )].centerWorldSpace;
+
         Debug.Log( "room count: " + rooms.Count );
+        MapFactory.PlacedRooms = 0;
     }
 
     private static bool RoomCollides( Room r, List<Room> rooms )
