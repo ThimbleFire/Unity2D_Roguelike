@@ -6,11 +6,21 @@ public class MapFactory
     public static int AvailableEntrances = 0;
     public static int PlacedRooms = 0;
 
+    // Problems
+    //
+    // We have an issue where we place a room at a location where another room leads to, but the room being placed does not link up to this other room.
+    //
+    // Solution
+    //
+    // Have rooms store their parents.
+    // Instead of building rooms from exits, (possibleRoot list), we build them from prototypes.
+    
     public static void Build( int width, int height )
     {
         AvailableEntrances = 0;
 
         List<Room> rooms = new List<Room>() { new Room( width / 2, height / 2 ) };
+        List<Room> prototypes = new List<Room>();
 
         int failsafe = 32;
 
@@ -36,7 +46,7 @@ public class MapFactory
             AccessPoint.Dir parentOutputDir = parentAP.Direction;
             AccessPoint.Dir childInputDir = AccessPoint.Flip( parentOutputDir );
 
-            // Select one 
+            // Select one
             Room child = new Room( parent, offset, childInputDir );
 
             //Ensure exits aren't leading into walls
@@ -58,9 +68,10 @@ public class MapFactory
 
             if ( exitLeadsToWall )
                 continue;
-
-            if ( !RoomCollides( child, rooms ) && InBounds( child, width, height ) )
-            {
+            
+            //Something like this...
+            if ( ( RoomCollides( child, rooms ) == false && child.parent == parent ) && InBounds( child, width, height ) == true )
+            {   
                 rooms.Add( child );
                 
                 child.Build();
@@ -71,6 +82,13 @@ public class MapFactory
                 child.RemoveAccessPoint( childInputDir );
 
                 AvailableEntrances -= 2;
+                
+                // trying to stop spawning rooms in position where other rooms lead. This might result in issues.
+                foreach(AccessPoint accessPoint in child.chunk.Entrances)
+                {
+                    Vector2Int prototypeOffset = GetDirVector2Int( accessPoint.Direction );
+                    prototypes.Add(new Room(child, prototypeOffset));
+                }
                 
                 failsafe = 32;
             }
