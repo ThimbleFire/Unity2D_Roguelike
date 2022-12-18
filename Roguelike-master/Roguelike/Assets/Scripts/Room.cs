@@ -47,7 +47,8 @@ public class Room
     public int width;
     public int height;
     public Chunk chunk = null;
-
+    public Room Parent { get set;}
+    
     /// <summary>
     /// Start room
     /// </summary>
@@ -88,6 +89,8 @@ public class Room
         //adjust center in the direction of offset
         left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
         top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
+        
+        Parent = parent;
     }
 
     /// <summary>
@@ -111,6 +114,8 @@ public class Room
         //adjust center in the direction of offset
         left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
         top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
+        
+        Parent = parent;
     }
 
     public AccessPoint GetRandomAccessPoint()
