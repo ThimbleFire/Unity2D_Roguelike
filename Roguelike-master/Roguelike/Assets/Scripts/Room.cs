@@ -48,6 +48,8 @@ public class Room
     public int height;
     public Chunk chunk = null;
     public Room Parent { get; set; }
+    public AccessPoint parentAP;
+    public AccessPoint.Dir inputDirection;
     
     /// <summary>
     /// Start room
@@ -64,45 +66,28 @@ public class Room
         PlayerCharacter.Instance.SetPosition( center );
 
         Build();
-
-        MapFactory.AvailableEntrances += chunk.Entrance.Count;
     }
 
     /// <summary>
     /// Ordinary child room
     /// </summary>
-    public Room( Room parent, Vector2Int offset, AccessPoint.Dir inputDir )
+    public Room( Room parent, bool ghost = false )
     {
-        // Filter 
-        chunk = ChunkRepository.GetFiltered( inputDir );
+        int radius_x = 3;
+        int radius_y = 3;
 
-        int radius_x = chunk.radius_x;
-        int radius_y = chunk.radius_y;
+        parentAP = parent.GetRandomAccessPoint();
+        Vector2Int offset = MapFactory.GetDirVector2Int( parentAP.Direction );
+        inputDirection = AccessPoint.Flip( parentAP.Direction );
 
-        width = 1 + radius_x * 2;
-        height = 1 + radius_y * 2;
+        if ( ghost == false )
+        {
+            // Filter 
+            chunk = ChunkRepository.GetFiltered( inputDirection );
 
-        //set center to parent center
-        top = parent.center_y - radius_y;
-        left = parent.center_x - radius_x;
-
-        //adjust center in the direction of offset
-        left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
-        top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
-        
-        Parent = parent;
-    }
-
-    /// <summary>
-    /// Ghost room
-    /// </summary>
-    public Room( Room parent, Vector2Int offset )
-    {
-        int radius_x = 1;
-        int radius_y = 1;
-
-        radius_x = 3;
-        radius_y = 3;
+            radius_x = chunk.radius_x;
+            radius_y = chunk.radius_y;
+        }
 
         width = 1 + radius_x * 2;
         height = 1 + radius_y * 2;
@@ -126,6 +111,7 @@ public class Room
     public void RemoveAccessPoint(AccessPoint.Dir direction)
     {
         chunk.Entrance.RemoveAll( x => x.Direction == direction );
+        MapFactory.AvailableEntrances--;
     }
 
     public bool CollidesWith( Room other )
@@ -154,6 +140,7 @@ public class Room
         foreach ( TileData data in chunk.Floors )
             BoardManager.tileMapGround.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
 
+        MapFactory.AvailableEntrances += chunk.Entrance.Count;
         MapFactory.PlacedRooms++;
     }
 }
