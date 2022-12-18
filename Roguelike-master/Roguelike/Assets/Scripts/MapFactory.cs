@@ -70,7 +70,7 @@ public class MapFactory
                 continue;
             
             //Something like this...
-            if ( ( RoomCollides( child, rooms ) == false && child.parent == parent ) && InBounds( child, width, height ) == true )
+            if ( ( RoomCollides( child, rooms ) == false && child.Parent == parent ) && InBounds( child, width, height ) == true )
             {   
                 rooms.Add( child );
                 
@@ -84,7 +84,7 @@ public class MapFactory
                 AvailableEntrances -= 2;
                 
                 // trying to stop spawning rooms in position where other rooms lead. This might result in issues.
-                foreach(AccessPoint accessPoint in child.chunk.Entrances)
+                foreach(AccessPoint accessPoint in child.chunk.Entrance)
                 {
                     Vector2Int prototypeOffset = GetDirVector2Int( accessPoint.Direction );
                     prototypes.Add(new Room(child, prototypeOffset));

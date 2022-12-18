@@ -47,7 +47,7 @@ public class Room
     public int width;
     public int height;
     public Chunk chunk = null;
-    public Room Parent { get set;}
+    public Room Parent { get; set; }
     
     /// <summary>
     /// Start room
