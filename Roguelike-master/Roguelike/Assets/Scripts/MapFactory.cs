@@ -17,12 +17,11 @@ public class MapFactory
 
         while ( rooms.Count < BoardManager.RoomLimit )
         {
-            List<Room> possibleRoot = rooms.FindAll( x => x.chunk.Entrance.Count > 0 );
-
-            if ( possibleRoot.Count <= 0 )
+            if ( prototypes.Count == 0 )
                 return;
 
-            Room parent = possibleRoot[Random.Range( 0, possibleRoot.Count )];
+            Room prototype = prototypes[Random.Range( 0, prototypes.Count )];
+            Room parent = prototype.Parent;
             Room child = new Room( parent );
 
             bool 
@@ -30,10 +29,17 @@ public class MapFactory
 
             if ( result )
             {
+                failsafe--;
+
+                if ( failsafe <= 0 )
+                    break;
+
                 continue;
             }
 
-            result = RoomCollides( child, rooms ) == true || InBounds( child ) == false;
+            result = RoomCollides( child, rooms )     == true || 
+                   /*RoomCollides( child, prototypes) == true ||*/
+                     InBounds( child ) == false;
 
             if ( result )
             {
@@ -46,6 +52,8 @@ public class MapFactory
             }
 
             rooms.Add( child );
+            prototypes.AddRange( child.GetPrototypes );
+            prototypes.Remove( prototype );
             child.Build();
 
             parent.RemoveAccessPoint( child.parentAP.Direction );
@@ -83,6 +91,9 @@ public class MapFactory
         {
             if ( r.CollidesWith( item ) )
             {
+                if ( item.Parent == r )
+                    continue;
+
                 return true;
             }
         }

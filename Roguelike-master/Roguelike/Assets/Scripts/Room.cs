@@ -102,14 +102,11 @@ public class Room
         
         Vector2Int offset = MapFactory.GetDirVector2Int( parentAP.Direction );
         inputDirection = AccessPoint.Flip( parentAP.Direction );
+        chunk = ChunkRepository.GetFiltered( inputDirection );
 
-            // Filter 
-            chunk = ChunkRepository.GetFiltered( inputDirection );
-
-            radius_x = chunk.radius_x;
-            radius_y = chunk.radius_y;
+        radius_x = chunk.radius_x;
+        radius_y = chunk.radius_y;
         
-
         width = 1 + radius_x * 2;
         height = 1 + radius_y * 2;
 

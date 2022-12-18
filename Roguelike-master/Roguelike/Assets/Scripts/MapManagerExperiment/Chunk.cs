@@ -53,6 +53,26 @@ public class AccessPoint
 
         return Dir.DOWN;
     }
+    public static AccessPoint Flip( AccessPoint accessPoint )
+    {
+        switch ( accessPoint.Direction )
+        {
+            case Dir.RIGHT:
+                accessPoint.Direction = Dir.LEFT;
+                return accessPoint;
+            case Dir.LEFT:
+                accessPoint.Direction = Dir.RIGHT;
+                return accessPoint;
+            case Dir.DOWN:
+                accessPoint.Direction = Dir.UP;
+                return accessPoint;
+            case Dir.UP:
+                accessPoint.Direction = Dir.DOWN;
+                return accessPoint;
+        }
+
+        return accessPoint;
+    }
 }
 
 [XmlRoot("Chunk")]
