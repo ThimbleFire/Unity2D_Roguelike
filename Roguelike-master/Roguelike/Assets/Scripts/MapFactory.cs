@@ -6,18 +6,17 @@ public class MapFactory
     public static int AvailableEntrances = 0;
     public static int PlacedRooms = 0;
     
-    public static void Build( int width, int height )
+    public static void Build()
     {
         AvailableEntrances = 0;
 
-        List<Room> rooms = new List<Room>() { new Room( width / 2, height / 2 ) };
-        List<Room> prototypes = new List<Room>();
+        List<Room> rooms = new List<Room>() { new Room( BoardManager.Width / 2, BoardManager.Height / 2 ) };
+        List<Room> prototypes = new List<Room>( rooms[0].GetPrototypes );
 
         int failsafe = 32;
 
         while ( rooms.Count < BoardManager.RoomLimit )
         {
-
             List<Room> possibleRoot = rooms.FindAll( x => x.chunk.Entrance.Count > 0 );
 
             if ( possibleRoot.Count <= 0 )
@@ -26,39 +25,33 @@ public class MapFactory
             Room parent = possibleRoot[Random.Range( 0, possibleRoot.Count )];
             Room child = new Room( parent );
 
-            bool result = WillPrototypesOverlapExisting(child, rooms);
+            bool 
+            result = WillPrototypesOverlapExisting( child, rooms );
 
-            if ( result == true )
+            if ( result )
+            {
                 continue;
-
-            
-            //Something like this...
-            if ( RoomCollides( child, rooms ) == false && child.Parent == parent && InBounds( child, width, height ) == true )
-            {   
-                rooms.Add( child );
-                
-                child.Build();
-
-                parent.RemoveAccessPoint( child.parentAP.Direction );
-                child.RemoveAccessPoint( child.inputDirection );
-
-                
-                // trying to stop spawning rooms in position where other rooms lead. This might result in issues.
-                foreach(AccessPoint accessPoint in child.chunk.Entrance)
-                {
-                    Vector2Int prototypeOffset = GetDirVector2Int( accessPoint.Direction );
-                    prototypes.Add(new Room(child));
-                }
-                
-                failsafe = 32;
             }
-            else
+
+            result = RoomCollides( child, rooms ) == true || InBounds( child ) == false;
+
+            if ( result )
             {
                 failsafe--;
 
                 if ( failsafe <= 0 )
                     break;
+
+                continue;
             }
+
+            rooms.Add( child );
+            child.Build();
+
+            parent.RemoveAccessPoint( child.parentAP.Direction );
+            child.RemoveAccessPoint( child.inputDirection );
+
+            failsafe = 32;
         }
 
         GameObject stairs = GameObject.Find( "Ladder(Clone)" );
@@ -73,13 +66,9 @@ public class MapFactory
 
     private static bool WillPrototypesOverlapExisting(Room child, List<Room> rooms)
     {
-        foreach ( var item in child.chunk.Entrance )
+        foreach ( var item in child.GetPrototypes )
         {
-            if ( item.Direction == child.inputDirection )
-                continue;
-
-            Room prototype = new Room( child );
-            if ( RoomCollides( prototype, rooms ) == true )
+            if ( RoomCollides( item, rooms ) == true || InBounds( item ) == false )
             {
                 return true;
             }
@@ -101,24 +90,24 @@ public class MapFactory
         return false;
     }
 
-    private static bool InBounds( Room r, int width, int height )
+    private static bool InBounds( Room r )
     {
-        if ( r.left < 2 || r.left > width - 2 )
+        if ( r.left < 2 || r.left > BoardManager.Width - 2 )
         {
             return false;
         }
 
-        if ( r.top < 2 || r.top > height - 2 )
+        if ( r.top < 2 || r.top > BoardManager.Height - 2 )
         {
             return false;
         }
 
-        if ( r.right < 2 || r.right > width - 2 )
+        if ( r.right < 2 || r.right > BoardManager.Width - 2 )
         {
             return false;
         }
 
-        if ( r.bottom < 2 || r.bottom > height - 2 )
+        if ( r.bottom < 2 || r.bottom > BoardManager.Height - 2 )
         {
             return false;
         }

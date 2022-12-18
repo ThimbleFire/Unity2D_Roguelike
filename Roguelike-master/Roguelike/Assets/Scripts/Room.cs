@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class Room
@@ -41,6 +42,24 @@ public class Room
         get { return new Vector3Int( left, top, 0 ); }
     }
     public bool IsGhost { get { return chunk == null; } }
+    public List<Room> GetPrototypes
+    {
+        get
+        {
+            List<Room> prototypes = new List<Room>();
+
+            foreach ( var item in chunk.Entrance )
+            {
+                if ( item.Direction == inputDirection )
+                    continue;
+
+                Room prototype = new Room( this, item );
+                prototypes.Add( prototype );
+            }
+            
+            return prototypes;
+        }
+    }
 
     public int left = 0;
     public int top = 0;
@@ -71,23 +90,25 @@ public class Room
     /// <summary>
     /// Ordinary child room
     /// </summary>
-    public Room( Room parent, bool ghost = false )
+    public Room( Room parent, AccessPoint accessPoint = null )
     {
         int radius_x = 3;
         int radius_y = 3;
 
-        parentAP = parent.GetRandomAccessPoint();
+        if ( accessPoint != null )
+            parentAP = accessPoint;
+        else
+            parentAP = parent.GetRandomAccessPoint();
+        
         Vector2Int offset = MapFactory.GetDirVector2Int( parentAP.Direction );
         inputDirection = AccessPoint.Flip( parentAP.Direction );
 
-        if ( ghost == false )
-        {
             // Filter 
             chunk = ChunkRepository.GetFiltered( inputDirection );
 
             radius_x = chunk.radius_x;
             radius_y = chunk.radius_y;
-        }
+        
 
         width = 1 + radius_x * 2;
         height = 1 + radius_y * 2;

@@ -8,6 +8,9 @@ public class BoardManager : MonoBehaviour
     public static Tilemap tileMapWalls;
     public static Tilemap tileMapCurios;
 
+    public static int Width = 64;
+    public static int Height = 64;
+
     public static int RoomLimit { get; set; }
 
     private void Awake()
@@ -32,10 +35,7 @@ public class BoardManager : MonoBehaviour
         tileMapWalls.ClearAllTiles();
         tileMapCurios.ClearAllTiles();
 
-        int width = 64;
-        int height = 64;
-
-        MapFactory.Build( width, height );
+        MapFactory.Build();
 
         tileMapWalls.CompressBounds();
         tileMapGround.CompressBounds();
