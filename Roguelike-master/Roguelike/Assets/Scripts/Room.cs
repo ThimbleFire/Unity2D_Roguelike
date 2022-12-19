@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class Room
 {
+    public Rect rect
+    {
+        get
+        {
+            return new Rect( position.x, position.y, width, height );
+        }
+    }
     public Vector2Int size
     {
         get { return new Vector2Int( width, height ); }
@@ -48,15 +55,15 @@ public class Room
         {
             List<Room> prototypes = new List<Room>();
 
-            foreach ( var item in chunk.Entrance )
+            foreach ( AccessPoint accessPoint in chunk.Entrance )
             {
-                if ( item.Direction == inputDirection )
+                if ( accessPoint.Direction == inputDirection )
                     continue;
 
-                Room prototype = new Room( this, item );
+                Room prototype = new Room( this, accessPoint );
                 prototypes.Add( prototype );
             }
-            
+
             return prototypes;
         }
     }
@@ -67,18 +74,18 @@ public class Room
     public int height;
     public Chunk chunk = null;
     public Room Parent { get; set; }
-    public AccessPoint parentAP;
+    public AccessPoint parentOutput;
     public AccessPoint.Dir inputDirection;
-    
+
     /// <summary>
     /// Start room
     /// </summary>
-    public Room( int left, int top )
+    public Room( )
     {
         chunk = ChunkRepository.Get( ChunkRepository.GetRandom() );
 
-        this.left = left;
-        this.top = top;
+        this.left = 0;
+        this.top = 0;
         width = chunk.Width;
         height = chunk.Height;
 
@@ -88,25 +95,40 @@ public class Room
     }
 
     /// <summary>
-    /// Ordinary child room
+    /// Ghost room
     /// </summary>
-    public Room( Room parent, AccessPoint accessPoint = null )
+    public Room( Room parent, AccessPoint accessPoint )
     {
         int radius_x = 3;
         int radius_y = 3;
 
-        if ( accessPoint != null )
-            parentAP = accessPoint;
-        else
-            parentAP = parent.GetRandomAccessPoint();
-        
-        Vector2Int offset = MapFactory.GetDirVector2Int( parentAP.Direction );
-        inputDirection = AccessPoint.Flip( parentAP.Direction );
+            parentOutput = accessPoint;
+            Vector2Int offset = MapFactory.GetDirVector2Int( parentOutput.Direction );
+            inputDirection = AccessPoint.Flip( parentOutput.Direction );
+
+            width = 1 + radius_x * 2;
+            height = 1 + radius_y * 2;
+
+            //set center to parent center
+            top = parent.center_y - radius_y;
+            left = parent.center_x - radius_x;
+
+            //adjust center in the direction of offset
+            left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
+            top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
+            Parent = parent;
+    }
+
+    public Room(Room parent, AccessPoint accessPoint, bool t )
+    {
+        parentOutput = accessPoint;
+        Vector2Int offset = MapFactory.GetDirVector2Int( parentOutput.Direction );
+        inputDirection = AccessPoint.Flip( parentOutput.Direction );
         chunk = ChunkRepository.GetFiltered( inputDirection );
 
-        radius_x = chunk.radius_x;
-        radius_y = chunk.radius_y;
-        
+        int radius_x = chunk.radius_x;
+        int radius_y = chunk.radius_y;
+
         width = 1 + radius_x * 2;
         height = 1 + radius_y * 2;
 
@@ -117,7 +139,7 @@ public class Room
         //adjust center in the direction of offset
         left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
         top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
-        
+
         Parent = parent;
     }
 
@@ -126,7 +148,7 @@ public class Room
         return chunk.Entrance[UnityEngine.Random.Range( 0, chunk.Entrance.Count )];
     }
 
-    public void RemoveAccessPoint(AccessPoint.Dir direction)
+    public void RemoveAccessPoint( AccessPoint.Dir direction )
     {
         chunk.Entrance.RemoveAll( x => x.Direction == direction );
         MapFactory.AvailableEntrances--;
@@ -134,19 +156,7 @@ public class Room
 
     public bool CollidesWith( Room other )
     {
-        if ( left > other.right )
-            return false;
-
-        if ( top > other.bottom )
-            return false;
-
-        if ( right < other.left )
-            return false;
-
-        if ( bottom < other.top )
-            return false;
-
-        return true;
+        return rect.Overlaps( other.rect );
     }
 
     public void Build()
@@ -154,11 +164,35 @@ public class Room
         foreach ( TileData data in chunk.Walls )
             BoardManager.tileMapWalls.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
         foreach ( TileData data in chunk.Curios )
-            BoardManager.tileMapCurios.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+        {
+            switch ( data.name )
+            {
+                //Hide curios that are triggers and build helpers
+                case "Dungeon_Tileset_110":
+                case "Dungeon_Tileset_111":
+                case "Dungeon_Tileset_112":
+                case "Dungeon_Tileset_113":
+                    break;
+                default:
+                    BoardManager.tileMapCurios.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+                    break;
+            }
+        }
         foreach ( TileData data in chunk.Floors )
             BoardManager.tileMapGround.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
 
         MapFactory.AvailableEntrances += chunk.Entrance.Count;
         MapFactory.PlacedRooms++;
+    }
+
+    public void BuildGhost()
+    {
+        for ( int y = 0; y < height; y++ )
+        {
+            for ( int x = 0; x < width; x++ )
+            {
+                BoardManager.tileMapCurios.SetTile( new Vector3Int( left + x, top + y, 0 ), ChunkRepository.Tile["Dungeon_Tileset_78"] );
+            }
+        }
     }
 }

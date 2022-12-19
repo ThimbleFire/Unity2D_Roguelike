@@ -8,9 +8,6 @@ public class BoardManager : MonoBehaviour
     public static Tilemap tileMapWalls;
     public static Tilemap tileMapCurios;
 
-    public static int Width = 64;
-    public static int Height = 64;
-
     public static int RoomLimit { get; set; }
 
     private void Awake()
@@ -25,7 +22,8 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        RoomLimit = 32;
+        RoomLimit = 9;
+
         Build();
     }
 
@@ -40,5 +38,18 @@ public class BoardManager : MonoBehaviour
         tileMapWalls.CompressBounds();
         tileMapGround.CompressBounds();
         tileMapCurios.CompressBounds();
+    }
+
+    float timer = 0.0f;
+    float interval = 1f;
+
+    private void Update()
+    {
+        timer += Time.smoothDeltaTime;
+        if ( timer >= interval ) {
+
+            Build();
+            timer = 0.0f;
+        }
     }
 }

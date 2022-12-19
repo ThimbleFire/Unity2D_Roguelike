@@ -8,7 +8,7 @@ public class AccessPoint
 {
     public enum Dir
     {
-        RIGHT, LEFT, DOWN, UP
+        NONE, RIGHT, LEFT, DOWN, UP
     };
     
     //Axis is the direction the arrows run along. For example 3 arrows to the right of one another would be horizontal. 3 arrows underneath eachother would be vertical.

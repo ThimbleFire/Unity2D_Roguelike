@@ -8,9 +8,13 @@ public class MapFactory
     
     public static void Build()
     {
+        int seed = Random.Range( int.MinValue, int.MaxValue );
+        Random.InitState( seed );
+        bool result = false;
+        MapFactory.PlacedRooms = 0;
         AvailableEntrances = 0;
 
-        List<Room> rooms = new List<Room>() { new Room( BoardManager.Width / 2, BoardManager.Height / 2 ) };
+        List<Room> rooms = new List<Room>() { new Room( ) };
         List<Room> prototypes = new List<Room>( rooms[0].GetPrototypes );
 
         int failsafe = 32;
@@ -18,45 +22,40 @@ public class MapFactory
         while ( rooms.Count < BoardManager.RoomLimit )
         {
             if ( prototypes.Count == 0 )
-                return;
+                break;
 
-            Room prototype = prototypes[Random.Range( 0, prototypes.Count )];
+            int index = Random.Range( 0, prototypes.Count );
+            Room prototype = prototypes[index];
             Room parent = prototype.Parent;
-            Room child = new Room( parent );
+            Room child = new Room( parent, prototype.parentOutput, true );
 
-            bool 
-            result = WillPrototypesOverlapExisting( child, rooms );
-
-            if ( result )
-            {
-                failsafe--;
-
-                if ( failsafe <= 0 )
+            result = WillPrototypesOverlapExisting( child, rooms ); 
+            if ( result ) {
+                failsafe--; 
+                if ( failsafe <= 0 ) {
+                    Debug.Log( string.Format( "Child attempting to overlap prototypes", rooms.Count, prototypes.Count, PlacedRooms, AvailableEntrances ) );
                     break;
-
+                }
                 continue;
             }
 
-            result = RoomCollides( child, rooms )     == true || 
-                   /*RoomCollides( child, prototypes) == true ||*/
-                     InBounds( child ) == false;
-
+            result = WillPrototypesOverlapExisting( child, prototypes );
             if ( result )
             {
                 failsafe--;
-
                 if ( failsafe <= 0 )
+                {
+                    Debug.Log( string.Format( "Child attempting to overlap prototype's prototypes", rooms.Count, prototypes.Count, PlacedRooms, AvailableEntrances ) );
                     break;
-
+                }
                 continue;
             }
 
             rooms.Add( child );
-            prototypes.AddRange( child.GetPrototypes );
             prototypes.Remove( prototype );
+            parent.RemoveAccessPoint( child.parentOutput.Direction );
+            prototypes.AddRange( child.GetPrototypes );
             child.Build();
-
-            parent.RemoveAccessPoint( child.parentAP.Direction );
             child.RemoveAccessPoint( child.inputDirection );
 
             failsafe = 32;
@@ -64,20 +63,29 @@ public class MapFactory
 
         GameObject stairs = GameObject.Find( "Ladder(Clone)" );
         if ( stairs == null )
-            GameObject.Instantiate( Resources.Load<GameObject>( "Prefabs/Ladder" ), rooms[Random.Range( 0, rooms.Count )].centerWorldSpace, Quaternion.identity );
+            GameObject.Instantiate( Resources.Load<GameObject>( "Prefabs/Ladder" ), rooms[0].centerWorldSpace, Quaternion.identity );
         else
-            stairs.transform.position = rooms[Random.Range( 0, rooms.Count )].centerWorldSpace;
+            stairs.transform.position = rooms[0].centerWorldSpace;
 
-        Debug.Log( "room count: " + rooms.Count );
-        MapFactory.PlacedRooms = 0;
+        Debug.Log( string.Format( "Room count: {0}, prototypes left: {1}, placed rooms: {2}, available entrances: {3}", rooms.Count, prototypes.Count, PlacedRooms, AvailableEntrances ) );
+
+        foreach ( Room prototype in prototypes )
+        {
+            prototype.BuildGhost();
+        }
+
+        if(prototypes.Count > 0)
+            Debug.Log( seed );
     }
 
     private static bool WillPrototypesOverlapExisting(Room child, List<Room> rooms)
     {
-        foreach ( var item in child.GetPrototypes )
+        foreach ( Room item in child.GetPrototypes )
         {
-            if ( RoomCollides( item, rooms ) == true || InBounds( item ) == false )
+            if ( RoomCollides( item, rooms ) == true)
             {
+
+                Debug.Log( ( child.IsGhost ? "Prototype" : "Room" ) + ( " collides with " ) + ( item.IsGhost ? "Prototype" : "Room" ) );
                 return true;
             }
         }
@@ -101,31 +109,6 @@ public class MapFactory
         return false;
     }
 
-    private static bool InBounds( Room r )
-    {
-        if ( r.left < 2 || r.left > BoardManager.Width - 2 )
-        {
-            return false;
-        }
-
-        if ( r.top < 2 || r.top > BoardManager.Height - 2 )
-        {
-            return false;
-        }
-
-        if ( r.right < 2 || r.right > BoardManager.Width - 2 )
-        {
-            return false;
-        }
-
-        if ( r.bottom < 2 || r.bottom > BoardManager.Height - 2 )
-        {
-            return false;
-        }
-
-        return true;
-    }
-    
     public static Vector2Int GetDirVector2Int(AccessPoint.Dir direction)
     {
         switch(direction)
