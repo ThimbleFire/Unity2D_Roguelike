@@ -82,7 +82,7 @@ public class Room
     /// </summary>
     public Room( )
     {
-        chunk = ChunkRepository.Get( ChunkRepository.GetRandom() );
+        chunk = ChunkRepository.Town;
 
         this.left = 0;
         this.top = 0;

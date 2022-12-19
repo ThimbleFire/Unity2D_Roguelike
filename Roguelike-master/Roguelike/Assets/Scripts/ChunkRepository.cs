@@ -7,6 +7,7 @@ public class ChunkRepository : MonoBehaviour
 {
     private static List<Chunk> chunksInMemory;
     public static Dictionary<string, TileBase> Tile;
+    public static Chunk Town;
 
     private void Awake()
     {
@@ -20,7 +21,11 @@ public class ChunkRepository : MonoBehaviour
         {
             filenames[i] = filenames[i].Remove( 0, Application.streamingAssetsPath.Length + 1 );
             Chunk r = XMLUtility.Load<Chunk>( filenames[i] );
-            chunksInMemory.Add( r );
+
+            if ( filenames[i] == "Town.xml" )
+                Town = r;
+            else
+                chunksInMemory.Add( r );
         }
 
         // load tiles
@@ -61,7 +66,6 @@ public class ChunkRepository : MonoBehaviour
     public static Chunk GetFiltered( AccessPoint.Dir direction )
     {
         // Filter chunks so we don't exceed the maximum number of rooms
-
         List<Chunk> chunksByExits = new List<Chunk>(
             chunksInMemory.FindAll( x => x.Entrance.Count + MapFactory.PlacedRooms + MapFactory.AvailableEntrances <= BoardManager.RoomLimit )
             );

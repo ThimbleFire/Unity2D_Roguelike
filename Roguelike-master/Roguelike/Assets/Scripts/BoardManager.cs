@@ -22,7 +22,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        RoomLimit = 9;
+        RoomLimit = 512;
 
         Build();
     }
@@ -43,13 +43,13 @@ public class BoardManager : MonoBehaviour
     float timer = 0.0f;
     float interval = 1f;
 
-    private void Update()
-    {
-        timer += Time.smoothDeltaTime;
-        if ( timer >= interval ) {
+    //private void Update()
+    //{
+    //    timer += Time.smoothDeltaTime;
+    //    if ( timer >= interval ) {
 
-            Build();
-            timer = 0.0f;
-        }
-    }
+    //        Build();
+    //        timer = 0.0f;
+    //    }
+    //}
 }

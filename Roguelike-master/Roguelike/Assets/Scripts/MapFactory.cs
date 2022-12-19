@@ -74,8 +74,9 @@ public class MapFactory
             prototype.BuildGhost();
         }
 
+        //If an error is found, print out the seed so we can investigate
         if(prototypes.Count > 0)
-            Debug.Log( seed );
+            Debug.LogError( seed );
     }
 
     private static bool WillPrototypesOverlapExisting(Room child, List<Room> rooms)
