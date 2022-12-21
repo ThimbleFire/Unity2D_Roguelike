@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Experimental.Rendering.Universal;
 
 public class Room
 {
@@ -162,7 +163,13 @@ public class Room
     public void Build()
     {
         foreach ( TileData data in chunk.Walls )
+        {
             BoardManager.tileMapWalls.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+
+            //ShadowCaster2D d;
+            
+            //BoardManager.Instantiate( position + data.position + new Vector3( .5f, .5f, 0 ) );
+        }
         foreach ( TileData data in chunk.Curios )
         {
             switch ( data.name )
@@ -191,7 +198,8 @@ public class Room
         {
             for ( int x = 0; x < width; x++ )
             {
-                BoardManager.tileMapCurios.SetTile( new Vector3Int( left + x, top + y, 0 ), ChunkRepository.Tile["Dungeon_Tileset_78"] );
+                Vector3Int position = new Vector3Int( left + x, top + y, 0 );
+                BoardManager.tileMapCurios.SetTile( position, ChunkRepository.Tile["Dungeon_Tileset_78"] );
             }
         }
     }

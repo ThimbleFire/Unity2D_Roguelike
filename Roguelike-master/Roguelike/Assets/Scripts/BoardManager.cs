@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
 public class BoardManager : MonoBehaviour
@@ -10,19 +9,23 @@ public class BoardManager : MonoBehaviour
 
     public static int RoomLimit { get; set; }
 
+    private static bool ShadowsEnabled { get; set; }
+
     private void Awake()
     {
         tileMapGround = GameObject.Find( "Ground" ).GetComponent<Tilemap>(); ;
-        tileMapWalls = GameObject.Find( "Walls" ).GetComponent<Tilemap>(); ;
+        tileMapWalls = GameObject.Find( "Walls" ).GetComponent<Tilemap>();
         tileMapCurios = GameObject.Find( "Curio" ).GetComponent<Tilemap>();
 
         Application.targetFrameRate = 60;
         PlayerPrefs.DeleteAll();
+
+        ShadowsEnabled = false;
     }
 
     private void Start()
     {
-        RoomLimit = 512;
+        RoomLimit = 64;
 
         Build();
     }
@@ -38,18 +41,17 @@ public class BoardManager : MonoBehaviour
         tileMapWalls.CompressBounds();
         tileMapGround.CompressBounds();
         tileMapCurios.CompressBounds();
+      
+        ShadowsEnabled = false;
     }
 
-    float timer = 0.0f;
-    float interval = 1f;
-
-    //private void Update()
-    //{
-    //    timer += Time.smoothDeltaTime;
-    //    if ( timer >= interval ) {
-
-    //        Build();
-    //        timer = 0.0f;
-    //    }
-    //}
+    //temporary fix
+    private void Update()
+    {
+        if ( ShadowsEnabled == false )
+        {
+            ShadowCaster2DFromComposite.RebuildAll();
+            ShadowsEnabled = true;
+        }
+    }
 }
