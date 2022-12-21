@@ -5,7 +5,6 @@ public class PlayerCharacter : MonoBehaviour
 {
     public static PlayerCharacter Instance;
     public Animator animator;
-    public Joystick joystick;
     public List<Interactable> collidingWith = new List<Interactable>();
 
     private void Awake()
@@ -13,13 +12,7 @@ public class PlayerCharacter : MonoBehaviour
         Instance = this;
     }
 
-    private string binaryData;
-
     public float speed = 0.06f;
-
-    private void Start()
-    {
-    }
 
     private void OnTriggerEnter2D( Collider2D collision )
     {
@@ -61,50 +54,5 @@ public class PlayerCharacter : MonoBehaviour
             Action();
         }
 
-        Vector3 momentum = joystick.input.normalized;
-
-        if ( Input.GetKey( KeyCode.A ) )
-        {
-            momentum += Vector3.left;
-        }
-
-        if ( Input.GetKey( KeyCode.D ) )
-        {
-            momentum += Vector3.right;
-        }
-
-        if ( Input.GetKey( KeyCode.W ) )
-        {
-            momentum += Vector3.up;
-        }
-
-        if ( Input.GetKey( KeyCode.S ) )
-        {
-            momentum += Vector3.down;
-        }
-
-        if ( momentum.x <= -0.01f || momentum.x >= 0.01f )
-        {
-            animator.SetFloat( "LastMoveX", momentum.x );
-        }
-
-        animator.SetBool( "Moving", momentum != Vector3.zero );
-        animator.SetFloat( "MoveX", momentum.x );
-        animator.SetFloat( "MoveY", momentum.y );
-
-        if ( momentum == Vector3.zero )
-            return;
-
-#if PLATFORM_ANDROID
-        Vector3 velocity = momentum * speed * Time.smoothDeltaTime * 1.5f;
-#else
-        Vector3 velocity = momentum * speed * Time.smoothDeltaTime;
-#endif
-
-        Vector2 newPosition = transform.position + velocity;
-        float nextX = Mathf.Round( Game.PPU * newPosition.x );
-        float nextY = Mathf.Round( Game.PPU * newPosition.y );
-
-        transform.position = new Vector3( nextX / Game.PPU, nextY / Game.PPU, 0.0f );
     }
 }

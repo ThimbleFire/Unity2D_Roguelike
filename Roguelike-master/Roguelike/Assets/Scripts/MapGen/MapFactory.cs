@@ -83,6 +83,11 @@ public class MapFactory
                 Debug.Log( ( child.IsGhost ? "Prototype" : "Room" ) + ( " collides with " ) + ( item.IsGhost ? "Prototype" : "Room" ) );
                 return true;
             }
+
+            if(InBounds(item) == false)
+            {
+                return true;
+            }
         }
 
         return false;
@@ -102,6 +107,31 @@ public class MapFactory
         }
 
         return false;
+    }
+
+    public static bool InBounds( Room r )
+    {
+        if ( r.left < 2 || r.left > BoardManager.Width - 2 )
+        {
+            return false;
+        }
+
+        if ( r.top < 2 || r.top > BoardManager.Height - 2 )
+        {
+            return false;
+        }
+
+        if ( r.right < 2 || r.right > BoardManager.Width - 2 )
+        {
+            return false;
+        }
+
+        if ( r.bottom < 2 || r.bottom > BoardManager.Height - 2 )
+        {
+            return false;
+        }
+
+        return true;
     }
 
     public static Vector2Int GetDirVector2Int(AccessPoint.Dir direction)

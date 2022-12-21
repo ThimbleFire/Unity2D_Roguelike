@@ -85,12 +85,12 @@ public class Room
     {
         chunk = ChunkRepository.Town;
 
-        this.left = 0;
-        this.top = 0;
+        this.left = BoardManager.Width / 2;
+        this.top = BoardManager.Height / 2;
         width = chunk.Width;
         height = chunk.Height;
 
-        PlayerCharacter.Instance.SetPosition( center );
+        PlayerCharacter.Instance.SetPosition( BoardManager.Width / 2, BoardManager.Height / 2 );
 
         Build();
     }

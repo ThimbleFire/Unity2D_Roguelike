@@ -11,6 +11,9 @@ public class BoardManager : MonoBehaviour
 
     private static bool ShadowsEnabled { get; set; }
 
+    public static int Width { get; set; }
+    public static int Height { get; set; }
+
     private void Awake()
     {
         tileMapGround = GameObject.Find( "Ground" ).GetComponent<Tilemap>(); ;
@@ -21,11 +24,13 @@ public class BoardManager : MonoBehaviour
         PlayerPrefs.DeleteAll();
 
         ShadowsEnabled = false;
+        Width = 128;
+        Height = 128;
     }
 
     private void Start()
     {
-        RoomLimit = 48;
+        RoomLimit = 32;
 
         Build();
     }
@@ -43,6 +48,8 @@ public class BoardManager : MonoBehaviour
         tileMapCurios.CompressBounds();
       
         ShadowsEnabled = false;
+
+        Pathfind.Setup( tileMapGround );
     }
 
     //temporary fix
