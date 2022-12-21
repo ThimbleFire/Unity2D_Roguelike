@@ -61,12 +61,6 @@ public class MapFactory
             failsafe = 32;
         }
 
-        GameObject stairs = GameObject.Find( "Ladder(Clone)" );
-        if ( stairs == null )
-            GameObject.Instantiate( Resources.Load<GameObject>( "Prefabs/Ladder" ), rooms[0].centerWorldSpace, Quaternion.identity );
-        else
-            stairs.transform.position = rooms[0].centerWorldSpace;
-
         Debug.Log( string.Format( "Room count: {0}, prototypes left: {1}, placed rooms: {2}, available entrances: {3}", rooms.Count, prototypes.Count, PlacedRooms, AvailableEntrances ) );
 
         foreach ( Room prototype in prototypes )

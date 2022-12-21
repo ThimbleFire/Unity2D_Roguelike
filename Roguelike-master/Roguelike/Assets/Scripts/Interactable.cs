@@ -10,9 +10,6 @@ public class Interactable : MonoBehaviour
 
     } public OnInteraction onInteract;
 
-
-    public BoardManager boardManager;
-
     public void SetPosition( Vector2Int position )
     {
         transform.position = new Vector3( position.x, position.y );

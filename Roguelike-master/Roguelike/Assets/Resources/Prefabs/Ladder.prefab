@@ -98,7 +98,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   onInteract: 1
-  boardManager: {fileID: 0}
 --- !u!61 &6174472096358549106
 BoxCollider2D:
   m_ObjectHideFlags: 0

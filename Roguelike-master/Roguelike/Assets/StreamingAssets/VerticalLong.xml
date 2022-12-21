@@ -47,30 +47,6 @@
     </TileData>
     <TileData>
       <position>
-        <x>4</x>
-        <y>2</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_25</name>
-    </TileData>
-    <TileData>
-      <position>
-        <x>4</x>
-        <y>4</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_25</name>
-    </TileData>
-    <TileData>
-      <position>
-        <x>4</x>
-        <y>6</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_25</name>
-    </TileData>
-    <TileData>
-      <position>
         <x>1</x>
         <y>8</y>
         <z>0</z>
@@ -92,14 +68,6 @@
         <z>0</z>
       </position>
       <name>Dungeon_Tileset_113</name>
-    </TileData>
-    <TileData>
-      <position>
-        <x>4</x>
-        <y>8</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_25</name>
     </TileData>
   </Curios>
   <Walls>

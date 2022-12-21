@@ -170,6 +170,13 @@ public class Room
         {
             switch ( data.name )
             {
+                case "Dungeon_Tileset_91":
+                case "Dungeon_Tileset_90":
+                case "Dungeon_Tileset_93":
+                case "Dungeon_Tileset_95":
+                    BoardManager.Instantiate( Resources.Load<GameObject>( "Prefabs/Light - Wall Light" ), position + data.position, Quaternion.identity );
+                    BoardManager.tileMapCurios.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+                    break;
                 //Hide curios that are triggers and build helpers
                 case "Dungeon_Tileset_110":
                 case "Dungeon_Tileset_111":

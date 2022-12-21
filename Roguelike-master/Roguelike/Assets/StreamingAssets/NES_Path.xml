@@ -60,6 +60,14 @@
     </TileData>
     <TileData>
       <position>
+        <x>1</x>
+        <y>3</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_91</name>
+    </TileData>
+    <TileData>
+      <position>
         <x>6</x>
         <y>3</y>
         <z>0</z>

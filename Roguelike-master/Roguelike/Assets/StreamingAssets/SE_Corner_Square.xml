@@ -69,6 +69,14 @@
       </position>
       <name>Dungeon_Tileset_110</name>
     </TileData>
+    <TileData>
+      <position>
+        <x>5</x>
+        <y>6</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_65</name>
+    </TileData>
   </Curios>
   <Walls>
     <TileData>
