@@ -43,3 +43,12 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: Walls
+    uniqueID: 484168321
+    locked: 0
+  - name: ShadowCaster
+    uniqueID: 1332532627
+    locked: 0
+  - name: Floor
+    uniqueID: 1896645685
+    locked: 0

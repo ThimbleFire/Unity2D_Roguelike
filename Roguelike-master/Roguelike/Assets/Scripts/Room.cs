@@ -165,10 +165,6 @@ public class Room
         foreach ( TileData data in chunk.Walls )
         {
             BoardManager.tileMapWalls.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
-
-            //ShadowCaster2D d;
-            
-            //BoardManager.Instantiate( position + data.position + new Vector3( .5f, .5f, 0 ) );
         }
         foreach ( TileData data in chunk.Curios )
         {

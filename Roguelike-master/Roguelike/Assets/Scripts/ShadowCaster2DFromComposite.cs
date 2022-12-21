@@ -80,7 +80,18 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
         //Generate new ones
         GameObject newShadowCaster = new GameObject( "ShadowCaster" );
         newShadowCaster.transform.parent = transform;
-        newShadowCaster.AddComponent<ShadowCaster2D>();
+        ShadowCaster2D caster = newShadowCaster.AddComponent<ShadowCaster2D>();
+
+        int[] layers = new int[] {
+          SortingLayer.NameToID("Default"),
+          SortingLayer.NameToID("ShadowCaster"),
+          SortingLayer.NameToID("Walls"),
+          SortingLayer.NameToID("Floor"),
+        };
+
+        FieldInfo fieldInfo = caster.GetType().GetField( "m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance );
+        fieldInfo.SetValue( caster, layers );
+
     }
 
     /// <summary>

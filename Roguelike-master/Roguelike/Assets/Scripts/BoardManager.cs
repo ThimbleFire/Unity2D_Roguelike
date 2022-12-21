@@ -25,7 +25,7 @@ public class BoardManager : MonoBehaviour
 
     private void Start()
     {
-        RoomLimit = 64;
+        RoomLimit = 48;
 
         Build();
     }
