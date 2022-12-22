@@ -19,49 +19,59 @@ public class MapFactory
 
         while ( prototypes.Count > 0 )
         {
+            // Get a random prototype
             int index = Random.Range( 0, prototypes.Count );
             Room prototype = prototypes[index];
+            
+            // Get that prototypes parent
             Room parent = prototype.Parent;
-            Room child = new Room( parent, prototype.parentOutput, true );
-            bool
 
+            // Build a room based on the protoype
+            Room child = new Room( parent, prototype.parentOutput, true );
+
+            // Is the child room in bounds
+            bool
             result = IsInBounds(child);
             if ( !result )
                 continue;
 
             List<Room> childPrototypes = new List<Room>(child.GetPrototypes);
+
+            // Are the child's prototype rooms within bounds
             result = IsInBounds( childPrototypes );
             if ( !result )
                 continue;
 
+            // Does the child collide with other rooms
             result = RoomsCollide( child, rooms );
             if ( result )
                 continue;
 
+            // Does the child's prototype rooms collide with other rooms
             result = RoomsCollide( childPrototypes, rooms );
             if ( result )
                 continue;
 
+            // Does the child's prototoype rooms collide with other prototype rooms
             result = RoomsCollide( childPrototypes, prototypes );
             if ( result )
                 continue;
 
             prototypes.Remove( prototype );
 
+            // Does the child collide with prototype rooms
             result = RoomsCollide( child, prototypes );
             if ( result )
+            {
+                prototypes.Add( prototype );
                 continue;
+            }
 
             rooms.Add( child );
             parent.RemoveAccessPoint( child.parentOutput.Direction );
             prototypes.AddRange( child.GetPrototypes );
             child.Build();
             child.RemoveAccessPoint( child.inputDirection );
-        }
-
-        foreach ( Room prototype in prototypes )
-        {
-            prototype.BuildGhost();
         }
     }
 

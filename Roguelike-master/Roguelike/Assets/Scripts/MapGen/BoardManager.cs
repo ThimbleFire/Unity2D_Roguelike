@@ -26,7 +26,7 @@ public class BoardManager : MonoBehaviour
 
         ShadowsEnabled = false;
         Width = 64;
-        Height = 64;
+        Height = 128;
     }
 
     private void Start()
@@ -48,18 +48,10 @@ public class BoardManager : MonoBehaviour
         tileMapGround.CompressBounds();
         tileMapCurios.CompressBounds();
 
+        ShadowCaster2DFromComposite.RebuildAll();
+
         ShadowsEnabled = false;
 
         Pathfind.Setup( tileMapGround );
-    }
-
-    //temporary fix
-    private void Update()
-    {
-        if ( ShadowsEnabled == false )
-        {
-            ShadowCaster2DFromComposite.RebuildAll();
-            ShadowsEnabled = true;
-        }
     }
 }

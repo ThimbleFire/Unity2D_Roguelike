@@ -83,6 +83,9 @@ public class Room
         Parent = parent;
     }
 
+    /// <summary>
+    /// Turn ghost room into child
+    /// </summary>
     public Room( Room parent, AccessPoint accessPoint, bool t )
     {
         parentOutput = accessPoint;
@@ -107,20 +110,14 @@ public class Room
         Parent = parent;
     }
 
-    public AccessPoint GetRandomAccessPoint()
-    {
-        return chunk.Entrance[UnityEngine.Random.Range( 0, chunk.Entrance.Count )];
-    }
+    public AccessPoint GetRandomAccessPoint() => chunk.Entrance[Random.Range( 0, chunk.Entrance.Count )];
+
+    public bool CollidesWith( Room other ) => Rect.Overlaps( other.Rect );
 
     public void RemoveAccessPoint( AccessPoint.Dir direction )
     {
         chunk.Entrance.RemoveAll( x => x.Direction == direction );
         MapFactory.AvailableEntrances--;
-    }
-
-    public bool CollidesWith( Room other )
-    {
-        return Rect.Overlaps( other.Rect );
     }
 
     public void Build()
@@ -157,17 +154,5 @@ public class Room
 
         MapFactory.AvailableEntrances += chunk.Entrance.Count;
         MapFactory.PlacedRooms++;
-    }
-
-    public void BuildGhost()
-    {
-        for ( int y = 0; y < height; y++ )
-        {
-            for ( int x = 0; x < width; x++ )
-            {
-                Vector3Int position = new Vector3Int( left + x, top + y, 0 );
-                BoardManager.tileMapCurios.SetTile( position, ChunkRepository.Tile["Dungeon_Tileset_78"] );
-            }
-        }
     }
 }

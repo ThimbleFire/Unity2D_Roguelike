@@ -19,6 +19,7 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     private ShadowCaster2D[] _shadowCasters;
 
     private Tilemap _tilemap;
+    private TilemapCollider2D _tilemapCollider2D;
     private CompositeCollider2D _compositeCollider;
     private List<Vector2> _compositeVerts = new List<Vector2>();
 
@@ -51,6 +52,7 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     private void OnEnable()
     {
         _tilemap = GetComponent<Tilemap>();
+        _tilemapCollider2D = GetComponent<TilemapCollider2D>();
     }
 
     /// <summary>
@@ -59,6 +61,7 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     public void Rebuild()
     {
         _compositeCollider = GetComponent<CompositeCollider2D>();
+        _tilemapCollider2D.ProcessTilemapChanges();
         _compositeCollider.GenerateGeometry();
         CreateShadowGameObjects();
         _shadowCasters = GetComponentsInChildren<ShadowCaster2D>();
@@ -108,7 +111,9 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
         _compositeCollider.GetPath( 1, pathVerts2 );
 
         _compositeVerts.AddRange( pathVerts );
+        _compositeVerts.Add( pathVerts[0] );
         _compositeVerts.AddRange( pathVerts2 );
+        _compositeVerts.Add( pathVerts2[0] );
 
         UpdateCompositeShadow( _shadowCasters[0] );
     }
