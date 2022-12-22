@@ -23,17 +23,36 @@ public class MapFactory
             Room prototype = prototypes[index];
             Room parent = prototype.Parent;
             Room child = new Room( parent, prototype.parentOutput, true );
+            bool
 
-            bool result = WillPrototypesOverlapExisting( child, rooms );
+            result = IsInBounds(child);
+            if ( !result )
+                continue;
+
+            List<Room> childPrototypes = new List<Room>(child.GetPrototypes);
+            result = IsInBounds( childPrototypes );
+            if ( !result )
+                continue;
+
+            result = RoomsCollide( child, rooms );
             if ( result )
                 continue;
 
-            result = WillPrototypesOverlapExisting( child, prototypes );
+            result = RoomsCollide( childPrototypes, rooms );
+            if ( result )
+                continue;
+
+            result = RoomsCollide( childPrototypes, prototypes );
+            if ( result )
+                continue;
+
+            prototypes.Remove( prototype );
+
+            result = RoomsCollide( child, prototypes );
             if ( result )
                 continue;
 
             rooms.Add( child );
-            prototypes.Remove( prototype );
             parent.RemoveAccessPoint( child.parentOutput.Direction );
             prototypes.AddRange( child.GetPrototypes );
             child.Build();
@@ -46,17 +65,11 @@ public class MapFactory
         }
     }
 
-    private static bool WillPrototypesOverlapExisting( Room child, List<Room> rooms )
+    private static bool RoomsCollide( List<Room> children, List<Room> rooms )
     {
-        foreach ( Room item in child.GetPrototypes )
+        foreach ( Room room in children )
         {
-            if ( RoomCollides( item, rooms ) == true )
-            {
-                Debug.Log( ( child.IsGhost ? "Prototype" : "Room" ) + ( " collides with " ) + ( item.IsGhost ? "Prototype" : "Room" ) );
-                return true;
-            }
-
-            if ( InBounds( item ) == false )
+            if ( RoomsCollide( room, rooms ) == true )
             {
                 return true;
             }
@@ -64,14 +77,13 @@ public class MapFactory
 
         return false;
     }
-
-    private static bool RoomCollides( Room r, List<Room> rooms )
+    private static bool RoomsCollide( Room room, List<Room> rooms )
     {
         foreach ( Room item in rooms )
         {
-            if ( r.CollidesWith( item ) )
+            if ( room.CollidesWith( item ) )
             {
-                if ( item.Parent == r )
+                if ( item.Parent == room )
                     continue;
 
                 return true;
@@ -81,7 +93,7 @@ public class MapFactory
         return false;
     }
 
-    public static bool InBounds( Room r )
+    public static bool IsInBounds( Room r )
     {
         if ( r.left < 2 || r.left > BoardManager.Width - 2 )
             return false;
@@ -91,6 +103,22 @@ public class MapFactory
             return false;
         if ( r.Bottom < 2 || r.Bottom > BoardManager.Height - 2 )
             return false;
+
+        return true;
+    }
+    public static bool IsInBounds( List<Room> r )
+    {
+        foreach ( var item in r )
+        {
+            if ( item.left < 2 || item.left > BoardManager.Width - 2 )
+                return false;
+            if ( item.top < 2 || item.top > BoardManager.Height - 2 )
+                return false;
+            if ( item.Right < 2 || item.Right > BoardManager.Width - 2 )
+                return false;
+            if ( item.Bottom < 2 || item.Bottom > BoardManager.Height - 2 )
+                return false;
+        }
 
         return true;
     }

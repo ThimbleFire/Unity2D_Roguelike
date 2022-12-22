@@ -25,13 +25,13 @@ public class BoardManager : MonoBehaviour
         PlayerPrefs.DeleteAll();
 
         ShadowsEnabled = false;
-        Width = 128;
-        Height = 128;
+        Width = 64;
+        Height = 64;
     }
 
     private void Start()
     {
-        RoomLimit = 32;
+        RoomLimit = 64;
 
         Build();
     }
