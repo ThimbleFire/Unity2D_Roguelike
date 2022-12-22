@@ -1,6 +1,4 @@
-﻿using System;
-
-internal class Game
+﻿internal class Game
 {
     public const float PPU = 16;
 }

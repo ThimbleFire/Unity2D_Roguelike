@@ -26,13 +26,14 @@ public class PlayerCharacter : MonoBehaviour
             collidingWith.Remove( collision.gameObject.GetComponent<Interactable>() );
     }
 
-    public void SetPosition( int x, int y )
+    public void SetPosition( Vector3Int position )
     {
-        transform.position = new Vector3( x, y, 0.0f );
+        transform.position = position;
     }
-    public void SetPosition(Vector2Int position)
+
+    public void SetPosition( Vector2Int position )
     {
-        transform.position = (Vector2)position;
+        transform.position = ( Vector2 )position;
     }
 
     public void Action()
@@ -53,6 +54,5 @@ public class PlayerCharacter : MonoBehaviour
         {
             Action();
         }
-
     }
 }

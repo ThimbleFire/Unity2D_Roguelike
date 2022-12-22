@@ -30,11 +30,11 @@ public class ChunkRepository : MonoBehaviour
 
         // load tiles
 
-        TileBase[] t = Resources.LoadAll<TileBase>("Dungeon Tileset/");
-        
-        foreach( TileBase tile in t)
+        TileBase[] t = Resources.LoadAll<TileBase>( "Dungeon Tileset/" );
+
+        foreach ( TileBase tile in t )
         {
-            Tile.Add(tile.name, tile);
+            Tile.Add( tile.name, tile );
         }
     }
 
@@ -97,9 +97,10 @@ public class ChunkRepository : MonoBehaviour
             Debug.LogError( "ChunkRepository.GetFiltered. chunksByDirection has zero count. Returning New Chunk, expect errors." );
             return new Chunk();
         }
-        
+
         return chunksByDirection[Random.Range( 0, chunksByDirection.Count )].Clone();
     }
+
     public static Chunk GetRandomFiltered( AccessPoint.Dir direction )
     {
         List<Chunk> chunksByDirection = new List<Chunk>();

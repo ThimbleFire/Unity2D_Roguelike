@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class ItemStatBillboard : MonoBehaviour
 {
@@ -13,7 +11,8 @@ public class ItemStatBillboard : MonoBehaviour
         if ( Inventory.IsItemSelected == false )
             return;
 
-        if ( item == null ) {
+        if ( item == null )
+        {
             Hide();
             return;
         }
@@ -27,7 +26,7 @@ public class ItemStatBillboard : MonoBehaviour
     public static void Hide()
     {
         image.enabled = false;
-        textBody.enabled =  false;
+        textBody.enabled = false;
     }
 
     private void Awake()

@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.EventSystems;
 
 public class Inventory : MonoBehaviour, IItemClickHandler
@@ -62,7 +61,7 @@ public class Inventory : MonoBehaviour, IItemClickHandler
                     }
                 }
             }
-        
+
             itemBeingSelected = null;
         }
     }
@@ -72,6 +71,6 @@ namespace UnityEngine.EventSystems
 {
     public interface IItemClickHandler : IEventSystemHandler
     {
-        void OnItemClick(UIItemOnClick t);
+        void OnItemClick( UIItemOnClick t );
     }
 }

@@ -1,59 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Experimental.Rendering.Universal;
 
 public class Room
 {
-    public Rect rect
-    {
-        get
-        {
-            return new Rect( position.x, position.y, width, height );
-        }
-    }
-    public Vector2Int size
-    {
-        get { return new Vector2Int( width, height ); }
-    }
-    public int right
-    {
-        get { return left + width - 1; }
-    }
-    public int bottom
-    {
-        get { return top + height - 1; }
-    }
-    public int center_x
-    {
-        get { return left + width / 2; }
-    }
-    public int center_y
-    {
-        get { return top + height / 2; }
-    }
-    public int radius_x
-    {
-        get { return ( width - 1 ) / 2; }
-    }
-    public int radius_y
-    {
-        get { return ( height - 1 ) / 2; }
-    }
-    public Vector3 centerWorldSpace { get { return new Vector3( center.x, center.y, 0.0f ); } }
-    public Vector2Int center
-    {
-        get { return new Vector2Int( center_x, center_y ); }
-    }
-    public Vector3Int position
-    {
-        get { return new Vector3Int( left, top, 0 ); }
-    }
+    public Rect Rect { get { return new Rect( Position.x, Position.y, width, height ); } }
+    public int Right { get { return left + width - 1; } }
+    public int Bottom { get { return top + height - 1; } }
+    public int Center_x { get { return left + width / 2; } }
+    public int Center_y { get { return top + height / 2; } }
+    public int Radius_x { get { return ( width - 1 ) / 2; } }
+    public int Radius_y { get { return ( height - 1 ) / 2; } }
+    public Vector3 CenterWorldSpace { get { return new Vector3( Center.x, Center.y, 0.0f ); } }
+    public Vector2Int Center { get { return new Vector2Int( Center_x, Center_y ); } }
+    public Vector3Int Position { get { return new Vector3Int( left, top, 0 ); } }
     public bool IsGhost { get { return chunk == null; } }
-    public List<Room> GetPrototypes
-    {
-        get
-        {
+
+    public List<Room> GetPrototypes {
+        get {
             List<Room> prototypes = new List<Room>();
 
             foreach ( AccessPoint accessPoint in chunk.Entrance )
@@ -81,7 +44,7 @@ public class Room
     /// <summary>
     /// Start room
     /// </summary>
-    public Room( )
+    public Room()
     {
         chunk = ChunkRepository.Town;
 
@@ -90,7 +53,7 @@ public class Room
         width = chunk.Width;
         height = chunk.Height;
 
-        PlayerCharacter.Instance.SetPosition( BoardManager.Width / 2, BoardManager.Height / 2 );
+        PlayerCharacter.Instance.SetPosition( Center );
 
         Build();
     }
@@ -103,24 +66,24 @@ public class Room
         int radius_x = 3;
         int radius_y = 3;
 
-            parentOutput = accessPoint;
-            Vector2Int offset = MapFactory.GetDirVector2Int( parentOutput.Direction );
-            inputDirection = AccessPoint.Flip( parentOutput.Direction );
+        parentOutput = accessPoint;
+        Vector2Int offset = MapFactory.GetDirVector2Int( parentOutput.Direction );
+        inputDirection = AccessPoint.Flip( parentOutput.Direction );
 
-            width = 1 + radius_x * 2;
-            height = 1 + radius_y * 2;
+        width = 1 + radius_x * 2;
+        height = 1 + radius_y * 2;
 
-            //set center to parent center
-            top = parent.center_y - radius_y;
-            left = parent.center_x - radius_x;
+        //set center to parent center
+        top = parent.Center_y - radius_y;
+        left = parent.Center_x - radius_x;
 
-            //adjust center in the direction of offset
-            left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
-            top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
-            Parent = parent;
+        //adjust center in the direction of offset
+        left += offset.x * ( ( radius_x + parent.Radius_x ) + 1 );
+        top += offset.y * ( ( radius_y + parent.Radius_y ) + 1 );
+        Parent = parent;
     }
 
-    public Room(Room parent, AccessPoint accessPoint, bool t )
+    public Room( Room parent, AccessPoint accessPoint, bool t )
     {
         parentOutput = accessPoint;
         Vector2Int offset = MapFactory.GetDirVector2Int( parentOutput.Direction );
@@ -134,12 +97,12 @@ public class Room
         height = 1 + radius_y * 2;
 
         //set center to parent center
-        top = parent.center_y - radius_y;
-        left = parent.center_x - radius_x;
+        top = parent.Center_y - radius_y;
+        left = parent.Center_x - radius_x;
 
         //adjust center in the direction of offset
-        left += offset.x * ( ( radius_x + parent.radius_x ) + 1 );
-        top += offset.y * ( ( radius_y + parent.radius_y ) + 1 );
+        left += offset.x * ( ( radius_x + parent.Radius_x ) + 1 );
+        top += offset.y * ( ( radius_y + parent.Radius_y ) + 1 );
 
         Parent = parent;
     }
@@ -157,14 +120,14 @@ public class Room
 
     public bool CollidesWith( Room other )
     {
-        return rect.Overlaps( other.rect );
+        return Rect.Overlaps( other.Rect );
     }
 
     public void Build()
     {
         foreach ( TileData data in chunk.Walls )
         {
-            BoardManager.tileMapWalls.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+            BoardManager.tileMapWalls.SetTile( Position + data.position, ChunkRepository.Tile[data.name] );
         }
         foreach ( TileData data in chunk.Curios )
         {
@@ -174,8 +137,8 @@ public class Room
                 case "Dungeon_Tileset_90":
                 case "Dungeon_Tileset_93":
                 case "Dungeon_Tileset_95":
-                    BoardManager.Instantiate( Resources.Load<GameObject>( "Prefabs/Light - Wall Light" ), position + data.position, Quaternion.identity );
-                    BoardManager.tileMapCurios.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+                    BoardManager.Instantiate( Resources.Load<GameObject>( "Prefabs/Light - Wall Light" ), Position + data.position, Quaternion.identity );
+                    BoardManager.tileMapCurios.SetTile( Position + data.position, ChunkRepository.Tile[data.name] );
                     break;
                 //Hide curios that are triggers and build helpers
                 case "Dungeon_Tileset_110":
@@ -183,13 +146,14 @@ public class Room
                 case "Dungeon_Tileset_112":
                 case "Dungeon_Tileset_113":
                     break;
+
                 default:
-                    BoardManager.tileMapCurios.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+                    BoardManager.tileMapCurios.SetTile( Position + data.position, ChunkRepository.Tile[data.name] );
                     break;
             }
         }
         foreach ( TileData data in chunk.Floors )
-            BoardManager.tileMapGround.SetTile( position + data.position, ChunkRepository.Tile[data.name] );
+            BoardManager.tileMapGround.SetTile( Position + data.position, ChunkRepository.Tile[data.name] );
 
         MapFactory.AvailableEntrances += chunk.Entrance.Count;
         MapFactory.PlacedRooms++;

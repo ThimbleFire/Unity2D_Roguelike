@@ -1,8 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using System;
-using System.Collections.Generic;
 
 public class CharacterWindow : MonoBehaviour
 {
@@ -17,25 +14,25 @@ public class CharacterWindow : MonoBehaviour
 
     public void UpdateDisplay()
     {
-        t_strength.text       = string.Format( "{0}", Character.Strength );
-        t_dexterity.text      = string.Format( "{0}", Character.Dexterity );
-        t_constitution.text   = string.Format( "{0}", Character.Constitution ); 
-        t_intelligence.text   = string.Format( "{0}", Character.Intelligence );
+        t_strength.text = string.Format( "{0}", Character.Strength );
+        t_dexterity.text = string.Format( "{0}", Character.Dexterity );
+        t_constitution.text = string.Format( "{0}", Character.Constitution );
+        t_intelligence.text = string.Format( "{0}", Character.Intelligence );
 
-        t_maxLife.text        = string.Format( "{0}", Character.Life_Max );
-        t_maxMana.text        = string.Format( "{0}", Character.Mana_Max );
-        t_currentLife.text    = string.Format( "{0}", Character.Life_Current );
-        t_currentMana.text    = string.Format( "{0}", Character.Mana_Current );
+        t_maxLife.text = string.Format( "{0}", Character.Life_Max );
+        t_maxMana.text = string.Format( "{0}", Character.Mana_Max );
+        t_currentLife.text = string.Format( "{0}", Character.Life_Current );
+        t_currentMana.text = string.Format( "{0}", Character.Mana_Current );
 
-        t_defense.text        = string.Format( "{0}", Character.Defense );
+        t_defense.text = string.Format( "{0}", Character.Defense );
 
-        t_attackDamage.text   = string.Format( "{0} - {1}", Character.DmgPhysMin, Character.DmgPhysMax );
+        t_attackDamage.text = string.Format( "{0} - {1}", Character.DmgPhysMin, Character.DmgPhysMax );
 
         t_weaponAccuracy.text = string.Format( "{0}", Character.DmgAccuracy );
 
-        t_poisonRes.text      = string.Format( "{0}%", Character.DefResPoison );
-        t_lightRes.text       = string.Format( "{0}%", Character.DefResLightning );
-        t_fireRes.text        = string.Format( "{0}%", Character.DefResFire );
-        t_coldRes.text        = string.Format( "{0}%", Character.DefResCold );
+        t_poisonRes.text = string.Format( "{0}%", Character.DefResPoison );
+        t_lightRes.text = string.Format( "{0}%", Character.DefResLightning );
+        t_fireRes.text = string.Format( "{0}%", Character.DefResFire );
+        t_coldRes.text = string.Format( "{0}%", Character.DefResCold );
     }
 }

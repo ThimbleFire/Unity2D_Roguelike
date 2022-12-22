@@ -1,6 +1,6 @@
-﻿using System.Xml.Serialization;
+﻿using System.IO;
+using System.Xml.Serialization;
 using UnityEngine;
-using System.IO;
 
 public class XMLUtility
 {
@@ -11,6 +11,7 @@ public class XMLUtility
         using ( FileStream stream = new FileStream( Application.streamingAssetsPath + "/" + filename, FileMode.Create ) )
             serializer.Serialize( stream, dataToSerialize );
     }
+
     public static T Load<T>( string filename )
     {
         XmlSerializer xmlSerializer = new XmlSerializer( typeof( T ) );
@@ -18,13 +19,13 @@ public class XMLUtility
         {
             using ( TextReader reader = new StreamReader( Application.streamingAssetsPath + "/" + filename ) )
             {
-                return (T)xmlSerializer.Deserialize( reader );
+                return ( T )xmlSerializer.Deserialize( reader );
             }
         }
         catch ( System.Exception )
         {
             Debug.LogError( filename + " not found" );
-            return (T)default;
+            return ( T )default;
         }
     }
 }

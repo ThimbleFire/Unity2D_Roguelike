@@ -7,8 +7,9 @@ public class Interactable : MonoBehaviour
         PICK_UP,
         GO_DOWN_STAIRS,
         OPEN_CHEST
+    }
 
-    } public OnInteraction onInteract;
+    public OnInteraction onInteract;
 
     public void SetPosition( Vector2Int position )
     {
@@ -22,9 +23,11 @@ public class Interactable : MonoBehaviour
             case OnInteraction.PICK_UP:
 
                 break;
+
             case OnInteraction.GO_DOWN_STAIRS:
                 BoardManager.Build();
                 break;
+
             case OnInteraction.OPEN_CHEST:
                 break;
         }

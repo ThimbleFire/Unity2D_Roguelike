@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(AudioSource))]
+[RequireComponent( typeof( AudioSource ) )]
 public static class AudioDevice
 {
     private static AudioSource audioSource;
@@ -13,7 +13,7 @@ public static class AudioDevice
         WindowOpen
     }
 
-    public static void Setup(AudioSource source, AudioClip[] _generics)
+    public static void Setup( AudioSource source, AudioClip[] _generics )
     {
         generics = _generics;
         audioSource = source;
@@ -27,16 +27,18 @@ public static class AudioDevice
         }
     }
 
-    public static void PlayGeneric(Sound sound)
+    public static void PlayGeneric( Sound sound )
     {
         switch ( sound )
         {
-            case Sound.Button: 
+            case Sound.Button:
                 Play( generics[0] );
                 break;
+
             case Sound.Pickup:
                 Play( generics[1] );
                 break;
+
             case Sound.WindowOpen:
                 Play( generics[2] );
                 break;

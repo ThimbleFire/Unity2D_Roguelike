@@ -1,10 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class MapManager : BaseMonoBehaviour
+public class OldMapFactory : BaseMonoBehaviour
 {
     //public int roomsToPlace;
 
@@ -42,7 +41,7 @@ public class MapManager : BaseMonoBehaviour
         }
     }
 
-    private Chunk GetCompatibleChunk( )
+    private Chunk GetCompatibleChunk()
     {
         // If there is no parent, return a random chunk
         if ( placedChunks.Count == 0 )
@@ -54,24 +53,24 @@ public class MapManager : BaseMonoBehaviour
 
         //// Find a parent room with an access point
         Chunk parent = GetParentRoom();
-         
+
         //// Select an exit from that chunk
         int exitIndex = random.Next( 0, parent.Entrance.Count );
         AccessPoint.Dir parentOutputDir = parent.Entrance[exitIndex].Direction;
 
-        //// Get the access points from parent 
-        AccessPoint[] parentAP = GetAPFacing(parent, parentOutputDir);
+        //// Get the access points from parent
+        AccessPoint[] parentAP = GetAPFacing( parent, parentOutputDir );
 
         //// Flip the exit direction
-        AccessPoint.Dir childInputDir = Flip(parentAP[0].Direction);
+        AccessPoint.Dir childInputDir = Flip( parentAP[0].Direction );
 
         //// Find a room compatible for parent
-        Chunk child = GetChildRoom(childInputDir);
+        Chunk child = GetChildRoom( childInputDir );
 
         entrances += child.Entrance.Count / 3;
 
         //// Get the accessPoints from child
-        AccessPoint[] childAP = GetAPFacing(child, childInputDir);
+        AccessPoint[] childAP = GetAPFacing( child, childInputDir );
 
         //// Calculate brush position so that parent and child opposite APs are adjacent, or something, idfk
 
@@ -82,12 +81,15 @@ public class MapManager : BaseMonoBehaviour
             case AccessPoint.Dir.LEFT:
                 brushPosition += Vector3Int.left * child.Width;
                 break;
+
             case AccessPoint.Dir.RIGHT:
                 brushPosition += Vector3Int.right * parent.Width;
                 break;
+
             case AccessPoint.Dir.UP:
                 brushPosition += Vector3Int.up * parent.Height;
                 break;
+
             case AccessPoint.Dir.DOWN:
                 brushPosition += Vector3Int.down * child.Height;
                 break;
@@ -98,22 +100,25 @@ public class MapManager : BaseMonoBehaviour
             parent.Entrance.Remove( parentAP[i] );
             child.Entrance.Remove( childAP[i] );
         }
-        
+
         entrances -= 2;
 
         return child;
     }
 
-    private AccessPoint.Dir Flip(AccessPoint.Dir direction)
+    private AccessPoint.Dir Flip( AccessPoint.Dir direction )
     {
         switch ( direction )
         {
             case AccessPoint.Dir.RIGHT:
                 return AccessPoint.Dir.LEFT;
+
             case AccessPoint.Dir.LEFT:
                 return AccessPoint.Dir.RIGHT;
+
             case AccessPoint.Dir.DOWN:
                 return AccessPoint.Dir.UP;
+
             case AccessPoint.Dir.UP:
                 return AccessPoint.Dir.DOWN;
         }
@@ -142,7 +147,7 @@ public class MapManager : BaseMonoBehaviour
         {
             foreach ( AccessPoint accessPoint in chunk.Entrance )
             {
-                if(accessPoint.Direction == direction)
+                if ( accessPoint.Direction == direction )
                 {
                     chunksByDirection.Add( chunk );
                     break;
@@ -150,40 +155,41 @@ public class MapManager : BaseMonoBehaviour
             }
         }
 
-        if ( chunksByDirection.Count == 0 ) 
-             return new Chunk();
-        else return chunksByDirection[random.Next( 0, chunksByDirection.Count )].Clone();
+        if ( chunksByDirection.Count == 0 )
+            return new Chunk();
+        else
+            return chunksByDirection[random.Next( 0, chunksByDirection.Count )].Clone();
     }
-    
+
     private Chunk GetParentRoom()
     {
         //// Get a list of placed chunks with entrances and exits
         List<Chunk> placedChunksWithEntrances = placedChunks.FindAll( x => x.Entrance.Count > 0 );
 
-        //// Select a random chunk from that list 
+        //// Select a random chunk from that list
         return placedChunksWithEntrances[random.Next( 0, placedChunksWithEntrances.Count )];
     }
 
-    private AccessPoint[] GetAPFacing(Chunk chunk, AccessPoint.Dir dir)
+    private AccessPoint[] GetAPFacing( Chunk chunk, AccessPoint.Dir dir )
     {
         List<AccessPoint> accessPoints = new List<AccessPoint>();
-    
-        foreach(AccessPoint accessPoint in chunk.Entrance)
+
+        foreach ( AccessPoint accessPoint in chunk.Entrance )
         {
-            if(accessPoint.Direction == dir)
+            if ( accessPoint.Direction == dir )
             {
-                accessPoints.Add(accessPoint);
+                accessPoints.Add( accessPoint );
             }
         }
-        
+
         return accessPoints.ToArray();
     }
 
-    private void BuildChunk(Chunk chunk)
+    private void BuildChunk( Chunk chunk )
     {
         // If we store the chunks origin we can locate its doors by calling Origin + Entrance[index].position
         chunk.Origin = brushPosition;
-    
+
         List<TileData> curios = chunk.Curios;
         List<TileData> walls = chunk.Walls;
         List<TileData> floors = chunk.Floors;

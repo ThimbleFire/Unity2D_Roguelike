@@ -1,14 +1,14 @@
-﻿using UnityEngine;
-using UnityEngine.Tilemaps;
-using UnityEditor;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.IO;
+using UnityEditor;
+using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class ChunkEditor : EditorWindow
 {
-    Tilemap Floor;
-    Tilemap Walls;
-    Tilemap Curios;
+    private Tilemap Floor;
+    private Tilemap Walls;
+    private Tilemap Curios;
 
     private bool Loaded = false;
 
@@ -112,16 +112,15 @@ public class ChunkEditor : EditorWindow
 
         foreach ( TileData tile in floors )
             Floor.SetTile( tile.position, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
-        
+
         foreach ( TileData tile in walls )
             Walls.SetTile( tile.position, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
-        
+
         foreach ( TileData tile in curios )
             Curios.SetTile( tile.position, Resources.Load<TileBase>( "Dungeon Tileset/" + tile.name ) );
-        
     }
 
-    private List<TileData> GetTileMapTilesByName(string name)
+    private List<TileData> GetTileMapTilesByName( string name )
     {
         List<TileData> r = new List<TileData>();
 
@@ -162,7 +161,7 @@ public class ChunkEditor : EditorWindow
 
         int up = 0, down = 0, left = 0, right = 0;
 
-        if ( Curios.ContainsTile( arrowRight ) || Curios.ContainsTile( arrowLeft ) || Curios.ContainsTile( arrowDown ) || Curios.ContainsTile( arrowUp )  )
+        if ( Curios.ContainsTile( arrowRight ) || Curios.ContainsTile( arrowLeft ) || Curios.ContainsTile( arrowDown ) || Curios.ContainsTile( arrowUp ) )
         {
             for ( int y = Curios.cellBounds.yMin; y < Curios.cellBounds.yMax; y++ )
             {

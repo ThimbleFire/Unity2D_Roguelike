@@ -1,9 +1,9 @@
-using System.Reflection;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEditor;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 using UnityEngine.Experimental.Rendering.Universal;
+using UnityEngine.Tilemaps;
 
 [ExecuteInEditMode]
 [RequireComponent( typeof( CompositeShadowCaster2D ) )]
@@ -12,15 +12,15 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     public bool castsShadows = true;
     public bool selfShadows = false;
 
-    static readonly FieldInfo _meshField;
-    static readonly FieldInfo _shapePathField;
-    static readonly MethodInfo _generateShadowMeshMethod;
+    private static readonly FieldInfo _meshField;
+    private static readonly FieldInfo _shapePathField;
+    private static readonly MethodInfo _generateShadowMeshMethod;
 
-    ShadowCaster2D[] _shadowCasters;
+    private ShadowCaster2D[] _shadowCasters;
 
-    Tilemap _tilemap;
-    CompositeCollider2D _compositeCollider;
-    List<Vector2> _compositeVerts = new List<Vector2>();
+    private Tilemap _tilemap;
+    private CompositeCollider2D _compositeCollider;
+    private List<Vector2> _compositeVerts = new List<Vector2>();
 
     /// <summary>
     /// Using reflection to expose required properties in ShadowCaster2D
@@ -91,7 +91,6 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
 
         FieldInfo fieldInfo = caster.GetType().GetField( "m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance );
         fieldInfo.SetValue( caster, layers );
-
     }
 
     /// <summary>
@@ -135,7 +134,7 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     }
 
     //Quick method for converting a Vector2 array into a Vector3 array
-    Vector3[] ConvertArray( Vector2[] v2 )
+    private Vector3[] ConvertArray( Vector2[] v2 )
     {
         Vector3[] v3 = new Vector3[v2.Length];
         for ( int i = 0; i < v3.Length; i++ )

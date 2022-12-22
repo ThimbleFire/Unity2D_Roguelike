@@ -6,14 +6,18 @@ public class ItemStats : MonoBehaviour
     public bool Equipped = false;
 
     public const string hexMagic = "<color=#4850B8>";
-    public const string hexRare  = "<color=#FFFF00>";
-    public const string hexGray  = "<color=#8A8A8A>";
-    public const string hexRed   = "<color=#FF0000>";
-    
-    public string Name { get { return string.Format("{0}{1}{2}", Rarity == 0 ? hexGray : Rarity <= 3 ? hexMagic : hexRare, gameObject.name, "</color>"); } }
-    public byte Rarity { get { return (byte)(prefixes.Count + suffixes.Count); } }
-    
-    public Type type { get { return itemBasics.type; } }
+    public const string hexRare = "<color=#FFFF00>";
+    public const string hexGray = "<color=#8A8A8A>";
+    public const string hexRed = "<color=#FF0000>";
+
+    public string Name
+    { get { return string.Format( "{0}{1}{2}", Rarity == 0 ? hexGray : Rarity <= 3 ? hexMagic : hexRare, gameObject.name, "</color>" ); } }
+
+    public byte Rarity
+    { get { return ( byte )( prefixes.Count + suffixes.Count ); } }
+
+    public Type type
+    { get { return itemBasics.type; } }
 
     public int MinDamage
     {
@@ -24,22 +28,23 @@ public class ItemStats : MonoBehaviour
 
             if ( s != null && p != null )
             {
-                return (int)( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
+                return ( int )( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
             }
 
             if ( s != null )
             {
-                return (int)( itemBasics.value + s.value );
+                return ( int )( itemBasics.value + s.value );
             }
 
             if ( p != null )
             {
-                return (int)( itemBasics.value * ( p.value / 100.0f + 1 ) );
+                return ( int )( itemBasics.value * ( p.value / 100.0f + 1 ) );
             }
 
             return itemBasics.value;
         }
     }
+
     public int MaxDamage
     {
         get
@@ -49,22 +54,23 @@ public class ItemStats : MonoBehaviour
 
             if ( s != null && p != null )
             {
-                return (int)( ( itemBasics.value2 + s.value ) * ( p.value / 100.0f + 1 ) );
+                return ( int )( ( itemBasics.value2 + s.value ) * ( p.value / 100.0f + 1 ) );
             }
 
             if ( s != null )
             {
-                return (int)( itemBasics.value2 + s.value );
+                return ( int )( itemBasics.value2 + s.value );
             }
 
             if ( p != null )
             {
-                return (int)( itemBasics.value2 * ( p.value / 100.0f + 1 ) );
+                return ( int )( itemBasics.value2 * ( p.value / 100.0f + 1 ) );
             }
 
             return itemBasics.value2;
         }
     }
+
     public int Defense
     {
         get
@@ -74,7 +80,7 @@ public class ItemStats : MonoBehaviour
 
             if ( s != null && p != null )
             {
-                return (int)((itemBasics.value + s.value) * (p.value / 100.0f + 1 ));
+                return ( int )( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
             }
 
             if ( s != null )
@@ -84,63 +90,76 @@ public class ItemStats : MonoBehaviour
 
             if ( p != null )
             {
-                return (int)( itemBasics.value * ( p.value / 100.0f + 1 ));
+                return ( int )( itemBasics.value * ( p.value / 100.0f + 1 ) );
             }
-                
+
             return itemBasics.value;
         }
     }
 
-    public ItemBasics     itemBasics;
+    public ItemBasics itemBasics;
     public List<Implicit> implicits;
-    public List<Prefix>   prefixes;
-    public List<Suffix>   suffixes;
-    public List<Stat>     requirements;
-    public string         description;
-    
+    public List<Prefix> prefixes;
+    public List<Suffix> suffixes;
+    public List<Stat> requirements;
+    public string description;
+
     public AudioClip soundEndDrag;
 
     public string Tooltip
-    { 
-        get 
-        {        
+    {
+        get
+        {
             System.Text.StringBuilder t = new System.Text.StringBuilder( Name );
 
-            t.Append( "\n" + Type_Text[(byte)type]);
+            t.Append( "\n" + Type_Text[( byte )type] );
 
             if ( type == Type.PRIMARY || type == Type.SECONDARY )
-                t.Append( "\n" + hexGray + "One-hand damage: </color>" + hexMagic + MinDamage + " to " + MaxDamage + "</color>");
-
+                t.Append( "\n" + hexGray + "One-hand damage: </color>" + hexMagic + MinDamage + " to " + MaxDamage + "</color>" );
             else if ( type != Type.RING && type != Type.NECK )
-                t.Append( "\n" + hexGray + "Defense: </color>" + hexMagic + Defense + "</color>");
+                t.Append( "\n" + hexGray + "Defense: </color>" + hexMagic + Defense + "</color>" );
 
-            if(itemBasics.durability > 0)
-                t.Append("\n" + hexGray + "Durability: </color>" + itemBasics.durability);
+            if ( itemBasics.durability > 0 )
+                t.Append( "\n" + hexGray + "Durability: </color>" + itemBasics.durability );
 
             foreach ( Stat stat in requirements )
             {
-                switch(stat.stat)
+                switch ( stat.stat )
                 {
                     case GearStats.Attributes.Level:
-                    if( Character.Level < stat.value )  t.Append(hexRed);
-                    else                                t.Append(hexGray);
-                    break;
+                        if ( Character.Level < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+
                     case GearStats.Attributes.Strength:
-                    if( Character.Strength < stat.value )   t.Append(hexRed);
-                    else                                    t.Append(hexGray);
-                    break;
+                        if ( Character.Strength < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+
                     case GearStats.Attributes.Dexterity:
-                    if( Character.Dexterity < stat.value )  t.Append(hexRed);
-                    else                                    t.Append(hexGray);
-                    break;
+                        if ( Character.Dexterity < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+
                     case GearStats.Attributes.Constitution:
-                    if( Character.Constitution < stat.value )  t.Append(hexRed);
-                    else                                       t.Append(hexGray);
-                    break;
+                        if ( Character.Constitution < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+
                     case GearStats.Attributes.Intelligence:
-                    if( Character.Intelligence < stat.value )  t.Append(hexRed);
-                    else                                       t.Append(hexGray);
-                    break;
+                        if ( Character.Intelligence < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
                 }
 
                 t.Append( string.Format( "\nRequired {0}: {1} </color>", stat.stat, stat.value ) );
@@ -148,24 +167,25 @@ public class ItemStats : MonoBehaviour
 
             foreach ( var implicitMod in implicits )
             {
-                t.Append( "\n"+ hexMagic + string.Format(GearStats.Affix_Text[(byte)implicitMod.type], implicitMod.value) + "</color>");
+                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )implicitMod.type], implicitMod.value ) + "</color>" );
             }
 
             foreach ( var prefix in prefixes )
             {
-                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[(byte)prefix.type], prefix.value ) + "</color>" );
+                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )prefix.type], prefix.value ) + "</color>" );
             }
 
             foreach ( var suffix in suffixes )
             {
-                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[(byte)suffix.type], suffix.value ) + "</color>");
+                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )suffix.type], suffix.value ) + "</color>" );
             }
 
             if ( description != string.Empty )
-                t.Append( "\n\n<i>" + description + "</i>");
+                t.Append( "\n\n<i>" + description + "</i>" );
 
             return t.ToString();
-        } }
+        }
+    }
 
     [System.Serializable]
     public class Stat
@@ -204,7 +224,9 @@ public class ItemStats : MonoBehaviour
     }
 
     public static string[] Type_Text = new string[15] { "Any", "Helmet", "Chest", "Gloves", "Legs", "Feet", "Weapon", "Offhand", "Ring", "Amulet", "Artifact", "Miscellaneous", "Consumable", "Quest Item", "Belt" };
-    public enum Type {                                    ANY,     HEAD,   CHEST,   GLOVES,   LEGS,   FEET,  PRIMARY, SECONDARY,   RING,     NECK,   ARTIFACT,            MISC,   CONSUMABLE,        QUEST,   BELT }
+
+    public enum Type
+    { ANY, HEAD, CHEST, GLOVES, LEGS, FEET, PRIMARY, SECONDARY, RING, NECK, ARTIFACT, MISC, CONSUMABLE, QUEST, BELT }
 }
 
 public class GearStats
@@ -212,7 +234,7 @@ public class GearStats
     // The order of affix text must match the enum order on Character.StatID
     public static string[] Affix_Text = new string[37]
     {
-        "+{0} to accuracy rating", 
+        "+{0} to accuracy rating",
         "+{0} to minimum damage",
         "+{0} to maximum damage",
         "{0}% increased damage",
@@ -220,7 +242,7 @@ public class GearStats
         "Adds {0} cold damage",
         "Adds {0} lightning damage",
         "Adds {0} poison damage",
-        
+
         "+{0} to defense",
         "{0}% increased defence",
         "{0} physical damage reduction",
@@ -231,12 +253,12 @@ public class GearStats
         "{0}% to lightning resistance",
         "{0}% to poison resistance",
         "{0}% to all resistances",
-        
+
         "+{0} to life on hit",
         "+{0} to life after each kill",
         "+{0} to mana on hit",
         "+{0} to mana after each kill",
-        
+
         "+{0} to life",
         "+{0} to mana",
         "+{0} to life regen per second",
@@ -250,10 +272,11 @@ public class GearStats
         "+{0}% increased movement speed",
         "+{0}% faster block recovery",
         "+{0}% faster stagger recovery",
-        
+
         "+{0}% magic find",
         "+{0} to maximum durability",
     };
+
     public enum Prefix
     {
         Plus_Accuracy = 0,
@@ -277,6 +300,7 @@ public class GearStats
         Plus_Regen_Mana = 25,
         Plus_Magic_Find = 35,
     }
+
     public enum Suffix
     {
         Plus_Str = 26,
@@ -309,6 +333,7 @@ public class GearStats
 
         Plus_Magic_Find = 35,
     }
+
     public enum Implicit
     {
         Plus_Magic_Find = 35,
@@ -324,6 +349,7 @@ public class GearStats
         Plus_Regen_Life = 24,
         Plus_Regen_Mana = 25,
     }
+
     public enum Attributes
     {
         Level, Strength, Dexterity, Constitution, Intelligence

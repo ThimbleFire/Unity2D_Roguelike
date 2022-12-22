@@ -16,7 +16,8 @@ public class BoardManager : MonoBehaviour
 
     private void Awake()
     {
-        tileMapGround = GameObject.Find( "Ground" ).GetComponent<Tilemap>(); ;
+        tileMapGround = GameObject.Find( "Ground" ).GetComponent<Tilemap>();
+        ;
         tileMapWalls = GameObject.Find( "Walls" ).GetComponent<Tilemap>();
         tileMapCurios = GameObject.Find( "Curio" ).GetComponent<Tilemap>();
 
@@ -46,7 +47,7 @@ public class BoardManager : MonoBehaviour
         tileMapWalls.CompressBounds();
         tileMapGround.CompressBounds();
         tileMapCurios.CompressBounds();
-      
+
         ShadowsEnabled = false;
 
         Pathfind.Setup( tileMapGround );

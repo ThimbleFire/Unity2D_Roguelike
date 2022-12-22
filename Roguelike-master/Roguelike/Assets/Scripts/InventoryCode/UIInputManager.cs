@@ -6,7 +6,7 @@ public class UIInputManager : MonoBehaviour
     public GameObject characterWindow;
     public Inventory inventory;
 
-    void Update()
+    private void Update()
     {
         if ( Input.GetKeyDown( KeyCode.I ) )
         {

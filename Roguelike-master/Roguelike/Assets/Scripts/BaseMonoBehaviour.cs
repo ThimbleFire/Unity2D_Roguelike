@@ -1,11 +1,11 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Reflection;
 using UnityEngine;
-using System;
 
 public class BaseMonoBehaviour : MonoBehaviour
 {
-    void OnDestroy()
+    private void OnDestroy()
     {
         foreach ( FieldInfo field in GetType().GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ) )
         {
