@@ -16,13 +16,12 @@ public class ChunkRepository : MonoBehaviour
         chunksInMemory = new List<Chunk>();
         Tile = new Dictionary<string, TileBase>();
 
-        string[] filenames = Directory.GetFiles( Application.streamingAssetsPath, "*.xml" );
-        for ( int i = 0; i < filenames.Length; i++ )
+        UnityEngine.Object[] objs = Resources.LoadAll("Chunks/");
+        for ( int i = 0; i < objs.Length; i++ )
         {
-            filenames[i] = filenames[i].Remove( 0, Application.streamingAssetsPath.Length + 1 );
-            Chunk r = XMLUtility.Load<Chunk>( filenames[i] );
+            Chunk r = XMLUtility.Load<Chunk>( objs[i] );
 
-            if ( filenames[i] == "Town.xml" )
+            if ( r.Name == "Town" )
                 Town = r;
             else
                 chunksInMemory.Add( r );

@@ -1,5 +1,4 @@
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
 public class TileMapInput : MonoBehaviour
 {
@@ -15,15 +14,10 @@ public class TileMapInput : MonoBehaviour
 
     private Vector3Int lastCoordinate;
 
-    public Tilemap selectedTileMap;
-    public TileBase selectedTileBase;
-
     public void Awake()
     {
         grid = GetComponent<Grid>();
         lastCoordinate = Vector3Int.zero;
-
-        OnCellClicked += TileMapInput_OnCellClicked;
     }
 
     public void Update()
@@ -35,29 +29,18 @@ public class TileMapInput : MonoBehaviour
             MousedOverTileChange( coordinate );
 
         if ( Input.GetMouseButtonDown( 0 ) )
-            OnCellClicked?.Invoke( coordinate );
+        {
+            if ( HUDControls.InventoryOpened == false )
+                OnCellClicked?.Invoke( coordinate );
+        }
     }
 
     /// <summary>Sets last coordinate as coordinate, clears the tile at last coordinate, sets the tile at coordinate</summary>
     /// <param name="coordinate">The coordinate being moused over</param>
     private void MousedOverTileChange( Vector3Int coordinate )
     {
-        //selectedTileMap.SetTile( lastCoordinate, null );
-        //selectedTileMap.SetTile( coordinate, selectedTileBase );
-
         lastCoordinate = coordinate;
 
         OnTileHoverChange?.Invoke( coordinate );
     }
-
-    Vector3Int last = Vector3Int.zero;
-
-    private void TileMapInput_OnCellClicked( Vector3Int coordinate )
-    {
-        selectedTileMap.SetTile( last, null );
-        selectedTileMap.SetTile( coordinate, selectedTileBase );
-        last = coordinate;
-        Debug.Log( coordinate );
-    }
-
 }

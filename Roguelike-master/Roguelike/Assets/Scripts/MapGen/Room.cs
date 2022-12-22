@@ -53,12 +53,6 @@ public class Room
         width = chunk.Width;
         height = chunk.Height;
 
-        float playerCharacterWidth = 0.32f;
-        float playerCharacterHeight = 0.32f;
-        Vector2 playerCharacterSize = new Vector2(playerCharacterWidth, playerCharacterHeight);
-
-        PlayerCharacter.Instance.SetPosition( Center + Vector2.up + Vector2.right / 2 );
-
         Build();
     }
 

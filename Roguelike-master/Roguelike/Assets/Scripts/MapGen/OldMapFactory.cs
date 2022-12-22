@@ -26,19 +26,19 @@ public class OldMapFactory : BaseMonoBehaviour
     {
         // Load all chunks to memory
 
-        string[] filenames = Directory.GetFiles( Application.streamingAssetsPath, "*.xml" );
-        for ( int i = 0; i < filenames.Length; i++ )
-        {
-            filenames[i] = filenames[i].Remove( 0, Application.streamingAssetsPath.Length + 1 );
-            Chunk r = XMLUtility.Load<Chunk>( filenames[i] );
-            chunksInMemory.Add( r );
-        }
+        //string[] filenames = Directory.GetFiles( Application.streamingAssetsPath, "*.xml" );
+        //for ( int i = 0; i < filenames.Length; i++ )
+        //{
+        //    filenames[i] = filenames[i].Remove( 0, Application.streamingAssetsPath.Length + 1 );
+        //    Chunk r = XMLUtility.Load<Chunk>( filenames[i] );
+        //    chunksInMemory.Add( r );
+        //}
 
-        for ( int i = 0; i < maxRooms; i++ )
-        {
-            random = new System.Random( System.Guid.NewGuid().GetHashCode() );
-            BuildChunk( GetCompatibleChunk() );
-        }
+        //for ( int i = 0; i < maxRooms; i++ )
+        //{
+        //    random = new System.Random( System.Guid.NewGuid().GetHashCode() );
+        //    BuildChunk( GetCompatibleChunk() );
+        //}
     }
 
     private Chunk GetCompatibleChunk()

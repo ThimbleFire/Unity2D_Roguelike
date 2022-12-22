@@ -1,4 +1,4 @@
-﻿internal class Game
+﻿public class Game
 {
     public const float PPU = 16;
 }

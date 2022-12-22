@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.IO;
+using System.Xml.Serialization;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -64,11 +65,16 @@ public class ChunkEditor : EditorWindow
             EditorGUI.BeginDisabledGroup( newSceneName == string.Empty );
             {
                 if ( GUILayout.Button( "Save New Scene" ) )
-                    SaveScene( newSceneName );
+                {
+                    SaveChunkAndroid( newSceneName );
+                    RefreshChunkList();
+                }
             }
             EditorGUI.EndDisabledGroup();
             if ( GUILayout.Button( "Overwrite Scene" ) )
-                SaveScene( popupOptions[popupIndex] );
+            {
+                SaveChunkAndroid( popupOptions[popupIndex] );
+            }
         }
     }
 
@@ -79,7 +85,7 @@ public class ChunkEditor : EditorWindow
         Curios.ClearAllTiles();
     }
 
-    private void SaveScene( string name )
+    private void SaveChunkAndroid(string name)
     {
         Chunk chunk = new Chunk
         {
@@ -93,8 +99,7 @@ public class ChunkEditor : EditorWindow
             Height = Walls.size.y
         };
 
-        XMLUtility.Save( chunk, chunk.Name );
-        RefreshChunkList();
+        XMLUtility.Save<Chunk>( chunk, name );
         newSceneName = string.Empty;
     }
 
@@ -201,8 +206,14 @@ public class ChunkEditor : EditorWindow
 
     private void RefreshChunkList()
     {
-        popupOptions = Directory.GetFiles( Application.streamingAssetsPath, "*.xml" );
-        for ( int i = 0; i < popupOptions.Length; i++ )
-            popupOptions[i] = popupOptions[i].Remove( 0, Application.streamingAssetsPath.Length + 1 );
+        Object[] objs = Resources.LoadAll( "Chunks/" );
+        List<string> filenames = new List<string>();
+
+        for ( int i = 0; i < objs.Length; i++ )
+        {
+            filenames.Add( XMLUtility.Load<Chunk>( objs[i] ).Name );
+        }
+
+        popupOptions = filenames.ToArray();
     }
 }
