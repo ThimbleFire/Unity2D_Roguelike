@@ -31,9 +31,9 @@ public class PlayerCharacter : MonoBehaviour
         transform.position = position;
     }
 
-    public void SetPosition( Vector2Int position )
+    public void SetPosition( Vector2 position )
     {
-        transform.position = ( Vector2 )position;
+        transform.position = position;
     }
 
     public void Action()

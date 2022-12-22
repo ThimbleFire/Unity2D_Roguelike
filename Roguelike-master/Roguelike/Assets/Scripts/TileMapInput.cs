@@ -22,6 +22,8 @@ public class TileMapInput : MonoBehaviour
     {
         grid = GetComponent<Grid>();
         lastCoordinate = Vector3Int.zero;
+
+        OnCellClicked += TileMapInput_OnCellClicked;
     }
 
     public void Update()
@@ -40,11 +42,22 @@ public class TileMapInput : MonoBehaviour
     /// <param name="coordinate">The coordinate being moused over</param>
     private void MousedOverTileChange( Vector3Int coordinate )
     {
-        selectedTileMap.SetTile( lastCoordinate, null );
-        selectedTileMap.SetTile( coordinate, selectedTileBase );
+        //selectedTileMap.SetTile( lastCoordinate, null );
+        //selectedTileMap.SetTile( coordinate, selectedTileBase );
 
         lastCoordinate = coordinate;
 
         OnTileHoverChange?.Invoke( coordinate );
     }
+
+    Vector3Int last = Vector3Int.zero;
+
+    private void TileMapInput_OnCellClicked( Vector3Int coordinate )
+    {
+        selectedTileMap.SetTile( last, null );
+        selectedTileMap.SetTile( coordinate, selectedTileBase );
+        last = coordinate;
+        Debug.Log( coordinate );
+    }
+
 }
