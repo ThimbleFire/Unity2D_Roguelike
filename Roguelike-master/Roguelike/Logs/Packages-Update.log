@@ -55,3 +55,12 @@ Update Mode: updateDependencies
 The following packages were updated:
   com.unity.2d.pixel-perfect from version 3.0.2 to 4.0.1
   com.unity.ide.visualstudio from version 2.0.2 to 2.0.7
+
+=== Thu Dec 22 14:30:35 2022
+
+Packages were changed.
+Update Mode: updateDependencies
+
+The following packages were updated:
+  com.unity.2d.pixel-perfect from version 4.0.1 to 5.0.1
+  com.unity.ide.visualstudio from version 2.0.7 to 2.0.11

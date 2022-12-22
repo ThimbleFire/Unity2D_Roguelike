@@ -5,7 +5,6 @@ using UnityEngine;
 using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
-[ExecuteInEditMode]
 [RequireComponent( typeof( CompositeShadowCaster2D ) )]
 public class ShadowCaster2DFromComposite : MonoBehaviour
 {
@@ -37,10 +36,6 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
                                     .GetMethod( "GenerateShadowMesh", BindingFlags.Public | BindingFlags.Static );
     }
 
-    /// <summary>
-    /// Rebuilds ShadowCaster2Ds for all ShadowCaster2DFromComposite in scene
-    /// </summary>
-    [MenuItem( "2DLights/Rebuild Tilemap" )]
     public static void RebuildAll()
     {
         foreach ( var item in FindObjectsOfType<ShadowCaster2DFromComposite>() )
