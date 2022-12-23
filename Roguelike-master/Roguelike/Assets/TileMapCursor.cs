@@ -39,7 +39,7 @@ public class TileMapCursor : MonoBehaviour
         if ( entities.Count == 0 )
             return;
 
-        SelectedText.text = entities[0].name;
+        SelectedText.text = entities[0].Name;
     }
 
     public static void Hide()

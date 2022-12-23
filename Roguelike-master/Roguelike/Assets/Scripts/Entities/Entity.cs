@@ -6,19 +6,14 @@ public class Entity : MonoBehaviour
 {
     public Vector3Int coordinates;
 
-    protected string Name = "Undefined";
-    protected float MovementSpeed = 0.06f;
-    protected Animator animator;
-    protected virtual void SetPath( Vector3Int coordinates ) { }
-    protected List<Interactable> collidingWith = new List<Interactable>();
-    protected Queue<Node> chain = new Queue<Node>();
+    public string Name { get; protected set; }
+    public int Speed { get; protected set; }
 
-    private float timer = 1.0f;
-    private const float interval = 1.0f;
-    private const float DistanceFromTargetToTrigger = 0.0f;
-    private Vector3 stepDestination;
-    private float Step { get { return MoveAcrossBoardSpeed * Time.deltaTime; } }
-    public float MoveAcrossBoardSpeed = 4.0f;
+    protected Animator animator;
+
+    protected virtual void SetPath( Vector3Int coordinates ) { }
+    protected Queue<Node> chain = new Queue<Node>();
+    private Vector3 StepDestination;
 
     private void Awake() => animator = GetComponent<Animator>();
 
@@ -28,18 +23,6 @@ public class Entity : MonoBehaviour
             return;
 
         StepFrame();
-    }
-
-    private void OnTriggerEnter2D( Collider2D collision )
-    {
-        if ( collision.gameObject.tag != "Wall" )
-            collidingWith.Add( collision.gameObject.GetComponent<Interactable>() );
-    }
-
-    private void OnTriggerExit2D( Collider2D collision )
-    {
-        if ( collision.gameObject.tag != "Wall" )
-            collidingWith.Remove( collision.gameObject.GetComponent<Interactable>() );
     }
 
     public void Teleport( Vector3Int coordinates )
@@ -58,8 +41,10 @@ public class Entity : MonoBehaviour
     /// <returns>The world position the entity is moving to</returns>
     private Vector2 UpdateAnimator( Vector3Int dir )
     {
-        stepDestination = chain.Peek().worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
-        Vector3 positionAfterMoving = Vector3.MoveTowards( transform.position, stepDestination, Step );
+        int moveAcrossBoardSpeed = 4;
+
+        StepDestination = chain.Peek().worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
+        Vector3 positionAfterMoving = Vector3.MoveTowards( transform.position, StepDestination, moveAcrossBoardSpeed * Time.deltaTime );
 
         if ( dir != Vector3Int.zero )
         {
@@ -80,7 +65,9 @@ public class Entity : MonoBehaviour
 
         transform.position = positionAfterMoving;
 
-        bool unitHasArrivedAtDestination = Vector2.Distance( transform.position, stepDestination ) <= DistanceFromTargetToTrigger;
+        float arrivalDistance = 0.0f;
+
+        bool unitHasArrivedAtDestination = Vector2.Distance( transform.position, StepDestination ) <= arrivalDistance;
 
         UpdateAnimator( coordinates - chain.Peek().cellPosition );
         //play movement sound
@@ -90,7 +77,7 @@ public class Entity : MonoBehaviour
         {
             coordinates = chain.Peek().cellPosition;
 
-            //OnCellPositionChanged?.Invoke( coordinates );
+            OnStep();
 
             chain.Dequeue();
 
@@ -99,8 +86,19 @@ public class Entity : MonoBehaviour
             if ( finishedMoving )
             {
                 animator.SetBool( "Moving", false );
-                //End(); old project used to tell script to perform next action, ie, attack
+
+                OnArrival();
             }
         }
+    }
+
+    protected virtual void OnStep()
+    {
+
+    }
+
+    protected virtual void OnArrival()
+    {
+
     }
 }

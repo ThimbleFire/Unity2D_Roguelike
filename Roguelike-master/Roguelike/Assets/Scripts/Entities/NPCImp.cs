@@ -5,10 +5,20 @@ public class NPCImp : Entity
 {
     private void Start()
     {
-        name = "Imp";
+        Name = "Imp";
     }
 
     public void Action()
+    {
+
+    }
+
+    protected override void OnStep()
+    {
+
+    }
+
+    protected override void OnArrival()
     {
 
     }

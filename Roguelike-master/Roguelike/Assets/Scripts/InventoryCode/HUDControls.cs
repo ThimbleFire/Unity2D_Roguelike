@@ -1,11 +1,17 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class HUDControls : MonoBehaviour
 {
     public GameObject inventory;
-    public GameObject mobileButton;
+    public static GameObject mobileButton;
 
     public static bool InventoryOpened;
+
+    private void Awake()
+    {
+        mobileButton = GameObject.Find( "Mobile Button" );
+    }
 
     public void ToggleInventory()
     {
@@ -21,4 +27,7 @@ public class HUDControls : MonoBehaviour
         
         InventoryOpened = inventory.activeSelf;
     }
+
+    public static void Show() => mobileButton.SetActive( true );
+    public static void Hide() => mobileButton.SetActive( false );
 }

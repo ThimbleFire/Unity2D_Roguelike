@@ -38,8 +38,7 @@ public class Entities : MonoBehaviour
 
     public static void RollFriend( Vector3Int spawnPosition )
     {
-        //GameObject prefab = ResourceRepository.GetUnit("Trader");
-        //entity.Teleport( spawnPosition );
+
     }
 
     public void Action()
