@@ -61,7 +61,7 @@ public static class Pathfind
         node[position.x, position.y].TeamID = int.MinValue;
     }
 
-    public static Queue<Node> GetPath( Vector3Int start, Vector3Int destination, bool includeAllies, bool includeEnemies )
+    public static Queue<Node> GetPath( Vector3Int start, Vector3Int destination )
     {
         bool isXInBounds = destination.x >= 0 && destination.x < node.GetLength( 0 );
         if ( isXInBounds == false )
@@ -112,18 +112,6 @@ public static class Pathfind
                 if ( closedSet.Contains( neighbour ) )
                 {
                     continue;
-                }
-
-                if ( neighbour.occupied )
-                {
-                    if ( includeAllies == false && currentNode.TeamID == neighbour.TeamID )
-                    {
-                        continue;
-                    }
-                    if ( includeEnemies == false && currentNode.TeamID != neighbour.TeamID )
-                    {
-                        continue;
-                    }
                 }
 
                 int newMovementCostToNeighbour = currentNode.gCost + GetDistance( currentNode, neighbour );

@@ -22,6 +22,8 @@ public class TileMapInput : MonoBehaviour
 
     public void Update()
     {
+        if ( UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject () ) return;
+
         Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
         Vector3Int coordinate = grid.WorldToCell( mouseWorldPos );
 

@@ -46,7 +46,7 @@ public class Room
     /// </summary>
     public Room()
     {
-        chunk = ChunkRepository.Town;
+        chunk = ResourceRepository.Town;
 
         this.left = BoardManager.Width / 2;
         this.top = BoardManager.Height / 2;
@@ -54,6 +54,8 @@ public class Room
         height = chunk.Height;
 
         Build();
+
+        Entities.PlayerSpawn( (Vector3Int)Center );
     }
 
     /// <summary>
@@ -89,7 +91,7 @@ public class Room
         parentOutput = accessPoint;
         Vector2Int offset = MapFactory.GetDirVector2Int( parentOutput.Direction );
         inputDirection = AccessPoint.Flip( parentOutput.Direction );
-        chunk = ChunkRepository.GetFiltered( inputDirection );
+        chunk = ResourceRepository.GetFiltered( inputDirection );
 
         int radius_x = chunk.radius_x;
         int radius_y = chunk.radius_y;
@@ -122,7 +124,7 @@ public class Room
     {
         foreach ( TileData data in chunk.Walls )
         {
-            BoardManager.tileMapWalls.SetTile( Position + data.position, ChunkRepository.Tile[data.name] );
+            BoardManager.tileMapWalls.SetTile( Position + data.position, ResourceRepository.Tile[data.name] );
         }
         foreach ( TileData data in chunk.Curios )
         {
@@ -133,7 +135,7 @@ public class Room
                 case "Dungeon_Tileset_93":
                 case "Dungeon_Tileset_95":
                     BoardManager.Instantiate( Resources.Load<GameObject>( "Prefabs/Light - Wall Light" ), Position + data.position, Quaternion.identity );
-                    BoardManager.tileMapCurios.SetTile( Position + data.position, ChunkRepository.Tile[data.name] );
+                    BoardManager.tileMapCurios.SetTile( Position + data.position, ResourceRepository.Tile[data.name] );
                     break;
                 //Hide curios that are triggers and build helpers
                 case "Dungeon_Tileset_110":
@@ -141,14 +143,30 @@ public class Room
                 case "Dungeon_Tileset_112":
                 case "Dungeon_Tileset_113":
                     break;
+                //Hide unit spawners
+                case "Dungeon_Tileset_115":
+                    Entities.RollMob( Position + data.position, 0 );
+                    break;
+                case "Dungeon_Tileset_116":
+                    Entities.RollMob( Position + data.position, 1 );
+                    break;
+                case "Dungeon_Tileset_117":
+                    Entities.RollMob( Position + data.position, 2 );
+                    break;
+                case "Dungeon_Tileset_118":
+                    Entities.RollMob( Position + data.position, 3 );
+                    break;
+                case "Dungeon_Tileset_119":
+                    Entities.RollFriend( Position + data.position );
+                    break;
 
                 default:
-                    BoardManager.tileMapCurios.SetTile( Position + data.position, ChunkRepository.Tile[data.name] );
+                    BoardManager.tileMapCurios.SetTile( Position + data.position, ResourceRepository.Tile[data.name] );
                     break;
             }
         }
         foreach ( TileData data in chunk.Floors )
-            BoardManager.tileMapGround.SetTile( Position + data.position, ChunkRepository.Tile[data.name] );
+            BoardManager.tileMapGround.SetTile( Position + data.position, ResourceRepository.Tile[data.name] );
 
         MapFactory.AvailableEntrances += chunk.Entrance.Count;
         MapFactory.PlacedRooms++;
