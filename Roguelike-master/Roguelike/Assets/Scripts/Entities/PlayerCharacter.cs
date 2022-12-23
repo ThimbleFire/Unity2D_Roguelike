@@ -9,7 +9,7 @@ public class PlayerCharacter : Entity
         Speed = 4;
     }
 
-    public override void Action()
+    public override void Action( Vector3Int playerCharacterCoordinates )
     {
         chain = Pathfind.GetPath( coordinates, TileMapCursor.SelectedTileCoordinates );
         TileMapCursor.Hide();
@@ -18,11 +18,11 @@ public class PlayerCharacter : Entity
 
     protected override void OnStep()
     {
-
+        base.OnStep();
     }
 
     protected override void OnArrival()
     {
-        HUDControls.Show();
+        base.OnArrival();
     }
 }

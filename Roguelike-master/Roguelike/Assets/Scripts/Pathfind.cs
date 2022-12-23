@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -49,16 +50,32 @@ public static class Pathfind
         }
     }
 
-    public static void SetTileOccupied( Vector3Int position, int teamID )
+    public static Queue<Node> Wander( Vector3Int coordinates )
     {
-        node[position.x, position.y].occupied = true;
-        node[position.x, position.y].TeamID = teamID;
-    }
+        UnityEngine.Random.InitState( UnityEngine.Random.Range( int.MinValue, int.MaxValue ) );
 
-    public static void SetTileUnoccupied( Vector3Int position, int teamID )
-    {
-        node[position.x, position.y].occupied = false;
-        node[position.x, position.y].TeamID = int.MinValue;
+        Vector3Int destination = Vector3Int.zero;
+
+        while ( node[destination.x, destination.y] == null )
+        {
+            switch ( UnityEngine.Random.Range(0, 5) )
+            {
+                case 0:
+                    destination = coordinates + Vector3Int.up;
+                    break;
+                case 1:
+                    destination = coordinates + Vector3Int.down;
+                    break;
+                case 2:
+                    destination = coordinates + Vector3Int.left;
+                    break;
+                case 3:
+                    destination = coordinates + Vector3Int.right;
+                    break;
+            }
+        }
+
+        return GetPath( coordinates, destination );
     }
 
     public static Queue<Node> GetPath( Vector3Int start, Vector3Int destination )
@@ -132,6 +149,9 @@ public static class Pathfind
 
         return null;
     }
+
+    internal static void Occupy( Vector3Int coordinates ) => node[coordinates.x, coordinates.y].occupied = true;
+    internal static void Unoccupy( Vector3Int coordinates ) => node[coordinates.x, coordinates.y].occupied = false;
 
     private static Queue<Node> RetracePath( Node startNode, Node destinationNode )
     {

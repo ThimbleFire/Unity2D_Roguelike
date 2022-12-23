@@ -4,16 +4,19 @@ using UnityEngine;
 [RequireComponent(typeof(Animator))]
 public class Entity : MonoBehaviour
 {
-    public Vector3Int coordinates;
-
+    //Properties
     public string Name { get; protected set; }
     public int Speed { get; protected set; }
+    public int RangeOfAggression { get; protected set; }
+    public Vector3Int coordinates;
 
     protected Animator animator;
 
+    //Pathfinding
     protected virtual void SetPath( Vector3Int coordinates ) { }
     protected Queue<Node> chain = new Queue<Node>();
     private Vector3 StepDestination;
+    protected bool lastNodeIsOccupied = false;
 
     private void Awake() => animator = GetComponent<Animator>();
 
@@ -31,7 +34,7 @@ public class Entity : MonoBehaviour
         gameObject.transform.SetPositionAndRotation( coordinates + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity );
     }
 
-    public virtual void Action()
+    public virtual void Action(Vector3Int playerCharacterCoordinates)
     {
 
     }
@@ -75,13 +78,16 @@ public class Entity : MonoBehaviour
 
         if ( unitHasArrivedAtDestination )
         {
+            Pathfind.Unoccupy( coordinates );
             coordinates = chain.Peek().cellPosition;
+            Pathfind.Occupy( coordinates );
 
             OnStep();
 
             chain.Dequeue();
 
-            bool finishedMoving = chain.Count <= 0;
+            bool finishedMoving = lastNodeIsOccupied ? (chain.Count == 1 ? true : false) : 
+                                                       (chain.Count <= 0 ? true : false);
 
             if ( finishedMoving )
             {
@@ -94,11 +100,11 @@ public class Entity : MonoBehaviour
 
     protected virtual void OnStep()
     {
-
+        
     }
 
     protected virtual void OnArrival()
     {
-
+        Entities.Step();
     }
 }

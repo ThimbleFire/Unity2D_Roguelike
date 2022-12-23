@@ -5,10 +5,11 @@ using UnityEngine;
 
 public class Entities : MonoBehaviour
 {
-    public static List<Entity> entities = new List<Entity>();
     public static List<Entity> Search( Vector3Int coordinates ) => entities.FindAll( x => x.coordinates == coordinates );
-
     public static Transform transform;
+
+    private static List<Entity> entities = new List<Entity>();
+    private static int Turn = 0;
 
     private void Awake()
     {
@@ -41,8 +42,25 @@ public class Entities : MonoBehaviour
 
     }
 
-    public void Action()
+    public static void Action()
     {
-        entities[0].Action();
+        entities[Turn].Action(entities[0].coordinates);
+    }
+
+    public static void Step()
+    {
+        Turn++;
+
+        if ( Turn >= entities.Count )
+            Turn = 0;
+
+        if ( Turn == 0 )
+        {
+            HUDControls.Show();
+        }
+        else
+        {
+            Action();
+        }
     }
 }
