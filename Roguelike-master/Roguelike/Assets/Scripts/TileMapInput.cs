@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class TileMapInput : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public class TileMapInput : MonoBehaviour
     public static event OnTileHoverChangeHandler OnTileHoverChange;
 
     private Grid grid;
+    public Tilemap tilemap;
 
     private Vector3Int lastCoordinate;
 
@@ -33,7 +35,10 @@ public class TileMapInput : MonoBehaviour
         if ( Input.GetMouseButtonDown( 0 ) )
         {
             if ( HUDControls.InventoryOpened == false )
+            {
+                Debug.Log( coordinate + " clicked" );
                 OnCellClicked?.Invoke( coordinate );
+            }
         }
     }
 

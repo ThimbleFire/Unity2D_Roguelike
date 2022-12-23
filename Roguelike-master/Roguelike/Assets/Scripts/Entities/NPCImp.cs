@@ -24,6 +24,8 @@ public class NPCImp : Entity
         {
             chain = Pathfind.Wander( coordinates );
         }
+
+        base.Action(playerCharacterCoordinates);
     }
 
     protected override void OnStep()

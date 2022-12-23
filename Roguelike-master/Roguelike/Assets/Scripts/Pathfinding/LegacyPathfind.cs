@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class Node
+public class LegacyNode
 {
     public bool occupied { get; set; }
     public Vector3Int cellPosition { get; set; }
     public Vector3 worldPosition { get; set; }
-    public Node parent { get; set; }
+    public LegacyNode parent { get; set; }
     public int TeamID { get; set; }
 
     public int gCost;
@@ -19,21 +19,21 @@ public class Node
         get { return gCost + hCost; }
     }
 
-    public Node( /*bool walkable, Vector3Int cellPosition, Vector3 worldPosition*/ )
+    public LegacyNode( /*bool walkable, Vector3Int cellPosition, Vector3 worldPosition*/ )
     {
         gCost = 1;
         hCost = 0;
     }
 }
 
-public static class Pathfind
+public static class LegacyPathfind
 {
-    private static Node[,] node;
+    private static LegacyNode[,] node;
 
     ///<remarks>Could also take BattleOrder.cs::Units parameter to occupy tiles</remarks>
     public static void Setup( Tilemap tileMap )
     {
-        node = new Node[BoardManager.Width, BoardManager.Height];
+        node = new LegacyNode[BoardManager.Width, BoardManager.Height];
 
         foreach ( Vector3Int cellPosition in tileMap.cellBounds.allPositionsWithin )
         {
@@ -41,7 +41,7 @@ public static class Pathfind
 
             if ( tileMap.HasTile( cellPosition ) )
 
-                node[cellPosition.x, cellPosition.y] = new Node()
+                node[cellPosition.x, cellPosition.y] = new LegacyNode()
                 {
                     occupied = false,
                     cellPosition = cellPosition,
@@ -50,7 +50,7 @@ public static class Pathfind
         }
     }
 
-    public static Queue<Node> Wander( Vector3Int coordinates )
+    public static Queue<LegacyNode> Wander( Vector3Int coordinates )
     {
         UnityEngine.Random.InitState( UnityEngine.Random.Range( int.MinValue, int.MaxValue ) );
 
@@ -78,7 +78,7 @@ public static class Pathfind
         return GetPath( coordinates, destination );
     }
 
-    public static Queue<Node> GetPath( Vector3Int start, Vector3Int destination )
+    public static Queue<LegacyNode> GetPath( Vector3Int start, Vector3Int destination )
     {
         bool isXInBounds = destination.x >= 0 && destination.x < node.GetLength( 0 );
         if ( isXInBounds == false )
@@ -88,8 +88,8 @@ public static class Pathfind
         if ( isYInBounds == false )
             return null;
 
-        Node startNode = node[start.x, start.y];
-        Node destinationNode = node[destination.x, destination.y];
+        LegacyNode startNode = node[start.x, start.y];
+        LegacyNode destinationNode = node[destination.x, destination.y];
 
         bool areNodesNull = startNode == null || destinationNode == null;
         if ( areNodesNull == true )
@@ -97,16 +97,16 @@ public static class Pathfind
 
         bool isActionForfeit = startNode.cellPosition == destinationNode.cellPosition;
         if ( isActionForfeit )
-            return new Queue<Node>( new[] { node[start.x, start.y] } );
+            return new Queue<LegacyNode>( new[] { node[start.x, start.y] } );
 
-        List<Node> openSet = new List<Node>();
-        HashSet<Node> closedSet = new HashSet<Node>();
+        List<LegacyNode> openSet = new List<LegacyNode>();
+        HashSet<LegacyNode> closedSet = new HashSet<LegacyNode>();
 
         openSet.Add( startNode );
 
         while ( openSet.Count > 0 )
         {
-            Node currentNode = openSet[0];
+            LegacyNode currentNode = openSet[0];
 
             for ( int i = 1; i < openSet.Count; i++ )
             {
@@ -124,7 +124,15 @@ public static class Pathfind
                 return RetracePath( startNode, destinationNode );
             }
 
-            foreach ( Node neighbour in GetAdjacentNodes( currentNode ) )
+            List<LegacyNode> adjacentNodes = GetAdjacentNodes( currentNode );
+
+            if ( adjacentNodes.Count == 0 )
+            {
+                Debug.Log( "There are no adjacent nodes" );
+                return null;
+            }
+
+            foreach ( LegacyNode neighbour in adjacentNodes )
             {
                 if ( closedSet.Contains( neighbour ) )
                 {
@@ -153,10 +161,10 @@ public static class Pathfind
     internal static void Occupy( Vector3Int coordinates ) => node[coordinates.x, coordinates.y].occupied = true;
     internal static void Unoccupy( Vector3Int coordinates ) => node[coordinates.x, coordinates.y].occupied = false;
 
-    private static Queue<Node> RetracePath( Node startNode, Node destinationNode )
+    private static Queue<LegacyNode> RetracePath( LegacyNode startNode, LegacyNode destinationNode )
     {
-        List<Node> path = new List<Node>();
-        Node currentNode = destinationNode;
+        List<LegacyNode> path = new List<LegacyNode>();
+        LegacyNode currentNode = destinationNode;
 
         while ( currentNode != startNode )
         {
@@ -166,7 +174,7 @@ public static class Pathfind
 
         path.Reverse();
 
-        Queue<Node> chain = new Queue<Node>();
+        Queue<LegacyNode> chain = new Queue<LegacyNode>();
 
         for ( int i = 0; i < path.Count; i++ )
         {
@@ -176,7 +184,7 @@ public static class Pathfind
         return chain;
     }
 
-    private static int GetDistance( Node a, Node b )
+    private static int GetDistance( LegacyNode a, LegacyNode b )
     {
         int disX = Mathf.Abs( a.cellPosition.x - b.cellPosition.x );
         int disY = Mathf.Abs( a.cellPosition.y - b.cellPosition.y );
@@ -187,9 +195,9 @@ public static class Pathfind
             return 14 * disX + 10 * ( disY - disX );
     }
 
-    private static List<Node> GetAdjacentNodes( Node n )
+    private static List<LegacyNode> GetAdjacentNodes( LegacyNode n )
     {
-        List<Node> neighbours = new List<Node>();
+        List<LegacyNode> neighbours = new List<LegacyNode>();
 
         for ( int x = -1; x <= 1; x++ )
         {

@@ -74,6 +74,7 @@ public class ChunkEditor : EditorWindow
             if ( GUILayout.Button( "Overwrite Scene" ) )
             {
                 SaveChunkAndroid( popupOptions[popupIndex] );
+                RefreshChunkList();
             }
         }
     }
@@ -101,6 +102,7 @@ public class ChunkEditor : EditorWindow
 
         XMLUtility.Save<Chunk>( chunk, name );
         newSceneName = string.Empty;
+        Debug.Log( "Saved" );
     }
 
     private void LoadScene()

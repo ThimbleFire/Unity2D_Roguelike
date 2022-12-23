@@ -14,18 +14,19 @@ public class Entity : MonoBehaviour
 
     //Pathfinding
     protected virtual void SetPath( Vector3Int coordinates ) { }
-    protected Queue<Node> chain = new Queue<Node>();
+    protected List<Node> chain = new List<Node>();
     private Vector3 StepDestination;
-    protected bool lastNodeIsOccupied = false;
 
     private void Awake() => animator = GetComponent<Animator>();
+
+    private bool active = false;
 
     private void Update()
     {
         if ( chain.Count == 0 )
             return;
 
-        StepFrame();
+            StepFrame();
     }
 
     public void Teleport( Vector3Int coordinates )
@@ -46,7 +47,7 @@ public class Entity : MonoBehaviour
     {
         int moveAcrossBoardSpeed = 4;
 
-        StepDestination = chain.Peek().worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
+        StepDestination = chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
         Vector3 positionAfterMoving = Vector3.MoveTowards( transform.position, StepDestination, moveAcrossBoardSpeed * Time.deltaTime );
 
         if ( dir != Vector3Int.zero )
@@ -64,43 +65,42 @@ public class Entity : MonoBehaviour
     /// <returns>void</returns>
     private void StepFrame()
     {
+
+        //calculate position after moving
         Vector2 positionAfterMoving = UpdateAnimator( Vector3Int.zero );
 
         transform.position = positionAfterMoving;
 
+        //call it again just for the sake of accurate animation
+        UpdateAnimator( coordinates - chain[0].coordinate );
+
         float arrivalDistance = 0.0f;
-
         bool unitHasArrivedAtDestination = Vector2.Distance( transform.position, StepDestination ) <= arrivalDistance;
-
-        UpdateAnimator( coordinates - chain.Peek().cellPosition );
-        //play movement sound
-        //AudioDevice.Play( soundwalking );
-
         if ( unitHasArrivedAtDestination )
         {
-            Pathfind.Unoccupy( coordinates );
-            coordinates = chain.Peek().cellPosition;
-            Pathfind.Occupy( coordinates );
-
             OnStep();
-
-            chain.Dequeue();
-
-            bool finishedMoving = lastNodeIsOccupied ? (chain.Count == 1 ? true : false) : 
-                                                       (chain.Count <= 0 ? true : false);
-
-            if ( finishedMoving )
-            {
-                animator.SetBool( "Moving", false );
-
-                OnArrival();
-            }
         }
     }
 
     protected virtual void OnStep()
     {
-        
+        // Unoccupy last coordinates
+        Pathfind.Unoccupy( coordinates );
+        //set the new coordinate at our current position
+        coordinates = chain[0].coordinate;
+        //let the pathfinder know this tile is now occupied
+        Pathfind.Occupy( coordinates );
+        Debug.Log( "Arrived at " + coordinates );
+        //remove the last chain since we're not where we used to be
+        chain.RemoveAt( 0 );
+
+        //If we've arrived at our destination
+        if ( chain.Count <= 0 )
+        {
+            animator.SetBool( "Moving", false );
+
+            OnArrival();
+        }
     }
 
     protected virtual void OnArrival()

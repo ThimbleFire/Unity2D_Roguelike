@@ -84,6 +84,14 @@
     </TileData>
     <TileData>
       <position>
+        <x>6</x>
+        <y>6</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_119</name>
+    </TileData>
+    <TileData>
+      <position>
         <x>12</x>
         <y>6</y>
         <z>0</z>
@@ -121,6 +129,14 @@
         <z>0</z>
       </position>
       <name>Dungeon_Tileset_49</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>11</x>
+        <y>11</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_115</name>
     </TileData>
     <TileData>
       <position>

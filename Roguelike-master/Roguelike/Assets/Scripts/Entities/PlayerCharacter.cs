@@ -14,6 +14,7 @@ public class PlayerCharacter : Entity
         chain = Pathfind.GetPath( coordinates, TileMapCursor.SelectedTileCoordinates );
         TileMapCursor.Hide();
         HUDControls.Hide();
+        base.Action( playerCharacterCoordinates );
     }
 
     protected override void OnStep()

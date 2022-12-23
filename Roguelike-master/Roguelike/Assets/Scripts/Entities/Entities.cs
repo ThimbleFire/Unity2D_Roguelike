@@ -63,4 +63,11 @@ public class Entities : MonoBehaviour
             Action();
         }
     }
+
+    public static List<Vector3Int> GetObstacles() {
+        List<Vector3Int> occupiedPositions = new List<Vector3Int>();
+        foreach ( Entity entity in entities )
+            occupiedPositions.Add( entity.coordinates );        
+        return occupiedPositions;
+    }
 }

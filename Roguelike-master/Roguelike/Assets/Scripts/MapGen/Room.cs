@@ -54,8 +54,6 @@ public class Room
         height = chunk.Height;
 
         Build();
-
-        Entities.PlayerSpawn( (Vector3Int)Center );
     }
 
     /// <summary>
@@ -157,7 +155,7 @@ public class Room
                     Entities.RollMob( Position + data.position, 3 );
                     break;
                 case "Dungeon_Tileset_119":
-                    Entities.RollFriend( Position + data.position );
+                    Entities.PlayerSpawn( Position + data.position );
                     break;
 
                 default:
