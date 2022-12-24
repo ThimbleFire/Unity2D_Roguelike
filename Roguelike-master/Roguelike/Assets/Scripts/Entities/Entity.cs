@@ -9,7 +9,7 @@ public class Entity : MonoBehaviour
 
     public int Speed { get; protected set; }
     public int RangeOfAggression { get; protected set; }
-    public Vector3Int Coordinates { get; protected set; }
+    public Vector3Int _coordinates;
 
     protected Animator _animator;
 
@@ -32,7 +32,7 @@ public class Entity : MonoBehaviour
 
     public void Teleport( Vector3Int coordinates )
     {
-        this.Coordinates = coordinates;
+        this._coordinates = coordinates;
         gameObject.transform.SetPositionAndRotation( coordinates + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity );
     }
 
@@ -71,7 +71,7 @@ public class Entity : MonoBehaviour
         transform.position = positionAfterMoving;
 
         //call it again just for the sake of accurate animation
-        UpdateAnimator( Coordinates - chain[0].coordinate );
+        UpdateAnimator( _coordinates - chain[0].coordinate );
 
         float arrivalDistance = 0.0f;
         bool unitHasArrivedAtDestination = Vector2.Distance( transform.position, _stepDestination ) <= arrivalDistance;
@@ -84,12 +84,12 @@ public class Entity : MonoBehaviour
     protected virtual void OnStep()
     {
         // Unoccupy last coordinates
-        Pathfind.Unoccupy( Coordinates );
+        Pathfind.Unoccupy( _coordinates );
         //set the new coordinate at our current position
-        Coordinates = chain[0].coordinate;
+        _coordinates = chain[0].coordinate;
         //let the pathfinder know this tile is now occupied
-        Pathfind.Occupy( Coordinates );
-        Debug.Log( "Arrived at " + Coordinates );
+        Pathfind.Occupy( _coordinates );
+        Debug.Log( "Arrived at " + _coordinates );
         //remove the last chain since we're not where we used to be
         chain.RemoveAt( 0 );
 

@@ -12,7 +12,6 @@ public class TileMapInput : MonoBehaviour
     public static event OnTileHoverChangeHandler OnTileHoverChange;
 
     private Grid grid;
-    public Tilemap tilemap;
 
     private Vector3Int lastCoordinate;
 

@@ -6,6 +6,7 @@ using UnityEngine.Tilemaps;
 public class TileMapCursor : MonoBehaviour
 {
     public static Vector3Int SelectedTileCoordinates { get; set; }
+    private static Tilemap TilemapCursor { get; set; }
 
     public TileBase cursorTileBase;
 
@@ -42,11 +43,10 @@ public class TileMapCursor : MonoBehaviour
         s_SelectedText.text = entities[0].Name;
     }
 
+
     public static void Hide()
     {
         s_SelectedText.text = string.Empty;
         TilemapCursor.SetTile( SelectedTileCoordinates, null );
     }
-
-    private static Tilemap TilemapCursor { get; set; }
 }

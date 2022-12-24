@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class Entities : MonoBehaviour
 {
@@ -13,7 +14,7 @@ public class Entities : MonoBehaviour
         Transform = gameObject.transform;
     }
 
-    public static List<Entity> Search( Vector3Int coordinates ) => s_entities.FindAll( x => x.Coordinates == coordinates );
+    public static List<Entity> Search( Vector3Int coordinates ) => s_entities.FindAll( x => x._coordinates == coordinates );
 
     public static void RollMob( Vector3Int spawnPosition, int difficulty )
     {
@@ -42,7 +43,7 @@ public class Entities : MonoBehaviour
 
     public static void Action()
     {
-        s_entities[s_Turn].Action( s_entities[0].Coordinates );
+        s_entities[s_Turn].Action( s_entities[0]._coordinates );
     }
 
     public static void Step()
@@ -66,7 +67,7 @@ public class Entities : MonoBehaviour
     {
         List<Vector3Int> occupiedPositions = new List<Vector3Int>();
         foreach ( Entity entity in s_entities )
-            occupiedPositions.Add( entity.Coordinates );
+            occupiedPositions.Add( entity._coordinates );
         return occupiedPositions;
     }
 }

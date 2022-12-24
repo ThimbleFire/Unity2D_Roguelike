@@ -120,7 +120,15 @@
         <y>11</y>
         <z>0</z>
       </position>
-      <name>Dungeon_Tileset_64</name>
+      <name>Dungeon_Tileset_115</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>4</x>
+        <y>11</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_115</name>
     </TileData>
     <TileData>
       <position>
@@ -128,7 +136,7 @@
         <y>11</y>
         <z>0</z>
       </position>
-      <name>Dungeon_Tileset_49</name>
+      <name>Dungeon_Tileset_115</name>
     </TileData>
     <TileData>
       <position>

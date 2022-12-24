@@ -20,9 +20,17 @@ public class Pathfind
 {
     private static Node[,] s_nodes;
 
-    public static void Occupy( Vector3Int coordinates ) => s_nodes[coordinates.x, coordinates.y].walkable = false;
+    public static void Occupy( Vector3Int coordinates )
+    {
+        s_nodes[coordinates.x, coordinates.y].walkable = false;
+        Tilemap_Occupied_Debug.SetOccupiedTile( coordinates );
+    }
 
-    public static void Unoccupy( Vector3Int coordinates ) => s_nodes[coordinates.x, coordinates.y].walkable = true;
+    public static void Unoccupy( Vector3Int coordinates )
+    {
+        s_nodes[coordinates.x, coordinates.y].walkable = true;
+        Tilemap_Occupied_Debug.SetUnoccupiedTile( coordinates );
+    }
 
     public static void Setup( Tilemap tilemap )
     {
@@ -45,7 +53,7 @@ public class Pathfind
     {
         Node startNode = s_nodes[coordinates.x, coordinates.y];
 
-        List<Node> neighbours = GetNeighbours(startNode, true);
+        List<Node> neighbours = GetNeighbours(startNode);
 
         List<Node> path = GetPath( coordinates, neighbours[UnityEngine.Random.Range(0, neighbours.Count)].coordinate, false );
 
@@ -64,7 +72,7 @@ public class Pathfind
 
         if ( endNode.walkable == false )
         {
-            List<Node> neighbours = GetNeighbours(endNode, true);
+            List<Node> neighbours = GetNeighbours(endNode);
             endNode = neighbours[UnityEngine.Random.Range( 0, neighbours.Count )]; // if exclusive
         }
 
@@ -97,7 +105,7 @@ public class Pathfind
                 return RetracePath( startNode, endNode );
             }
 
-            List<Node> neighbours = GetNeighbours( currentNode, true ); // We'll want to ignore walkables
+            List<Node> neighbours = GetNeighbours( currentNode ); // We'll want to ignore walkables
 
             foreach ( Node neighbour in neighbours )
             {
@@ -154,7 +162,7 @@ public class Pathfind
         return path;
     }
 
-    private static List<Node> GetNeighbours( Node node, bool includeUnwalkable )
+    private static List<Node> GetNeighbours( Node node )
     {
         List<Node> neighbours = new List<Node>();
 
@@ -165,11 +173,13 @@ public class Pathfind
             int checkX = node.coordinate.x + offset[i].x;
             int checkY = node.coordinate.y + offset[i].y;
 
-            if ( includeUnwalkable == false )
-                if ( s_nodes[checkX, checkY].walkable == false )
-                {
-                    continue;
-                }
+            if ( s_nodes[checkX, checkY] == null ) {
+                continue;
+            }
+
+            if ( s_nodes[checkX, checkY].walkable == false ) {
+                continue;
+            }
 
             bool checkXInBounds = checkX >= 0 && checkX < s_nodes.GetLength( 0 );
             bool checkYInBounds = checkY >= 0 && checkY < s_nodes.GetLength( 1 );

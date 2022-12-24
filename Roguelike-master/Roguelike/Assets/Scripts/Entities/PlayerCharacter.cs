@@ -10,8 +10,8 @@ public class PlayerCharacter : Entity
 
     public override void Action( Vector3Int playerCharacterCoordinates )
     {
-        int disX = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.x - Coordinates.x );
-        int disY = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.y - Coordinates.y );
+        int disX = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.x - _coordinates.x );
+        int disY = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.y - _coordinates.y );
         if ( disX + disY == 1 && Entities.Search( TileMapCursor.SelectedTileCoordinates ).Count > 0 )
         {
             Debug.Log( Name + " attack!" );
@@ -19,7 +19,7 @@ public class PlayerCharacter : Entity
         }
         else
         {
-            chain = Pathfind.GetPath( Coordinates, TileMapCursor.SelectedTileCoordinates, false );
+            chain = Pathfind.GetPath( _coordinates, TileMapCursor.SelectedTileCoordinates, false );
             TileMapCursor.Hide();
             HUDControls.Hide();
             base.Action( playerCharacterCoordinates );
