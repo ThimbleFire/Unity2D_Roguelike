@@ -5,7 +5,7 @@ using UnityEngine.Tilemaps;
 
 public class ResourceRepository : MonoBehaviour
 {
-    private static List<Chunk> chunksInMemory;
+    private static List<Chunk> s_chunksInMemory;
     public static Dictionary<string, TileBase> Tile;
     public static Dictionary<string, GameObject> Prefab;
     public static Chunk Town;
@@ -15,7 +15,7 @@ public class ResourceRepository : MonoBehaviour
         // load maps
         UnityEngine.Object[] objs = Resources.LoadAll("Chunks/");
 
-        chunksInMemory = new List<Chunk>();
+        s_chunksInMemory = new List<Chunk>();
         for ( int i = 0; i < objs.Length; i++ )
         {
             Chunk r = XMLUtility.Load<Chunk>( objs[i] );
@@ -23,7 +23,7 @@ public class ResourceRepository : MonoBehaviour
             if ( r.Name == "Town" )
                 Town = r;
             else
-                chunksInMemory.Add( r );
+                s_chunksInMemory.Add( r );
         }
 
         // load tiles
@@ -46,7 +46,7 @@ public class ResourceRepository : MonoBehaviour
 
     public static string Get( int width, int height )
     {
-        List<Chunk> chunksMatchingDimensions = new List<Chunk>( chunksInMemory.FindAll( x => x.Width == width && x.Height == height ) );
+        List<Chunk> chunksMatchingDimensions = new List<Chunk>( s_chunksInMemory.FindAll( x => x.Width == width && x.Height == height ) );
 
         if ( chunksMatchingDimensions.Count == 0 )
             return string.Empty;
@@ -56,12 +56,12 @@ public class ResourceRepository : MonoBehaviour
 
     public static Chunk Get( string filename )
     {
-        return chunksInMemory.Find( x => x.Name == filename ).Clone();
+        return s_chunksInMemory.Find( x => x.Name == filename ).Clone();
     }
 
     public static string GetRandom()
     {
-        Chunk c = chunksInMemory[Random.Range( 0, chunksInMemory.Count )];
+        Chunk c = s_chunksInMemory[Random.Range( 0, s_chunksInMemory.Count )];
 
         //width = c.Width;
         //height = c.Height;
@@ -73,7 +73,7 @@ public class ResourceRepository : MonoBehaviour
     {
         // Filter chunks so we don't exceed the maximum number of rooms
         List<Chunk> chunksByExits = new List<Chunk>(
-            chunksInMemory.FindAll( x => x.Entrance.Count + MapFactory.PlacedRooms + MapFactory.AvailableEntrances <= BoardManager.RoomLimit )
+            s_chunksInMemory.FindAll( x => x.Entrance.Count + MapFactory.PlacedRooms + MapFactory.AvailableEntrances <= BoardManager.RoomLimit )
             );
 
         if ( chunksByExits.Count == 0 )
@@ -111,7 +111,7 @@ public class ResourceRepository : MonoBehaviour
     {
         List<Chunk> chunksByDirection = new List<Chunk>();
 
-        foreach ( Chunk chunk in chunksInMemory )
+        foreach ( Chunk chunk in s_chunksInMemory )
         {
             foreach ( AccessPoint accessPoint in chunk.Entrance )
             {

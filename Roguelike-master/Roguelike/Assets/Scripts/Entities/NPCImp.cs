@@ -14,18 +14,29 @@ public class NPCImp : Entity
     {
         // some AI shit
 
-        int distance = Pathfind.GetPath(coordinates, playerCharacterCoordinates, true).Count;
-
-        if ( distance <= RangeOfAggression )
+        int disX = Mathf.Abs( playerCharacterCoordinates.x - Coordinates.x );
+        int disY = Mathf.Abs( playerCharacterCoordinates.y - Coordinates.y );
+        if ( disX + disY == 1 )
         {
-            chain = Pathfind.GetPath( coordinates, playerCharacterCoordinates, false );
-
-            if(chain.Count == 0 )
-                Entities.Step();
+            Debug.Log( Name + " attack!" );
+            Entities.Step();
         }
         else
         {
-            chain = Pathfind.Wander( coordinates );
+
+            int distance = Pathfind.GetPath(Coordinates, playerCharacterCoordinates, true).Count;
+
+            if ( distance <= RangeOfAggression )
+            {
+                chain = Pathfind.GetPath( Coordinates, playerCharacterCoordinates, false );
+
+                if ( chain.Count == 0 )
+                    Entities.Step();
+            }
+            else
+            {
+                chain = Pathfind.Wander( Coordinates );
+            }
         }
 
         base.Action(playerCharacterCoordinates);

@@ -1,23 +1,23 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Animator))]
+[RequireComponent( typeof( Animator ) )]
 public class Entity : MonoBehaviour
 {
     //Properties
     public string Name { get; protected set; }
     public int Speed { get; protected set; }
     public int RangeOfAggression { get; protected set; }
-    public Vector3Int coordinates;
+    public Vector3Int Coordinates { get; protected set; }
 
-    protected Animator animator;
+    protected Animator _animator;
 
     //Pathfinding
     protected virtual void SetPath( Vector3Int coordinates ) { }
     protected List<Node> chain = new List<Node>();
-    private Vector3 StepDestination;
+    private Vector3 _stepDestination;
 
-    private void Awake() => animator = GetComponent<Animator>();
+    private void Awake() => _animator = GetComponent<Animator>();
 
     private void Update()
     {
@@ -29,7 +29,7 @@ public class Entity : MonoBehaviour
 
     public void Teleport( Vector3Int coordinates )
     {
-        this.coordinates = coordinates;
+        this.Coordinates = coordinates;
         gameObject.transform.SetPositionAndRotation( coordinates + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity );
     }
 
@@ -45,15 +45,15 @@ public class Entity : MonoBehaviour
     {
         int moveAcrossBoardSpeed = 4;
 
-        StepDestination = chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
-        Vector3 positionAfterMoving = Vector3.MoveTowards( transform.position, StepDestination, moveAcrossBoardSpeed * Time.deltaTime );
+        _stepDestination = chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
+        Vector3 positionAfterMoving = Vector3.MoveTowards( transform.position, _stepDestination, moveAcrossBoardSpeed * Time.deltaTime );
 
         if ( dir != Vector3Int.zero )
         {
             transform.localScale = -dir.x > 0 ? new Vector3( 1.0f, 1.0f ) : new Vector3( -1.0f, 1.0f );
-            animator.SetFloat( "LastMoveX", -dir.x );
-            animator.SetFloat( "LastMoveY", -dir.y );
-            animator.SetBool( "Moving", true );
+            _animator.SetFloat( "LastMoveX", -dir.x );
+            _animator.SetFloat( "LastMoveY", -dir.y );
+            _animator.SetBool( "Moving", true );
         }
 
         return positionAfterMoving;
@@ -70,10 +70,10 @@ public class Entity : MonoBehaviour
         transform.position = positionAfterMoving;
 
         //call it again just for the sake of accurate animation
-        UpdateAnimator( coordinates - chain[0].coordinate );
+        UpdateAnimator( Coordinates - chain[0].coordinate );
 
         float arrivalDistance = 0.0f;
-        bool unitHasArrivedAtDestination = Vector2.Distance( transform.position, StepDestination ) <= arrivalDistance;
+        bool unitHasArrivedAtDestination = Vector2.Distance( transform.position, _stepDestination ) <= arrivalDistance;
         if ( unitHasArrivedAtDestination )
         {
             OnStep();
@@ -83,19 +83,19 @@ public class Entity : MonoBehaviour
     protected virtual void OnStep()
     {
         // Unoccupy last coordinates
-        Pathfind.Unoccupy( coordinates );
+        Pathfind.Unoccupy( Coordinates );
         //set the new coordinate at our current position
-        coordinates = chain[0].coordinate;
+        Coordinates = chain[0].coordinate;
         //let the pathfinder know this tile is now occupied
-        Pathfind.Occupy( coordinates );
-        Debug.Log( "Arrived at " + coordinates );
+        Pathfind.Occupy( Coordinates );
+        Debug.Log( "Arrived at " + Coordinates );
         //remove the last chain since we're not where we used to be
         chain.RemoveAt( 0 );
 
         //If we've arrived at our destination
         if ( chain.Count <= 0 )
         {
-            animator.SetBool( "Moving", false );
+            _animator.SetBool( "Moving", false );
 
             OnArrival();
         }

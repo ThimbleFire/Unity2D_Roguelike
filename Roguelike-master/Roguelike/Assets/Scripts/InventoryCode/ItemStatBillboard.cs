@@ -2,9 +2,9 @@
 
 public class ItemStatBillboard : MonoBehaviour
 {
-    private static UnityEngine.UI.Image image;
-    private static UnityEngine.UI.Text textBody;
-    private static UnityEngine.RectTransform rTransform;
+    private static UnityEngine.UI.Image s_image;
+    private static UnityEngine.UI.Text s_textBody;
+    private static UnityEngine.RectTransform s_rTransform;
 
     public static void Draw( ItemStats item )
     {
@@ -17,22 +17,22 @@ public class ItemStatBillboard : MonoBehaviour
             return;
         }
 
-        image.enabled = true;
-        textBody.enabled = true;
+        s_image.enabled = true;
+        s_textBody.enabled = true;
 
-        textBody.text = item.Tooltip;
+        s_textBody.text = item.Tooltip;
     }
 
     public static void Hide()
     {
-        image.enabled = false;
-        textBody.enabled = false;
+        s_image.enabled = false;
+        s_textBody.enabled = false;
     }
 
     private void Awake()
     {
-        image = GetComponent<UnityEngine.UI.Image>();
-        textBody = transform.GetComponentInChildren<UnityEngine.UI.Text>();
-        rTransform = GetComponent<RectTransform>();
+        s_image = GetComponent<UnityEngine.UI.Image>();
+        s_textBody = transform.GetComponentInChildren<UnityEngine.UI.Text>();
+        s_rTransform = GetComponent<RectTransform>();
     }
 }

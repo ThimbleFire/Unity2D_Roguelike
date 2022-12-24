@@ -11,10 +11,20 @@ public class PlayerCharacter : Entity
 
     public override void Action( Vector3Int playerCharacterCoordinates )
     {
-        chain = Pathfind.GetPath( coordinates, TileMapCursor.SelectedTileCoordinates, false );
-        TileMapCursor.Hide();
-        HUDControls.Hide();
-        base.Action( playerCharacterCoordinates );
+        int disX = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.x - Coordinates.x );
+        int disY = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.y - Coordinates.y );
+        if ( disX + disY == 1 && Entities.Search(TileMapCursor.SelectedTileCoordinates).Count > 0)
+        {
+            Debug.Log( Name + " attack!" );
+            Entities.Step();
+        }
+        else
+        {
+            chain = Pathfind.GetPath( Coordinates, TileMapCursor.SelectedTileCoordinates, false );
+            TileMapCursor.Hide();
+            HUDControls.Hide();
+            base.Action( playerCharacterCoordinates );
+        }
     }
 
     protected override void OnStep()

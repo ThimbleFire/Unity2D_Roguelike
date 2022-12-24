@@ -3,8 +3,8 @@ using UnityEngine;
 [RequireComponent( typeof( AudioSource ) )]
 public static class AudioDevice
 {
-    private static AudioSource audioSource;
-    private static AudioClip[] generics;
+    private static AudioSource s_audioSource;
+    private static AudioClip[] s_generics;
 
     public enum Sound
     {
@@ -15,15 +15,15 @@ public static class AudioDevice
 
     public static void Setup( AudioSource source, AudioClip[] _generics )
     {
-        generics = _generics;
-        audioSource = source;
+        s_generics = _generics;
+        s_audioSource = source;
     }
 
     public static void Play( AudioClip clip )
     {
         if ( clip != null )
         {
-            audioSource.PlayOneShot( clip );
+            s_audioSource.PlayOneShot( clip );
         }
     }
 
@@ -32,15 +32,15 @@ public static class AudioDevice
         switch ( sound )
         {
             case Sound.Button:
-                Play( generics[0] );
+                Play( s_generics[0] );
                 break;
 
             case Sound.Pickup:
-                Play( generics[1] );
+                Play( s_generics[1] );
                 break;
 
             case Sound.WindowOpen:
-                Play( generics[2] );
+                Play( s_generics[2] );
                 break;
         }
     }

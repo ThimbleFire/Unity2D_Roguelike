@@ -11,9 +11,9 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     public bool castsShadows = true;
     public bool selfShadows = false;
 
-    private static readonly FieldInfo _meshField;
-    private static readonly FieldInfo _shapePathField;
-    private static readonly MethodInfo _generateShadowMeshMethod;
+    private static readonly FieldInfo s_meshField;
+    private static readonly FieldInfo s_shapePathField;
+    private static readonly MethodInfo s_generateShadowMeshMethod;
 
     private ShadowCaster2D[] _shadowCasters;
 
@@ -27,10 +27,10 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     /// </summary>
     static ShadowCaster2DFromComposite()
     {
-        _meshField = typeof( ShadowCaster2D ).GetField( "m_Mesh", BindingFlags.NonPublic | BindingFlags.Instance );
-        _shapePathField = typeof( ShadowCaster2D ).GetField( "m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance );
+        s_meshField = typeof( ShadowCaster2D ).GetField( "m_Mesh", BindingFlags.NonPublic | BindingFlags.Instance );
+        s_shapePathField = typeof( ShadowCaster2D ).GetField( "m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance );
 
-        _generateShadowMeshMethod = typeof( ShadowCaster2D )
+        s_generateShadowMeshMethod = typeof( ShadowCaster2D )
                                     .Assembly
                                     .GetType( "UnityEngine.Experimental.Rendering.Universal.ShadowUtility" )
                                     .GetMethod( "GenerateShadowMesh", BindingFlags.Public | BindingFlags.Static );
@@ -126,11 +126,11 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
         Vector2[] points = _compositeVerts.ToArray();
         var threes = ConvertArray( points );
 
-        _shapePathField.SetValue( caster, threes );
-        _meshField.SetValue( caster, new Mesh() );
-        _generateShadowMeshMethod.Invoke( caster,
-            new object[] { _meshField.GetValue(caster),
-                _shapePathField.GetValue(caster) } );
+        s_shapePathField.SetValue( caster, threes );
+        s_meshField.SetValue( caster, new Mesh() );
+        s_generateShadowMeshMethod.Invoke( caster,
+            new object[] { s_meshField.GetValue(caster),
+                s_shapePathField.GetValue(caster) } );
     }
 
     //Quick method for converting a Vector2 array into a Vector3 array

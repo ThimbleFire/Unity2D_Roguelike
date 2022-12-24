@@ -19,20 +19,20 @@ public class Node
 
 public class Pathfind
 {
-    private static Node[,] nodes;
+    private static Node[,] s_nodes;
 
-    public static void Occupy( Vector3Int coordinates ) => nodes[coordinates.x, coordinates.y].walkable = false;
-    public static void Unoccupy( Vector3Int coordinates ) => nodes[coordinates.x, coordinates.y].walkable = true;
+    public static void Occupy( Vector3Int coordinates ) => s_nodes[coordinates.x, coordinates.y].walkable = false;
+    public static void Unoccupy( Vector3Int coordinates ) => s_nodes[coordinates.x, coordinates.y].walkable = true;
 
     public static void Setup( Tilemap tilemap )
     {
-        nodes = new Node[BoardManager.Width, BoardManager.Height];
+        s_nodes = new Node[BoardManager.Width, BoardManager.Height];
 
         foreach ( Vector3Int cellPosition in tilemap.cellBounds.allPositionsWithin )
         {
             if ( tilemap.HasTile( cellPosition ) )
 
-                nodes[cellPosition.x, cellPosition.y] = new Node()
+                s_nodes[cellPosition.x, cellPosition.y] = new Node()
                 {
                     walkable = true,
                     coordinate = cellPosition,
@@ -43,7 +43,7 @@ public class Pathfind
 
     public static List<Node> Wander( Vector3Int coordinates )
     {
-        Node startNode = nodes[coordinates.x, coordinates.y];
+        Node startNode = s_nodes[coordinates.x, coordinates.y];
         
         List<Node> neighbours = GetNeighbours(startNode, true);
 
@@ -59,13 +59,12 @@ public class Pathfind
 
     public static List<Node> GetPath( Vector3Int start, Vector3Int destination, bool includeUnwalkable )
     {        
-        Node startNode = nodes[start.x, start.y];
-        Node endNode = nodes[destination.x, destination.y];
-        
-        if(endNode.walkable == false)
+        Node startNode = s_nodes[start.x, start.y];
+        Node endNode = s_nodes[destination.x, destination.y];
+
+        if (endNode.walkable == false)
         {
             List<Node> neighbours = GetNeighbours(endNode, true);
-            
             endNode = neighbours[UnityEngine.Random.Range( 0, neighbours.Count )]; // if exclusive
         }
 
@@ -167,19 +166,19 @@ public class Pathfind
                 int checkY = node.coordinate.y + offset[i].y;
                 
                 if(includeUnwalkable == false)
-                if(nodes[checkX, checkY].walkable == false)
+                if(s_nodes[checkX, checkY].walkable == false)
                 {
                     continue;
                 }
 
-                bool checkXInBounds = checkX >= 0 && checkX < nodes.GetLength( 0 );
-                bool checkYInBounds = checkY >= 0 && checkY < nodes.GetLength( 1 );
+                bool checkXInBounds = checkX >= 0 && checkX < s_nodes.GetLength( 0 );
+                bool checkYInBounds = checkY >= 0 && checkY < s_nodes.GetLength( 1 );
 
                 if ( checkXInBounds && checkYInBounds )
                 {
-                    if ( nodes[checkX, checkY] != null )
+                    if ( s_nodes[checkX, checkY] != null )
                     {
-                        neighbours.Add( nodes[checkX, checkY] );
+                        neighbours.Add( s_nodes[checkX, checkY] );
                     }
                 }
         }   

@@ -9,12 +9,12 @@ public class TileMapCursor : MonoBehaviour
 
     public TileBase cursorTileBase;
 
-    private static UnityEngine.UI.Text SelectedText;
+    private static UnityEngine.UI.Text s_SelectedText;
 
     private void Awake()
     {
         TilemapCursor = GetComponent<Tilemap>();
-        SelectedText = GameObject.Find("Text_Selected").GetComponent<UnityEngine.UI.Text>();
+        s_SelectedText = GameObject.Find("Text_Selected").GetComponent<UnityEngine.UI.Text>();
         SelectedTileCoordinates = Vector3Int.zero;
     }
 
@@ -32,19 +32,19 @@ public class TileMapCursor : MonoBehaviour
         TilemapCursor.SetTile( coordinate, cursorTileBase );
         SelectedTileCoordinates = coordinate;
 
-        SelectedText.text = string.Empty;
+        s_SelectedText.text = string.Empty;
 
         List<Entity> entities = Entities.Search(coordinate);
 
         if ( entities.Count == 0 )
             return;
 
-        SelectedText.text = entities[0].Name;
+        s_SelectedText.text = entities[0].Name;
     }
 
     public static void Hide()
     {
-        SelectedText.text = string.Empty;
+        s_SelectedText.text = string.Empty;
         TilemapCursor.SetTile( SelectedTileCoordinates, null );
     }
 

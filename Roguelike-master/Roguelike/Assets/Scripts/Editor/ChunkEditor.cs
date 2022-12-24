@@ -7,15 +7,15 @@ using UnityEngine.Tilemaps;
 
 public class ChunkEditor : EditorWindow
 {
-    private Tilemap Floor;
-    private Tilemap Walls;
-    private Tilemap Curios;
+    private Tilemap Floor { get; set; }
+    private Tilemap Walls { get; set; }
+    private Tilemap Curios { get; set; }
 
-    private bool Loaded = false;
+    private bool _tilemapLoaded = false;
 
-    private int popupIndex = 0;
-    private string[] popupOptions;
-    private string newSceneName = string.Empty;
+    private int _popupIndex = 0;
+    private string[] _popupOptions;
+    private string _newSceneName = string.Empty;
 
     [MenuItem( "Window/Editor" )]
     private static void ShowWindow()
@@ -25,7 +25,7 @@ public class ChunkEditor : EditorWindow
 
     private void OnGUI()
     {
-        if ( Loaded == false )
+        if ( _tilemapLoaded == false )
         {
             if ( GUILayout.Button( "Load Tilemaps" ) )
             {
@@ -42,16 +42,16 @@ public class ChunkEditor : EditorWindow
 
                 RefreshChunkList();
 
-                Loaded = true;
+                _tilemapLoaded = true;
             }
         }
         else
         {
-            if ( popupOptions != null )
+            if ( _popupOptions != null )
             {
-                int temp = popupIndex;
-                popupIndex = EditorGUI.Popup( new Rect( 3, 4, position.width - 6, 20 ), popupIndex, popupOptions );
-                if ( temp != popupIndex )
+                int temp = _popupIndex;
+                _popupIndex = EditorGUI.Popup( new Rect( 3, 4, position.width - 6, 20 ), _popupIndex, _popupOptions );
+                if ( temp != _popupIndex )
                 {
                     LoadScene();
                 }
@@ -61,19 +61,19 @@ public class ChunkEditor : EditorWindow
                 Curios.SetTile( Vector3Int.zero, Resources.Load<TileBase>( "Dungeon Tileset/Dungeon_Tileset_86" ) );
             if ( GUILayout.Button( "Clear Scene" ) )
                 ClearScene();
-            newSceneName = GUILayout.TextArea( newSceneName );
-            EditorGUI.BeginDisabledGroup( newSceneName == string.Empty );
+            _newSceneName = GUILayout.TextArea( _newSceneName );
+            EditorGUI.BeginDisabledGroup( _newSceneName == string.Empty );
             {
                 if ( GUILayout.Button( "Save New Scene" ) )
                 {
-                    SaveChunkAndroid( newSceneName );
+                    SaveChunkAndroid( _newSceneName );
                     RefreshChunkList();
                 }
             }
             EditorGUI.EndDisabledGroup();
             if ( GUILayout.Button( "Overwrite Scene" ) )
             {
-                SaveChunkAndroid( popupOptions[popupIndex] );
+                SaveChunkAndroid( _popupOptions[_popupIndex] );
                 RefreshChunkList();
             }
         }
@@ -101,7 +101,7 @@ public class ChunkEditor : EditorWindow
         };
 
         XMLUtility.Save<Chunk>( chunk, name );
-        newSceneName = string.Empty;
+        _newSceneName = string.Empty;
         Debug.Log( "Saved" );
     }
 
@@ -109,7 +109,7 @@ public class ChunkEditor : EditorWindow
     {
         ClearScene();
 
-        Chunk data = XMLUtility.Load<Chunk>( popupOptions[popupIndex] );
+        Chunk data = XMLUtility.Load<Chunk>( _popupOptions[_popupIndex] );
 
         List<TileData> curios = data.Curios;
         List<TileData> walls = data.Walls;
@@ -216,6 +216,6 @@ public class ChunkEditor : EditorWindow
             filenames.Add( XMLUtility.Load<Chunk>( objs[i] ).Name );
         }
 
-        popupOptions = filenames.ToArray();
+        _popupOptions = filenames.ToArray();
     }
 }
