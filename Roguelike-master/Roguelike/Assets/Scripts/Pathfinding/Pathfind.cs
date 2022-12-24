@@ -69,6 +69,9 @@ public class Pathfind
             endNode = neighbours[UnityEngine.Random.Range( 0, neighbours.Count )]; // if exclusive
         }
 
+        if ( endNode == startNode )
+            return new List<Node>( new List<Node>() { startNode } );
+
         List<Node> openSet = new List<Node>( );
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add( startNode );

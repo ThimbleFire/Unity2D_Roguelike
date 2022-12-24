@@ -19,8 +19,6 @@ public class Entity : MonoBehaviour
 
     private void Awake() => animator = GetComponent<Animator>();
 
-    private bool active = false;
-
     private void Update()
     {
         if ( chain.Count == 0 )

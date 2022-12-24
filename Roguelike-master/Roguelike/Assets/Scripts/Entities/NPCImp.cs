@@ -19,6 +19,9 @@ public class NPCImp : Entity
         if ( distance <= RangeOfAggression )
         {
             chain = Pathfind.GetPath( coordinates, playerCharacterCoordinates, false );
+
+            if(chain.Count == 0 )
+                Entities.Step();
         }
         else
         {
