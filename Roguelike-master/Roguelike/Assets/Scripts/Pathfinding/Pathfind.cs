@@ -43,30 +43,18 @@ public class Pathfind
 
     public static List<Node> Wander( Vector3Int coordinates )
     {
-        UnityEngine.Random.InitState( UnityEngine.Random.Range( int.MinValue, int.MaxValue ) );
+        Node startNode = nodes[coodinates.x, coordinates.y];
+        
+        List<Node> neighbours = GetNeighbours(startNode, true);
 
-        Vector3Int destination = Vector3Int.zero;
-
-        while ( nodes[destination.x, destination.y] == null )
-        {
-            switch ( UnityEngine.Random.Range( 0, 5 ) )
-            {
-                case 0:
-                    destination = coordinates + Vector3Int.up;
-                    break;
-                case 1:
-                    destination = coordinates + Vector3Int.down;
-                    break;
-                case 2:
-                    destination = coordinates + Vector3Int.left;
-                    break;
-                case 3:
-                    destination = coordinates + Vector3Int.right;
-                    break;
-            }
-        }
-
-        return GetPath( coordinates, destination, false );
+        List<Node> path = GetPath( coordinates, neighbours[UnityEngine.Random.Range(0, ^neighbours)], false );
+        
+        if(path == null)
+            return new List<Node>(startNode);
+        if(path.Count == 0)
+            return new list<Node>(startNode);
+        
+        return path;
     }
 
     public static List<Node> GetPath( Vector3Int start, Vector3Int destination, bool ignoreOccupied )
