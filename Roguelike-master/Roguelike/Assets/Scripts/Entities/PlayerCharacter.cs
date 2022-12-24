@@ -11,7 +11,7 @@ public class PlayerCharacter : Entity
 
     public override void Action( Vector3Int playerCharacterCoordinates )
     {
-        chain = Pathfind.GetPath( coordinates, TileMapCursor.SelectedTileCoordinates );
+        chain = Pathfind.GetPath( coordinates, TileMapCursor.SelectedTileCoordinates, false );
         TileMapCursor.Hide();
         HUDControls.Hide();
         base.Action( playerCharacterCoordinates );

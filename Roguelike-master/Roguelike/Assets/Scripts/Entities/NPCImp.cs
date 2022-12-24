@@ -14,11 +14,11 @@ public class NPCImp : Entity
     {
         // some AI shit
 
-        int distance = Pathfind.GetPath(coordinates, playerCharacterCoordinates).Count;
+        int distance = Pathfind.GetPath(coordinates, playerCharacterCoordinates, true).Count;
 
         if ( distance <= RangeOfAggression )
         {
-            chain = Pathfind.GetPath( coordinates, playerCharacterCoordinates );
+            chain = Pathfind.GetPath( coordinates, playerCharacterCoordinates, false );
         }
         else
         {

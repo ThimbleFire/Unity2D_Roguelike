@@ -43,17 +43,17 @@ public class Pathfind
 
     public static List<Node> Wander( Vector3Int coordinates )
     {
-        Node startNode = nodes[coodinates.x, coordinates.y];
+        Node startNode = nodes[coordinates.x, coordinates.y];
         
         List<Node> neighbours = GetNeighbours(startNode, true);
 
-        List<Node> path = GetPath( coordinates, neighbours[UnityEngine.Random.Range(0, ^neighbours)], false );
-        
-        if(path == null)
-            return new List<Node>(startNode);
-        if(path.Count == 0)
-            return new list<Node>(startNode);
-        
+        List<Node> path = GetPath( coordinates, neighbours[UnityEngine.Random.Range(0, neighbours.Count)].coordinate, false );
+
+        if ( path == null )
+            return new List<Node>() { startNode };
+        if(path.Count == 0 )
+            return new List<Node>() { startNode };
+
         return path;
     }
 
@@ -66,7 +66,7 @@ public class Pathfind
         {
             List<Node> neighbours = GetNeighbours(endNode, true);
             
-            endNode = neighbours[UnityEngine.Random.Range(0, ^neighbours)]; // if exclusive
+            endNode = neighbours[UnityEngine.Random.Range( 0, neighbours.Count )]; // if exclusive
         }
 
         List<Node> openSet = new List<Node>( );
@@ -156,7 +156,7 @@ public class Pathfind
     {
         List<Node> neighbours = new List<Node>();
         
-        Vector3Int[] offset = new Vector3Int { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };
+        Vector3Int[] offset = new Vector3Int[] { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };
 
         for(int i = 0; i < 4; i++)
         {        
@@ -164,7 +164,7 @@ public class Pathfind
                 int checkY = node.coordinate.y + offset[i].y;
                 
                 if(includeUnwalkable == false)
-                if(nodes[checkX, checkY].walkable == false
+                if(nodes[checkX, checkY].walkable == false)
                 {
                     continue;
                 }
