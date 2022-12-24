@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class PlayerCharacter : Entity
 {
@@ -13,7 +12,7 @@ public class PlayerCharacter : Entity
     {
         int disX = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.x - Coordinates.x );
         int disY = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.y - Coordinates.y );
-        if ( disX + disY == 1 && Entities.Search(TileMapCursor.SelectedTileCoordinates).Count > 0)
+        if ( disX + disY == 1 && Entities.Search( TileMapCursor.SelectedTileCoordinates ).Count > 0 )
         {
             Debug.Log( Name + " attack!" );
             Entities.Step();

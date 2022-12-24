@@ -3,35 +3,27 @@ using UnityEngine.EventSystems;
 
 public class Joystick : MonoBehaviour, IPointerDownHandler, IDragHandler, IPointerUpHandler
 {
-    public float Horizontal
-    { get { return ( snapX ) ? SnapFloat( input.x, AxisOptions.Horizontal ) : input.x; } }
+    public float Horizontal { get { return ( snapX ) ? SnapFloat( input.x, AxisOptions.Horizontal ) : input.x; } }
 
-    public float Vertical
-    { get { return ( snapY ) ? SnapFloat( input.y, AxisOptions.Vertical ) : input.y; } }
+    public float Vertical { get { return ( snapY ) ? SnapFloat( input.y, AxisOptions.Vertical ) : input.y; } }
 
-    public Vector2 Direction
-    { get { return new Vector2( Horizontal, Vertical ); } }
+    public Vector2 Direction { get { return new Vector2( Horizontal, Vertical ); } }
 
-    public float HandleRange
-    {
+    public float HandleRange {
         get { return handleRange; }
         set { handleRange = Mathf.Abs( value ); }
     }
 
-    public float DeadZone
-    {
+    public float DeadZone {
         get { return deadZone; }
         set { deadZone = Mathf.Abs( value ); }
     }
 
-    public AxisOptions AxisOptions
-    { get { return AxisOptions; } set { axisOptions = value; } }
+    public AxisOptions AxisOptions { get { return AxisOptions; } set { axisOptions = value; } }
 
-    public bool SnapX
-    { get { return snapX; } set { snapX = value; } }
+    public bool SnapX { get { return snapX; } set { snapX = value; } }
 
-    public bool SnapY
-    { get { return snapY; } set { snapY = value; } }
+    public bool SnapY { get { return snapY; } set { snapY = value; } }
 
     [SerializeField] private float handleRange = 1;
     [SerializeField] private float deadZone = 0;

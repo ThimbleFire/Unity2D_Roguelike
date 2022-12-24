@@ -145,15 +145,19 @@ public class Room
                 case "Dungeon_Tileset_115":
                     Entities.RollMob( Position + data.position, 0 );
                     break;
+
                 case "Dungeon_Tileset_116":
                     Entities.RollMob( Position + data.position, 1 );
                     break;
+
                 case "Dungeon_Tileset_117":
                     Entities.RollMob( Position + data.position, 2 );
                     break;
+
                 case "Dungeon_Tileset_118":
                     Entities.RollMob( Position + data.position, 3 );
                     break;
+
                 case "Dungeon_Tileset_119":
                     Entities.PlayerSpawn( Position + data.position );
                     break;

@@ -6,6 +6,7 @@ public class Entity : MonoBehaviour
 {
     //Properties
     public string Name { get; protected set; }
+
     public int Speed { get; protected set; }
     public int RangeOfAggression { get; protected set; }
     public Vector3Int Coordinates { get; protected set; }
@@ -13,7 +14,9 @@ public class Entity : MonoBehaviour
     protected Animator _animator;
 
     //Pathfinding
-    protected virtual void SetPath( Vector3Int coordinates ) { }
+    protected virtual void SetPath( Vector3Int coordinates )
+    { }
+
     protected List<Node> chain = new List<Node>();
     private Vector3 _stepDestination;
 
@@ -24,7 +27,7 @@ public class Entity : MonoBehaviour
         if ( chain.Count == 0 )
             return;
 
-            StepFrame();
+        StepFrame();
     }
 
     public void Teleport( Vector3Int coordinates )
@@ -33,9 +36,8 @@ public class Entity : MonoBehaviour
         gameObject.transform.SetPositionAndRotation( coordinates + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity );
     }
 
-    public virtual void Action(Vector3Int playerCharacterCoordinates)
+    public virtual void Action( Vector3Int playerCharacterCoordinates )
     {
-
     }
 
     /// <summary>Updates the animator and next step destination from the chain.</summary>
@@ -63,7 +65,6 @@ public class Entity : MonoBehaviour
     /// <returns>void</returns>
     private void StepFrame()
     {
-
         //calculate position after moving
         Vector2 positionAfterMoving = UpdateAnimator( Vector3Int.zero );
 

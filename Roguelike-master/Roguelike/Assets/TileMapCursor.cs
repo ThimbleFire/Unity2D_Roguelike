@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-[RequireComponent(typeof(Tilemap))]
+[RequireComponent( typeof( Tilemap ) )]
 public class TileMapCursor : MonoBehaviour
 {
     public static Vector3Int SelectedTileCoordinates { get; set; }
@@ -14,7 +14,7 @@ public class TileMapCursor : MonoBehaviour
     private void Awake()
     {
         TilemapCursor = GetComponent<Tilemap>();
-        s_SelectedText = GameObject.Find("Text_Selected").GetComponent<UnityEngine.UI.Text>();
+        s_SelectedText = GameObject.Find( "Text_Selected" ).GetComponent<UnityEngine.UI.Text>();
         SelectedTileCoordinates = Vector3Int.zero;
     }
 
@@ -22,7 +22,7 @@ public class TileMapCursor : MonoBehaviour
     {
         TileMapInput.OnCellClicked += OnClickCursor;
     }
-    
+
     private void OnClickCursor( Vector3Int coordinate )
     {
         if ( BoardManager.tileMapGround.HasTile( coordinate ) == false )
@@ -49,5 +49,4 @@ public class TileMapCursor : MonoBehaviour
     }
 
     private static Tilemap TilemapCursor { get; set; }
-
 }

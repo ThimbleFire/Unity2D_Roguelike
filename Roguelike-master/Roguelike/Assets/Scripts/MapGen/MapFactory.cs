@@ -22,7 +22,7 @@ public class MapFactory
             // Get a random prototype
             int index = Random.Range( 0, prototypes.Count );
             Room prototype = prototypes[index];
-            
+
             // Get that prototypes parent
             Room parent = prototype.Parent;
 
@@ -87,6 +87,7 @@ public class MapFactory
 
         return false;
     }
+
     private static bool RoomsCollide( Room room, List<Room> rooms )
     {
         foreach ( Room item in rooms )
@@ -116,6 +117,7 @@ public class MapFactory
 
         return true;
     }
+
     public static bool IsInBounds( List<Room> r )
     {
         foreach ( var item in r )

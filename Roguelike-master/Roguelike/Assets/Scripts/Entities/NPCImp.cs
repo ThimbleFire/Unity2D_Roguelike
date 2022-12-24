@@ -1,4 +1,3 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class NPCImp : Entity
@@ -23,7 +22,6 @@ public class NPCImp : Entity
         }
         else
         {
-
             int distance = Pathfind.GetPath(Coordinates, playerCharacterCoordinates, true).Count;
 
             if ( distance <= RangeOfAggression )
@@ -39,7 +37,7 @@ public class NPCImp : Entity
             }
         }
 
-        base.Action(playerCharacterCoordinates);
+        base.Action( playerCharacterCoordinates );
     }
 
     protected override void OnStep()

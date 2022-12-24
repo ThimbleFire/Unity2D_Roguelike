@@ -1,5 +1,3 @@
-using System;
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -27,7 +25,7 @@ public class Entities : MonoBehaviour
         s_entities.Add( entity );
     }
 
-    public static void PlayerSpawn(Vector3Int spawnPosition)
+    public static void PlayerSpawn( Vector3Int spawnPosition )
     {
         GameObject prefab = ResourceRepository.GetUnit("PlayerCharacter");
         GameObject instance = Instantiate( prefab, spawnPosition, Quaternion.identity, Transform );
@@ -40,12 +38,11 @@ public class Entities : MonoBehaviour
 
     public static void RollFriend( Vector3Int spawnPosition )
     {
-
     }
 
     public static void Action()
     {
-        s_entities[s_Turn].Action(s_entities[0].Coordinates);
+        s_entities[s_Turn].Action( s_entities[0].Coordinates );
     }
 
     public static void Step()
@@ -65,10 +62,11 @@ public class Entities : MonoBehaviour
         }
     }
 
-    public static List<Vector3Int> GetObstacles() {
+    public static List<Vector3Int> GetObstacles()
+    {
         List<Vector3Int> occupiedPositions = new List<Vector3Int>();
         foreach ( Entity entity in s_entities )
-            occupiedPositions.Add( entity.Coordinates );        
+            occupiedPositions.Add( entity.Coordinates );
         return occupiedPositions;
     }
 }

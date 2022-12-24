@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
@@ -22,6 +21,7 @@ public class Pathfind
     private static Node[,] s_nodes;
 
     public static void Occupy( Vector3Int coordinates ) => s_nodes[coordinates.x, coordinates.y].walkable = false;
+
     public static void Unoccupy( Vector3Int coordinates ) => s_nodes[coordinates.x, coordinates.y].walkable = true;
 
     public static void Setup( Tilemap tilemap )
@@ -36,7 +36,7 @@ public class Pathfind
                 {
                     walkable = true,
                     coordinate = cellPosition,
-                    worldPosition = tilemap.CellToWorld(cellPosition)
+                    worldPosition = tilemap.CellToWorld( cellPosition )
                 };
         }
     }
@@ -44,25 +44,25 @@ public class Pathfind
     public static List<Node> Wander( Vector3Int coordinates )
     {
         Node startNode = s_nodes[coordinates.x, coordinates.y];
-        
+
         List<Node> neighbours = GetNeighbours(startNode, true);
 
         List<Node> path = GetPath( coordinates, neighbours[UnityEngine.Random.Range(0, neighbours.Count)].coordinate, false );
 
         if ( path == null )
             return new List<Node>() { startNode };
-        if(path.Count == 0 )
+        if ( path.Count == 0 )
             return new List<Node>() { startNode };
 
         return path;
     }
 
     public static List<Node> GetPath( Vector3Int start, Vector3Int destination, bool includeUnwalkable )
-    {        
+    {
         Node startNode = s_nodes[start.x, start.y];
         Node endNode = s_nodes[destination.x, destination.y];
 
-        if (endNode.walkable == false)
+        if ( endNode.walkable == false )
         {
             List<Node> neighbours = GetNeighbours(endNode, true);
             endNode = neighbours[UnityEngine.Random.Range( 0, neighbours.Count )]; // if exclusive
@@ -83,8 +83,8 @@ public class Pathfind
             {
                 if ( openSet[i].fCost < currentNode.fCost ||
                     openSet[i].fCost == currentNode.fCost &&
-                    openSet[i].hCost < currentNode.hCost ) {
-
+                    openSet[i].hCost < currentNode.hCost )
+                {
                     currentNode = openSet[i];
                 }
             }
@@ -97,11 +97,11 @@ public class Pathfind
                 return RetracePath( startNode, endNode );
             }
 
-            List<Node> neighbours = GetNeighbours( currentNode, true ); // We'll want to ignore walkables 
+            List<Node> neighbours = GetNeighbours( currentNode, true ); // We'll want to ignore walkables
 
             foreach ( Node neighbour in neighbours )
             {
-                if ( (neighbour.walkable == false && includeUnwalkable) || closedSet.Contains( neighbour ) )
+                if ( ( neighbour.walkable == false && includeUnwalkable ) || closedSet.Contains( neighbour ) )
                 {
                     continue;
                 }
@@ -118,13 +118,13 @@ public class Pathfind
                 }
             }
         }
-        
-        if(includeUnwalkable == false)
+
+        if ( includeUnwalkable == false )
         {
-            return GetPath(start, destination, true);  
+            return GetPath( start, destination, true );
         }
-        
-        Debug.Log( "Unable to find a path, attempting to find one by ignoring obstacles");
+
+        Debug.Log( "Unable to find a path, attempting to find one by ignoring obstacles" );
         return null;
     }
 
@@ -139,7 +139,7 @@ public class Pathfind
             return 14 * disX + 10 * ( disY - disX );
     }
 
-    private static List<Node> RetracePath(Node startNode, Node endNode)
+    private static List<Node> RetracePath( Node startNode, Node endNode )
     {
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
@@ -154,35 +154,34 @@ public class Pathfind
         return path;
     }
 
-    private static List<Node> GetNeighbours( Node node, bool includeUnwalkable)
+    private static List<Node> GetNeighbours( Node node, bool includeUnwalkable )
     {
         List<Node> neighbours = new List<Node>();
-        
+
         Vector3Int[] offset = new Vector3Int[] { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };
 
-        for(int i = 0; i < 4; i++)
-        {        
-                int checkX = node.coordinate.x + offset[i].x;
-                int checkY = node.coordinate.y + offset[i].y;
-                
-                if(includeUnwalkable == false)
-                if(s_nodes[checkX, checkY].walkable == false)
+        for ( int i = 0; i < 4; i++ )
+        {
+            int checkX = node.coordinate.x + offset[i].x;
+            int checkY = node.coordinate.y + offset[i].y;
+
+            if ( includeUnwalkable == false )
+                if ( s_nodes[checkX, checkY].walkable == false )
                 {
                     continue;
                 }
 
-                bool checkXInBounds = checkX >= 0 && checkX < s_nodes.GetLength( 0 );
-                bool checkYInBounds = checkY >= 0 && checkY < s_nodes.GetLength( 1 );
+            bool checkXInBounds = checkX >= 0 && checkX < s_nodes.GetLength( 0 );
+            bool checkYInBounds = checkY >= 0 && checkY < s_nodes.GetLength( 1 );
 
-                if ( checkXInBounds && checkYInBounds )
+            if ( checkXInBounds && checkYInBounds )
+            {
+                if ( s_nodes[checkX, checkY] != null )
                 {
-                    if ( s_nodes[checkX, checkY] != null )
-                    {
-                        neighbours.Add( s_nodes[checkX, checkY] );
-                    }
+                    neighbours.Add( s_nodes[checkX, checkY] );
                 }
-        }   
-        
+            }
+        }
 
         return neighbours;
     }

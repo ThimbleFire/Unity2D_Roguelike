@@ -10,19 +10,14 @@ public class ItemStats : MonoBehaviour
     public const string hexGray = "<color=#8A8A8A>";
     public const string hexRed = "<color=#FF0000>";
 
-    public string Name
-    { get { return string.Format( "{0}{1}{2}", Rarity == 0 ? hexGray : Rarity <= 3 ? hexMagic : hexRare, gameObject.name, "</color>" ); } }
+    public string Name { get { return string.Format( "{0}{1}{2}", Rarity == 0 ? hexGray : Rarity <= 3 ? hexMagic : hexRare, gameObject.name, "</color>" ); } }
 
-    public byte Rarity
-    { get { return ( byte )( prefixes.Count + suffixes.Count ); } }
+    public byte Rarity { get { return ( byte )( prefixes.Count + suffixes.Count ); } }
 
-    public Type type
-    { get { return itemBasics.type; } }
+    public Type type { get { return itemBasics.type; } }
 
-    public int MinDamage
-    {
-        get
-        {
+    public int MinDamage {
+        get {
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Dmg_Phys_Min );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Dmg_Phys_Percent );
 
@@ -45,10 +40,8 @@ public class ItemStats : MonoBehaviour
         }
     }
 
-    public int MaxDamage
-    {
-        get
-        {
+    public int MaxDamage {
+        get {
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Dmg_Phys_Max );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Dmg_Phys_Percent );
 
@@ -71,10 +64,8 @@ public class ItemStats : MonoBehaviour
         }
     }
 
-    public int Defense
-    {
-        get
-        {
+    public int Defense {
+        get {
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Def_Phys_Flat );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Def_Phys_Percent );
 
@@ -106,10 +97,8 @@ public class ItemStats : MonoBehaviour
 
     public AudioClip soundEndDrag;
 
-    public string Tooltip
-    {
-        get
-        {
+    public string Tooltip {
+        get {
             System.Text.StringBuilder t = new System.Text.StringBuilder( Name );
 
             t.Append( "\n" + Type_Text[( byte )type] );

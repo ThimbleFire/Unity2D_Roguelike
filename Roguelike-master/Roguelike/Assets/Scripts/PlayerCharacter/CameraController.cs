@@ -13,7 +13,7 @@ public class CameraController : MonoBehaviour
         _camera.transform.position = followTarget.transform.position - Vector3.forward * 10;
     }
 
-    public static void SetFollowTarget(Transform transform)
+    public static void SetFollowTarget( Transform transform )
     {
         followTarget = transform;
     }

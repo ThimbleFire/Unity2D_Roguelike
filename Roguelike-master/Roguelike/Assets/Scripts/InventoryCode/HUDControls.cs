@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class HUDControls : MonoBehaviour
 {
@@ -20,14 +19,14 @@ public class HUDControls : MonoBehaviour
         // Because if inventory is disabled, we can't call the code to re-enable it
         // so we have to toggle it via HUDControls
 
-
         inventory.GetComponent<Inventory>().Hide();
         inventory.SetActive( !inventory.activeSelf );
         mobileButton.SetActive( !inventory.activeSelf );
-        
+
         InventoryOpened = inventory.activeSelf;
     }
 
     public static void Show() => mobileButton.SetActive( true );
+
     public static void Hide() => mobileButton.SetActive( false );
 }

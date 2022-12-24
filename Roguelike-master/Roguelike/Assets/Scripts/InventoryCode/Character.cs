@@ -7,16 +7,13 @@ public class Character : MonoBehaviour, IEquipped
 {
     public static byte Level = 1;
 
-    public static int DmgAccuracy
-    { get { return stats[( StatID )GearStats.Prefix.Plus_Accuracy] + Dexterity * 5; } }
+    public static int DmgAccuracy { get { return stats[( StatID )GearStats.Prefix.Plus_Accuracy] + Dexterity * 5; } }
 
     private static int dmgPhyMin, dmgPhyMax = 0;
 
-    public static int DmgPhysMin
-    { get { return dmgPhyMin + ( Strength / 100 ) * dmgPhyMin; } }
+    public static int DmgPhysMin { get { return dmgPhyMin + ( Strength / 100 ) * dmgPhyMin; } }
 
-    public static int DmgPhysMax
-    { get { return dmgPhyMax + ( Strength / 100 ) * dmgPhyMax; } }
+    public static int DmgPhysMax { get { return dmgPhyMax + ( Strength / 100 ) * dmgPhyMax; } }
 
     /*
         // NEW VALUE
@@ -24,111 +21,77 @@ public class Character : MonoBehaviour, IEquipped
 
     */
 
-    public static int DmgEleFireMin
-    { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Fire] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Fire]; } }
+    public static int DmgEleFireMin { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Fire] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Fire]; } }
 
-    public static int DmgEleFireMax
-    { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Fire] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Fire]; } }
+    public static int DmgEleFireMax { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Fire] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Fire]; } }
 
-    public static int DmgEleColdMin
-    { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Cold] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Cold]; } }
+    public static int DmgEleColdMin { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Cold] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Cold]; } }
 
-    public static int DmgEleColdMax
-    { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Cold] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Cold]; } }
+    public static int DmgEleColdMax { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Cold] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Cold]; } }
 
-    public static int DmgEleLightningMin
-    { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Lightning] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Lightning]; } }
+    public static int DmgEleLightningMin { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Lightning] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Lightning]; } }
 
-    public static int DmgEleLightningMax
-    { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Lightning] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Lightning]; } }
+    public static int DmgEleLightningMax { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Lightning] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Lightning]; } }
 
-    public static int DmgElePoisonMin
-    { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Poison] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Poison]; } }
+    public static int DmgElePoisonMin { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Poison] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Poison]; } }
 
-    public static int DmgElePoisonMax
-    { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Poison] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Poison]; } }
+    public static int DmgElePoisonMax { get { return stats[( StatID )GearStats.Prefix.Dmg_Ele_Poison] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Poison]; } }
 
-    public static int Armour
-    { get { return stats[StatID.Def_Phys_Flat]; } }
+    public static int Armour { get { return stats[StatID.Def_Phys_Flat]; } }
 
-    public static int Defense
-    { get { return Dexterity / 2 + Armour; } }
+    public static int Defense { get { return Dexterity / 2 + Armour; } }
 
-    public static int DefDmgReductionPhys
-    { get { return stats[( StatID )GearStats.Prefix.Def_Dmg_Reduction_Phys] + stats[( StatID )GearStats.Suffix.Def_Dmg_Reduction_All] + stats[( StatID )GearStats.Implicit.Def_Dmg_Reduction_All]; } }
+    public static int DefDmgReductionPhys { get { return stats[( StatID )GearStats.Prefix.Def_Dmg_Reduction_Phys] + stats[( StatID )GearStats.Suffix.Def_Dmg_Reduction_All] + stats[( StatID )GearStats.Implicit.Def_Dmg_Reduction_All]; } }
 
-    public static int DefDmgReductionMagic
-    { get { return stats[( StatID )GearStats.Prefix.Def_Dmg_Reduction_Magic] + stats[( StatID )GearStats.Suffix.Def_Dmg_Reduction_All] + stats[( StatID )GearStats.Implicit.Def_Dmg_Reduction_All]; } }
+    public static int DefDmgReductionMagic { get { return stats[( StatID )GearStats.Prefix.Def_Dmg_Reduction_Magic] + stats[( StatID )GearStats.Suffix.Def_Dmg_Reduction_All] + stats[( StatID )GearStats.Implicit.Def_Dmg_Reduction_All]; } }
 
-    public static int DefResFire
-    { get { return stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Fire]; } }
+    public static int DefResFire { get { return stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Fire]; } }
 
-    public static int DefResCold
-    { get { return stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Cold]; } }
+    public static int DefResCold { get { return stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Cold]; } }
 
-    public static int DefResLightning
-    { get { return stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Lightning]; } }
+    public static int DefResLightning { get { return stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Lightning]; } }
 
-    public static int DefResPoison
-    { get { return stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Poison]; } }
+    public static int DefResPoison { get { return stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Poison]; } }
 
-    public static int OnHitLife
-    { get { return stats[( StatID )GearStats.Prefix.On_Hit_Life]; } }
+    public static int OnHitLife { get { return stats[( StatID )GearStats.Prefix.On_Hit_Life]; } }
 
-    public static int OnKillLife
-    { get { return stats[( StatID )GearStats.Prefix.On_Kill_Life]; } }
+    public static int OnKillLife { get { return stats[( StatID )GearStats.Prefix.On_Kill_Life]; } }
 
-    public static int OnHitMana
-    { get { return stats[( StatID )GearStats.Suffix.On_Hit_Mana]; } }
+    public static int OnHitMana { get { return stats[( StatID )GearStats.Suffix.On_Hit_Mana]; } }
 
-    public static int OnKillMana
-    { get { return stats[( StatID )GearStats.Suffix.On_Kill_Mana]; } }
+    public static int OnKillMana { get { return stats[( StatID )GearStats.Suffix.On_Kill_Mana]; } }
 
-    public static int RegenLife
-    { get { return stats[( StatID )GearStats.Implicit.Plus_Regen_Life] + stats[( StatID )GearStats.Suffix.Plus_Regen_Life] + Life_Max / 100; } }
+    public static int RegenLife { get { return stats[( StatID )GearStats.Implicit.Plus_Regen_Life] + stats[( StatID )GearStats.Suffix.Plus_Regen_Life] + Life_Max / 100; } }
 
-    public static int RegenMana
-    { get { return stats[( StatID )GearStats.Implicit.Plus_Regen_Mana] + stats[( StatID )GearStats.Prefix.Plus_Regen_Mana] + Mana_Max / 100; } }
+    public static int RegenMana { get { return stats[( StatID )GearStats.Implicit.Plus_Regen_Mana] + stats[( StatID )GearStats.Prefix.Plus_Regen_Mana] + Mana_Max / 100; } }
 
-    public static int Strength
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Str]; } }
+    public static int Strength { get { return stats[( StatID )GearStats.Suffix.Plus_Str]; } }
 
-    public static int Dexterity
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Dex]; } }
+    public static int Dexterity { get { return stats[( StatID )GearStats.Suffix.Plus_Dex]; } }
 
-    public static int Constitution
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Con]; } }
+    public static int Constitution { get { return stats[( StatID )GearStats.Suffix.Plus_Con]; } }
 
-    public static int Intelligence
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Int]; } }
+    public static int Intelligence { get { return stats[( StatID )GearStats.Suffix.Plus_Int]; } }
 
-    public static int Life_Max
-    { get { return Constitution * 5 + stats[( StatID )GearStats.Suffix.Plus_Life]; } }
+    public static int Life_Max { get { return Constitution * 5 + stats[( StatID )GearStats.Suffix.Plus_Life]; } }
 
     public static int Life_Current = 0;
 
-    public static int Mana_Max
-    { get { return Intelligence * 5 + stats[( StatID )GearStats.Prefix.Plus_Mana]; } }
+    public static int Mana_Max { get { return Intelligence * 5 + stats[( StatID )GearStats.Prefix.Plus_Mana]; } }
 
     public static int Mana_Current = 0;
 
-    public static int IncPhysSpeed
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Speed_Phys] + stats[( StatID )GearStats.Implicit.Plus_Speed_Phys]; } }
+    public static int IncPhysSpeed { get { return stats[( StatID )GearStats.Suffix.Plus_Speed_Phys] + stats[( StatID )GearStats.Implicit.Plus_Speed_Phys]; } }
 
-    public static int IncMagicSpeed
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Speed_Magic] + stats[( StatID )GearStats.Implicit.Plus_Speed_Magic]; } }
+    public static int IncMagicSpeed { get { return stats[( StatID )GearStats.Suffix.Plus_Speed_Magic] + stats[( StatID )GearStats.Implicit.Plus_Speed_Magic]; } }
 
-    public static int IncMoveSpeed
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Speed_Movement] + stats[( StatID )GearStats.Implicit.Plus_Speed_Movement]; } }
+    public static int IncMoveSpeed { get { return stats[( StatID )GearStats.Suffix.Plus_Speed_Movement] + stats[( StatID )GearStats.Implicit.Plus_Speed_Movement]; } }
 
-    public static int IncBlockRecovery
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Block_Recovery] + stats[( StatID )GearStats.Implicit.Plus_Block_Recovery]; } }
+    public static int IncBlockRecovery { get { return stats[( StatID )GearStats.Suffix.Plus_Block_Recovery] + stats[( StatID )GearStats.Implicit.Plus_Block_Recovery]; } }
 
-    public static int IncStaggerRecovery
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Stagger_Recovery] + stats[( StatID )GearStats.Implicit.Plus_Stagger_Recovery]; } }
+    public static int IncStaggerRecovery { get { return stats[( StatID )GearStats.Suffix.Plus_Stagger_Recovery] + stats[( StatID )GearStats.Implicit.Plus_Stagger_Recovery]; } }
 
-    public static int IncMagicFind
-    { get { return stats[( StatID )GearStats.Suffix.Plus_Magic_Find] + stats[( StatID )GearStats.Implicit.Plus_Magic_Find] + stats[( StatID )GearStats.Prefix.Plus_Magic_Find]; } }
+    public static int IncMagicFind { get { return stats[( StatID )GearStats.Suffix.Plus_Magic_Find] + stats[( StatID )GearStats.Implicit.Plus_Magic_Find] + stats[( StatID )GearStats.Prefix.Plus_Magic_Find]; } }
 
     public enum StatID
     {

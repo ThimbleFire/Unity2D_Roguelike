@@ -114,11 +114,9 @@ public class Chunk
     public int Width { get; set; }
     public int Height { get; set; }
 
-    public int radius_x
-    { get { return ( Width - 1 ) / 2; } }
+    public int radius_x { get { return ( Width - 1 ) / 2; } }
 
-    public int radius_y
-    { get { return ( Height - 1 ) / 2; } }
+    public int radius_y { get { return ( Height - 1 ) / 2; } }
 
     [NonSerialized]
     public Vector3Int Origin;
