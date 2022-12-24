@@ -55,6 +55,3 @@ TagManager:
   - name: Entity
     uniqueID: 1572435841
     locked: 0
-  - name: Debug
-    uniqueID: 3664267223
-    locked: 0

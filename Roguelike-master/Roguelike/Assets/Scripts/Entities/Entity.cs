@@ -89,7 +89,6 @@ public class Entity : MonoBehaviour
         _coordinates = chain[0].coordinate;
         //let the pathfinder know this tile is now occupied
         Pathfind.Occupy( _coordinates );
-        Debug.Log( "Arrived at " + _coordinates );
         //remove the last chain since we're not where we used to be
         chain.RemoveAt( 0 );
 

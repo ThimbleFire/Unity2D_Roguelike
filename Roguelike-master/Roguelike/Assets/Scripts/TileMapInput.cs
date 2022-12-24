@@ -35,7 +35,6 @@ public class TileMapInput : MonoBehaviour
         {
             if ( HUDControls.InventoryOpened == false )
             {
-                Debug.Log( coordinate + " clicked" );
                 OnCellClicked?.Invoke( coordinate );
             }
         }
