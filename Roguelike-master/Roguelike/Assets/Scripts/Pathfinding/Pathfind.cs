@@ -57,7 +57,7 @@ public class Pathfind
         return path;
     }
 
-    public static List<Node> GetPath( Vector3Int start, Vector3Int destination, bool ignoreOccupied )
+    public static List<Node> GetPath( Vector3Int start, Vector3Int destination, bool includeUnwalkable )
     {        
         Node startNode = nodes[start.x, start.y];
         Node endNode = nodes[destination.x, destination.y];
@@ -99,7 +99,7 @@ public class Pathfind
 
             foreach ( Node neighbour in neighbours )
             {
-                if ( (neighbour.walkable == false && ignoreOccupied) || closedSet.Contains( neighbour ) )
+                if ( (neighbour.walkable == false && includeUnwalkable) || closedSet.Contains( neighbour ) )
                 {
                     continue;
                 }
@@ -117,7 +117,7 @@ public class Pathfind
             }
         }
         
-        if(ignoreOccupied == false)
+        if(includeUnwalkable == false)
         {
             return GetPath(start, destination, true);  
         }
@@ -152,39 +152,22 @@ public class Pathfind
         return path;
     }
 
-    private static List<Node> GetNeighbours( Node node, bool ignoreOccupied)
+    private static List<Node> GetNeighbours( Node node, bool includeUnwalkable)
     {
         List<Node> neighbours = new List<Node>();
+        
+        Vector3Int[] offset = new Vector3Int { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };
 
-        for ( int x = -1; x <= 1; x++ )
-        {
-            for ( int y = -1; y <= 1; y++ )
-            {
-                if ( x == 0 && y == 0 )
+        for(int i = 0; i < 4; i++)
+        {        
+                int checkX = node.coordinate.x + offset[i].x;
+                int checkY = node.coordinate.y + offset[i].y;
+                
+                if(includeUnwalkable == false)
+                if(nodes[checkX, checkY].walkable == false
+                {
                     continue;
-                
-                // remove top-left, bottom-right
-                
-                if ( x == -1 && y == -1)
-                    continue;
-                if ( x == 1 && y == 1)
-                    continue;
-                
-                // remove top-right, bottom-left
-                
-                if ( x == 1 && y == -1)
-                    continue;
-                if ( x == -1 && y == 1)
-                    continue;
-                
-                int checkX = node.coordinate.x + x;
-                int checkY = node.coordinate.y + y;
-                
-                if(ignoreOccupied == false)
-                    if(nodes[checkX, checkY].walkable == false
-                    {
-                        continue;
-                    }
+                }
 
                 bool checkXInBounds = checkX >= 0 && checkX < nodes.GetLength( 0 );
                 bool checkYInBounds = checkY >= 0 && checkY < nodes.GetLength( 1 );
@@ -196,8 +179,8 @@ public class Pathfind
                         neighbours.Add( nodes[checkX, checkY] );
                     }
                 }
-            }
-        }
+        }   
+        
 
         return neighbours;
     }
