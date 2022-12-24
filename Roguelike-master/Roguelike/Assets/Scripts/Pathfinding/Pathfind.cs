@@ -66,13 +66,20 @@ public class Pathfind
             }
         }
 
-        return GetPath( coordinates, destination );
+        return GetPath( coordinates, destination, false );
     }
 
-    public static List<Node> GetPath( Vector3Int start, Vector3Int destination )
-    {
+    public static List<Node> GetPath( Vector3Int start, Vector3Int destination, bool ignoreOccupied )
+    {        
         Node startNode = nodes[start.x, start.y];
         Node endNode = nodes[destination.x, destination.y];
+        
+        if(endNode.walkable == false)
+        {
+            List<Node> neighbours = GetNeighbours(endNode, true);
+            
+            endNode = neighbours[UnityEngine.Random.Range(0, ^neighbours)]; // if exclusive
+        }
 
         List<Node> openSet = new List<Node>( );
         HashSet<Node> closedSet = new HashSet<Node>();
@@ -100,11 +107,11 @@ public class Pathfind
                 return RetracePath( startNode, endNode );
             }
 
-            List<Node> neighbours = GetNeighbours( currentNode );
+            List<Node> neighbours = GetNeighbours( currentNode, true ); // We'll want to ignore walkables 
 
             foreach ( Node neighbour in neighbours )
             {
-                if ( /*neighbour.walkable == false ||*/ closedSet.Contains( neighbour ) )
+                if ( (neighbour.walkable == false && ignoreOccupied) || closedSet.Contains( neighbour ) )
                 {
                     continue;
                 }
@@ -121,8 +128,13 @@ public class Pathfind
                 }
             }
         }
-
-        Debug.Log( "This pathfinding sucks" );
+        
+        if(ignoreOccupied == false)
+        {
+            return GetPath(start, destination, true);  
+        }
+        
+        Debug.Log( "Unable to find a path, attempting to find one by ignoring obstacles");
         return null;
     }
 
@@ -152,7 +164,7 @@ public class Pathfind
         return path;
     }
 
-    private static List<Node> GetNeighbours( Node node )
+    private static List<Node> GetNeighbours( Node node, bool ignoreOccupied)
     {
         List<Node> neighbours = new List<Node>();
 
@@ -162,9 +174,29 @@ public class Pathfind
             {
                 if ( x == 0 && y == 0 )
                     continue;
-
+                
+                // remove top-left, bottom-right
+                
+                if ( x == -1 && y == -1)
+                    continue;
+                if ( x == 1 && y == 1)
+                    continue;
+                
+                // remove top-right, bottom-left
+                
+                if ( x == 1 && y == -1)
+                    continue;
+                if ( x == -1 && y == 1)
+                    continue;
+                
                 int checkX = node.coordinate.x + x;
                 int checkY = node.coordinate.y + y;
+                
+                if(ignoreOccupied == false)
+                    if(nodes[checkX, checkY].walkable == false
+                    {
+                        continue;
+                    }
 
                 bool checkXInBounds = checkX >= 0 && checkX < nodes.GetLength( 0 );
                 bool checkYInBounds = checkY >= 0 && checkY < nodes.GetLength( 1 );
