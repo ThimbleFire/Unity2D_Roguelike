@@ -22,23 +22,20 @@ public class NPCImp : Entity
         {
             Debug.Log( Name + " attack!" );
             Entities.Step();
+            return;
+        }
+        
+        if ( distance <= RangeOfAggression )
+        {
+            chain = Pathfind.GetPath( _coordinates, playerCharacterCoordinates, false );
+
+            if ( chain.Count == 0 )
+                Entities.Step();
         }
         else
         {
-            //int distance = Pathfind.GetPath(_coordinates, playerCharacterCoordinates, true).Count;
-
-            if ( distance <= RangeOfAggression )
-            {
-                chain = Pathfind.GetPath( _coordinates, playerCharacterCoordinates, false );
-
-                if ( chain.Count == 0 )
-                    Entities.Step();
-            }
-            else
-            {
-                chain = Pathfind.Wander( _coordinates );
-            }
-        }
+            chain = Pathfind.Wander( _coordinates );
+        }       
 
         base.Action( playerCharacterCoordinates );
     }
