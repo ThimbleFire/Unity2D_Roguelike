@@ -39,6 +39,17 @@ public class Entity : MonoBehaviour
 
     public virtual void Action( Vector3Int playerCharacterCoordinates )
     {
+        // override for performing actions. We need to figure out how we want this to work.
+    }
+    
+    protected virtual void Attack( Vector3Int playerCharacterCoordinates )
+    {
+        // attack options for player character and creatures
+    }
+    
+    protected virtual void Interact()
+    {
+        // interact option for entities that want to open chests / equip armour / take torches off the wall
     }
 
     /// <summary>Updates the animator and next step destination from the chain.</summary>
