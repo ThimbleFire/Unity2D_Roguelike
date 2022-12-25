@@ -4,7 +4,7 @@ using UnityEngine.Tilemaps;
 [RequireComponent(typeof(Tilemap))]
 public class Tilemap_Occupied_Debug : MonoBehaviour {
 
-    private static Tilemap TilemapOccupied { get; set; }
+    private static Tilemap TilemapOccupied { get; private set; }
     private static TileBase tileOccupied;
 
     void Start()
