@@ -9,8 +9,21 @@ public class NPCImp : Entity
         Speed = 3;
     }
 
-    public override void Action( Vector3Int playerCharacterCoordinates )
+    public override void Action()
     {
+        _operations.Add(Move);
+        _operations.Add(Attack);
+        _operations.Add(Move);
+        
+        _operations[0]();
+    
+        base.Action();
+    }
+    
+    protected override void Move()
+    {
+        Vector3Int playerCharacterCoordinates = Entities.GetPCCoordinates;
+    
         // some AI shit
 
         int disX = Mathf.Abs( playerCharacterCoordinates.x - _coordinates.x );
@@ -35,9 +48,7 @@ public class NPCImp : Entity
         else
         {
             chain = Pathfind.Wander( _coordinates );
-        }       
-
-        base.Action( playerCharacterCoordinates );
+        }
     }
 
     protected override void OnStep()
