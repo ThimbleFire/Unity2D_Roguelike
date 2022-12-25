@@ -66,11 +66,16 @@ public class Entity : MonoBehaviour
     /// <returns>void</returns>
     private void StepFrame()
     {
+        // if the entity is not on screen, instantly move the unit
+        if(!GetComponent<Renderer2D>().isVisible){
+            transform.position = chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
+            OnStep();
+            return;
+        }
+    
         //calculate position after moving
         Vector2 positionAfterMoving = UpdateAnimator( Vector3Int.zero );
-
         transform.position = positionAfterMoving;
-
         //call it again just for the sake of accurate animation
         UpdateAnimator( _coordinates - chain[0].coordinate );
 
