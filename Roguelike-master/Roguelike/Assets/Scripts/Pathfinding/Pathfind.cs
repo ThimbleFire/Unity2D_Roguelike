@@ -2,8 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
 
-// This based on this: https://pavcreations.com/tilemap-based-a-star-algorithm-implementation-in-unity-game/
-
 public class Node
 {
     public Vector3Int coordinate { get; set; }
