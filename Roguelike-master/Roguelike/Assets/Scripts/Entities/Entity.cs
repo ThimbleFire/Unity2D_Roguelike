@@ -19,6 +19,7 @@ public class Entity : MonoBehaviour
 
     protected List<Node> chain = new List<Node>();
     private Vector3 _stepDestination;
+    private int stepsTaken = 0;
 
     private void Awake() => _animator = GetComponent<Animator>();
 
@@ -91,18 +92,25 @@ public class Entity : MonoBehaviour
         Pathfind.Occupy( _coordinates );
         //remove the last chain since we're not where we used to be
         chain.RemoveAt( 0 );
-
         //If we've arrived at our destination
-        if ( chain.Count <= 0 )
-        {
-            _animator.SetBool( "Moving", false );
-
+        if ( chain.Count <= 0 ) {
             OnArrival();
+            return;
         }
+        //Once it's moved its all the tiles it can, it calls on arrival.
+        if(stepsTaken++ == Speed)
+            OnArrival();
+        
     }
 
     protected virtual void OnArrival()
     {
+        chain.Clear();
+        
+        stepsTaken = 0;
+        
+        _animator.SetBool( "Moving", false );
+        
         Entities.Step();
     }
 }
