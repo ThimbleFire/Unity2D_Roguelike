@@ -42,6 +42,11 @@ public class Entity : MonoBehaviour
         // override for performing actions. We need to figure out how we want this to work.
     }
     
+    protected virtual void Move( Vector3Int playerCharacterCoordinates )
+    {
+    
+    }
+    
     protected virtual void Attack( Vector3Int playerCharacterCoordinates )
     {
         // attack options for player character and creatures
