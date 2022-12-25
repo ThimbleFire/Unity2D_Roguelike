@@ -15,14 +15,17 @@ public class NPCImp : Entity
 
         int disX = Mathf.Abs( playerCharacterCoordinates.x - _coordinates.x );
         int disY = Mathf.Abs( playerCharacterCoordinates.y - _coordinates.y );
-        if ( disX + disY == 1 )
+        
+        int distance = disX + disY;
+        
+        if ( distance == 1 )
         {
             Debug.Log( Name + " attack!" );
             Entities.Step();
         }
         else
         {
-            int distance = Pathfind.GetPath(_coordinates, playerCharacterCoordinates, true).Count;
+            //int distance = Pathfind.GetPath(_coordinates, playerCharacterCoordinates, true).Count;
 
             if ( distance <= RangeOfAggression )
             {
