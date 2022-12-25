@@ -9,6 +9,8 @@ public class Entities : MonoBehaviour
     private static List<Entity> s_entities = new List<Entity>();
     private static int s_Turn = 0;
 
+    public static Vector3Int GetPCCoordinates => s_entities[0]._coordinates;
+
     private void Awake()
     {
         Transform = gameObject.transform;
@@ -43,7 +45,12 @@ public class Entities : MonoBehaviour
 
     public static void Action()
     {
-        s_entities[s_Turn].Action( s_entities[0]._coordinates );
+        s_entities[s_Turn].Action();
+    }
+
+    public static void Move()
+    {
+        s_entities[s_Turn].Move();
     }
 
     public static void Step()

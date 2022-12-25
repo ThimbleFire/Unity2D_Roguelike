@@ -192,7 +192,7 @@ public class Pathfind
     private static List<Node> GetNeighbours( Node node, bool diagonal = false )
     {
         List<Node> neighbours = new List<Node>();
-        Vector3Int[] offset;
+        Vector3Int[] offset = new Vector3Int[4];
         
         if ( diagonal == false )
         offset = new Vector3Int[] { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };

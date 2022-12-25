@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent( typeof( Animator ) )]
@@ -41,18 +42,18 @@ public class Entity : MonoBehaviour
     {
         // override for performing actions. We need to figure out how we want this to work.
     }
-    
-    protected virtual void Move()
+
+    public virtual void Move()
     {
     
     }
-    
-    protected virtual void Attack()
+
+    public virtual void Attack()
     {
         // attack options for player character and creatures
     }
-    
-    protected virtual void Interact()
+
+    public virtual void Interact()
     {
         // interact option for entities that want to open chests / equip armour / take torches off the wall
     }
@@ -83,7 +84,7 @@ public class Entity : MonoBehaviour
     private void StepFrame()
     {
         // if the entity is not on screen, instantly move the unit
-        if(!GetComponent<Renderer2D>().isVisible){
+        if(!GetComponent<SpriteRenderer>().isVisible){
             transform.position = chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
             OnStep();
             return;

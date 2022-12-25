@@ -7,8 +7,8 @@ public class PlayerCharacter : Entity
         Name = "Player Chacter";
         Speed = 4;
     }
-    
-    protected override void Move()
+
+    public override void Move()
     {    
         int disX = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.x - _coordinates.x );
         int disY = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.y - _coordinates.y );
@@ -23,8 +23,8 @@ public class PlayerCharacter : Entity
         HUDControls.Hide();
         base.Move();
     }
-    
-    protected override void Attack()
+
+    public override void Attack()
     {
         // If there are no enemies, return
         if(Entities.Search( TileMapCursor.SelectedTileCoordinates ).Count <= 0)

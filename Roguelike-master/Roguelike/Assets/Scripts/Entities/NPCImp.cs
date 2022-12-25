@@ -19,8 +19,8 @@ public class NPCImp : Entity
     
         base.Action();
     }
-    
-    protected override void Move()
+
+    public override void Move()
     {
         Vector3Int playerCharacterCoordinates = Entities.GetPCCoordinates;
     
