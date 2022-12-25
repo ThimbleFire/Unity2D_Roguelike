@@ -70,15 +70,43 @@ public class Pathfind
         Node startNode = s_nodes[start.x, start.y];
         Node endNode = s_nodes[destination.x, destination.y];
 
+        // If destination is equal to start position, forfeit turn
+        if ( start == destination )
+            return new List<Node>( new List<Node>() { startNode } );
+        
+        // Now it's established we're moving tiles, establish can we move        
+        List<Node> startNodeNeighbours = GetNeighbours(startNode);
+        
+        // If we can't move because there are no unoccupied neighbours, forfeit turn
+        if ( startNodeNeighbours.Count == 0 )
+            return new List<Node>( new List<Node>() { startNode } );            
+
+        // If the end node is occupied, move it to an adjacent tile
         if ( endNode.walkable == false )
         {
-            List<Node> neighbours = GetNeighbours(endNode);
-            endNode = neighbours[UnityEngine.Random.Range( 0, neighbours.Count )]; // if exclusive
+            List<Node> endNodeNeighbours = GetNeighbours(endNode);
+            
+            if( endNodeNeighbours.Count > 0 )
+            {
+                endNode = endNodeNeighbours[UnityEngine.Random.Range( 0, endNodeNeighbours.Count )];
+            }
+            else // If there are no adjacent tiles, search for diagonal tiles
+            {
+                endNodeNeighbours = GetNeighbours(endNode,  true);
+            
+                if( endNodeNeighbours.Count > 0 )
+                {
+                    endNode = endNodeNeighbours[UnityEngine.Random.Range( 0, endNodeNeighbours.Count )];
+                }
+                else // If there are no diagonal tiles either, forfeit turn
+                {
+                    return new List<Node>( new List<Node>() { startNode } );   
+                }
+            }
         }
-
-        if ( endNode == startNode )
-            return new List<Node>( new List<Node>() { startNode } );
-
+        
+        // Right, let's do some pathfinding!
+        
         List<Node> openSet = new List<Node>( );
         HashSet<Node> closedSet = new HashSet<Node>();
         openSet.Add( startNode );
@@ -127,12 +155,13 @@ public class Pathfind
             }
         }
 
+        // This could be problematic as it risks setting occupied tiles to unoccupied.
+        // Maybe when setting a tile to unoccupied, check entities to see if there's still an entity there? 
         if ( includeUnwalkable == false )
         {
             return GetPath( start, destination, true );
         }
 
-        Debug.Log( "Unable to find a path, attempting to find one by ignoring obstacles" );
         return null;
     }
 
@@ -162,12 +191,17 @@ public class Pathfind
         return path;
     }
 
-    private static List<Node> GetNeighbours( Node node )
+    private static List<Node> GetNeighbours( Node node, bool diagonal = false )
     {
         List<Node> neighbours = new List<Node>();
-
-        Vector3Int[] offset = new Vector3Int[] { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };
-
+        Vector3Int[] offset;
+        
+        if ( diagonal == false )
+        offset = new Vector3Int[] { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };
+        if ( diagonal == true )
+        offset = new Vector3Int[] { Vector3Int.up + Vector3Int.left, Vector3Int.up + Vector3Int.right,
+                                    Vector3Int.down + Vector3Int.right, Vector3Int.down + Vector3Int.left };
+        
         for ( int i = 0; i < 4; i++ )
         {
             int checkX = node.coordinate.x + offset[i].x;
