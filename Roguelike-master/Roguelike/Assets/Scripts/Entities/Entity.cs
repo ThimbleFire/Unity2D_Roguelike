@@ -37,17 +37,17 @@ public class Entity : MonoBehaviour
         gameObject.transform.SetPositionAndRotation( coordinates + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity );
     }
 
-    public virtual void Action( Vector3Int playerCharacterCoordinates )
+    public virtual void Action()
     {
         // override for performing actions. We need to figure out how we want this to work.
     }
     
-    protected virtual void Move( Vector3Int playerCharacterCoordinates )
+    protected virtual void Move()
     {
     
     }
     
-    protected virtual void Attack( Vector3Int playerCharacterCoordinates )
+    protected virtual void Attack()
     {
         // attack options for player character and creatures
     }
