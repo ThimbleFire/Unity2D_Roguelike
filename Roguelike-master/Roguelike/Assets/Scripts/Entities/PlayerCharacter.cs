@@ -12,12 +12,16 @@ public class PlayerCharacter : Entity
     {
         int disX = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.x - _coordinates.x );
         int disY = Mathf.Abs( TileMapCursor.SelectedTileCoordinates.y - _coordinates.y );
-        if ( disX + disY == 1 && Entities.Search( TileMapCursor.SelectedTileCoordinates ).Count > 0 )
+        
+        int distance = disX + disY;
+        
+        // If we're in melee range and there's something there, perform a melee action
+        if ( distance == 1 && Entities.Search( TileMapCursor.SelectedTileCoordinates ).Count > 0 )
         {
             Debug.Log( Name + " attack!" );
             Entities.Step();
         }
-        else
+        else // Else consider it a move action
         {
             chain = Pathfind.GetPath( _coordinates, TileMapCursor.SelectedTileCoordinates, false );
             TileMapCursor.Hide();
