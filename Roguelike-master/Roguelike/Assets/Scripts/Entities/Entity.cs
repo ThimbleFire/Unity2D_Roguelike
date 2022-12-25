@@ -6,7 +6,6 @@ public class Entity : MonoBehaviour
 {
     //Properties
     public string Name { get; protected set; }
-
     public int Speed { get; protected set; }
     public int RangeOfAggression { get; protected set; }
     public Vector3Int _coordinates;
@@ -14,8 +13,9 @@ public class Entity : MonoBehaviour
     protected Animator _animator;
 
     //Pathfinding
-    protected virtual void SetPath( Vector3Int coordinates )
-    { }
+    //protected virtual void SetPath( Vector3Int coordinates ) { }
+
+    protected List<Action> _operations = new List<Action>();
 
     protected List<Node> chain = new List<Node>();
     private Vector3 _stepDestination;
