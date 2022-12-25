@@ -7,10 +7,6 @@ public class PlayerCharacter : Entity
         Name = "Player Chacter";
         Speed = 4;
     }
-
-    public override void Action( )
-    {
-    }
     
     protected override void Move()
     {    
