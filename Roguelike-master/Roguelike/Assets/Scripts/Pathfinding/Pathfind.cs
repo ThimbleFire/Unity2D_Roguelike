@@ -14,6 +14,14 @@ public class Node
     public int fCost { get { return gCost + hCost; } }
 }
 
+class GFG : IComparable<Node>
+{
+    public node Compare(NodeDistance a, NodeDistance b)
+    { 
+        return a.distance.CompareTo(b.distance);
+    }
+}
+
 public class Pathfind
 {
     private static Node[,] s_nodes;
@@ -86,15 +94,19 @@ public class Pathfind
             
             if( endNodeNeighbours.Count > 0 )
             {
-                endNode = endNodeNeighbours[UnityEngine.Random.Range( 0, endNodeNeighbours.Count )];
+                Node nearestNeighbourToEndNode = GetNearestNode(startNode, endNodeNeighbours); // new code
+                
+                endNode = nearestNeighbourToEndNode; //endNodeNeighbours[UnityEngine.Random.Range( 0, endNodeNeighbours.Count )];
             }
             else // If there are no adjacent tiles, search for diagonal tiles
             {
                 endNodeNeighbours = GetNeighbours(endNode,  true);
+                
+                Node nearestNeighbourToEndNode = GetNearestNode(startNode, endNodeNeighbours); // new code
             
                 if( endNodeNeighbours.Count > 0 )
                 {
-                    endNode = endNodeNeighbours[UnityEngine.Random.Range( 0, endNodeNeighbours.Count )];
+                    endNode = nearestNeighbourToEndNode; //endNodeNeighbours[UnityEngine.Random.Range( 0, endNodeNeighbours.Count )];
                 }
                 else // If there are no diagonal tiles either, forfeit turn
                 {
@@ -226,5 +238,30 @@ public class Pathfind
         }
 
         return neighbours;
+    }
+    
+    private class NodeDistance
+    {
+        public Node node;
+        public int distance;
+    }
+    
+    private static Node GetNearestNode(Node startNode, List<Node> endNodes)
+    {
+        List<NodeDistance> distanceNodes = new List<NodeDistance>();
+        
+        foreach(Node node in endNodes)
+        {
+            int disX = Mathf.Abs( startNodea.coordinate.x - node.coordinate.x );
+            int disY = Mathf.Abs( startNodea.coordinate.y - node.coordinate.y );
+            int distance = disX + disY;
+            
+            distanceNodes.Add( new NodeDistance() { distance = distance, node = node } );
+        }
+        
+        GFG gg = new GFG();
+        distanceNodes.Sort(gg);
+        return distanceNodes[0];
+        
     }
 }
