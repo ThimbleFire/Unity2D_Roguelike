@@ -230,10 +230,13 @@ public class Pathfind
     }
     
     
-    class GFG : IComparable<Node>
+    class SortSort : IComparable<Node>
     {
-        public node Compare(NodeDistance a, NodeDistance b)
+        public int CompareTo(NodeDistance a, NodeDistance b)
         { 
+            if(a == null || b == null)
+                return 1; 
+            
             return a.distance.CompareTo(b.distance);
         }
     }
@@ -253,7 +256,7 @@ public class Pathfind
             distanceNodes.Add( new NodeDistance() { _distance = GetDistance(startNode, node), _node = node } );
         }
         
-        GFG gg = new GFG();
+        SortSort gg = new SortSort();
         distanceNodes.Sort(gg);
         return distanceNodes[0].node;        
     }
