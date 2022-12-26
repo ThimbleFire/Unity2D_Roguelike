@@ -14,14 +14,6 @@ public class Node
     public int fCost { get { return gCost + hCost; } }
 }
 
-class GFG : IComparable<Node>
-{
-    public node Compare(NodeDistance a, NodeDistance b)
-    { 
-        return a.distance.CompareTo(b.distance);
-    }
-}
-
 public class Pathfind
 {
     private static Node[,] s_nodes;
@@ -180,10 +172,7 @@ public class Pathfind
         int disX = Mathf.Abs( a.coordinate.x - b.coordinate.x );
         int disY = Mathf.Abs( a.coordinate.y - b.coordinate.y );
 
-        if ( disX > disY )
-            return 14 * disY + 10 * ( disX - disY );
-        else
-            return 14 * disX + 10 * ( disY - disX );
+        return disX + disY;
     }
 
     private static List<Node> RetracePath( Node startNode, Node endNode )
@@ -240,10 +229,19 @@ public class Pathfind
         return neighbours;
     }
     
+    
+    class GFG : IComparable<Node>
+    {
+        public node Compare(NodeDistance a, NodeDistance b)
+        { 
+            return a.distance.CompareTo(b.distance);
+        }
+    }
+    
     private class NodeDistance
     {
-        public Node node;
-        public int distance;
+        public Node _node;
+        public int _distance;
     }
     
     private static Node GetNearestNode(Node startNode, List<Node> endNodes)
@@ -251,17 +249,12 @@ public class Pathfind
         List<NodeDistance> distanceNodes = new List<NodeDistance>();
         
         foreach(Node node in endNodes)
-        {
-            int disX = Mathf.Abs( startNodea.coordinate.x - node.coordinate.x );
-            int disY = Mathf.Abs( startNodea.coordinate.y - node.coordinate.y );
-            int distance = disX + disY;
-            
-            distanceNodes.Add( new NodeDistance() { distance = distance, node = node } );
+        {            
+            distanceNodes.Add( new NodeDistance() { _distance = GetDistance(startNode, node), _node = node } );
         }
         
         GFG gg = new GFG();
         distanceNodes.Sort(gg);
-        return distanceNodes[0];
-        
+        return distanceNodes[0].node;        
     }
 }
