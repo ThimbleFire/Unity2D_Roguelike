@@ -57,6 +57,15 @@ public class Entity : MonoBehaviour
     {
         // interact option for entities that want to open chests / equip armour / take torches off the wall
     }
+    
+    // The animator component calls to say animations have ended here
+    public void AlertObservers(string message)
+    {
+        if(message.Equals("AttackAnimationEnd")
+        {
+            Entities.Step();
+        }
+    }
 
     /// <summary>Updates the animator and next step destination from the chain.</summary>
     /// <param name="dir">The cardinal direction the entity is moving</param>
