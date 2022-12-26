@@ -39,8 +39,8 @@ public class PlayerCharacter : Entity
             return;
             
         Debug.Log( Name + " attack!" );
-        Entities.Step();
-            
+        HUDControls.Hide();
+        base.Attack();
     }
 
     protected override void OnStep()
