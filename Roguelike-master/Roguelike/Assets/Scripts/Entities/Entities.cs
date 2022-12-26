@@ -39,18 +39,27 @@ public class Entities : MonoBehaviour
         s_entities.Add( entity );
     }
 
-    public static void RollFriend( Vector3Int spawnPosition )
-    {
+    public static void RollFriend( Vector3Int spawnPosition ) {
     }
 
-    public static void Action()
-    {
+    public static void Action() {
         s_entities[s_Turn].Action();
     }
 
-    public static void Move()
-    {
+    public static void Move() {
         s_entities[s_Turn].Move();
+    }
+
+    public static void Attack() {
+        s_entities[s_Turn].Attack();
+    }
+
+    public static void Magic() {
+        //s_entities[s_Turn].Magic();
+    }
+
+    public static void Examine() {
+        //Log.Print(Entities.Search(TileMapCursor.SelectedTileCoordinates).ExamineText);
     }
 
     public static void Step()

@@ -18,7 +18,7 @@ public class Entity : MonoBehaviour
 
     protected List<Action> _operations = new List<Action>();
 
-    protected List<Node> chain = new List<Node>();
+    protected List<Node> _chain = new List<Node>();
     private Vector3 _stepDestination;
     private int stepsTaken = 0;
 
@@ -26,7 +26,7 @@ public class Entity : MonoBehaviour
 
     private void Update()
     {
-        if ( chain.Count == 0 )
+        if ( _chain.Count == 0 )
             return;
 
         StepFrame();
@@ -34,7 +34,7 @@ public class Entity : MonoBehaviour
 
     public void Teleport( Vector3Int coordinates )
     {
-        this._coordinates = coordinates;
+        _coordinates = coordinates;
         gameObject.transform.SetPositionAndRotation( coordinates + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity );
     }
 
@@ -48,8 +48,9 @@ public class Entity : MonoBehaviour
     
     }
 
-    public virtual void Attack()
-    {
+    public virtual void Attack() {
+
+        _animator.SetTrigger( "Attack" );
         // attack options for player character and creatures
     }
 
@@ -61,7 +62,7 @@ public class Entity : MonoBehaviour
     // The animator component calls to say animations have ended here
     public void AlertObservers(string message)
     {
-        if(message.Equals("AttackAnimationEnd")
+        if(message.Equals("AttackAnimationEnd"))
         {
             Entities.Step();
         }
@@ -74,7 +75,7 @@ public class Entity : MonoBehaviour
     {
         int moveAcrossBoardSpeed = 4;
 
-        _stepDestination = chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
+        _stepDestination = _chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
         Vector3 positionAfterMoving = Vector3.MoveTowards( transform.position, _stepDestination, moveAcrossBoardSpeed * Time.deltaTime );
 
         if ( dir != Vector3Int.zero )
@@ -94,7 +95,7 @@ public class Entity : MonoBehaviour
     {
         // if the entity is not on screen, instantly move the unit
         if(!GetComponent<SpriteRenderer>().isVisible){
-            transform.position = chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
+            transform.position = _chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
             OnStep();
             return;
         }
@@ -103,7 +104,7 @@ public class Entity : MonoBehaviour
         Vector2 positionAfterMoving = UpdateAnimator( Vector3Int.zero );
         transform.position = positionAfterMoving;
         //call it again just for the sake of accurate animation
-        UpdateAnimator( _coordinates - chain[0].coordinate );
+        UpdateAnimator( _coordinates - _chain[0].coordinate );
 
         float arrivalDistance = 0.0f;
         bool unitHasArrivedAtDestination = Vector2.Distance( transform.position, _stepDestination ) <= arrivalDistance;
@@ -118,13 +119,13 @@ public class Entity : MonoBehaviour
         // Unoccupy last coordinates
         Pathfind.Unoccupy( _coordinates );
         //set the new coordinate at our current position
-        _coordinates = chain[0].coordinate;
+        _coordinates = _chain[0].coordinate;
         //let the pathfinder know this tile is now occupied
         Pathfind.Occupy( _coordinates );
         //remove the last chain since we're not where we used to be
-        chain.RemoveAt( 0 );
+        _chain.RemoveAt( 0 );
         //If we've arrived at our destination
-        if ( chain.Count <= 0 ) {
+        if ( _chain.Count <= 0 ) {
             OnArrival();
             return;
         }
@@ -136,10 +137,10 @@ public class Entity : MonoBehaviour
 
     protected virtual void OnArrival()
     {
-        chain.Clear();
-        
+        _chain.Clear();
+
         stepsTaken = 0;
-        
+
         _animator.SetBool( "Moving", false );
         
         Entities.Step();

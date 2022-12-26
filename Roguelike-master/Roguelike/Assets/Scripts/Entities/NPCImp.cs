@@ -9,46 +9,39 @@ public class NPCImp : Entity
         Speed = 3;
     }
 
-    public override void Action()
-    {
-        _operations.Add(Move);
-        _operations.Add(Attack);
-        _operations.Add(Move);
-        
-        _operations[0]();
-    
+    public override void Action() {
+
+        Vector3Int playerCharacterCoordinates = Entities.GetPCCoordinates;
+
+        // some AI shit
+
+        int disX = Mathf.Abs( playerCharacterCoordinates.x - _coordinates.x );
+        int disY = Mathf.Abs( playerCharacterCoordinates.y - _coordinates.y );
+
+        int distance = disX + disY;
+
+        if ( distance == 1 ) {
+            Attack();
+            AttackSplash.Show( playerCharacterCoordinates, AttackSplash.Type.Pierce );
+            return;
+        }
+
+        if ( distance <= RangeOfAggression ) {
+            _chain = Pathfind.GetPath( _coordinates, playerCharacterCoordinates, false );
+
+            if ( _chain.Count == 0 )
+                Entities.Step();
+        }
+        else {
+            _chain = Pathfind.Wander( _coordinates );
+        }
+
         base.Action();
     }
 
     public override void Move()
     {
-        Vector3Int playerCharacterCoordinates = Entities.GetPCCoordinates;
-    
-        // some AI shit
-
-        int disX = Mathf.Abs( playerCharacterCoordinates.x - _coordinates.x );
-        int disY = Mathf.Abs( playerCharacterCoordinates.y - _coordinates.y );
-        
-        int distance = disX + disY;
-        
-        if ( distance == 1 )
-        {
-            Debug.Log( Name + " attack!" );
-            Entities.Step();
-            return;
-        }
-        
-        if ( distance <= RangeOfAggression )
-        {
-            chain = Pathfind.GetPath( _coordinates, playerCharacterCoordinates, false );
-
-            if ( chain.Count == 0 )
-                Entities.Step();
-        }
-        else
-        {
-            chain = Pathfind.Wander( _coordinates );
-        }
+        base.Move();
     }
 
     protected override void OnStep()

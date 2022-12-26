@@ -18,7 +18,7 @@ public class PlayerCharacter : Entity
         if ( distance <= 0 )
             return;
         
-        chain = Pathfind.GetPath( _coordinates, TileMapCursor.SelectedTileCoordinates, false );
+        _chain = Pathfind.GetPath( _coordinates, TileMapCursor.SelectedTileCoordinates, false );
         TileMapCursor.Hide();
         HUDControls.Hide();
         base.Move();
@@ -38,18 +38,10 @@ public class PlayerCharacter : Entity
         if ( distance != 1 )
             return;
             
-        Debug.Log( Name + " attack!" );
         HUDControls.Hide();
+
+        AttackSplash.Show( TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash );
+
         base.Attack();
-    }
-
-    protected override void OnStep()
-    {
-        base.OnStep();
-    }
-
-    protected override void OnArrival()
-    {
-        base.OnArrival();
     }
 }

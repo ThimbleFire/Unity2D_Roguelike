@@ -9,7 +9,7 @@ public class HUDControls : MonoBehaviour
 
     private void Awake()
     {
-        mobileButton = GameObject.Find( "Mobile Button" );
+        mobileButton = GameObject.Find( "HUD" );
     }
 
     public void ToggleInventory()

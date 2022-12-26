@@ -1,6 +1,8 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Tilemaps;
+using System.Linq;
 
 public class Node
 {
@@ -8,6 +10,7 @@ public class Node
     public Vector3 worldPosition { get; set; }
     public bool walkable = true;
     public Node parent;
+    public byte distance = 0;
 
     public int gCost;
     public int hCost;
@@ -228,36 +231,15 @@ public class Pathfind
 
         return neighbours;
     }
-    
-    
-    class SortSort : IComparable<Node>
-    {
-        public int CompareTo(NodeDistance a, NodeDistance b)
-        { 
-            if(a == null || b == null)
-                return 1; 
-            
-            return a.distance.CompareTo(b.distance);
-        }
-    }
-    
-    private class NodeDistance
-    {
-        public Node _node;
-        public int _distance;
-    }
-    
+
     private static Node GetNearestNode(Node startNode, List<Node> endNodes)
     {
-        List<NodeDistance> distanceNodes = new List<NodeDistance>();
-        
-        foreach(Node node in endNodes)
-        {            
-            distanceNodes.Add( new NodeDistance() { _distance = GetDistance(startNode, node), _node = node } );
+        foreach(Node node in endNodes) {
+            node.distance = (byte)GetDistance( startNode, node );
         }
         
-        SortSort gg = new SortSort();
-        distanceNodes.Sort(gg);
-        return distanceNodes[0].node;        
+        endNodes.Sort( ( x, y ) => x.distance.CompareTo( y.distance ) );
+
+        return endNodes[0];
     }
 }
