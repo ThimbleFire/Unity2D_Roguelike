@@ -25,19 +25,19 @@ public class Entities : MonoBehaviour {
 
     public static void RollMob( Vector3Int spawnPosition, int difficulty ) {
         GameObject prefab = ResourceRepository.GetUnit("Imp");
-        GameObject instance = Instantiate( prefab, spawnPosition, Quaternion.identity, Transform );
+        GameObject instance = Instantiate( prefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform );
         Entity entity = instance.GetComponent<Entity>();
-        entity.Teleport( spawnPosition );
+        entity._coordinates = spawnPosition;
 
         s_entities.Add( entity );
     }
 
     public static void PlayerSpawn( Vector3Int spawnPosition ) {
         GameObject prefab = ResourceRepository.GetUnit("PlayerCharacter");
-        GameObject instance = Instantiate( prefab, spawnPosition, Quaternion.identity, Transform );
+        GameObject instance = Instantiate( prefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform );
         Entity entity = instance.GetComponent<PlayerCharacter>();
+        entity._coordinates = spawnPosition;
         CameraController.SetFollowTarget( entity.transform );
-        entity.Teleport( spawnPosition );
 
         s_entities.Add( entity );
     }
@@ -89,8 +89,8 @@ public class Entities : MonoBehaviour {
     }
 
     private static bool running = false;
-    private static float timer = 1.0f;
-    private const float interval = 1.0f;
+    private static float timer = 0.5f;
+    private const float interval = 0.5f;
 
     private void Update() {
         if ( !running )

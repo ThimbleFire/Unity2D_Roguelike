@@ -23,7 +23,8 @@ public class Entity : MonoBehaviour {
     private void Awake() => _animator = GetComponent<Animator>();
 
     public virtual void Attack() => _animator.SetTrigger( "Attack" );
-
+    public virtual void Move() { }
+    public virtual void Interact() { }
     public virtual void Action() {
         Vector3Int playerCharacterCoordinates = Entities.GetPCCoordinates;
 
@@ -56,19 +57,6 @@ public class Entity : MonoBehaviour {
         }
         else _chain = Pathfind.Wander( _coordinates );
         
-    }
-
-    public virtual void Move() {
-    }
-
-    public virtual void Interact() {
-    }
-
-    public void Teleport( Vector3Int coordinates ) {
-        _coordinates = coordinates;
-        //Teleport does not set the tilemap as occupied
-        //Teleport is called prior to pathfinding nodes being created
-        gameObject.transform.SetPositionAndRotation( coordinates + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity );
     }
 
     public virtual void DealDamage( int damage ) {
