@@ -18,6 +18,14 @@ public class Entities : MonoBehaviour
 
     public static List<Entity> Search( Vector3Int coordinates ) => s_entities.FindAll( x => x._coordinates == coordinates );
 
+    public static List<Vector3Int> GetOccupied() {
+        List<Vector3Int> list = new List<Vector3Int>();
+        foreach ( Entity item in s_entities ) {
+            list.Add( item._coordinates );
+        }
+        return list;
+    }
+
     public static void RollMob( Vector3Int spawnPosition, int difficulty )
     {
         GameObject prefab = ResourceRepository.GetUnit("Imp");
@@ -54,12 +62,21 @@ public class Entities : MonoBehaviour
         s_entities[s_Turn].Attack();
     }
 
+    public static void Attack(Vector3Int tile, int damage) {
+        s_entities.Find( x => x._coordinates == tile ).DealDamage( damage );
+    }
+
     public static void Magic() {
         //s_entities[s_Turn].Magic();
     }
 
     public static void Examine() {
         //Log.Print(Entities.Search(TileMapCursor.SelectedTileCoordinates).ExamineText);
+    }
+
+    public static void Remove(Entity entity) {
+        s_entities.Remove( entity );
+        GameObject.Destroy( entity.gameObject );
     }
 
     public static void Step()
@@ -77,13 +94,5 @@ public class Entities : MonoBehaviour
         {
             Action();
         }
-    }
-
-    public static List<Vector3Int> GetObstacles()
-    {
-        List<Vector3Int> occupiedPositions = new List<Vector3Int>();
-        foreach ( Entity entity in s_entities )
-            occupiedPositions.Add( entity._coordinates );
-        return occupiedPositions;
     }
 }

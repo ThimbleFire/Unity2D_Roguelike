@@ -48,6 +48,12 @@ public class Pathfind
                     worldPosition = tilemap.CellToWorld( cellPosition )
                 };
         }
+
+        List<Vector3Int> entities = Entities.GetOccupied();
+        foreach ( Vector3Int coordinates in entities ) {
+            s_nodes[coordinates.x, coordinates.y].walkable = false;
+            Occupy( coordinates );
+        }
     }
 
     public static List<Node> Wander( Vector3Int coordinates )
@@ -56,14 +62,7 @@ public class Pathfind
 
         List<Node> neighbours = GetNeighbours(startNode);
 
-        List<Node> path = GetPath( coordinates, neighbours[UnityEngine.Random.Range(0, neighbours.Count)].coordinate, false );
-
-        if ( path == null )
-            return new List<Node>() { startNode };
-        if ( path.Count == 0 )
-            return new List<Node>() { startNode };
-
-        return path;
+        return GetPath( coordinates, neighbours[UnityEngine.Random.Range(0, neighbours.Count)].coordinate, false );
     }
 
     public static List<Node> GetPath( Vector3Int start, Vector3Int destination, bool includeUnwalkable )
@@ -73,14 +72,18 @@ public class Pathfind
 
         // If destination is equal to start position, forfeit turn
         if ( start == destination )
-            return new List<Node>( new List<Node>() { startNode } );
+            return null;
         
+        // If destination is occupied and distance is one tile away, forfeit turn
+        if ( endNode.walkable == false && GetDistance(startNode, endNode) == 1 )
+            return null;
+
         // Now it's established we're moving tiles, establish can we move        
         List<Node> startNodeNeighbours = GetNeighbours(startNode);
         
         // If we can't move because there are no unoccupied neighbours, forfeit turn
         if ( startNodeNeighbours.Count == 0 )
-            return new List<Node>( new List<Node>() { startNode } );            
+            return null;
 
         // If the end node is occupied, move it to an adjacent tile
         if ( endNode.walkable == false )
@@ -105,7 +108,7 @@ public class Pathfind
                 }
                 else // If there are no diagonal tiles either, forfeit turn
                 {
-                    return new List<Node>( new List<Node>() { startNode } );   
+                    return null;
                 }
             }
         }
