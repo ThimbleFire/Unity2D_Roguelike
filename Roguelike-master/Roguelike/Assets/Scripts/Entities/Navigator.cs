@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Navigator : Entity {
+
     private int stepsTaken = 0;
 
     private void Update() {
@@ -15,9 +16,10 @@ public class Navigator : Entity {
         StepFrame();
     }
 
+
     private void StepFrame() {
         // if the entity is not on screen, instantly move the unit
-        if ( !GetComponent<SpriteRenderer>().isVisible ) {
+        if ( spriteRenderer.isVisible == false ) {
             transform.position = _chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
             OnTileChanged();
             return;

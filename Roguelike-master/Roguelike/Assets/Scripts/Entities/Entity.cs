@@ -3,6 +3,7 @@ using UnityEngine;
 
 [RequireComponent( typeof( Animator ) )]
 public class Entity : MonoBehaviour {
+    protected SpriteRenderer spriteRenderer;
 
     //Properties
     public string Name { get; protected set; }
@@ -14,15 +15,34 @@ public class Entity : MonoBehaviour {
     protected int Attack_Damage { get; set; }
     protected int Health_Current { get; set; }
     protected int Health_Maximum { get; set; }
+    public bool isAggressive
+    { 
+        get
+        {
+            int disX = Mathf.Abs( Entities.GetPCCoordinates.x - _coordinates.x );
+            int disY = Mathf.Abs( Entities.GetPCCoordinates.y - _coordinates.y );
+            int distance = disX + disY;
+
+            return distance <= RangeOfAggression; 
+        } 
+    }
+
+    public AudioClip onAttack, onHit, onMove;
 
     protected List<Node> _chain = new List<Node>();
 
     public Vector3Int _coordinates;
     protected Animator _animator;
 
-    private void Awake() => _animator = GetComponent<Animator>();
+    private void Awake()  { 
+        _animator = GetComponent<Animator>(); 
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
 
-    public virtual void Attack() => _animator.SetTrigger( "Attack" );
+    public virtual void Attack() { 
+        _animator.SetTrigger( "Attack" );
+        AudioDevice.Play( onAttack );
+    } 
     public virtual void Move() { }
     public virtual void Interact() { }
     public virtual void Action() {
@@ -42,8 +62,8 @@ public class Entity : MonoBehaviour {
             return;
         }
 
-        if ( distance <= RangeOfAggression ) {
-            
+        if ( isAggressive ) {
+
             _chain = Pathfind.GetPath( _coordinates, playerCharacterCoordinates, false );
 
             if ( _chain == null ) {
@@ -55,12 +75,18 @@ public class Entity : MonoBehaviour {
                 return;
             }
         }
-        else _chain = Pathfind.Wander( _coordinates );
-        
+        else
+        {
+            _chain = Pathfind.Wander( _coordinates );
+        }
+
+        if ( spriteRenderer.isVisible )
+            AudioDevice.Play( onMove );
     }
 
     public virtual void DealDamage( int damage ) {
         Health_Current -= damage;
+        AudioDevice.Play( onHit );
         if ( Health_Current <= 0 ) {
             Die();
         }

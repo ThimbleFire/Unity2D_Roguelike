@@ -6,8 +6,8 @@ public class Entities : MonoBehaviour {
 
     private static List<Entity> s_entities = new List<Entity>();
     private static int s_Turn = 0;
-
     public static Vector3Int GetPCCoordinates => s_entities[0]._coordinates;
+    public static Entity GetTurnTaker { get { return s_entities[s_Turn]; } }
 
     private void Awake() {
         Transform = gameObject.transform;
@@ -46,6 +46,7 @@ public class Entities : MonoBehaviour {
     }
 
     public static void Action() {
+
         s_entities[s_Turn].Action();
     }
 
@@ -79,6 +80,9 @@ public class Entities : MonoBehaviour {
 
         if ( s_Turn >= s_entities.Count )
             s_Turn = 0;
+
+        if ( s_entities[s_Turn].isAggressive || s_Turn == 0)
+            CameraController.SetFollowTarget( s_entities[s_Turn].transform );
 
         if ( s_Turn == 0 ) {
             HUDControls.Show();

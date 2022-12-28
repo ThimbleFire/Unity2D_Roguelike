@@ -26,6 +26,8 @@ public class PlayerCharacter : Navigator {
         if ( _chain.Count == 0 )
             return;
 
+        AudioDevice.Play( onMove );
+
         TileMapCursor.Hide();
         HUDControls.Hide();
         base.Move();

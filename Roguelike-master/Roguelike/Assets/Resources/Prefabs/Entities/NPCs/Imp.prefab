@@ -116,4 +116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 76ea96dcadb659a4d953de5ffcf38867, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttack: {fileID: 8300000, guid: 599811fa45ad0f74db6cdaae313f747b, type: 3}
+  onHit: {fileID: 8300000, guid: d8cecfa1176bc804dae95bd48e7d4f96, type: 3}
+  onMove: {fileID: 8300000, guid: bf6ada5348551a74e8b6802327855a76, type: 3}
   _coordinates: {x: 0, y: 0, z: 0}
+  spriteRenderer: {fileID: 6991513492333638149}

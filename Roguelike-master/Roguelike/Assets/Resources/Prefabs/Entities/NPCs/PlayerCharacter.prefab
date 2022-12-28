@@ -142,7 +142,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f7fe088582db4654f87885ba3b0b4787, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  onAttack: {fileID: 8300000, guid: 063cff36f5092d842ab41253bd08756f, type: 3}
+  onHit: {fileID: 8300000, guid: d8cecfa1176bc804dae95bd48e7d4f96, type: 3}
+  onMove: {fileID: 8300000, guid: bf6ada5348551a74e8b6802327855a76, type: 3}
   _coordinates: {x: 0, y: 0, z: 0}
+  spriteRenderer: {fileID: 3733788646461008721}
 --- !u!1001 &750014835
 PrefabInstance:
   m_ObjectHideFlags: 0

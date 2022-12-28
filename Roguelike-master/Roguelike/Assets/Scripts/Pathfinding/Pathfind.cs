@@ -51,7 +51,7 @@ public class Pathfind {
     public static List<Node> Wander( Vector3Int coordinates ) {
         Node startNode = s_nodes[coordinates.x, coordinates.y];
 
-        List<Node> neighbours = GetNeighbours(startNode);
+        List<Node> neighbours = GetNeighbours(startNode, false);
 
         return GetPath( coordinates, neighbours[UnityEngine.Random.Range( 0, neighbours.Count )].coordinate, false );
     }
@@ -77,24 +77,41 @@ public class Pathfind {
             return null;
         }
         // Now it's established we're moving tiles, establish can we move
-        List<Node> startNodeNeighbours = GetNeighbours(startNode);
+        List<Node> startNodeNeighbours = GetNeighbours(startNode, false);
 
         // If we can't move because there are no unoccupied neighbours, forfeit turn
         if ( startNodeNeighbours.Count == 0 ) {
             Debug.LogWarning( "No adjacent neighbours to StartNode" );
             return null;
         }
+
         // If the end node is occupied, move it to an adjacent tile
         if ( endNode.walkable == false )
         {
-            List<Node> endNodeNeighbours = GetNeighbours(endNode);
-
+            List<Node> endNodeNeighbours = GetNeighbours(endNode, false);
             if ( endNodeNeighbours.Count > 0 )
             {
                 List<Node> neighboursSortedByDistance = SortNearest(startNode, endNodeNeighbours); // new code
-                Node newEndNode = GetPathToNeighbour(startNode, neighboursSortedByDistance);
+                Node pathToNeighbour = GetPathToNeighbour(startNode, neighboursSortedByDistance);
 
-                endNode = newEndNode; //endNodeNeighbours[UnityEngine.Random.Range( 0, endNodeNeighbours.Count )];
+                if ( pathToNeighbour != null )
+                    return GetPath( startNode, pathToNeighbour, includeUnwalkable );
+            }
+                    
+            SpeechBubble.Show( Entities.GetTurnTaker.transform, SpeechBubble.Type.Attention );
+
+            endNodeNeighbours = GetNeighbours(endNode, true);
+            if ( endNodeNeighbours.Count > 0 )
+            {
+                List<Node> neighboursSortedByDistance = SortNearest(startNode, endNodeNeighbours); // new code
+                Node pathToNeighbour = GetPathToNeighbour(startNode, neighboursSortedByDistance);
+
+                if ( pathToNeighbour != null )
+                    return GetPath( startNode, pathToNeighbour, includeUnwalkable );
+                else {
+                    Debug.LogWarning( "No adjacent or diagonal neighbours to move to" );
+                    return null;
+                }
             }
         }
 
@@ -136,7 +153,7 @@ public class Pathfind {
                 return RetracePath( startNode, endNode );
             }
 
-            List<Node> neighbours = GetNeighbours( currentNode ); // We'll want to ignore walkables
+            List<Node> neighbours = GetNeighbours( currentNode, false ); // We'll want to ignore walkables
 
             foreach ( Node neighbour in neighbours ) {
                 if ( neighbour.walkable == false && includeUnwalkable || closedSet.Contains( neighbour ) ) {
@@ -161,15 +178,12 @@ public class Pathfind {
     public static int GetDistance( Node a, Node b ) {
         int disX = Mathf.Abs( a.coordinate.x - b.coordinate.x );
         int disY = Mathf.Abs( a.coordinate.y - b.coordinate.y );
-
-        if ( disX > disY )
-            return 14 * disY + 10 * ( disX - disY );
-        else
-            return 14 * disX + 10 * ( disY - disX );
+        return disX > disY ? 14 * disY + 10 * ( disX - disY ) : 14 * disX + 10 * ( disY - disX );
     }
     public static int GetDistance( Vector3Int a, Vector3Int b ) => GetDistance( s_nodes[a.x, a.y], s_nodes[b.x, b.y] );
 
-    private static List<Node> RetracePath( Node startNode, Node endNode ) {
+    private static List<Node> RetracePath( Node startNode, Node endNode )
+    {
         List<Node> path = new List<Node>();
         Node currentNode = endNode;
 
@@ -182,11 +196,24 @@ public class Pathfind {
         return path;
     }
 
-    private static List<Node> GetNeighbours( Node node ) {
+    private static List<Node> GetNeighbours( Node node, bool diagonal) {
         List<Node> neighbours = new List<Node>();
-        Vector3Int[] offset = new Vector3Int[4];
+        Vector3Int[] offset;
 
-        offset = new Vector3Int[] { Vector3Int.up, Vector3Int.right, Vector3Int.down, Vector3Int.left };
+        if ( !diagonal ) offset = new Vector3Int[]
+        {
+            Vector3Int.up,
+            Vector3Int.right,
+            Vector3Int.down,
+            Vector3Int.left
+        };
+        else offset = new Vector3Int[]
+        {
+            Vector3Int.up + Vector3Int.left,
+            Vector3Int.up + Vector3Int.right,
+            Vector3Int.down + Vector3Int.right,
+            Vector3Int.down + Vector3Int.left
+        };
 
         for ( int i = 0; i < 4; i++ )
         {
