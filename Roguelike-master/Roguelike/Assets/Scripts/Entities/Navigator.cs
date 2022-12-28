@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Navigator : Entity {
-    protected List<Node> _chain = new List<Node>();
     private int stepsTaken = 0;
 
     private void Update() {

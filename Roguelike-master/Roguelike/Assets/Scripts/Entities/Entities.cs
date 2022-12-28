@@ -84,6 +84,23 @@ public class Entities : MonoBehaviour {
             HUDControls.Show();
         }
         else {
+            running = true;
+        }
+    }
+
+    private static bool running = false;
+    private static float timer = 1.0f;
+    private const float interval = 1.0f;
+
+    private void Update() {
+        if ( !running )
+            return;
+
+        timer -= Time.smoothDeltaTime;
+
+        if(timer <= 0.0f) {
+            timer = interval;
+            running = false;
             Action();
         }
     }

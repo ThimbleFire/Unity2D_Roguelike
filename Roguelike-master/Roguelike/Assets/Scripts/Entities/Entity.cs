@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 [RequireComponent( typeof( Animator ) )]
 public class Entity : MonoBehaviour {
@@ -14,6 +15,8 @@ public class Entity : MonoBehaviour {
     protected int Health_Current { get; set; }
     protected int Health_Maximum { get; set; }
 
+    protected List<Node> _chain = new List<Node>();
+
     public Vector3Int _coordinates;
     protected Animator _animator;
 
@@ -22,6 +25,37 @@ public class Entity : MonoBehaviour {
     public virtual void Attack() => _animator.SetTrigger( "Attack" );
 
     public virtual void Action() {
+        Vector3Int playerCharacterCoordinates = Entities.GetPCCoordinates;
+
+        // some AI shit
+
+        int disX = Mathf.Abs( playerCharacterCoordinates.x - _coordinates.x );
+        int disY = Mathf.Abs( playerCharacterCoordinates.y - _coordinates.y );
+
+        int distance = disX + disY;
+
+        if ( distance == 1 ) {
+            Attack();
+            AttackSplash.Show( playerCharacterCoordinates, AttackSplash.Type.Pierce );
+            Entities.Attack( playerCharacterCoordinates, Attack_Damage );
+            return;
+        }
+
+        if ( distance <= RangeOfAggression ) {
+            
+            _chain = Pathfind.GetPath( _coordinates, playerCharacterCoordinates, false );
+
+            if ( _chain == null ) {
+                Entities.Step();
+                return;
+            }
+            if ( _chain.Count == 0 ) {
+                Entities.Step();
+                return;
+            }
+        }
+        else _chain = Pathfind.Wander( _coordinates );
+        
     }
 
     public virtual void Move() {
