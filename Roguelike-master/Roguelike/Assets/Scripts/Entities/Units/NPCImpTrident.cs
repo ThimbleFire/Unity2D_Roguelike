@@ -1,13 +1,17 @@
-using UnityEngine;
-
 public class NPCImpTrident : Navigator {
 
     private void Start() {
         Name = "Imp-Trident";
-        RangeOfAggression = 6;
         Speed = 4;
-        Health_Current = 5;
-        Attack_Damage = 2;
+        Level = 2;
+        DmgBasePhyMin = 1;
+        DmgBasePhyMax = 3;
+        RangeOfAggression = 6;
+        StrengthBase = 5;
+        IntelligenceBase = 5;
+        ConstitutionBase = 5;
+        DexterityBase = 5;
+        Life_Current = Life_Max;
     }
 
     public override void Action() => base.Action();

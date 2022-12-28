@@ -3,11 +3,9 @@ using UnityEngine;
 public class TileMapInput : MonoBehaviour {
 
     public delegate void OnCellClickedHandler( Vector3Int coordinate );
-
     public static event OnCellClickedHandler OnCellClicked;
 
     public delegate void OnTileHoverChangeHandler( Vector3Int coordinate );
-
     public static event OnTileHoverChangeHandler OnTileHoverChange;
 
     private Grid grid;

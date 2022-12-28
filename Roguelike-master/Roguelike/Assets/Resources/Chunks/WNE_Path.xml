@@ -28,6 +28,14 @@
   <Curios>
     <TileData>
       <position>
+        <x>2</x>
+        <y>1</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_115</name>
+    </TileData>
+    <TileData>
+      <position>
         <x>3</x>
         <y>1</y>
         <z>0</z>

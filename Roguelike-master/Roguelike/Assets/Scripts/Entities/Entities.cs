@@ -46,7 +46,6 @@ public class Entities : MonoBehaviour {
     }
 
     public static void Action() {
-
         s_entities[s_Turn].Action();
     }
 
@@ -75,20 +74,24 @@ public class Entities : MonoBehaviour {
         GameObject.Destroy( entity.gameObject );
     }
 
-    public static void Step() {
+    public static void Step( bool pause ) {
         s_Turn++;
 
         if ( s_Turn >= s_entities.Count )
             s_Turn = 0;
 
-        if ( s_entities[s_Turn].isAggressive || s_Turn == 0)
+        if ( s_entities[s_Turn].isAggressive || s_Turn == 0 )
             CameraController.SetFollowTarget( s_entities[s_Turn].transform );
 
         if ( s_Turn == 0 ) {
             HUDControls.Show();
         }
         else {
-            running = true;
+            if ( pause )
+                running = true;
+            else {
+                Action();
+            }
         }
     }
 
@@ -102,7 +105,7 @@ public class Entities : MonoBehaviour {
 
         timer -= Time.smoothDeltaTime;
 
-        if(timer <= 0.0f) {
+        if ( timer <= 0.0f ) {
             timer = interval;
             running = false;
             Action();

@@ -1,12 +1,9 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Navigator : Entity {
-
     private int stepsTaken = 0;
 
     private void Update() {
-
         if ( _chain == null )
             return;
 
@@ -15,7 +12,6 @@ public class Navigator : Entity {
 
         StepFrame();
     }
-
 
     private void StepFrame() {
         // if the entity is not on screen, instantly move the unit
@@ -72,6 +68,6 @@ public class Navigator : Entity {
 
         _animator.SetBool( "Moving", false );
 
-        Entities.Step();
+        Entities.Step( spriteRenderer.isVisible );
     }
 }

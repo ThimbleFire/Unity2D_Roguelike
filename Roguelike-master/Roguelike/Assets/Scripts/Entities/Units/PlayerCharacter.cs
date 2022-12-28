@@ -5,8 +5,16 @@ public class PlayerCharacter : Navigator {
     private void Start() {
         Name = "Player Chacter";
         Speed = 4;
-        Health_Current = 20;
-        Attack_Damage = 2;
+        Level = 1;
+        DmgBasePhyMin = 2;
+        DmgBasePhyMax = 5;
+        StrengthBase = 5;
+        IntelligenceBase = 5;
+        ConstitutionBase = 5;
+        DexterityBase = 5;
+        Life_Current = Life_Max;
+
+        Inventory.OnEquipmentChange += Inventory_OnEquipmentChange;
     }
 
     public override void Move() {
@@ -49,8 +57,46 @@ public class PlayerCharacter : Navigator {
         HUDControls.Hide();
 
         AttackSplash.Show( TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash );
-        Entities.Attack( TileMapCursor.SelectedTileCoordinates, Attack_Damage, Name );
+        Entities.Attack( TileMapCursor.SelectedTileCoordinates, Random.Range( DmgPhysMin, DmgPhysMax ), Name );
 
         base.Attack();
+    }
+
+    private void Inventory_OnEquipmentChange( ItemStats itemStats, bool adding ) {
+        if ( itemStats.type == ItemStats.Type.PRIMARY ) {
+            if ( adding ) {
+                DmgBasePhyMin += itemStats.MinDamage;
+                DmgBasePhyMax += itemStats.MaxDamage;
+            }
+            else {
+                DmgBasePhyMin -= itemStats.MinDamage;
+                DmgBasePhyMax -= itemStats.MaxDamage;
+            }
+        }
+        else {
+            if ( adding )
+                stats[StatID.Def_Phys_Flat] += itemStats.Defense;
+            else
+                stats[StatID.Def_Phys_Flat] -= itemStats.Defense;
+        }
+
+        foreach ( ItemStats.Prefix item in itemStats.prefixes ) {
+            if ( adding )
+                stats[( StatID )item.type] += item.value;
+            else
+                stats[( StatID )item.type] -= item.value;
+        }
+        foreach ( ItemStats.Suffix item in itemStats.suffixes ) {
+            if ( adding )
+                stats[( StatID )item.type] += item.value;
+            else
+                stats[( StatID )item.type] -= item.value;
+        }
+        foreach ( ItemStats.Implicit item in itemStats.implicits ) {
+            if ( adding )
+                stats[( StatID )item.type] += item.value;
+            else
+                stats[( StatID )item.type] -= item.value;
+        }
     }
 }

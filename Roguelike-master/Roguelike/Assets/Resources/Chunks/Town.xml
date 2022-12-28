@@ -116,38 +116,6 @@
     </TileData>
     <TileData>
       <position>
-        <x>1</x>
-        <y>11</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_115</name>
-    </TileData>
-    <TileData>
-      <position>
-        <x>4</x>
-        <y>11</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_115</name>
-    </TileData>
-    <TileData>
-      <position>
-        <x>8</x>
-        <y>11</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_115</name>
-    </TileData>
-    <TileData>
-      <position>
-        <x>11</x>
-        <y>11</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_115</name>
-    </TileData>
-    <TileData>
-      <position>
         <x>2</x>
         <y>12</y>
         <z>0</z>

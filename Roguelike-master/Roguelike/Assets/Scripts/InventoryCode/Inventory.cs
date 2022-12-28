@@ -8,6 +8,10 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
     public GearSlot[] gearSlots;
     public GearSlot[] inventorySlots;
 
+    public delegate void OnEquipmentChangeHandler( ItemStats itemStats, bool adding );
+
+    public static event OnEquipmentChangeHandler OnEquipmentChange;
+
     public void Hide() {
         if ( IsItemSelected ) {
             ItemStatBillboard.Hide();
@@ -36,6 +40,7 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
             if ( itemBeingSelected.Equipped == true ) {
                 foreach ( GearSlot iSlot in inventorySlots ) {
                     if ( iSlot.itemStats == null ) {
+                        OnEquipmentChange.Invoke( itemBeingSelected, false );
                         iSlot.Unequip( itemBeingSelected );
                         break;
                     }
@@ -43,7 +48,8 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
             }
             else if ( itemBeingSelected.Equipped == false ) {
                 foreach ( GearSlot gSlot in gearSlots ) {
-                    if ( gSlot.type == itemBeingSelected.type ) {
+                    if ( itemBeingSelected.type == gSlot.type ) {
+                        OnEquipmentChange.Invoke( itemBeingSelected, true );
                         gSlot.Equip( itemBeingSelected );
                         break;
                     }

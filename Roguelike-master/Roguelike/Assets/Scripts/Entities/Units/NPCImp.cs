@@ -1,13 +1,17 @@
-using UnityEngine;
-
 public class NPCImp : Navigator {
 
     private void Start() {
         Name = "Imp";
-        RangeOfAggression = 6;
         Speed = 3;
-        Health_Current = 6;
-        Attack_Damage = 1;
+        Level = 1;
+        DmgBasePhyMin = 1;
+        DmgBasePhyMax = 2;
+        RangeOfAggression = 6;
+        StrengthBase = 5;
+        IntelligenceBase = 5;
+        ConstitutionBase = 5;
+        DexterityBase = 5;
+        Life_Current = Life_Max;
     }
 
     public override void Action() => base.Action();
