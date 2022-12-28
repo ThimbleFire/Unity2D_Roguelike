@@ -58,8 +58,8 @@ public class Entities : MonoBehaviour {
         s_entities[s_Turn].Attack();
     }
 
-    public static void Attack( Vector3Int tile, int damage ) {
-        s_entities.Find( x => x._coordinates == tile ).DealDamage( damage );
+    public static void Attack( Vector3Int tile, int damage, string attacker ) {
+        s_entities.Find( x => x._coordinates == tile ).DealDamage( damage, attacker );
     }
 
     public static void Magic() {

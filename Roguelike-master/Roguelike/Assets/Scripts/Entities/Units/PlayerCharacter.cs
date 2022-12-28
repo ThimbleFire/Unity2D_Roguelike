@@ -49,7 +49,7 @@ public class PlayerCharacter : Navigator {
         HUDControls.Hide();
 
         AttackSplash.Show( TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash );
-        Entities.Attack( TileMapCursor.SelectedTileCoordinates, Attack_Damage );
+        Entities.Attack( TileMapCursor.SelectedTileCoordinates, Attack_Damage, Name );
 
         base.Attack();
     }

@@ -58,7 +58,7 @@ public class Entity : MonoBehaviour {
         if ( distance == 1 ) {
             Attack();
             AttackSplash.Show( playerCharacterCoordinates, AttackSplash.Type.Pierce );
-            Entities.Attack( playerCharacterCoordinates, Attack_Damage );
+            Entities.Attack( playerCharacterCoordinates, Attack_Damage, Name );
             return;
         }
 
@@ -75,8 +75,11 @@ public class Entity : MonoBehaviour {
                 return;
             }
         }
-        else
-        {
+        else {
+            //There's a 1 in 10 chance idling NPCs will talk
+            if(Random.Range( 0, 10 ) == 0)
+                SpeechBubble.Show( transform, SpeechBubble.Type.Talking );
+
             _chain = Pathfind.Wander( _coordinates );
         }
 
@@ -84,7 +87,8 @@ public class Entity : MonoBehaviour {
             AudioDevice.Play( onMove );
     }
 
-    public virtual void DealDamage( int damage ) {
+    public virtual void DealDamage( int damage, string attacker ) {
+        TextLog.Print( string.Format( "{0} hits {1} for <color=#FF0000>{2}</color> damage", attacker, Name, damage ) );
         Health_Current -= damage;
         AudioDevice.Play( onHit );
         if ( Health_Current <= 0 ) {
@@ -93,6 +97,7 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void Die() {
+        TextLog.Print( string.Format( "{0} is slain", Name ) );
         _animator.SetTrigger( "Die" );
         Pathfind.Unoccupy( _coordinates );
         Entities.Remove( this );
