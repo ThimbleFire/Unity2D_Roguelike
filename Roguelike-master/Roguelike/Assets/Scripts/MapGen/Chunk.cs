@@ -4,16 +4,14 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 [Serializable]
-public class AccessPoint
-{
-    public enum Dir
-    {
+public class AccessPoint {
+
+    public enum Dir {
         NONE, RIGHT, LEFT, DOWN, UP
     };
 
     //Axis is the direction the arrows run along. For example 3 arrows to the right of one another would be horizontal. 3 arrows underneath eachother would be vertical.
-    public enum Axis
-    {
+    public enum Axis {
         VERTICAL, HORIZONTAL
     };
 
@@ -26,8 +24,7 @@ public class AccessPoint
     [HideInInspector]
     public int size = 3;
 
-    public AccessPoint Clone()
-    {
+    public AccessPoint Clone() {
         var obj = new AccessPoint
         {
             Direction = this.Direction,
@@ -38,10 +35,8 @@ public class AccessPoint
         return obj;
     }
 
-    public static Dir Flip( Dir direction )
-    {
-        switch ( direction )
-        {
+    public static Dir Flip( Dir direction ) {
+        switch ( direction ) {
             case Dir.RIGHT:
                 return Dir.LEFT;
 
@@ -58,10 +53,8 @@ public class AccessPoint
         return Dir.DOWN;
     }
 
-    public static AccessPoint Flip( AccessPoint accessPoint )
-    {
-        switch ( accessPoint.Direction )
-        {
+    public static AccessPoint Flip( AccessPoint accessPoint ) {
+        switch ( accessPoint.Direction ) {
             case Dir.RIGHT:
                 accessPoint.Direction = Dir.LEFT;
                 return accessPoint;
@@ -85,10 +78,9 @@ public class AccessPoint
 
 [XmlRoot( "Chunk" )]
 [Serializable]
-public class Chunk
-{
-    public Chunk Clone()
-    {
+public class Chunk {
+
+    public Chunk Clone() {
         var obj = new Chunk();
 
         obj.Name = this.Name;
@@ -100,8 +92,7 @@ public class Chunk
         obj.Floors = this.Floors;
         obj.Entrance = new List<AccessPoint>();
 
-        foreach ( AccessPoint entrance in this.Entrance )
-        {
+        foreach ( AccessPoint entrance in this.Entrance ) {
             obj.Entrance.Add( entrance.Clone() );
         }
 

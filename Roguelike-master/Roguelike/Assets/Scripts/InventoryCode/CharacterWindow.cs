@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CharacterWindow : MonoBehaviour
-{
+public class CharacterWindow : MonoBehaviour {
     public static CharacterWindow Instance;
 
-    private void Awake()
-    {
+    private void Awake() {
         Instance = this;
     }
 
     public Text t_poisonRes, t_lightRes, t_fireRes, t_coldRes, t_currentExperience, t_maxExperience, t_currentLife, t_maxLife, t_currentMana, t_maxMana, t_defense, t_skillAccuracy, t_weaponAccuracy, t_attackDamage, t_skillDamage, t_strength, t_dexterity, t_constitution, t_intelligence;
 
-    public void UpdateDisplay()
-    {
+    public void UpdateDisplay() {
         t_strength.text = string.Format( "{0}", Character.Strength );
         t_dexterity.text = string.Format( "{0}", Character.Dexterity );
         t_constitution.text = string.Format( "{0}", Character.Constitution );

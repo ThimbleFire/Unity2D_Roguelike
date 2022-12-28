@@ -2,8 +2,7 @@
 using UnityEngine;
 
 [XmlRoot( "Droprate" )]
-public class TileData
-{
+public class TileData {
     public Vector3Int position;
     public string name;
 }

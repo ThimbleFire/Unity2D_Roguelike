@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class MapFactory
-{
+public class MapFactory {
     public static int AvailableEntrances = 0;
     public static int PlacedRooms = 0;
 
-    public static void Build()
-    {
+    public static void Build() {
         PlacedRooms = 0;
         AvailableEntrances = 0;
 
@@ -17,8 +15,7 @@ public class MapFactory
         List<Room> rooms = new List<Room>() { new Room() };
         List<Room> prototypes = new List<Room>( rooms[0].GetPrototypes );
 
-        while ( prototypes.Count > 0 )
-        {
+        while ( prototypes.Count > 0 ) {
             // Get a random prototype
             int index = Random.Range( 0, prototypes.Count );
             Room prototype = prototypes[index];
@@ -61,8 +58,7 @@ public class MapFactory
 
             // Does the child collide with prototype rooms
             result = RoomsCollide( child, prototypes );
-            if ( result )
-            {
+            if ( result ) {
                 prototypes.Add( prototype );
                 continue;
             }
@@ -75,12 +71,9 @@ public class MapFactory
         }
     }
 
-    private static bool RoomsCollide( List<Room> children, List<Room> rooms )
-    {
-        foreach ( Room room in children )
-        {
-            if ( RoomsCollide( room, rooms ) == true )
-            {
+    private static bool RoomsCollide( List<Room> children, List<Room> rooms ) {
+        foreach ( Room room in children ) {
+            if ( RoomsCollide( room, rooms ) == true ) {
                 return true;
             }
         }
@@ -88,12 +81,9 @@ public class MapFactory
         return false;
     }
 
-    private static bool RoomsCollide( Room room, List<Room> rooms )
-    {
-        foreach ( Room item in rooms )
-        {
-            if ( room.CollidesWith( item ) )
-            {
+    private static bool RoomsCollide( Room room, List<Room> rooms ) {
+        foreach ( Room item in rooms ) {
+            if ( room.CollidesWith( item ) ) {
                 if ( item.Parent == room )
                     continue;
 
@@ -104,8 +94,7 @@ public class MapFactory
         return false;
     }
 
-    public static bool IsInBounds( Room r )
-    {
+    public static bool IsInBounds( Room r ) {
         if ( r.left < 2 || r.left > BoardManager.Width - 2 )
             return false;
         if ( r.top < 2 || r.top > BoardManager.Height - 2 )
@@ -118,10 +107,8 @@ public class MapFactory
         return true;
     }
 
-    public static bool IsInBounds( List<Room> r )
-    {
-        foreach ( var item in r )
-        {
+    public static bool IsInBounds( List<Room> r ) {
+        foreach ( var item in r ) {
             if ( item.left < 2 || item.left > BoardManager.Width - 2 )
                 return false;
             if ( item.top < 2 || item.top > BoardManager.Height - 2 )
@@ -135,10 +122,8 @@ public class MapFactory
         return true;
     }
 
-    public static Vector2Int GetDirVector2Int( AccessPoint.Dir direction )
-    {
-        switch ( direction )
-        {
+    public static Vector2Int GetDirVector2Int( AccessPoint.Dir direction ) {
+        switch ( direction ) {
             case AccessPoint.Dir.UP:
                 return Vector2Int.up;
 

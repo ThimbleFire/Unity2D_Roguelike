@@ -41,6 +41,8 @@ public class NPCImpTrident : Navigator {
     }
 
     public override void Move() => base.Move();
+
     protected override void OnTileChanged() => base.OnTileChanged();
+
     protected override void OnArrival() => base.OnArrival();
 }

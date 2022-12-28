@@ -1,27 +1,24 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class Navigator : Entity {
-
-
     protected List<Node> _chain = new List<Node>();
     private int stepsTaken = 0;
 
-    private void Update()
-    {
+    private void Update() {
+
+        if ( _chain == null )
+            return;
+
         if ( _chain.Count == 0 )
             return;
 
         StepFrame();
     }
 
-    private void StepFrame()
-    {
-
+    private void StepFrame() {
         // if the entity is not on screen, instantly move the unit
-        if ( !GetComponent<SpriteRenderer>().isVisible )
-        {
+        if ( !GetComponent<SpriteRenderer>().isVisible ) {
             transform.position = _chain[0].worldPosition + Vector3.up * 0.75f + Vector3.right * 0.5f;
             OnTileChanged();
             return;
@@ -38,14 +35,12 @@ public class Navigator : Entity {
 
         float arrivalDistance = 0.0f;
         bool unitHasArrivedAtDestination = Vector2.Distance( transform.position, _stepDestination ) <= arrivalDistance;
-        if ( unitHasArrivedAtDestination )
-        {
+        if ( unitHasArrivedAtDestination ) {
             OnTileChanged();
         }
     }
 
-    protected virtual void OnTileChanged()
-    {
+    protected virtual void OnTileChanged() {
         // Unoccupy last coordinates
         Pathfind.Unoccupy( _coordinates );
 

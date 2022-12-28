@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 
-public class HUDControls : MonoBehaviour
-{
+public class HUDControls : MonoBehaviour {
     public GameObject inventory;
     public static GameObject mobileButton;
 
     public static bool InventoryOpened;
 
-    private void Awake()
-    {
+    private void Awake() {
         mobileButton = GameObject.Find( "HUD" );
     }
 
-    public void ToggleInventory()
-    {
+    public void ToggleInventory() {
         // This code is really fucking dumb
         //
         // Because if inventory is disabled, we can't call the code to re-enable it

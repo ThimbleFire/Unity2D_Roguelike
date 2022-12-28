@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class Character : MonoBehaviour, IEquipped
-{
+public class Character : MonoBehaviour, IEquipped {
     public static byte Level = 1;
 
     public static int DmgAccuracy { get { return stats[( StatID )GearStats.Prefix.Plus_Accuracy] + Dexterity * 5; } }
@@ -93,8 +92,7 @@ public class Character : MonoBehaviour, IEquipped
 
     public static int IncMagicFind { get { return stats[( StatID )GearStats.Suffix.Plus_Magic_Find] + stats[( StatID )GearStats.Implicit.Plus_Magic_Find] + stats[( StatID )GearStats.Prefix.Plus_Magic_Find]; } }
 
-    public enum StatID
-    {
+    public enum StatID {
         Plus_Accuracy = 0,
 
         Dmg_Phys_Min = 1,
@@ -140,53 +138,43 @@ public class Character : MonoBehaviour, IEquipped
 
     public static Dictionary<StatID, int> stats = new Dictionary<StatID, int>();
 
-    private void Awake()
-    {
-        for ( int i = 0; i < Enum.GetNames( typeof( StatID ) ).Length; i++ )
-        {
+    private void Awake() {
+        for ( int i = 0; i < Enum.GetNames( typeof( StatID ) ).Length; i++ ) {
             stats.Add( ( StatID )i, 0 );
         }
     }
 
-    public void GearEquipped( ItemStats _stats, bool added )
-    {
-        if ( _stats.type == ItemStats.Type.PRIMARY )
-        {
-            if ( added )
-            {
+    public void GearEquipped( ItemStats _stats, bool added ) {
+        if ( _stats.type == ItemStats.Type.PRIMARY ) {
+            if ( added ) {
                 dmgPhyMin += _stats.MinDamage;
                 dmgPhyMax += _stats.MaxDamage;
             }
-            else
-            {
+            else {
                 dmgPhyMin -= _stats.MinDamage;
                 dmgPhyMax -= _stats.MaxDamage;
             }
         }
-        else
-        {
+        else {
             if ( added )
                 stats[StatID.Def_Phys_Flat] += _stats.Defense;
             else
                 stats[StatID.Def_Phys_Flat] -= _stats.Defense;
         }
 
-        foreach ( ItemStats.Prefix item in _stats.prefixes )
-        {
+        foreach ( ItemStats.Prefix item in _stats.prefixes ) {
             if ( added )
                 stats[( StatID )item.type] += item.value;
             else
                 stats[( StatID )item.type] -= item.value;
         }
-        foreach ( ItemStats.Suffix item in _stats.suffixes )
-        {
+        foreach ( ItemStats.Suffix item in _stats.suffixes ) {
             if ( added )
                 stats[( StatID )item.type] += item.value;
             else
                 stats[( StatID )item.type] -= item.value;
         }
-        foreach ( ItemStats.Implicit item in _stats.implicits )
-        {
+        foreach ( ItemStats.Implicit item in _stats.implicits ) {
             if ( added )
                 stats[( StatID )item.type] += item.value;
             else
@@ -197,10 +185,10 @@ public class Character : MonoBehaviour, IEquipped
     }
 }
 
-namespace UnityEngine.EventSystems
-{
-    public interface IEquipped : IEventSystemHandler
-    {
+namespace UnityEngine.EventSystems {
+
+    public interface IEquipped : IEventSystemHandler {
+
         void GearEquipped( ItemStats stats, bool added );
     }
 }

@@ -2,8 +2,7 @@ using UnityEngine;
 
 public class NPCImp : Navigator {
 
-    private void Start()
-    {
+    private void Start() {
         Name = "Imp";
         RangeOfAggression = 6;
         Speed = 3;
@@ -28,20 +27,21 @@ public class NPCImp : Navigator {
             return;
         }
 
-        if ( distance <= RangeOfAggression ) {
-            _chain = Pathfind.GetPath( _coordinates, playerCharacterCoordinates, false );
-
-            if ( _chain.Count == 0 )
-                Entities.Step();
-        }
-        else {
+        if ( distance > RangeOfAggression ) {
             _chain = Pathfind.Wander( _coordinates );
+            return;
         }
+        _chain = Pathfind.GetPath( _coordinates, playerCharacterCoordinates, false );
+
+        if ( _chain == null )
+            Entities.Step();
 
         base.Action();
     }
 
     public override void Move() => base.Move();
+
     protected override void OnTileChanged() => base.OnTileChanged();
-    protected override void OnArrival() =>  base.OnArrival();
+
+    protected override void OnArrival() => base.OnArrival();
 }

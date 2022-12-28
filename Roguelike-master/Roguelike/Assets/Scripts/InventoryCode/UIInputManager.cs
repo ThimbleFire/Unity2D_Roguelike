@@ -1,21 +1,17 @@
 ﻿using UnityEngine;
 
-public class UIInputManager : MonoBehaviour
-{
+public class UIInputManager : MonoBehaviour {
     public GameObject inventoryWindow;
     public GameObject characterWindow;
     public Inventory inventory;
 
-    private void Update()
-    {
-        if ( Input.GetKeyDown( KeyCode.I ) )
-        {
+    private void Update() {
+        if ( Input.GetKeyDown( KeyCode.I ) ) {
             AudioDevice.PlayGeneric( AudioDevice.Sound.WindowOpen );
             inventoryWindow.SetActive( !inventoryWindow.activeInHierarchy );
         }
 
-        if ( Input.GetKeyDown( KeyCode.C ) )
-        {
+        if ( Input.GetKeyDown( KeyCode.C ) ) {
             AudioDevice.PlayGeneric( AudioDevice.Sound.WindowOpen );
             characterWindow.SetActive( !characterWindow.activeInHierarchy );
         }

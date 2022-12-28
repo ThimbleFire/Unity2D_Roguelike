@@ -2,10 +2,9 @@
 using System.Xml.Serialization;
 using UnityEngine;
 
-public class XMLUtility
-{
-    public static void Save<T>( T chunk, string name )
-    {
+public class XMLUtility {
+
+    public static void Save<T>( T chunk, string name ) {
         XmlSerializer serialWrite = new XmlSerializer( typeof(Chunk));
         Stream stream = new FileStream(Application.dataPath + "/Resources/Chunks/" + name + ".xml",   FileMode.Create , FileAccess.Write );
         serialWrite.Serialize( stream, chunk );
@@ -13,8 +12,7 @@ public class XMLUtility
         stream.Dispose();
     }
 
-    public static T Load<T>( UnityEngine.Object obj )
-    {
+    public static T Load<T>( UnityEngine.Object obj ) {
         TextAsset asset = (TextAsset)obj;
 
         XmlSerializer parametersSerializer = new XmlSerializer(typeof(T));
@@ -26,8 +24,7 @@ public class XMLUtility
         return product;
     }
 
-    public static T Load<T>( string filename )
-    {
+    public static T Load<T>( string filename ) {
         XmlSerializer parametersSerializer = new XmlSerializer(typeof(T));
 
         UnityEngine.Object obj = Resources.Load("Chunks/" + filename);

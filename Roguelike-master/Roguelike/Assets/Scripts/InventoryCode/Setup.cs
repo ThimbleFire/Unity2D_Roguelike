@@ -1,11 +1,9 @@
 ﻿using UnityEngine;
 
-public class Setup : MonoBehaviour
-{
+public class Setup : MonoBehaviour {
     public AudioClip[] generics;
 
-    private void Awake()
-    {
+    private void Awake() {
         AudioDevice.Setup( GetComponent<AudioSource>(), generics );
     }
 }

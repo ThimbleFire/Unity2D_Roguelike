@@ -1,9 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.Tilemaps;
 
-public class Entities : MonoBehaviour
-{
+public class Entities : MonoBehaviour {
     public static Transform Transform;
 
     private static List<Entity> s_entities = new List<Entity>();
@@ -11,8 +9,7 @@ public class Entities : MonoBehaviour
 
     public static Vector3Int GetPCCoordinates => s_entities[0]._coordinates;
 
-    private void Awake()
-    {
+    private void Awake() {
         Transform = gameObject.transform;
     }
 
@@ -26,8 +23,7 @@ public class Entities : MonoBehaviour
         return list;
     }
 
-    public static void RollMob( Vector3Int spawnPosition, int difficulty )
-    {
+    public static void RollMob( Vector3Int spawnPosition, int difficulty ) {
         GameObject prefab = ResourceRepository.GetUnit("Imp");
         GameObject instance = Instantiate( prefab, spawnPosition, Quaternion.identity, Transform );
         Entity entity = instance.GetComponent<Entity>();
@@ -36,8 +32,7 @@ public class Entities : MonoBehaviour
         s_entities.Add( entity );
     }
 
-    public static void PlayerSpawn( Vector3Int spawnPosition )
-    {
+    public static void PlayerSpawn( Vector3Int spawnPosition ) {
         GameObject prefab = ResourceRepository.GetUnit("PlayerCharacter");
         GameObject instance = Instantiate( prefab, spawnPosition, Quaternion.identity, Transform );
         Entity entity = instance.GetComponent<PlayerCharacter>();
@@ -62,7 +57,7 @@ public class Entities : MonoBehaviour
         s_entities[s_Turn].Attack();
     }
 
-    public static void Attack(Vector3Int tile, int damage) {
+    public static void Attack( Vector3Int tile, int damage ) {
         s_entities.Find( x => x._coordinates == tile ).DealDamage( damage );
     }
 
@@ -74,24 +69,21 @@ public class Entities : MonoBehaviour
         //Log.Print(Entities.Search(TileMapCursor.SelectedTileCoordinates).ExamineText);
     }
 
-    public static void Remove(Entity entity) {
+    public static void Remove( Entity entity ) {
         s_entities.Remove( entity );
         GameObject.Destroy( entity.gameObject );
     }
 
-    public static void Step()
-    {
+    public static void Step() {
         s_Turn++;
 
         if ( s_Turn >= s_entities.Count )
             s_Turn = 0;
 
-        if ( s_Turn == 0 )
-        {
+        if ( s_Turn == 0 ) {
             HUDControls.Show();
         }
-        else
-        {
+        else {
             Action();
         }
     }

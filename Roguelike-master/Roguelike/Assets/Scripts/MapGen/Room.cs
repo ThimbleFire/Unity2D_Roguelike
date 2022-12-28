@@ -1,8 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Room
-{
+public class Room {
     public Rect Rect { get { return new Rect( Position.x, Position.y, width, height ); } }
     public int Right { get { return left + width - 1; } }
     public int Bottom { get { return top + height - 1; } }
@@ -19,8 +18,7 @@ public class Room
         get {
             List<Room> prototypes = new List<Room>();
 
-            foreach ( AccessPoint accessPoint in chunk.Entrance )
-            {
+            foreach ( AccessPoint accessPoint in chunk.Entrance ) {
                 if ( accessPoint.Direction == inputDirection )
                     continue;
 
@@ -44,8 +42,7 @@ public class Room
     /// <summary>
     /// Start room
     /// </summary>
-    public Room()
-    {
+    public Room() {
         chunk = ResourceRepository.Town;
 
         this.left = BoardManager.Width / 2;
@@ -59,8 +56,7 @@ public class Room
     /// <summary>
     /// Ghost room
     /// </summary>
-    public Room( Room parent, AccessPoint accessPoint )
-    {
+    public Room( Room parent, AccessPoint accessPoint ) {
         int radius_x = 3;
         int radius_y = 3;
 
@@ -84,8 +80,7 @@ public class Room
     /// <summary>
     /// Turn ghost room into child
     /// </summary>
-    public Room( Room parent, AccessPoint accessPoint, bool t )
-    {
+    public Room( Room parent, AccessPoint accessPoint, bool t ) {
         parentOutput = accessPoint;
         Vector2Int offset = MapFactory.GetDirVector2Int( parentOutput.Direction );
         inputDirection = AccessPoint.Flip( parentOutput.Direction );
@@ -112,22 +107,17 @@ public class Room
 
     public bool CollidesWith( Room other ) => Rect.Overlaps( other.Rect );
 
-    public void RemoveAccessPoint( AccessPoint.Dir direction )
-    {
+    public void RemoveAccessPoint( AccessPoint.Dir direction ) {
         chunk.Entrance.RemoveAll( x => x.Direction == direction );
         MapFactory.AvailableEntrances--;
     }
 
-    public void Build()
-    {
-        foreach ( TileData data in chunk.Walls )
-        {
+    public void Build() {
+        foreach ( TileData data in chunk.Walls ) {
             BoardManager.tileMapWalls.SetTile( Position + data.position, ResourceRepository.Tile[data.name] );
         }
-        foreach ( TileData data in chunk.Curios )
-        {
-            switch ( data.name )
-            {
+        foreach ( TileData data in chunk.Curios ) {
+            switch ( data.name ) {
                 case "Dungeon_Tileset_91":
                 case "Dungeon_Tileset_90":
                 case "Dungeon_Tileset_93":

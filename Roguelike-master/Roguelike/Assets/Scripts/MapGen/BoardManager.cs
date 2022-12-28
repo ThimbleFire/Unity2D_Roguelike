@@ -1,8 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.Tilemaps;
 
-public class BoardManager : MonoBehaviour
-{
+public class BoardManager : MonoBehaviour {
     public static Tilemap tileMapGround;
     public static Tilemap tileMapWalls;
     public static Tilemap tileMapCurios;
@@ -12,8 +11,7 @@ public class BoardManager : MonoBehaviour
     public static int Width { get; set; }
     public static int Height { get; set; }
 
-    private void Awake()
-    {
+    private void Awake() {
         tileMapGround = GameObject.Find( "Ground" ).GetComponent<Tilemap>();
         tileMapWalls = GameObject.Find( "Walls" ).GetComponent<Tilemap>();
         tileMapCurios = GameObject.Find( "Curio" ).GetComponent<Tilemap>();
@@ -24,15 +22,13 @@ public class BoardManager : MonoBehaviour
         Height = 128;
     }
 
-    private void Start()
-    {
+    private void Start() {
         RoomLimit = 64;
 
         Build();
     }
 
-    public static void Build()
-    {
+    public static void Build() {
         tileMapGround.ClearAllTiles();
         tileMapWalls.ClearAllTiles();
         tileMapCurios.ClearAllTiles();

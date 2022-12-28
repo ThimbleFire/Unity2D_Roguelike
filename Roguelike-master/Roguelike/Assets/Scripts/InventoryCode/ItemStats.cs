@@ -1,8 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ItemStats : MonoBehaviour
-{
+public class ItemStats : MonoBehaviour {
     public bool Equipped = false;
 
     public const string hexMagic = "<color=#4850B8>";
@@ -21,18 +20,15 @@ public class ItemStats : MonoBehaviour
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Dmg_Phys_Min );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Dmg_Phys_Percent );
 
-            if ( s != null && p != null )
-            {
+            if ( s != null && p != null ) {
                 return ( int )( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
             }
 
-            if ( s != null )
-            {
+            if ( s != null ) {
                 return ( int )( itemBasics.value + s.value );
             }
 
-            if ( p != null )
-            {
+            if ( p != null ) {
                 return ( int )( itemBasics.value * ( p.value / 100.0f + 1 ) );
             }
 
@@ -45,18 +41,15 @@ public class ItemStats : MonoBehaviour
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Dmg_Phys_Max );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Dmg_Phys_Percent );
 
-            if ( s != null && p != null )
-            {
+            if ( s != null && p != null ) {
                 return ( int )( ( itemBasics.value2 + s.value ) * ( p.value / 100.0f + 1 ) );
             }
 
-            if ( s != null )
-            {
+            if ( s != null ) {
                 return ( int )( itemBasics.value2 + s.value );
             }
 
-            if ( p != null )
-            {
+            if ( p != null ) {
                 return ( int )( itemBasics.value2 * ( p.value / 100.0f + 1 ) );
             }
 
@@ -69,18 +62,15 @@ public class ItemStats : MonoBehaviour
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Def_Phys_Flat );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Def_Phys_Percent );
 
-            if ( s != null && p != null )
-            {
+            if ( s != null && p != null ) {
                 return ( int )( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
             }
 
-            if ( s != null )
-            {
+            if ( s != null ) {
                 return itemBasics.value + s.value;
             }
 
-            if ( p != null )
-            {
+            if ( p != null ) {
                 return ( int )( itemBasics.value * ( p.value / 100.0f + 1 ) );
             }
 
@@ -111,10 +101,8 @@ public class ItemStats : MonoBehaviour
             if ( itemBasics.durability > 0 )
                 t.Append( "\n" + hexGray + "Durability: </color>" + itemBasics.durability );
 
-            foreach ( Stat stat in requirements )
-            {
-                switch ( stat.stat )
-                {
+            foreach ( Stat stat in requirements ) {
+                switch ( stat.stat ) {
                     case GearStats.Attributes.Level:
                         if ( Character.Level < stat.value )
                             t.Append( hexRed );
@@ -154,18 +142,15 @@ public class ItemStats : MonoBehaviour
                 t.Append( string.Format( "\nRequired {0}: {1} </color>", stat.stat, stat.value ) );
             }
 
-            foreach ( var implicitMod in implicits )
-            {
+            foreach ( var implicitMod in implicits ) {
                 t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )implicitMod.type], implicitMod.value ) + "</color>" );
             }
 
-            foreach ( var prefix in prefixes )
-            {
+            foreach ( var prefix in prefixes ) {
                 t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )prefix.type], prefix.value ) + "</color>" );
             }
 
-            foreach ( var suffix in suffixes )
-            {
+            foreach ( var suffix in suffixes ) {
                 t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )suffix.type], suffix.value ) + "</color>" );
             }
 
@@ -177,49 +162,43 @@ public class ItemStats : MonoBehaviour
     }
 
     [System.Serializable]
-    public class Stat
-    {
+    public class Stat {
         public GearStats.Attributes stat;
         public byte value;
     }
 
     [System.Serializable]
-    public class ItemBasics
-    {
+    public class ItemBasics {
         public Type type;
         public int value, value2;
         public byte durability;
     }
 
     [System.Serializable]
-    public class Prefix
-    {
+    public class Prefix {
         public GearStats.Prefix type;
         public int value;
     }
 
     [System.Serializable]
-    public class Suffix
-    {
+    public class Suffix {
         public GearStats.Suffix type;
         public int value;
     }
 
     [System.Serializable]
-    public class Implicit
-    {
+    public class Implicit {
         public GearStats.Implicit type;
         public int value;
     }
 
     public static string[] Type_Text = new string[15] { "Any", "Helmet", "Chest", "Gloves", "Legs", "Feet", "Weapon", "Offhand", "Ring", "Amulet", "Artifact", "Miscellaneous", "Consumable", "Quest Item", "Belt" };
 
-    public enum Type
-    { ANY, HEAD, CHEST, GLOVES, LEGS, FEET, PRIMARY, SECONDARY, RING, NECK, ARTIFACT, MISC, CONSUMABLE, QUEST, BELT }
+    public enum Type { ANY, HEAD, CHEST, GLOVES, LEGS, FEET, PRIMARY, SECONDARY, RING, NECK, ARTIFACT, MISC, CONSUMABLE, QUEST, BELT }
 }
 
-public class GearStats
-{
+public class GearStats {
+
     // The order of affix text must match the enum order on Character.StatID
     public static string[] Affix_Text = new string[37]
     {
@@ -266,8 +245,7 @@ public class GearStats
         "+{0} to maximum durability",
     };
 
-    public enum Prefix
-    {
+    public enum Prefix {
         Plus_Accuracy = 0,
         Dmg_Ele_Fire = 4,
         Dmg_Ele_Cold = 5,
@@ -290,8 +268,7 @@ public class GearStats
         Plus_Magic_Find = 35,
     }
 
-    public enum Suffix
-    {
+    public enum Suffix {
         Plus_Str = 26,
         Plus_Dex = 27,
         Plus_Con = 28,
@@ -323,8 +300,7 @@ public class GearStats
         Plus_Magic_Find = 35,
     }
 
-    public enum Implicit
-    {
+    public enum Implicit {
         Plus_Magic_Find = 35,
         Plus_Life = 22,
         Plus_Mana = 23,
@@ -339,8 +315,7 @@ public class GearStats
         Plus_Regen_Mana = 25,
     }
 
-    public enum Attributes
-    {
+    public enum Attributes {
         Level, Strength, Dexterity, Constitution, Intelligence
     }
 }

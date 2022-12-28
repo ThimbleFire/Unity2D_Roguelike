@@ -5,8 +5,7 @@ using UnityEngine.Experimental.Rendering.Universal;
 using UnityEngine.Tilemaps;
 
 [RequireComponent( typeof( CompositeShadowCaster2D ) )]
-public class ShadowCaster2DFromComposite : MonoBehaviour
-{
+public class ShadowCaster2DFromComposite : MonoBehaviour {
     public bool castsShadows = true;
     public bool selfShadows = false;
 
@@ -24,8 +23,7 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     /// <summary>
     /// Using reflection to expose required properties in ShadowCaster2D
     /// </summary>
-    static ShadowCaster2DFromComposite()
-    {
+    static ShadowCaster2DFromComposite() {
         s_meshField = typeof( ShadowCaster2D ).GetField( "m_Mesh", BindingFlags.NonPublic | BindingFlags.Instance );
         s_shapePathField = typeof( ShadowCaster2D ).GetField( "m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance );
 
@@ -35,16 +33,13 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
                                     .GetMethod( "GenerateShadowMesh", BindingFlags.Public | BindingFlags.Static );
     }
 
-    public static void RebuildAll()
-    {
-        foreach ( var item in FindObjectsOfType<ShadowCaster2DFromComposite>() )
-        {
+    public static void RebuildAll() {
+        foreach ( var item in FindObjectsOfType<ShadowCaster2DFromComposite>() ) {
             item.Rebuild();
         }
     }
 
-    private void OnEnable()
-    {
+    private void OnEnable() {
         _tilemap = GetComponent<Tilemap>();
         _tilemapCollider2D = GetComponent<TilemapCollider2D>();
     }
@@ -52,8 +47,7 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     /// <summary>
     /// Rebuilds this specific ShadowCaster2DFromComposite
     /// </summary>
-    public void Rebuild()
-    {
+    public void Rebuild() {
         _compositeCollider = GetComponent<CompositeCollider2D>();
         _tilemapCollider2D.ProcessTilemapChanges();
         _compositeCollider.GenerateGeometry();
@@ -66,11 +60,9 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     /// <summary>
     /// Automatically creates holder gameobjects for each needed ShadowCaster2D, depending on complexity of tilemap
     /// </summary>
-    private void CreateShadowGameObjects()
-    {
+    private void CreateShadowGameObjects() {
         //Delete all old objects
-        for ( int i = transform.childCount - 1; i >= 0; i-- )
-        {
+        for ( int i = transform.childCount - 1; i >= 0; i-- ) {
             if ( transform.GetChild( i ).name.Contains( "ShadowCaster" ) )
                 DestroyImmediate( transform.GetChild( i ).gameObject );
         }
@@ -94,8 +86,7 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     /// Gathers all the verts of a given path shape in a CompositeCollider2D
     /// </summary>
     /// <param name="path">The path index to fetch verts from</param>
-    private void GetCompositeVerts()
-    {
+    private void GetCompositeVerts() {
         _compositeVerts = new List<Vector2>();
 
         Vector2[] pathVerts = new Vector2[_compositeCollider.GetPathPointCount( 0 )];
@@ -117,8 +108,7 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     /// verts in CompositeCollider2D and then generates the mesh
     /// </summary>
     /// <param name="caster"></param>
-    private void UpdateCompositeShadow( ShadowCaster2D caster )
-    {
+    private void UpdateCompositeShadow( ShadowCaster2D caster ) {
         caster.castsShadows = castsShadows;
         caster.selfShadows = selfShadows;
 
@@ -133,11 +123,9 @@ public class ShadowCaster2DFromComposite : MonoBehaviour
     }
 
     //Quick method for converting a Vector2 array into a Vector3 array
-    private Vector3[] ConvertArray( Vector2[] v2 )
-    {
+    private Vector3[] ConvertArray( Vector2[] v2 ) {
         Vector3[] v3 = new Vector3[v2.Length];
-        for ( int i = 0; i < v3.Length; i++ )
-        {
+        for ( int i = 0; i < v3.Length; i++ ) {
             Vector2 tempV2 = v2[i];
             v3[i] = new Vector3( tempV2.x, tempV2.y );
         }

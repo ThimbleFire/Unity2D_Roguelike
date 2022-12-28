@@ -3,41 +3,33 @@ using System.Collections;
 using System.Reflection;
 using UnityEngine;
 
-public class BaseMonoBehaviour : MonoBehaviour
-{
-    private void OnDestroy()
-    {
-        foreach ( FieldInfo field in GetType().GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ) )
-        {
+public class BaseMonoBehaviour : MonoBehaviour {
+
+    private void OnDestroy() {
+        foreach ( FieldInfo field in GetType().GetFields( BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance ) ) {
             Type fieldType = field.FieldType;
 
-            if ( typeof( IList ).IsAssignableFrom( fieldType ) )
-            {
+            if ( typeof( IList ).IsAssignableFrom( fieldType ) ) {
                 IList list = field.GetValue( this ) as IList;
-                if ( list != null )
-                {
+                if ( list != null ) {
                     list.Clear();
                 }
             }
 
-            if ( typeof( IDictionary ).IsAssignableFrom( fieldType ) )
-            {
+            if ( typeof( IDictionary ).IsAssignableFrom( fieldType ) ) {
                 IDictionary dictionary = field.GetValue( this ) as IDictionary;
-                if ( dictionary != null )
-                {
+                if ( dictionary != null ) {
                     dictionary.Clear();
                 }
             }
 
-            if ( !fieldType.IsPrimitive )
-            {
+            if ( !fieldType.IsPrimitive ) {
                 field.SetValue( this, null );
             }
         }
     }
 
-    public virtual bool OnValidateProperty( string propertyName )
-    {
+    public virtual bool OnValidateProperty( string propertyName ) {
         return false;
     }
 }
