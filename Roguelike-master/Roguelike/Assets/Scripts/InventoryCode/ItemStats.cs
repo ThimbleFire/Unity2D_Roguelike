@@ -88,69 +88,80 @@ public class ItemStats : MonoBehaviour
     public List<Suffix> suffixes;
     public List<Stat> requirements;
     public string description;
-
     public AudioClip soundEndDrag;
 
-    public string Tooltip { get { return string.Empty; } }
-        //get {
-        //    System.Text.StringBuilder t = new System.Text.StringBuilder( Name );
-        //    t.Append( "\n" + Type_Text[( byte )type] );
-        //    if ( type == Type.PRIMARY || type == Type.SECONDARY )
-        //        t.Append( "\n" + hexGray + "One-hand damage: </color>" + hexMagic + MinDamage + " to " + MaxDamage + "</color>" );
-        //    else if ( type != Type.RING && type != Type.NECK )
-        //        t.Append( "\n" + hexGray + "Defense: </color>" + hexMagic + Defense + "</color>" );
-        //    if ( itemBasics.durability > 0 )
-        //        t.Append( "\n" + hexGray + "Durability: </color>" + itemBasics.durability );
-        //    foreach ( Stat stat in requirements ) {
-        //        switch ( stat.stat ) {
-        //            case GearStats.Attributes.Level:
-        //                if ( Character.Level < stat.value )
-        //                    t.Append( hexRed );
-        //                else
-        //                    t.Append( hexGray );
-        //                break;
-        //            case GearStats.Attributes.Strength:
-        //                if ( Character.Strength < stat.value )
-        //                    t.Append( hexRed );
-        //                else
-        //                    t.Append( hexGray );
-        //                break;
-        //            case GearStats.Attributes.Dexterity:
-        //                if ( Character.Dexterity < stat.value )
-        //                    t.Append( hexRed );
-        //                else
-        //                    t.Append( hexGray );
-        //                break;
-        //            case GearStats.Attributes.Constitution:
-        //                if ( Character.Constitution < stat.value )
-        //                    t.Append( hexRed );
-        //                else
-        //                    t.Append( hexGray );
-        //                break;
-        //            case GearStats.Attributes.Intelligence:
-        //                if ( Character.Intelligence < stat.value )
-        //                    t.Append( hexRed );
-        //                else
-        //                    t.Append( hexGray );
-        //                break;
-        //        }
-        //        t.Append( string.Format( "\nRequired {0}: {1} </color>", stat.stat, stat.value ) );
-        //    }
-        //    foreach ( var implicitMod in implicits ) {
-        //        t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )implicitMod.type], implicitMod.value ) + "</color>" );
-        //    }
-        //    foreach ( var prefix in prefixes ) {
-        //        t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )prefix.type], prefix.value ) + "</color>" );
-        //    }
-        //    foreach ( var suffix in suffixes ) {
-        //        t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )suffix.type], suffix.value ) + "</color>" );
-        //    }
-        //    if ( description != string.Empty )
-        //        t.Append( "\n\n<i>" + description + "</i>" );
-        //    return t.ToString();
-        //}
+    public string Tooltip {
+        get {
+            
+            System.Text.StringBuilder t = new System.Text.StringBuilder( Name );
+            
+            t.Append( "\n" + Type_Text[( byte )type] );
+            
+            if ( type == Type.PRIMARY || type == Type.SECONDARY )
+                t.Append( "\n" + hexGray + "One-hand damage: </color>" + hexMagic + MinDamage + " to " + MaxDamage + "</color>" );
+            
+            else if ( type != Type.RING && type != Type.NECK )
+                t.Append( "\n" + hexGray + "Defense: </color>" + hexMagic + Defense + "</color>" );
+            
+            if ( itemBasics.durability > 0 )
+                t.Append( "\n" + hexGray + "Durability: </color>" + itemBasics.durability );
+            
+            foreach ( Stat stat in requirements )
+            {
+                switch ( stat.stat )
+                {
+                    case GearStats.Attributes.Level:
+                        if ( Entities.GetPCS.Level < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+                    case GearStats.Attributes.Strength:
+                        if ( Entities.GetPCS.Strength < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+                    case GearStats.Attributes.Dexterity:
+                        if ( Entities.GetPCS.Dexterity < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+                    case GearStats.Attributes.Constitution:
+                        if ( Entities.GetPCS.Constitution < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+                    case GearStats.Attributes.Intelligence:
+                        if ( Entities.GetPCS.Intelligence < stat.value )
+                            t.Append( hexRed );
+                        else
+                            t.Append( hexGray );
+                        break;
+                }
+                t.Append( string.Format( "\nRequired {0}: {1} </color>", stat.stat, stat.value ) );
+            }
 
-    [System.Serializable]
+            foreach ( var implicitMod in implicits ) {
+                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )implicitMod.type], implicitMod.value ) + "</color>" );
+            }
+            foreach ( var prefix in prefixes ) {
+                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )prefix.type], prefix.value ) + "</color>" );
+            }
+            foreach ( var suffix in suffixes ) {
+                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )suffix.type], suffix.value ) + "</color>" );
+            }
+
+            if ( description != string.Empty )
+                t.Append( "\n\n<i>" + description + "</i>" );
+
+            return t.ToString();
+        }
+    }
+
+        [System.Serializable]
     public class Stat {
         public GearStats.Attributes stat;
         public byte value;

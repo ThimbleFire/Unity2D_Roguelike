@@ -9,7 +9,6 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
     public GearSlot[] inventorySlots;
 
     public delegate void OnEquipmentChangeHandler( ItemStats itemStats, bool adding );
-
     public static event OnEquipmentChangeHandler OnEquipmentChange;
 
     public void Hide() {

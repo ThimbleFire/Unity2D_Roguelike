@@ -45,11 +45,10 @@ public class Entity : MonoBehaviour {
     }
 
     protected string Name { get; set; }
-    protected int Level { get; set; }
-    protected int Speed { get; set; }
     protected int Life_Current { get; set; }
     protected int Mana_Current { get; set; }
     protected int RangeOfAggression { get; set; }
+    public int Level { get; set; }
     protected int DmgBasePhyMin { get; set; }
     protected int DmgBasePhyMax { get; set; }
     protected int Armour { get; set; }
@@ -57,7 +56,9 @@ public class Entity : MonoBehaviour {
     protected int IntelligenceBase { get; set; }
     protected int ConstitutionBase { get; set; }
     protected int DexterityBase { get; set; }
+    protected int SpeedBase { get; set; }
 
+    protected int Speed => SpeedBase + stats[( StatID )GearStats.Implicit.Plus_Speed_Movement] + stats[( StatID )GearStats.Suffix.Plus_Speed_Movement];
     protected int Life_Max => Constitution * 5 + stats[( StatID )GearStats.Suffix.Plus_Life];
     protected int Mana_Max => Intelligence * 5 + stats[( StatID )GearStats.Prefix.Plus_Mana];
     protected int DmgPhysMin => DmgBasePhyMin + ( Strength / 100 ) * DmgBasePhyMin + stats[(StatID)GearStats.Suffix.Dmg_Phys_Min];
@@ -84,10 +85,10 @@ public class Entity : MonoBehaviour {
     protected int OnKillMana => stats[( StatID )GearStats.Suffix.On_Kill_Mana];
     protected int RegenLife => stats[( StatID )GearStats.Implicit.Plus_Regen_Life] + stats[( StatID )GearStats.Suffix.Plus_Regen_Life] + Life_Max / 100;
     protected int RegenMana => stats[( StatID )GearStats.Implicit.Plus_Regen_Mana] + stats[( StatID )GearStats.Prefix.Plus_Regen_Mana] + Mana_Max / 100;
-    protected int Strength => stats[( StatID )GearStats.Suffix.Plus_Str] + StrengthBase;
-    protected int Dexterity => stats[( StatID )GearStats.Suffix.Plus_Dex] + DexterityBase;
-    protected int Constitution => stats[( StatID )GearStats.Suffix.Plus_Con] + ConstitutionBase;
-    protected int Intelligence => stats[( StatID )GearStats.Suffix.Plus_Int] + IntelligenceBase;
+    public int Strength => stats[( StatID )GearStats.Suffix.Plus_Str] + StrengthBase;
+    public int Dexterity => stats[( StatID )GearStats.Suffix.Plus_Dex] + DexterityBase;
+    public int Constitution => stats[( StatID )GearStats.Suffix.Plus_Con] + ConstitutionBase;
+    public int Intelligence => stats[( StatID )GearStats.Suffix.Plus_Int] + IntelligenceBase;
     protected int IncPhysSpeed => stats[( StatID )GearStats.Suffix.Plus_Speed_Phys] + stats[( StatID )GearStats.Implicit.Plus_Speed_Phys];
     protected int IncMagicSpeed => stats[( StatID )GearStats.Suffix.Plus_Speed_Magic] + stats[( StatID )GearStats.Implicit.Plus_Speed_Magic];
     protected int IncMoveSpeed => stats[( StatID )GearStats.Suffix.Plus_Speed_Movement] + stats[( StatID )GearStats.Implicit.Plus_Speed_Movement];
@@ -100,8 +101,8 @@ public class Entity : MonoBehaviour {
 
     public bool isAggressive {
         get {
-            int disX = Mathf.Abs( Entities.GetPCCoordinates.x - _coordinates.x );
-            int disY = Mathf.Abs( Entities.GetPCCoordinates.y - _coordinates.y );
+            int disX = Mathf.Abs( Entities.GetPCS._coordinates.x - _coordinates.x );
+            int disY = Mathf.Abs( Entities.GetPCS._coordinates.y - _coordinates.y );
             int distance = disX + disY;
 
             return distance <= RangeOfAggression;
@@ -136,7 +137,7 @@ public class Entity : MonoBehaviour {
     }
 
     public virtual void Action() {
-        Vector3Int playerCharacterCoordinates = Entities.GetPCCoordinates;
+        Vector3Int playerCharacterCoordinates = Entities.GetPCS._coordinates;
 
         // some AI shit
 
@@ -177,6 +178,8 @@ public class Entity : MonoBehaviour {
     }
 
     public virtual void DealDamage( int damage, string attacker ) {
+        damage -= DefDmgReductionPhys;
+        // We do not yet reduce damage based on armour
         TextLog.Print( string.Format( "{0} hits {1} for <color=#FF0000>{2}</color> damage", attacker, Name, damage ) );
         Life_Current -= damage;
         AudioDevice.Play( onHit );

@@ -2,7 +2,7 @@ public class NPCImpTrident : Navigator {
 
     private void Start() {
         Name = "Imp-Trident";
-        Speed = 4;
+        SpeedBase = 3;
         Level = 2;
         DmgBasePhyMin = 1;
         DmgBasePhyMax = 3;

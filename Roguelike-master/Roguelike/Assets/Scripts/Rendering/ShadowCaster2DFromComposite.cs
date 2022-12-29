@@ -7,7 +7,7 @@ using UnityEngine.Tilemaps;
 [RequireComponent( typeof( CompositeShadowCaster2D ) )]
 public class ShadowCaster2DFromComposite : MonoBehaviour {
     public bool castsShadows = true;
-    public bool selfShadows = false;
+    public bool selfShadows = true;
 
     private static readonly FieldInfo s_meshField;
     private static readonly FieldInfo s_shapePathField;
@@ -15,7 +15,6 @@ public class ShadowCaster2DFromComposite : MonoBehaviour {
 
     private ShadowCaster2D[] _shadowCasters;
 
-    private Tilemap _tilemap;
     private TilemapCollider2D _tilemapCollider2D;
     private CompositeCollider2D _compositeCollider;
     private List<Vector2> _compositeVerts = new List<Vector2>();
@@ -40,7 +39,6 @@ public class ShadowCaster2DFromComposite : MonoBehaviour {
     }
 
     private void OnEnable() {
-        _tilemap = GetComponent<Tilemap>();
         _tilemapCollider2D = GetComponent<TilemapCollider2D>();
     }
 
@@ -70,12 +68,15 @@ public class ShadowCaster2DFromComposite : MonoBehaviour {
         GameObject newShadowCaster = new GameObject( "ShadowCaster" );
         newShadowCaster.transform.parent = transform;
         ShadowCaster2D caster = newShadowCaster.AddComponent<ShadowCaster2D>();
+        caster.selfShadows = true;
 
         int[] layers = new int[] {
           SortingLayer.NameToID("Default"),
           SortingLayer.NameToID("ShadowCaster"),
           SortingLayer.NameToID("Walls"),
           SortingLayer.NameToID("Floor"),
+          SortingLayer.NameToID("Entity"),
+          SortingLayer.NameToID("PlayerCharacter"),
         };
 
         FieldInfo fieldInfo = caster.GetType().GetField( "m_ApplyToSortingLayers", BindingFlags.NonPublic | BindingFlags.Instance );
@@ -109,8 +110,8 @@ public class ShadowCaster2DFromComposite : MonoBehaviour {
     /// </summary>
     /// <param name="caster"></param>
     private void UpdateCompositeShadow( ShadowCaster2D caster ) {
-        caster.castsShadows = castsShadows;
-        caster.selfShadows = selfShadows;
+        caster.castsShadows = true;
+        caster.selfShadows = true;
 
         Vector2[] points = _compositeVerts.ToArray();
         var threes = ConvertArray( points );

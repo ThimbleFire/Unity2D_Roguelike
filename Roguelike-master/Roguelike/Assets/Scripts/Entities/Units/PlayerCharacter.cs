@@ -2,9 +2,11 @@
 
 public class PlayerCharacter : Navigator {
 
+    public Animator _primary;
+
     private void Start() {
         Name = "Player Chacter";
-        Speed = 4;
+        SpeedBase = 4;
         Level = 1;
         DmgBasePhyMin = 2;
         DmgBasePhyMax = 5;
@@ -34,11 +36,19 @@ public class PlayerCharacter : Navigator {
         if ( _chain.Count == 0 )
             return;
 
+        _primary.SetBool( "Moving", true );
         AudioDevice.Play( onMove );
 
         TileMapCursor.Hide();
         HUDControls.Hide();
         base.Move();
+    }
+
+    protected override void OnArrival()
+    {
+        _primary.SetBool( "Moving", false );
+
+        base.OnArrival();
     }
 
     public override void Attack() {
@@ -59,11 +69,15 @@ public class PlayerCharacter : Navigator {
         AttackSplash.Show( TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash );
         Entities.Attack( TileMapCursor.SelectedTileCoordinates, Random.Range( DmgPhysMin, DmgPhysMax ), Name );
 
+        _primary.SetTrigger( "Attack" );
+
         base.Attack();
     }
 
-    private void Inventory_OnEquipmentChange( ItemStats itemStats, bool adding ) {
-        if ( itemStats.type == ItemStats.Type.PRIMARY ) {
+    private void Inventory_OnEquipmentChange( ItemStats itemStats, bool adding )
+    {
+        if ( itemStats.type == ItemStats.Type.PRIMARY )
+        {
             if ( adding ) {
                 DmgBasePhyMin += itemStats.MinDamage;
                 DmgBasePhyMax += itemStats.MaxDamage;
@@ -73,26 +87,29 @@ public class PlayerCharacter : Navigator {
                 DmgBasePhyMax -= itemStats.MaxDamage;
             }
         }
-        else {
+        else
+        {
             if ( adding )
                 stats[StatID.Def_Phys_Flat] += itemStats.Defense;
             else
                 stats[StatID.Def_Phys_Flat] -= itemStats.Defense;
         }
-
-        foreach ( ItemStats.Prefix item in itemStats.prefixes ) {
+        foreach ( ItemStats.Prefix item in itemStats.prefixes )
+        {
             if ( adding )
                 stats[( StatID )item.type] += item.value;
             else
                 stats[( StatID )item.type] -= item.value;
         }
-        foreach ( ItemStats.Suffix item in itemStats.suffixes ) {
+        foreach ( ItemStats.Suffix item in itemStats.suffixes ) 
+        {
             if ( adding )
                 stats[( StatID )item.type] += item.value;
             else
                 stats[( StatID )item.type] -= item.value;
         }
-        foreach ( ItemStats.Implicit item in itemStats.implicits ) {
+        foreach ( ItemStats.Implicit item in itemStats.implicits )
+        {
             if ( adding )
                 stats[( StatID )item.type] += item.value;
             else

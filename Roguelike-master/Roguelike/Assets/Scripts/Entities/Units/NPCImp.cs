@@ -2,7 +2,7 @@ public class NPCImp : Navigator {
 
     private void Start() {
         Name = "Imp";
-        Speed = 3;
+        SpeedBase = 2;
         Level = 1;
         DmgBasePhyMin = 1;
         DmgBasePhyMax = 2;

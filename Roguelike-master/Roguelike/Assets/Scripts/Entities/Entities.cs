@@ -6,8 +6,8 @@ public class Entities : MonoBehaviour {
 
     private static List<Entity> s_entities = new List<Entity>();
     private static int s_Turn = 0;
-    public static Vector3Int GetPCCoordinates => s_entities[0]._coordinates;
-    public static Entity GetTurnTaker { get { return s_entities[s_Turn]; } }
+    public static Entity GetPCS => s_entities[0];
+    public static Entity GetTurnTaker => s_entities[s_Turn];
 
     private void Awake() {
         Transform = gameObject.transform;
