@@ -61,9 +61,11 @@ public class ResourceRepository : MonoBehaviour {
     }
 
     public static Chunk GetFiltered( AccessPoint.Dir direction ) {
+        // Filter chunks so we don't get deadends unless absolutely neccesary
+
         // Filter chunks so we don't exceed the maximum number of rooms
         List<Chunk> chunksByExits = new List<Chunk>(
-            ChunksInMemory.FindAll( x => x.Entrance.Count + MapFactory.PlacedRooms + MapFactory.AvailableEntrances <= BoardManager.RoomLimit )
+            ChunksInMemory.FindAll( x => MapFactory.PlacedRooms + MapFactory.AvailableEntrances <= BoardManager.RoomLimit ? x.Entrance.Count > 1 : x.Entrance.Count == 1 )
             );
 
         if ( chunksByExits.Count == 0 ) {

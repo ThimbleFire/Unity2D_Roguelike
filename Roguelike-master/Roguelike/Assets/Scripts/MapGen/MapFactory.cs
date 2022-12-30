@@ -69,6 +69,7 @@ public class MapFactory {
             child.Build();
             child.RemoveAccessPoint( child.inputDirection );
         }
+        Debug.Log( "Placed rooms: " + PlacedRooms + " / " + BoardManager.RoomLimit );
     }
 
     private static bool RoomsCollide( List<Room> children, List<Room> rooms ) {

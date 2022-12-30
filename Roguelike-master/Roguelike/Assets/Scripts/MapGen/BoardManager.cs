@@ -19,11 +19,11 @@ public class BoardManager : MonoBehaviour {
         Application.targetFrameRate = 60;
         PlayerPrefs.DeleteAll();
         Width = 64;
-        Height = 128;
+        Height = 64;
     }
 
     private void Start() {
-        RoomLimit = 64;
+        RoomLimit = 32;
 
         Build();
     }
