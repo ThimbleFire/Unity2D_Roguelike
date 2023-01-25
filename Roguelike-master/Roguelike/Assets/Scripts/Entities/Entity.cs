@@ -44,7 +44,7 @@ public class Entity : MonoBehaviour {
         Plus_Durability = 36
     }
 
-    protected string Name { get; set; }
+    public string Name { get; set; }
     protected int Life_Current { get; set; }
     protected int Mana_Current { get; set; }
     protected int RangeOfAggression { get; set; }
@@ -137,6 +137,13 @@ public class Entity : MonoBehaviour {
     }
 
     public virtual void Action() {
+
+        if(SpeedBase == 0)
+        {
+            Entities.Step(false);
+            return;
+        }
+
         Vector3Int playerCharacterCoordinates = Entities.GetPCS._coordinates;
 
         // some AI shit
@@ -181,6 +188,7 @@ public class Entity : MonoBehaviour {
         damage -= DefDmgReductionPhys;
         // We do not yet reduce damage based on armour
         TextLog.Print( string.Format( "{0} hits {1} for <color=#FF0000>{2}</color> damage", attacker, Name, damage ) );
+        Entities.DrawFloatingText(damage, transform, Color.red);
         Life_Current -= damage;
         AudioDevice.Play( onHit );
         if ( Life_Current <= 0 ) {
@@ -193,6 +201,7 @@ public class Entity : MonoBehaviour {
         _animator.SetTrigger( "Die" );
         Pathfind.Unoccupy( _coordinates );
         Entities.Remove( this );
+        TileMapCursor.Hide();
     }
 
     public void AlertObservers( string message ) {

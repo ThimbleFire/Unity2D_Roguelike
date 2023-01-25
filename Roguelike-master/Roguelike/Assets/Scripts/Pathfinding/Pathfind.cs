@@ -117,7 +117,7 @@ public class Pathfind {
 
         return GetPath( startNode, endNode, includeUnwalkable );
     }
-
+    
     private static Node GetPathToNeighbour( Node startNode, List<Node> neighboursSortedByDistance ) {
         foreach ( Node node in neighboursSortedByDistance ) {
             List<Node> path = GetPath(startNode, node, false);

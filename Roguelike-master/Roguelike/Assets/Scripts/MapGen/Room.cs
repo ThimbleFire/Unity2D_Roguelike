@@ -149,7 +149,11 @@ public class Room {
                     break;
 
                 case "Dungeon_Tileset_119":
-                    Entities.PlayerSpawn( Position + data.position );
+                    Entities.PlayerSpawn(Position + data.position);
+                    break;
+
+                case "barrel":
+                    Entities.BarrelSpawn(Position + data.position);
                     break;
 
                 default:

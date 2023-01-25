@@ -8,9 +8,11 @@ public class Entities : MonoBehaviour {
     private static int s_Turn = 0;
     public static Entity GetPCS => s_entities[0];
     public static Entity GetTurnTaker => s_entities[s_Turn];
+    public static GameObject floatingTextParent;
 
     private void Awake() {
         Transform = gameObject.transform;
+        floatingTextParent = Resources.Load("Prefabs/Floating Text") as GameObject;
     }
 
     public static List<Entity> Search( Vector3Int coordinates ) => s_entities.FindAll( x => x._coordinates == coordinates );
@@ -30,6 +32,24 @@ public class Entities : MonoBehaviour {
         entity._coordinates = spawnPosition;
 
         s_entities.Add( entity );
+    }
+
+    public static void DrawFloatingText(int number, Transform unitTransform, Color color)
+    {
+        TMPro.TextMeshPro text = GameObject.Instantiate(floatingTextParent, unitTransform).GetComponentInChildren<TMPro.TextMeshPro>();
+        text.text = number.ToString();
+        text.color = color;
+        text.transform.rotation.Set(0, 0, 0, 0);
+    }
+
+    public static void BarrelSpawn(Vector3Int spawnPosition)
+    {
+        GameObject prefab = ResourceRepository.GetUnit("barrel");
+        GameObject instance = Instantiate(prefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform);
+        Entity entity = instance.GetComponent<Entity>();
+        entity._coordinates = spawnPosition;
+
+        s_entities.Add(entity);
     }
 
     public static void PlayerSpawn( Vector3Int spawnPosition ) {

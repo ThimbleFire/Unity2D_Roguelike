@@ -41,7 +41,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &6910909361827741493
 Transform:
   m_ObjectHideFlags: 0
@@ -204,7 +204,7 @@ SpriteRenderer:
   m_SortingLayerID: 1734539159
   m_SortingLayer: 5
   m_SortingOrder: 2
-  m_Sprite: {fileID: 2738660670434483795, guid: 66de00888991d2d41a54a09e514c5002, type: 3}
+  m_Sprite: {fileID: -6620948063916501443, guid: 95522ca786716e94ab12dadc85791611, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -225,7 +225,7 @@ Animator:
   m_GameObject: {fileID: 3733788646461008734}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 22100000, guid: 0adf203f0617dde4299f8f3ff6d76d48, type: 2}
+  m_Controller: {fileID: 22100000, guid: e38465efe23aa7149b307520e4facb49, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -260,7 +260,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 844728481292203072, guid: d80ae2c0b75f4e847850c3b84325d6b3, type: 3}
       propertyPath: m_Color.b
-      value: 0.7688679
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 844728481292203072, guid: d80ae2c0b75f4e847850c3b84325d6b3, type: 3}
       propertyPath: m_Color.g
@@ -268,7 +268,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 844728481292203072, guid: d80ae2c0b75f4e847850c3b84325d6b3, type: 3}
       propertyPath: m_Color.r
-      value: 0.7800326
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 844728481292203072, guid: d80ae2c0b75f4e847850c3b84325d6b3, type: 3}
       propertyPath: m_Intensity

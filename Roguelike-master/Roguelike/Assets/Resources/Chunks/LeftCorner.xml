@@ -18,6 +18,14 @@
   <Curios>
     <TileData>
       <position>
+        <x>5</x>
+        <y>1</y>
+        <z>0</z>
+      </position>
+      <name>barrel</name>
+    </TileData>
+    <TileData>
+      <position>
         <x>6</x>
         <y>2</y>
         <z>0</z>
