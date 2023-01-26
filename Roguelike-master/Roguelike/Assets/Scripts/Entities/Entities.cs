@@ -36,10 +36,12 @@ public class Entities : MonoBehaviour {
 
     public static void DrawFloatingText(int number, Transform unitTransform, Color color)
     {
-        TMPro.TextMeshPro text = GameObject.Instantiate(floatingTextParent, unitTransform).GetComponentInChildren<TMPro.TextMeshPro>();
+        GameObject go = GameObject.Instantiate(floatingTextParent, null);
+        go.transform.position = unitTransform.position;
+
+        TMPro.TextMeshPro text = go.GetComponentInChildren<TMPro.TextMeshPro>();        
         text.text = number.ToString();
         text.color = color;
-        text.transform.rotation.Set(0, 0, 0, 0);
     }
 
     public static void BarrelSpawn(Vector3Int spawnPosition)
@@ -78,7 +80,7 @@ public class Entities : MonoBehaviour {
     }
 
     public static void Attack( Vector3Int tile, int damage, string attacker ) {
-        s_entities.Find( x => x._coordinates == tile ).DealDamage( damage, attacker );
+        s_entities.Find( x => x._coordinates == tile ).RecieveDamage( damage, attacker );
     }
 
     public static void Magic() {

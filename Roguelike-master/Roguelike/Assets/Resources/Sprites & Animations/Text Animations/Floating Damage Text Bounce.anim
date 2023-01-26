@@ -149,7 +149,7 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
+        time: 0.41666666
         value: 1
         inSlope: 0
         outSlope: 0
@@ -436,7 +436,7 @@ AnimationClip:
       serializedVersion: 2
       m_Curve:
       - serializedVersion: 3
-        time: 0
+        time: 0.41666666
         value: 1
         inSlope: 0
         outSlope: 0
@@ -463,4 +463,11 @@ AnimationClip:
   m_EulerEditorCurves: []
   m_HasGenericRootTransform: 1
   m_HasMotionFloatCurves: 0
-  m_Events: []
+  m_Events:
+  - time: 0.8333333
+    functionName: DestroyParent
+    data: 
+    objectReferenceParameter: {fileID: 4797521492146953303, guid: 42efcfe9abbb3274099c4e8ba9ee145f, type: 3}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

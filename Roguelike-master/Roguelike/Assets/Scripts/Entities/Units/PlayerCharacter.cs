@@ -36,7 +36,9 @@ public class PlayerCharacter : Navigator {
         if ( _chain.Count == 0 )
             return;
 
-        _primary.SetBool( "Moving", true );
+        if(_primary != null)
+            _primary.SetBool( "Moving", true );
+        
         AudioDevice.Play( onMove );
 
         TileMapCursor.Hide();
@@ -46,7 +48,8 @@ public class PlayerCharacter : Navigator {
 
     protected override void OnArrival()
     {
-        _primary.SetBool( "Moving", false );
+        if (_primary != null)
+            _primary.SetBool( "Moving", false );
 
         base.OnArrival();
     }
@@ -69,7 +72,8 @@ public class PlayerCharacter : Navigator {
         AttackSplash.Show( TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash );
         Entities.Attack( TileMapCursor.SelectedTileCoordinates, Random.Range( DmgPhysMin, DmgPhysMax ), Name );
 
-        _primary.SetTrigger( "Attack" );
+        if (_primary != null)
+            _primary.SetTrigger( "Attack" );
 
         base.Attack();
     }

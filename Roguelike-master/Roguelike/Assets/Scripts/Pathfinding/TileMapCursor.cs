@@ -46,7 +46,7 @@ public class TileMapCursor : MonoBehaviour {
 
         AudioDevice.Play(changeTileSoundClip);
 
-        Debug.Log( SelectedTileCoordinates );
+        //Debug.Log( SelectedTileCoordinates );
 
         s_SelectedText.text = string.Empty;
 

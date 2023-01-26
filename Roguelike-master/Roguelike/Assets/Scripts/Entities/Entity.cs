@@ -51,7 +51,6 @@ public class Entity : MonoBehaviour {
     public int Level { get; set; }
     protected int DmgBasePhyMin { get; set; }
     protected int DmgBasePhyMax { get; set; }
-    protected int Armour { get; set; }
     protected int StrengthBase { get; set; }
     protected int IntelligenceBase { get; set; }
     protected int ConstitutionBase { get; set; }
@@ -184,12 +183,21 @@ public class Entity : MonoBehaviour {
             AudioDevice.Play( onMove );
     }
 
-    public virtual void DealDamage( int damage, string attacker ) {
-        damage -= DefDmgReductionPhys;
-        // We do not yet reduce damage based on armour
-        TextLog.Print( string.Format( "{0} hits {1} for <color=#FF0000>{2}</color> damage", attacker, Name, damage ) );
-        Entities.DrawFloatingText(damage, transform, Color.red);
-        Life_Current -= damage;
+    public virtual void RecieveDamage( int incomingDamage, string attacker ) {
+
+        // reduce incoming damage by flat damage reduction
+        incomingDamage -= DefDmgReductionPhys;
+
+        float actualIncomingDamage = incomingDamage;
+
+        // reduce incoming damage by armour rating. This code desparately needs refining.
+        float percentReduction = ((float)Defense / 1000) * 70;
+        float percentLeftOver = 100 - percentReduction;
+        actualIncomingDamage *= percentLeftOver / 100;
+        incomingDamage = (int)actualIncomingDamage;
+
+        Entities.DrawFloatingText(incomingDamage, transform, Color.red);
+        Life_Current -= incomingDamage;
         AudioDevice.Play( onHit );
         if ( Life_Current <= 0 ) {
             Die();
@@ -197,7 +205,7 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void Die() {
-        TextLog.Print( string.Format( "{0} is slain", Name ) );
+        TextLog.Print( string.Format("<color=#FF0000>{0}</color> is slain", Name ) );
         _animator.SetTrigger( "Die" );
         Pathfind.Unoccupy( _coordinates );
         Entities.Remove( this );
