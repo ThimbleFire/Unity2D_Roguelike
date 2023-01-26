@@ -31,14 +31,6 @@
     </TileData>
     <TileData>
       <position>
-        <x>3</x>
-        <y>1</y>
-        <z>0</z>
-      </position>
-      <name>Dungeon_Tileset_115</name>
-    </TileData>
-    <TileData>
-      <position>
         <x>8</x>
         <y>1</y>
         <z>0</z>
@@ -55,7 +47,7 @@
     </TileData>
     <TileData>
       <position>
-        <x>6</x>
+        <x>4</x>
         <y>2</y>
         <z>0</z>
       </position>

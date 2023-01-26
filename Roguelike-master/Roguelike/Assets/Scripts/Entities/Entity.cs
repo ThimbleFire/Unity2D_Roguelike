@@ -212,6 +212,11 @@ public class Entity : MonoBehaviour {
         TileMapCursor.Hide();
     }
 
+    public void DestroyAfterDeathAnimation()
+    {
+        Destroy(gameObject);
+    }
+
     public void AlertObservers( string message ) {
         if ( message.Equals( "AttackAnimationEnd" ) ) {
             Entities.Step( spriteRenderer.isVisible );

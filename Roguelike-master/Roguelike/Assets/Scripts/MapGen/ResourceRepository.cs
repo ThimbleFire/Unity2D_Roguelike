@@ -112,4 +112,28 @@ public class ResourceRepository : MonoBehaviour {
     public static GameObject GetUnit( string prefabName ) {
         return Prefab[prefabName];
     }
+
+    public static GameObject GetRandomEnemyByLevel(int difficulty)
+    {
+        int num;
+        string prefabName = string.Empty;
+
+        switch (difficulty)
+        {
+            case 0:
+                num = Random.Range(0, System.Enum.GetNames(typeof(Entities.ENEMY_LEVEL_0)).Length);
+                prefabName = System.Enum.ToObject(typeof(Entities.ENEMY_LEVEL_0), num).ToString();
+                break;
+            case 1:
+                num = Random.Range(0, System.Enum.GetNames(typeof(Entities.ENEMY_LEVEL_1)).Length);
+                prefabName = System.Enum.ToObject(typeof(Entities.ENEMY_LEVEL_1), num).ToString();
+                break;
+            case 2:
+                num = Random.Range(0, System.Enum.GetNames(typeof(Entities.ENEMY_LEVEL_2)).Length);
+                prefabName = System.Enum.ToObject(typeof(Entities.ENEMY_LEVEL_2), num).ToString();
+                break;
+        }
+        
+        return Prefab[prefabName];
+    }
 }
