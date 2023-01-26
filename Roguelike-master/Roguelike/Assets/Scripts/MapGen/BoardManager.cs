@@ -2,6 +2,7 @@
 using UnityEngine.Tilemaps;
 
 public class BoardManager : MonoBehaviour {
+
     public static Tilemap tileMapGround;
     public static Tilemap tileMapWalls;
     public static Tilemap tileMapCurios;

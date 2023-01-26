@@ -9,6 +9,7 @@ public class Entities : MonoBehaviour {
     public static Entity GetPCS => s_entities[0];
     public static Entity GetTurnTaker => s_entities[s_Turn];
     public static GameObject floatingTextParent;
+    public static GameObject teleportsmoke;
 
     public enum ENEMY_LEVEL_0
     {
@@ -40,6 +41,7 @@ public class Entities : MonoBehaviour {
     private void Awake() {
         Transform = gameObject.transform;
         floatingTextParent = Resources.Load("Prefabs/Floating Text") as GameObject;
+        teleportsmoke = Resources.Load("Prefabs/Puff of smoke") as GameObject;
     }
 
     public static List<Entity> Search( Vector3Int coordinates ) => s_entities.FindAll( x => x._coordinates == coordinates );
@@ -72,6 +74,12 @@ public class Entities : MonoBehaviour {
         TMPro.TextMeshPro text = go.GetComponentInChildren<TMPro.TextMeshPro>();        
         text.text = number.ToString();
         text.color = color;
+    }
+
+    public static void DrawTeleport(Transform unitTransform)
+    {
+        GameObject go = GameObject.Instantiate(teleportsmoke, null);
+        go.transform.position = unitTransform.position;
     }
 
     public static void BarrelSpawn(Vector3Int spawnPosition)

@@ -1,4 +1,8 @@
+using UnityEngine;
+
 public class NPCImp : Navigator {
+
+    public AudioClip teleport;
 
     private void Start() {
         Name = "Imp";
@@ -14,7 +18,21 @@ public class NPCImp : Navigator {
         Life_Current = Life_Max;
     }
 
-    public override void Action() => base.Action();
+    public override void Action()
+    {
+        bool willTeleport = Random.Range(0, 2) == 1;
+
+        if (willTeleport && isAggressive)
+        {
+            Entities.DrawTeleport(transform);
+            AudioDevice.Play(teleport);
+
+            Pathfind.Unoccupy(_coordinates);
+            MoveUnitTo(Pathfind.GetRandomTile());
+            Pathfind.Occupy(_coordinates);
+        }
+        base.Action();
+    }
 
     public override void Move() => base.Move();
 

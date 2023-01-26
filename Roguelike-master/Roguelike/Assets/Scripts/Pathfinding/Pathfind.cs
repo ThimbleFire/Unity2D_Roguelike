@@ -248,4 +248,15 @@ public class Pathfind {
 
         return endNodes;
     }
+
+    public static Vector3Int GetRandomTile()
+    {
+        Vector3Int playerCharacterCoordinates = Entities.GetPCS._coordinates;
+
+        Node playerCharacterNode = new Node() { coordinate = playerCharacterCoordinates };
+
+        var neighbours = GetNeighbours(playerCharacterNode, false);
+
+        return neighbours[UnityEngine.Random.Range(0, neighbours.Count - 1)].coordinate; 
+    }
 }

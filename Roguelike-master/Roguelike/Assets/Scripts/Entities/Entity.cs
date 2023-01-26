@@ -173,8 +173,8 @@ public class Entity : MonoBehaviour {
         }
         else {
             //There's a 1 in 10 chance idling NPCs will talk
-            if ( UnityEngine.Random.Range( 0, 10 ) == 0 )
-                SpeechBubble.Show( transform, SpeechBubble.Type.Talking );
+            //if ( UnityEngine.Random.Range( 0, 10 ) == 0 )
+            //    SpeechBubble.Show( transform, SpeechBubble.Type.Talking );
 
             _chain = Pathfind.Wander( _coordinates );
         }

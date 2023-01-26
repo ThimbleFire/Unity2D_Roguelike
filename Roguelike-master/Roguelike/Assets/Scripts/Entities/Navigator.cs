@@ -70,4 +70,10 @@ public class Navigator : Entity {
 
         Entities.Step( spriteRenderer.isVisible );
     }
+
+    protected void MoveUnitTo(Vector3Int coordinates)
+    {
+        transform.position = coordinates + Vector3.up * 0.75f + Vector3.right * 0.5f;
+        _coordinates = coordinates;
+    }
 }
