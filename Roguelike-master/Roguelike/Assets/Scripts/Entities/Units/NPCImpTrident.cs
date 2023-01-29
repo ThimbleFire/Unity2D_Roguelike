@@ -1,24 +1,15 @@
 public class NPCImpTrident : Navigator {
-
     private void Start() {
         Name = "Imp-Trident";
-        SpeedBase = 3;
-        Level = 2;
-        DmgBasePhyMin = 1;
-        DmgBasePhyMax = 3;
         RangeOfAggression = 6;
-        StrengthBase = 5;
-        IntelligenceBase = 5;
-        ConstitutionBase = 5;
-        DexterityBase = 15;
-        Life_Current = Life_Max;
+        Level = 1;
+        DmgBasePhyMin = 3;
+        DmgBasePhyMax = 4;
+        AttackRating = 16;
+        DefenseRating = 2;
+        Defense = 5;
+        ChanceToBlock = 3;
+        Life_Current = 12;
+        SpeedBase = 1;
     }
-
-    public override void Action() => base.Action();
-
-    public override void Move() => base.Move();
-
-    protected override void OnTileChanged() => base.OnTileChanged();
-
-    protected override void OnArrival() => base.OnArrival();
 }

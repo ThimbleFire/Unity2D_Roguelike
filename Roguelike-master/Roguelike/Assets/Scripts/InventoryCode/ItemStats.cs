@@ -268,7 +268,6 @@ public class GearStats {
     };
 
     public enum Prefix {
-        Plus_Accuracy = 0,
         Dmg_Ele_Fire = 4,
         Dmg_Ele_Cold = 5,
         Dmg_Ele_Lightning = 6,

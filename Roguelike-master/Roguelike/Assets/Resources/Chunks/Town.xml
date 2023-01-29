@@ -117,6 +117,22 @@
     <TileData>
       <position>
         <x>2</x>
+        <y>10</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_115</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>10</x>
+        <y>10</y>
+        <z>0</z>
+      </position>
+      <name>Dungeon_Tileset_115</name>
+    </TileData>
+    <TileData>
+      <position>
+        <x>2</x>
         <y>12</y>
         <z>0</z>
       </position>
