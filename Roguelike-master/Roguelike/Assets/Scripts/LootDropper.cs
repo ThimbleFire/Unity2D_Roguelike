@@ -26,37 +26,13 @@ public class LootDropper
         
         float rarity = Random.Range(0.0f, 1.0f);
         
-        if(rarity < drop_uniqueChance)
-        {
-            ItemStats itemStats = ResourceRepository.GetItem(ItemStats.Rarity.Unique, itemType, entityDifficulty);
+        ItemStats itemStats = ResourceRepository.GetItemMatchingCriteria(
+            rarity < drop_uniqueChance ? ItemStats.Rarity.Unique : 
+            rarity >= drop_uniqueChance && rarity < drop_magicChance ? ItemStats.Rarity.Magic : 
+            ItemStats.Rarity.Normal, itemType, entityDifficulty);
         
-            GameObject go = GameObject.Instantiate(new GameObject(), null);
-            go.AddComponent<ItemStats>(itemStats);
-            go.transform.position = _transform.position;
-        
-            return;
-        }
-        
-        if(rarity < drop_magicChance)
-        {
-            ItemStats itemStats = ResourceRepository.GetItem(ItemStats.Rarity.Magic, itemType, entityDifficulty);
-        
-            GameObject go = GameObject.Instantiate(new GameObject(), null);
-            go.AddComponent<ItemStats>(itemStats);
-            go.transform.position = _transform.position;
-            
-            return;
-        }
-        
-        if(rarity >= drop_uniqueChance + drop_magicChance)
-        {
-            ItemStats itemStats = ResourceRepository.GetItem(ItemStats.Rarity.Normal, itemType, entityDifficulty);
-        
-            GameObject go = GameObject.Instantiate(new GameObject(), null);
-            go.AddComponent<ItemStats>(itemStats);
-            go.transform.position = _transform.position;
-            
-            return;
-        }
+        GameObject go = GameObject.Instantiate(new GameObject(), null);
+        go.AddComponent<ItemStats>(itemStats);
+        go.transform.position = _transform.position;
     }
 }
