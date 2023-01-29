@@ -10,4 +10,11 @@ public class Barrel : Entity
         SpeedBase = 0;
         Life_Current = 5;
     }
+    
+    protected override void OnDeath()
+    {
+        LootDropper.Roll(transform, entityDifficulty);
+    
+        Base.OnDeath();
+    }
 }
