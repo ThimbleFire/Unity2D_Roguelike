@@ -9,12 +9,13 @@ public class Barrel : Entity
         Name = "Barrel";
         SpeedBase = 0;
         Life_Current = 5;
+        Level = 1;
     }
     
-    protected override void OnDeath()
+    protected override void Die()
     {
-        LootDropper.Roll(transform, entityDifficulty);
-    
-        Base.OnDeath();
+        LootDropper.RollLoot(transform, Level);
+        
+        base.Die();
     }
 }

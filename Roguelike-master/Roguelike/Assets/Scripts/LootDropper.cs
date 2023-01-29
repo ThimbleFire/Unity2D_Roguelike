@@ -2,10 +2,10 @@ using UnityEngine;
 
 public class LootDropper
 {
-    public const BaseItemFind = 35; // percent
+    public const int BaseItemFind = 35; // percent
     
-    private static float drop_uniqueChance { get { return 0.005f + ( 0.00005 * Entities.PCS.IncMagicFind ) / 2; } }
-    private static float drop_magicChance { get { return 0.095f + ( 0.00095 * Entities.PCS.IncMagicFind ) / 2; } }
+    private static float DropUniqueChance { get { return 0.005f + ( 0.00005f * Entities.GetPCS.IncMagicFind ) / 2; } }
+    private static float DropMagicChance { get { return 0.095f + ( 0.00095f * Entities.GetPCS.IncMagicFind ) / 2; } }
 
     public static void RollLoot(Transform _transform, int entityDifficulty)
     {
@@ -20,19 +20,21 @@ public class LootDropper
         
         // determine type of item being dropped
         
-        ItemStats.Type itemType = Random.Range(0, System.Enum.GetNames(typeof(ItemStats.Type)).Length);
+        ItemStats.Type itemType = (ItemStats.Type)Random.Range(0, System.Enum.GetNames(typeof(ItemStats.Type)).Length);
         
         // determine the rarity of the item being dropped
         
         float rarity = Random.Range(0.0f, 1.0f);
         
         ItemStats itemStats = ResourceRepository.GetItemMatchingCriteria(
-            rarity < drop_uniqueChance ? ItemStats.Rarity.Unique : 
-            rarity >= drop_uniqueChance && rarity < drop_magicChance ? ItemStats.Rarity.Magic : 
-            ItemStats.Rarity.Normal, itemType, entityDifficulty);
+            rarity < DropUniqueChance                                ? -1 : 
+            rarity >= DropUniqueChance && rarity < DropMagicChance   ? Mathf.FloorToInt(Entities.GetPCS.Level / 10) : 
+                                                                       0, 
+                                                                       itemType, 
+                                                                       entityDifficulty);
         
-        GameObject go = GameObject.Instantiate(new GameObject(), null);
-        go.AddComponent<ItemStats>(itemStats);
+        ItemStats go = GameObject.Instantiate(new GameObject(), null).AddComponent<ItemStats>();
+        go = itemStats;
         go.transform.position = _transform.position;
     }
 }

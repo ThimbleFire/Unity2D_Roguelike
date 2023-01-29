@@ -22,63 +22,51 @@ public class ItemStats : MonoBehaviour
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Dmg_Phys_Min );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Dmg_Phys_Percent );
 
-            if ( s != null && p != null ) {
-                return ( int )( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
-            }
-
-            if ( s != null ) {
-                return ( int )( itemBasics.value + s.value );
-            }
-
-            if ( p != null ) {
-                return ( int )( itemBasics.value * ( p.value / 100.0f + 1 ) );
-            }
-
+            if ( s != null && p != null ) return ( int )( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
+            if ( s != null ) return itemBasics.value + s.value;
+            if ( p != null ) return ( int )( itemBasics.value * ( p.value / 100.0f + 1 ) );
+            
             return itemBasics.value;
         }
     }
-
     public int MaxDamage
     {
         get {
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Dmg_Phys_Max );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Dmg_Phys_Percent );
 
-            if ( s != null && p != null ) {
-                return ( int )( ( itemBasics.value2 + s.value ) * ( p.value / 100.0f + 1 ) );
-            }
-
-            if ( s != null ) {
-                return ( int )( itemBasics.value2 + s.value );
-            }
-
-            if ( p != null ) {
-                return ( int )( itemBasics.value2 * ( p.value / 100.0f + 1 ) );
-            }
-
+            if ( s != null && p != null ) return ( int )( ( itemBasics.value2 + s.value ) * ( p.value / 100.0f + 1 ) );
+            if ( s != null ) return itemBasics.value2 + s.value;
+            if ( p != null ) return ( int )( itemBasics.value2 * ( p.value / 100.0f + 1 ) );
+            
             return itemBasics.value2;
         }
     }
-
     public int Defense
     {
         get {
             Suffix s = suffixes.Find( x => x.type == GearStats.Suffix.Def_Phys_Flat );
             Prefix p = prefixes.Find( x => x.type == GearStats.Prefix.Def_Phys_Percent );
 
-            if ( s != null && p != null ) {
-                return ( int )( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
-            }
-
-            if ( s != null ) {
-                return itemBasics.value + s.value;
-            }
-
-            if ( p != null ) {
-                return ( int )( itemBasics.value * ( p.value / 100.0f + 1 ) );
-            }
-
+            if ( s != null && p != null ) return ( int )( ( itemBasics.value + s.value ) * ( p.value / 100.0f + 1 ) );
+            if ( s != null ) return itemBasics.value + s.value;
+            if ( p != null ) return ( int )( itemBasics.value * ( p.value / 100.0f + 1 ) );
+            
             return itemBasics.value;
+        }
+    }
+    public int Blockrate
+    {
+        get
+        {
+            Suffix s = suffixes.Find(x => x.type == GearStats.Suffix.Plus_Blockrate);
+            Implicit i = implicits.Find(x => x.type == GearStats.Implicit.Plus_Blockrate);
+
+            if (s != null && i != null) return itemBasics.value2 + s.value + i.value;
+            if (s != null) return itemBasics.value2 + s.value;
+            if (i != null) return itemBasics.value2 + i.value;
+
+            return itemBasics.value2;
         }
     }
 
@@ -99,8 +87,11 @@ public class ItemStats : MonoBehaviour
             
             if ( type == Type.PRIMARY || type == Type.SECONDARY )
                 t.Append( "\n" + hexGray + "One-hand damage: </color>" + hexMagic + MinDamage + " to " + MaxDamage + "</color>" );
-            
-            else if ( type != Type.RING && type != Type.NECK )
+
+            if (type == Type.SECONDARY && Blockrate > 0)
+                t.Append("\n" + hexGray + "Chance to block: </color>" + hexMagic + Blockrate + "</color>");
+
+            if ( type != Type.RING && type != Type.NECK )
                 t.Append( "\n" + hexGray + "Defense: </color>" + hexMagic + Defense + "</color>" );
             
             if ( itemBasics.durability > 0 )
@@ -192,7 +183,7 @@ public class ItemStats : MonoBehaviour
         public int value;
     }
 
-    public static string[] Type_Text = new string[15]
+    public static string[] Type_Text = new string[12]
     { 
         "Any", 
         "Helmet", 
@@ -203,11 +194,8 @@ public class ItemStats : MonoBehaviour
         "Weapon", 
         "Offhand", 
         "Ring", 
-        "Amulet", 
-        "Artifact", 
-        "Miscellaneous", 
+        "Amulet",
         "Consumable", 
-        "Quest Item", 
         "Belt"
     };
 
@@ -222,11 +210,8 @@ public class ItemStats : MonoBehaviour
         PRIMARY, 
         SECONDARY, 
         RING, 
-        NECK, 
-        ARTIFACT, 
-        MISC, 
+        NECK,
         CONSUMABLE, 
-        QUEST, 
         BELT
     }
 }
@@ -234,7 +219,7 @@ public class ItemStats : MonoBehaviour
 public class GearStats {
 
     // The order of affix text must match the enum order on Character.StatID
-    public static string[] Affix_Text = new string[37]
+    public static string[] Affix_Text = new string[40]
     {
         "+{0} to accuracy rating",
         "+{0} to minimum damage",
@@ -277,6 +262,9 @@ public class GearStats {
 
         "+{0}% magic find",
         "+{0} to maximum durability",
+        "+{0} to attack rating",
+        "+{0} to defence rating",
+        "+{0} to block rate"
     };
 
     public enum Prefix {
@@ -296,10 +284,11 @@ public class GearStats {
         Def_Ele_Res_All = 17,
         On_Hit_Life = 18,
         On_Kill_Life = 19,
-        Plus_Durability = 20,
         Plus_Mana = 23,
         Plus_Regen_Mana = 25,
         Plus_Magic_Find = 35,
+        Plus_Item_Find = 36,
+        Plus_Attack_Rating = 37
     }
 
     public enum Suffix {
@@ -332,6 +321,9 @@ public class GearStats {
         Plus_Regen_Life = 24,
 
         Plus_Magic_Find = 35,
+        Plus_Item_Find = 36,
+        Plus_Defence_Rating = 38,
+        Plus_Blockrate = 39,
     }
 
     public enum Implicit {
@@ -347,6 +339,7 @@ public class GearStats {
         Def_Dmg_Reduction_All = 12,
         Plus_Regen_Life = 24,
         Plus_Regen_Mana = 25,
+        Plus_Blockrate = 39,
     }
 
     public enum Attributes {

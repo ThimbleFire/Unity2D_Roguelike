@@ -66,13 +66,13 @@ public class Entities : MonoBehaviour {
         
     }
 
-    public static void DrawFloatingText(int number, Transform unitTransform, Color color)
+    public static void DrawFloatingText(string message, Transform unitTransform, Color color)
     {
         GameObject go = GameObject.Instantiate(floatingTextParent, null);
         go.transform.position = unitTransform.position;
 
         TMPro.TextMeshPro text = go.GetComponentInChildren<TMPro.TextMeshPro>();        
-        text.text = number.ToString();
+        text.text = message;
         text.color = color;
     }
 
@@ -106,6 +106,7 @@ public class Entities : MonoBehaviour {
     }
 
     public static void Action() {
+        s_entities[s_Turn].PreTurn();
         s_entities[s_Turn].Action();
     }
 
@@ -117,8 +118,8 @@ public class Entities : MonoBehaviour {
         s_entities[s_Turn].Attack();
     }
 
-    public static void Attack( Vector3Int tile, int damage, string attacker ) {
-        s_entities.Find( x => x._coordinates == tile ).RecieveDamage( damage, attacker );
+    public static void Attack( Vector3Int tile, int damage, float ar, float lvl) {
+        s_entities.Find( x => x._coordinates == tile ).RecieveDamage( damage, ar, lvl );
     }
 
     public static void Magic() {
@@ -145,6 +146,7 @@ public class Entities : MonoBehaviour {
             CameraController.SetFollowTarget( s_entities[s_Turn].transform );
 
         if ( s_Turn == 0 ) {
+            GetPCS.PreTurn();
             HUDControls.Show();
         }
         else {

@@ -10,7 +10,7 @@ public class NPCImpTrident : Navigator {
         StrengthBase = 5;
         IntelligenceBase = 5;
         ConstitutionBase = 5;
-        DexterityBase = 5;
+        DexterityBase = 15;
         Life_Current = Life_Max;
     }
 

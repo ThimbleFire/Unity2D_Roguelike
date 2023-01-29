@@ -6,13 +6,13 @@ public class Skeleton : Navigator
         Name = "Skeleton";
         SpeedBase = 3;
         Level = 1;
-        DmgBasePhyMin = 2;
+        DmgBasePhyMin = 1;
         DmgBasePhyMax = 3;
         RangeOfAggression = 1;
-        StrengthBase = 3;
+        StrengthBase = 5;
         IntelligenceBase = 1;
-        ConstitutionBase = 2;
-        DexterityBase = 4;
+        ConstitutionBase = 3;
+        DexterityBase = 15;
         Life_Current = Life_Max;
     }
 

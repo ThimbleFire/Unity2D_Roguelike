@@ -70,7 +70,7 @@ public class PlayerCharacter : Navigator {
         HUDControls.Hide();
 
         AttackSplash.Show( TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash );
-        Entities.Attack( TileMapCursor.SelectedTileCoordinates, Random.Range( DmgPhysMin, DmgPhysMax ), Name );
+        Entities.Attack( TileMapCursor.SelectedTileCoordinates, Random.Range( DmgPhysMin, DmgPhysMax ), IncAttackRating, Level );
 
         if (_primary != null)
             _primary.SetTrigger( "Attack" );
@@ -80,23 +80,31 @@ public class PlayerCharacter : Navigator {
 
     private void Inventory_OnEquipmentChange( ItemStats itemStats, bool adding )
     {
-        if ( itemStats.type == ItemStats.Type.PRIMARY )
+        if (itemStats.type == ItemStats.Type.PRIMARY)
         {
-            if ( adding ) {
+            if (adding)
+            {
                 DmgBasePhyMin += itemStats.MinDamage;
                 DmgBasePhyMax += itemStats.MaxDamage;
             }
-            else {
+            else
+            {
                 DmgBasePhyMin -= itemStats.MinDamage;
                 DmgBasePhyMax -= itemStats.MaxDamage;
             }
         }
         else
         {
-            if ( adding )
+            if (adding)
+            {
                 stats[StatID.Def_Phys_Flat] += itemStats.Defense;
+                Blockrate += itemStats.Blockrate;
+            }
             else
+            {
                 stats[StatID.Def_Phys_Flat] -= itemStats.Defense;
+                Blockrate -= itemStats.Blockrate;
+            }
         }
         foreach ( ItemStats.Prefix item in itemStats.prefixes )
         {
@@ -119,5 +127,17 @@ public class PlayerCharacter : Navigator {
             else
                 stats[( StatID )item.type] -= item.value;
         }
+    }
+
+    public override void PreTurn()
+    {
+        //regen life
+        if (Life_Current < Life_Max && RegenLife > 0)
+        {
+            Life_Current = Mathf.Clamp(Life_Current + RegenLife, 0, Life_Max);
+            Entities.DrawFloatingText(RegenLife.ToString(), transform, Color.green);
+        }
+
+        base.PreTurn();
     }
 }

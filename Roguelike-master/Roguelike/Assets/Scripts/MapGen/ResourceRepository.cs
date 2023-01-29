@@ -38,6 +38,11 @@ public class ResourceRepository : MonoBehaviour {
         }
     }
 
+    public static ItemStats GetItemMatchingCriteria(int v, ItemStats.Type itemType, int entityDifficulty)
+    {
+        return null;
+    }
+
     public static string Get( int width, int height ) {
         List<Chunk> chunksMatchingDimensions = new List<Chunk>( ChunksInMemory.FindAll( x => x.Width == width && x.Height == height ) );
 

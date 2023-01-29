@@ -41,7 +41,10 @@ public class Entity : MonoBehaviour {
         Plus_Block_Recovery = 33,
         Plus_Stagger_Recovery = 34,
         Plus_Magic_Find = 35,
-        Plus_Durability = 36
+        Plus_Item_Find = 36,
+        Plus_Attack_Rating = 37,
+        Plus_Defence_Rating = 38,
+        Plus_Blockrate = 39
     }
 
     public string Name { get; set; }
@@ -57,11 +60,18 @@ public class Entity : MonoBehaviour {
     protected int DexterityBase { get; set; }
     protected int SpeedBase { get; set; }
 
+    // The percent chance the unit can block
+    public float Blockrate { get; set; }
+
+    // How many turns the entity has to wait before it can block after blocking
+    public int BlockRecoveryTurnsRemaining = 0;
+    public const int BlockRecoveryBase = 5;
+
     protected int Speed => SpeedBase + stats[( StatID )GearStats.Implicit.Plus_Speed_Movement] + stats[( StatID )GearStats.Suffix.Plus_Speed_Movement];
     protected int Life_Max => Constitution * 5 + stats[( StatID )GearStats.Suffix.Plus_Life];
     protected int Mana_Max => Intelligence * 5 + stats[( StatID )GearStats.Prefix.Plus_Mana];
-    protected int DmgPhysMin => DmgBasePhyMin + ( Strength / 100 ) * DmgBasePhyMin + stats[(StatID)GearStats.Suffix.Dmg_Phys_Min];
-    protected int DmgPhysMax => DmgBasePhyMax + ( Strength / 100 ) * DmgBasePhyMax + stats[( StatID )GearStats.Suffix.Dmg_Phys_Max];
+    protected int DmgPhysMin => DmgBasePhyMin + ( Strength / 10 ) * DmgBasePhyMin + stats[(StatID)GearStats.Suffix.Dmg_Phys_Min];
+    protected int DmgPhysMax => DmgBasePhyMax + ( Strength / 10 ) * DmgBasePhyMax + stats[( StatID )GearStats.Suffix.Dmg_Phys_Max];
     protected int DmgAccuracy => stats[( StatID )GearStats.Prefix.Plus_Accuracy] + Dexterity * 5;
     protected int DmgEleFireMin => stats[( StatID )GearStats.Prefix.Dmg_Ele_Fire] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Fire];
     protected int DmgEleFireMax => stats[( StatID )GearStats.Prefix.Dmg_Ele_Fire] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Fire];
@@ -71,7 +81,7 @@ public class Entity : MonoBehaviour {
     protected int DmgEleLightningMax => stats[( StatID )GearStats.Prefix.Dmg_Ele_Lightning] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Lightning];
     protected int DmgElePoisonMin => stats[( StatID )GearStats.Prefix.Dmg_Ele_Poison] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Poison];
     protected int DmgElePoisonMax => stats[( StatID )GearStats.Prefix.Dmg_Ele_Poison] + stats[( StatID )GearStats.Suffix.Dmg_Ele_Poison];
-    protected int Defense => Dexterity / 2 + stats[StatID.Def_Phys_Flat];
+    protected float Defense => Dexterity / 2 + stats[StatID.Def_Phys_Flat];
     protected int DefDmgReductionPhys => stats[( StatID )GearStats.Prefix.Def_Dmg_Reduction_Phys] + stats[( StatID )GearStats.Suffix.Def_Dmg_Reduction_All] + stats[( StatID )GearStats.Implicit.Def_Dmg_Reduction_All];
     protected int DefDmgReductionMagic => stats[( StatID )GearStats.Prefix.Def_Dmg_Reduction_Magic] + stats[( StatID )GearStats.Suffix.Def_Dmg_Reduction_All] + stats[( StatID )GearStats.Implicit.Def_Dmg_Reduction_All];
     protected int DefResFire => stats[( StatID )GearStats.Prefix.Def_Ele_Res_All] + stats[( StatID )GearStats.Prefix.Def_Ele_Res_Fire];
@@ -82,8 +92,8 @@ public class Entity : MonoBehaviour {
     protected int OnKillLife => stats[( StatID )GearStats.Prefix.On_Kill_Life];
     protected int OnHitMana => stats[( StatID )GearStats.Suffix.On_Hit_Mana];
     protected int OnKillMana => stats[( StatID )GearStats.Suffix.On_Kill_Mana];
-    protected int RegenLife => stats[( StatID )GearStats.Implicit.Plus_Regen_Life] + stats[( StatID )GearStats.Suffix.Plus_Regen_Life] + Life_Max / 100;
-    protected int RegenMana => stats[( StatID )GearStats.Implicit.Plus_Regen_Mana] + stats[( StatID )GearStats.Prefix.Plus_Regen_Mana] + Mana_Max / 100;
+    protected int RegenLife => stats[( StatID )GearStats.Implicit.Plus_Regen_Life] + stats[( StatID )GearStats.Suffix.Plus_Regen_Life];
+    protected int RegenMana => stats[( StatID )GearStats.Implicit.Plus_Regen_Mana] + stats[( StatID )GearStats.Prefix.Plus_Regen_Mana];
     public int Strength => stats[( StatID )GearStats.Suffix.Plus_Str] + StrengthBase;
     public int Dexterity => stats[( StatID )GearStats.Suffix.Plus_Dex] + DexterityBase;
     public int Constitution => stats[( StatID )GearStats.Suffix.Plus_Con] + ConstitutionBase;
@@ -93,7 +103,11 @@ public class Entity : MonoBehaviour {
     protected int IncMoveSpeed => stats[( StatID )GearStats.Suffix.Plus_Speed_Movement] + stats[( StatID )GearStats.Implicit.Plus_Speed_Movement];
     protected int IncBlockRecovery => stats[( StatID )GearStats.Suffix.Plus_Block_Recovery] + stats[( StatID )GearStats.Implicit.Plus_Block_Recovery];
     protected int IncStaggerRecovery => stats[( StatID )GearStats.Suffix.Plus_Stagger_Recovery] + stats[( StatID )GearStats.Implicit.Plus_Stagger_Recovery];
-    protected int IncMagicFind => stats[( StatID )GearStats.Suffix.Plus_Magic_Find] + stats[( StatID )GearStats.Implicit.Plus_Magic_Find] + stats[( StatID )GearStats.Prefix.Plus_Magic_Find];
+    public int IncMagicFind => stats[( StatID )GearStats.Suffix.Plus_Magic_Find] + stats[( StatID )GearStats.Implicit.Plus_Magic_Find] + stats[( StatID )GearStats.Prefix.Plus_Magic_Find];
+    public int IncItemFind = 0;
+    public float IncAttackRating => Dexterity * 3 + stats[(StatID)GearStats.Prefix.Plus_Attack_Rating];
+    public float IncDefenseRating => Strength * 2 + stats[(StatID)GearStats.Suffix.Plus_Defence_Rating];
+    public float IncBlockRate => Dexterity + stats[(StatID)GearStats.Suffix.Plus_Blockrate] + stats[(StatID)GearStats.Implicit.Plus_Blockrate];
 
     protected Dictionary<StatID, int> stats = new Dictionary<StatID, int>();
     protected SpriteRenderer spriteRenderer;
@@ -108,7 +122,7 @@ public class Entity : MonoBehaviour {
         }
     }
 
-    public AudioClip onAttack, onHit, onMove;
+    public AudioClip onAttack, onHit, onMove, miss, block;
 
     protected List<Node> _chain = new List<Node>();
 
@@ -155,7 +169,7 @@ public class Entity : MonoBehaviour {
         if ( distance == 1 ) {
             Attack();
             AttackSplash.Show( playerCharacterCoordinates, AttackSplash.Type.Pierce );
-            Entities.Attack( playerCharacterCoordinates, Random.Range( DmgPhysMin, DmgPhysMax + 1 ), Name );
+            Entities.Attack( playerCharacterCoordinates, Random.Range( DmgPhysMin, DmgPhysMax + 1 ), IncAttackRating, Level );
             return;
         }
 
@@ -183,25 +197,53 @@ public class Entity : MonoBehaviour {
             AudioDevice.Play( onMove );
     }
 
-    public virtual void RecieveDamage( int incomingDamage, string attacker ) {
+    public virtual void RecieveDamage( int incomingDamage, float attackerCombatRating, float attackerLevel ) {
 
-        // reduce incoming damage by flat damage reduction
+        //Roll dodge
+        float chanceToHit = 200 * (attackerCombatRating / (attackerCombatRating + IncDefenseRating)) * (attackerLevel / (attackerLevel + Level));
+        float value = Random.Range(0.0f, 100.0f);
+        if (chanceToHit < value) {
+            TextLog.Print( string.Format("<color=#FF0000>{0}</color> dodged. {1} vs {2}", Name, chanceToHit, value ) );
+            Entities.DrawFloatingText("Miss", transform, Color.gray);
+            return;
+        }
+
+        //Roll block
+        if (BlockRecoveryTurnsRemaining == 0) {
+            chanceToHit = 15.0f + Mathf.Ceil(150.0f * attackerLevel / (Blockrate + IncBlockRate));
+            value = Random.Range(0.0f, 100.0f);
+            if (chanceToHit < value) {
+                TextLog.Print( string.Format("<color=#FF0000>{0}</color> blocked. {1} vs {2}", Name, chanceToHit, value) );
+                Entities.DrawFloatingText("Blocked", transform, Color.gray);
+                BlockRecoveryTurnsRemaining = BlockRecoveryBase - IncBlockRecovery;
+                return;
+            }
+        }
+
+        // reduce incoming damage by this entities flat damage reduction
         incomingDamage -= DefDmgReductionPhys;
 
-        float actualIncomingDamage = incomingDamage;
-
         // reduce incoming damage by armour rating. This code desparately needs refining.
-        float percentReduction = ((float)Defense / 1000) * 70;
+        float actualIncomingDamage = incomingDamage;
+        float percentReduction = Defense / 1000 * 70;
         float percentLeftOver = 100 - percentReduction;
         actualIncomingDamage *= percentLeftOver / 100;
         incomingDamage = (int)actualIncomingDamage;
 
-        Entities.DrawFloatingText(incomingDamage, transform, Color.red);
+        Entities.DrawFloatingText(incomingDamage.ToString(), transform, Color.red);
         Life_Current -= incomingDamage;
         AudioDevice.Play( onHit );
+
         if ( Life_Current <= 0 ) {
             Die();
         }
+    }
+
+    public virtual void PreTurn()
+    {
+        //recover from blocking
+        if (BlockRecoveryTurnsRemaining > 0) 
+            BlockRecoveryTurnsRemaining--;
     }
 
     protected virtual void Die() {
