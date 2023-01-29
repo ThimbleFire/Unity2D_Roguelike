@@ -77,6 +77,8 @@ public class ItemStats : MonoBehaviour
     public List<Stat> requirements;
     public string description;
     public AudioClip soundEndDrag;
+    public string ItemNameUI;
+    public string ItemNameInGame;
 
     public string Tooltip {
         get {

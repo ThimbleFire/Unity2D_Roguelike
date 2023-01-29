@@ -17,7 +17,7 @@ public class ChunkEditor : EditorWindow
     private string[] _popupOptions;
     private string _newSceneName = string.Empty;
 
-    [MenuItem( "Window/Editor" )]
+    [MenuItem( "Window/Editor/Chunks" )]
     private static void ShowWindow()
     {
         GetWindow( typeof( ChunkEditor ) );
@@ -100,7 +100,7 @@ public class ChunkEditor : EditorWindow
             Height = Walls.size.y
         };
 
-        XMLUtility.Save<Chunk>( chunk, name );
+        XMLUtility.Save<Chunk>( chunk, "Chunks/"+name );
         _newSceneName = string.Empty;
         Debug.Log( "Saved" );
     }

@@ -6,7 +6,7 @@ public class XMLUtility {
 
     public static void Save<T>( T chunk, string name ) {
         XmlSerializer serialWrite = new XmlSerializer( typeof(Chunk));
-        Stream stream = new FileStream(Application.dataPath + "/Resources/Chunks/" + name + ".xml",   FileMode.Create , FileAccess.Write );
+        Stream stream = new FileStream(Application.dataPath + "/Resources/" + name + ".xml",   FileMode.Create , FileAccess.Write );
         serialWrite.Serialize( stream, chunk );
         stream.Close();
         stream.Dispose();
