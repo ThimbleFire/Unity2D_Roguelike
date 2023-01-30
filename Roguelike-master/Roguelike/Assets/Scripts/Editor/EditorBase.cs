@@ -7,8 +7,6 @@ using System.IO;
 public class EditorBase : EditorWindow
 {
     private const byte Right = 20;
-
-    protected Sprite[] btnState;
     private Vector2 scrollPos;
 
     protected enum WindowStates { Main, Create }
@@ -20,32 +18,34 @@ public class EditorBase : EditorWindow
     protected bool IncludeSaveBtn { get; set; }
     protected bool IncludeBackBtn { get; set; }
     
+    protected virtual void ResetProperties() { }
+    protected virtual void CreationWindow() { }
+    protected virtual void OnClick_SaveButton() { }
+    protected virtual void LoadProperties() { }
+    private void AddRow(int mul = 1) { Y += 22 * mul; EditorGUILayout.Space( 22 * mul, true ); }
+    private void ResetRow() { Y = 4; }
+    
     private void OnGUI()
     {
         ResetRow();
-
         if ( !Loaded )
             Load();
-        
-        switch ( WindowState )
-        {
+        switch ( WindowState ) {
             case WindowStates.Main:
                 MainWindow();
                 break;
             case WindowStates.Create:
                 EditorGUILayout.BeginVertical();
                 scrollPos = EditorGUILayout.BeginScrollView( scrollPos, false, true );
-                {
-                    if ( IncludeSaveBtn )
-                        if(PaintSaveButton("Save")
-                            OnClick_SaveButton();
-                    if ( IncludeBackBtn )
-                        if(PaintButton("Back") {
-                            WindowState = WindowStates.Main;
-                            Loaded = false;
-                        }
-                    CreationWindow();
-                }
+                if ( IncludeSaveBtn )
+                    if(PaintSaveButton("Save")
+                        OnClick_SaveButton();
+                if ( IncludeBackBtn )
+                    if(PaintButton("Back") {
+                        WindowState = WindowStates.Main;
+                        Loaded = false;
+                    }
+                CreationWindow();
                 EditorGUILayout.EndScrollView();
                 EditorGUILayout.EndVertical();
                 break;
@@ -65,14 +65,6 @@ public class EditorBase : EditorWindow
             PaintLoadList();
     }
 
-    /// <summary>Called when clicking New button</summary>
-    protected virtual void ResetProperties() { }
-    protected virtual void CreationWindow() { }
-    protected virtual void OnClick_SaveButton() { }
-    protected virtual void LoadProperties() { }
-    private void AddRow(int mul = 1) { Y += 22 * mul; EditorGUILayout.Space( 22 * mul, true ); }
-    private void ResetRow() { Y = 4; }
-
     private void PaintSaveButton() {
         GUILayout.BeginArea( new Rect( 4, Y, position.width - Right, 21 ) );
         if ( GUILayout.Button( string.Format( "Save" ) ) )
@@ -80,15 +72,7 @@ public class EditorBase : EditorWindow
         GUILayout.EndArea();
         AddRow();
     }
-    private void PaintBackButton() {
-        GUILayout.BeginArea( new Rect( 4, Y, position.width - Right, 21 ) );
-        if ( GUILayout.Button( "Back" ) ) {
-            WindowState = WindowStates.Main;
-            Loaded = false;
-        }
-        GUILayout.EndArea();
-        AddRow();
-    }
+    private void PaintBackButton() => if(PaintButton("Back")) { WindowState = WindowStates.Main; Loaded = false; }
     protected void PaintLoadList() => LoadIndex = PaintPopup( LoadOptions, LoadIndex );
     
     protected void PaintIntField( ref int value, string label = "" ) {
@@ -102,16 +86,14 @@ public class EditorBase : EditorWindow
     }
     protected void PaintFloatRange( ref float min, ref float max, float minRange, float maxRange, string label = "" ) {
         EditorGUIUtility.wideMode = true;
-        {
-            EditorGUI.MinMaxSlider(
-                new Rect( 4, Y, position.width - Right, 20 ),
-                new GUIContent( label ),
-                ref min,
-                ref max,
-                minRange,
-                maxRange
-                );
-        }
+        EditorGUI.MinMaxSlider(
+            new Rect( 4, Y, position.width - Right, 20 ),
+            new GUIContent( label ),
+            ref min,
+            ref max,
+            minRange,
+            maxRange
+            );
         EditorGUIUtility.wideMode = false;
         AddRow();
     }
@@ -125,19 +107,15 @@ public class EditorBase : EditorWindow
     }
     protected void PaintSpriteField( ref Sprite sprite, ref string fileName, string label = "" ) {
         sprite = (Sprite)EditorGUI.ObjectField( new Rect( 4, Y, 64, 64 ), sprite, typeof( Sprite ), false );
-
-        if ( sprite != null )
-        {
-            fileName = sprite.name;
-            EditorGUI.LabelField( new Rect( 74, Y, position.width - 86, 20 ), label );
-            AddRow();
-            EditorGUI.LabelField( new Rect( 74, Y, position.width - 86, 20 ), label );
-            AddRow(3);
-        }
-        else
-        {
+        if ( sprite == null ) {
             AddRow(4);
+            return;
         }
+        fileName = sprite.name;
+        EditorGUI.LabelField( new Rect( 74, Y, position.width - 86, 20 ), label );
+        AddRow();
+        EditorGUI.LabelField( new Rect( 74, Y, position.width - 86, 20 ), label );
+        AddRow(3);
     }
     protected void PaintIntSlider( ref int value, int min, int max, string label = "" ) {
         value = EditorGUI.IntSlider( new Rect( 4, Y, position.width - Right, 20 ), label, value, min, max );
