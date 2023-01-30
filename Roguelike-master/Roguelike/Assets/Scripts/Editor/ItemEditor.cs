@@ -16,7 +16,23 @@ public class ItemEditor : EditorWindow
 
     private void OnGUI()
     {
-        
+        /*
+        /   Item name
+        /   UI sprite
+        /   EquippedSpritesheet
+        /   IsUnique
+        /   
+        /   ItemType
+        /   value1 (rename this to damageMin)
+        /   value2 (rename this to damageMax)
+        /   value3 (call this defense)
+        /   value4 (call this chance to block)
+        /   durability  (if ItemType != consumable)
+        /   
+        /   implicit
+        /   prefix  (if IsUnique)  
+        /   suffix  (if IsUnique)
+        */
     }
 
     private void SaveOnAndroid(string itemName)
