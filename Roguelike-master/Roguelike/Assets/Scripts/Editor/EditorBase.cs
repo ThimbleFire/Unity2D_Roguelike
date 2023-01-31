@@ -17,7 +17,9 @@ public class EditorBase : EditorWindow
     protected bool IncludeLoadList { get; set; }
     protected bool IncludeSaveBtn { get; set; }
     protected bool IncludeBackBtn { get; set; }
-    
+
+    protected int Y { get; set; }
+
     protected virtual void ResetProperties() { }
     protected virtual void CreationWindow() { }
     protected virtual void OnClick_SaveButton() { }
@@ -28,43 +30,40 @@ public class EditorBase : EditorWindow
     private void OnGUI()
     {
         ResetRow();
-        if ( !Loaded )
-            Load();
         switch ( WindowState ) {
             case WindowStates.Main:
+
+                if(!Loaded)
+                {
+                    Loaded = true;
+                    //Awake();
+                }
+
                 MainWindow();
                 break;
             case WindowStates.Create:
                 EditorGUILayout.BeginVertical();
                 scrollPos = EditorGUILayout.BeginScrollView( scrollPos, false, true );
-                if ( IncludeSaveBtn )
-                    if(PaintSaveButton("Save")
-                        OnClick_SaveButton();
-                if ( IncludeBackBtn )
-                    if(PaintButton("Back") {
-                        WindowState = WindowStates.Main;
-                        Loaded = false;
-                    }
-                CreationWindow();
+                {
+                    if (IncludeSaveBtn)
+                        PaintSaveButton();
+                            OnClick_SaveButton();
+
+                    if (IncludeBackBtn)
+                        PaintBackButton();
+
+                    CreationWindow();
+                }
                 EditorGUILayout.EndScrollView();
                 EditorGUILayout.EndVertical();
                 break;
         }
     }
+    //protected virtual void Awake() { }
     protected virtual void MainWindow()
     {
-        if(PaintButton("New")) {
-            ResetProperties();
-            WindowState = WindowStates.Create;
-        }
-        if ( IncludeLoadList )
-            if(PaintButton("Load Selected")) {
-                LoadProperties();
-                WindowState = WindowStates.Create;
-            }
-            PaintLoadList();
-    }
 
+    }
     private void PaintSaveButton() {
         GUILayout.BeginArea( new Rect( 4, Y, position.width - Right, 21 ) );
         if ( GUILayout.Button( string.Format( "Save" ) ) )
@@ -72,9 +71,12 @@ public class EditorBase : EditorWindow
         GUILayout.EndArea();
         AddRow();
     }
-    private void PaintBackButton() => if(PaintButton("Back")) { WindowState = WindowStates.Main; Loaded = false; }
-    protected void PaintLoadList() => LoadIndex = PaintPopup( LoadOptions, LoadIndex );
-    
+    private void PaintBackButton() { if (PaintButton("Back")) { WindowState = WindowStates.Main; Loaded = false; } }
+    protected void PaintLoadList() => LoadIndex = PaintPopup( LoadOptions, LoadIndex );    
+    protected int PaintPopup( string[] options, int value, string label = "" ) {
+        int v = EditorGUI.Popup( new Rect( 4, Y, position.width - Right, 20 ), label, value, options ); AddRow();
+        return v;
+    }
     protected void PaintIntField( ref int value, string label = "" ) {
         value = EditorGUI.IntField( new Rect( 4, Y, position.width - Right, 20 ), label, value ); AddRow();
     }
@@ -100,10 +102,6 @@ public class EditorBase : EditorWindow
     protected void PaintHorizontalLine() {
         Handles.color = Color.gray;
         Handles.DrawLine( new Vector3( 4, Y + 11 ), new Vector3( position.width - Right, Y + 11 ) ); AddRow();
-    }
-    protected int PaintPopup( string[] options, int value, string label = "" ) {
-        int v = EditorGUI.Popup( new Rect( 4, Y, position.width - Right, 20 ), value, options ); AddRow();
-        return v;
     }
     protected void PaintSpriteField( ref Sprite sprite, ref string fileName, string label = "" ) {
         sprite = (Sprite)EditorGUI.ObjectField( new Rect( 4, Y, 64, 64 ), sprite, typeof( Sprite ), false );
@@ -134,5 +132,34 @@ public class EditorBase : EditorWindow
     protected void PaintLabel( string message ) {
         EditorGUI.LabelField( new Rect( 4, Y, position.width - Right, 20 ), message );
         AddRow();
+    }
+    protected bool Checkbox(ref bool state, string label)
+    {
+        state = EditorGUI.Toggle(new Rect(4, Y, position.width - Right, 20), label, state);
+        AddRow();
+        return state;
+    }
+    protected TextAsset PaintXMLLookup(TextAsset file)
+    {
+        TextAsset v = (TextAsset)EditorGUI.ObjectField(new Rect(4, Y, position.width - Right, 20), file, typeof(TextAsset), false); AddRow();
+        return v;
+    }
+    protected AnimatorOverrideController PaintAnimationOverrideControllerLookup(AnimatorOverrideController animatorOverrideController)
+    {
+        AnimatorOverrideController v = (AnimatorOverrideController)EditorGUI.ObjectField(new Rect(4, Y, position.width - Right, 20), animatorOverrideController, typeof(AnimatorOverrideController), false); AddRow();
+        return v;
+    }
+    
+    protected SerializedObject so;
+    private void OnEnable()
+    {
+        so = new SerializedObject(this);
+    }
+
+    //You may want to put paint list at the bottom
+    protected void PaintList<T>(string label)
+    {
+        EditorGUILayout.PropertyField(so.FindProperty(label));
+        so.ApplyModifiedProperties();
     }
 }

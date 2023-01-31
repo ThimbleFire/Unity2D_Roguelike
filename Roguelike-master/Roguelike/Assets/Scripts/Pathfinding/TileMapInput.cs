@@ -19,7 +19,7 @@ public class TileMapInput : MonoBehaviour {
 
     public void Update() {
         
-        Vector3 mouseWorldPos = Vector3.Zero;
+        Vector3 mouseWorldPos = Vector3.zero;
         
         #if UNITY_STANDABLE_WIN
         if ( UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() ) return;

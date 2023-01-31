@@ -27,7 +27,7 @@ public class XMLUtility {
     public static T Load<T>( string filename ) {
         XmlSerializer parametersSerializer = new XmlSerializer(typeof(T));
 
-        UnityEngine.Object obj = Resources.Load("Chunks/" + filename);
+        UnityEngine.Object obj = Resources.Load(filename);
         TextAsset asset = (TextAsset)obj;
         byte[] data =  asset.bytes;
         Stream reader = new MemoryStream( data );
