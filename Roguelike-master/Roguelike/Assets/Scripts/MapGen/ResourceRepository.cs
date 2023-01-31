@@ -38,7 +38,7 @@ public class ResourceRepository : MonoBehaviour {
         }
     }
 
-    public static ItemStats GetItemMatchingCriteria(int v, ItemStats.Type itemType, int entityDifficulty)
+    public static ItemStats GetItemMatchingCriteria(int v, Item.Type itemType, int entityDifficulty)
     {
         return null;
     }

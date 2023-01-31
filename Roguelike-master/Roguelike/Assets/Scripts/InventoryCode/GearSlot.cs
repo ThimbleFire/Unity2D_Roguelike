@@ -1,7 +1,8 @@
 ﻿using UnityEngine;
 
 public class GearSlot : MonoBehaviour {
-    public ItemStats.Type type;
+
+    public Item.Type type;
     public GameObject character;
     public ItemStats itemStats = null;
 

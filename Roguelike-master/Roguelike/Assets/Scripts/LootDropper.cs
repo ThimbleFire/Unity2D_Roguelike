@@ -20,7 +20,7 @@ public class LootDropper
         
         // determine type of item being dropped
         
-        ItemStats.Type itemType = (ItemStats.Type)Random.Range(0, System.Enum.GetNames(typeof(ItemStats.Type)).Length);
+        Item.Type itemType = (Item.Type)Random.Range(0, System.Enum.GetNames(typeof(Item.Type)).Length);
         
         // determine the rarity of the item being dropped
         

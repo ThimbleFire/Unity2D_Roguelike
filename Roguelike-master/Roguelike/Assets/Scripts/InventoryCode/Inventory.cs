@@ -47,7 +47,7 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
             }
             else if ( itemBeingSelected.Equipped == false ) {
                 foreach ( GearSlot gSlot in gearSlots ) {
-                    if ( itemBeingSelected.type == gSlot.type ) {
+                    if ( itemBeingSelected.ItemType == gSlot.type ) {
                         OnEquipmentChange.Invoke( itemBeingSelected, true );
                         gSlot.Equip( itemBeingSelected );
                         break;

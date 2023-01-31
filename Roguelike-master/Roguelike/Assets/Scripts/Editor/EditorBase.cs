@@ -3,6 +3,7 @@ using UnityEditor;
 using System.Collections.Generic;
 using System.Xml.Serialization;
 using System.IO;
+using System;
 
 public class EditorBase : EditorWindow
 {
@@ -23,8 +24,8 @@ public class EditorBase : EditorWindow
     protected virtual void ResetProperties() { }
     protected virtual void CreationWindow() { }
     protected virtual void OnClick_SaveButton() { }
-    protected virtual void LoadProperties() { }
-    private void AddRow(int mul = 1) { Y += 22 * mul; EditorGUILayout.Space( 22 * mul, true ); }
+    protected virtual void LoadProperties(TextAsset asset) { }
+    protected void AddRow(int mul = 1) { Y += 22 * mul; EditorGUILayout.Space( 22 * mul, true ); }
     private void ResetRow() { Y = 4; }
     
     private void OnGUI()
@@ -103,19 +104,18 @@ public class EditorBase : EditorWindow
         Handles.color = Color.gray;
         Handles.DrawLine( new Vector3( 4, Y + 11 ), new Vector3( position.width - Right, Y + 11 ) ); AddRow();
     }
-    protected void PaintSpriteField( ref Sprite sprite, ref string fileName, string label = "" ) {
+    protected void PaintSpriteField( ref Sprite sprite, string label = "" ) {
         sprite = (Sprite)EditorGUI.ObjectField( new Rect( 4, Y, 64, 64 ), sprite, typeof( Sprite ), false );
         if ( sprite == null ) {
             AddRow(4);
             return;
         }
-        fileName = sprite.name;
         EditorGUI.LabelField( new Rect( 74, Y, position.width - 86, 20 ), label );
         AddRow();
         EditorGUI.LabelField( new Rect( 74, Y, position.width - 86, 20 ), label );
         AddRow(3);
     }
-    protected void PaintIntSlider( ref int value, int min, int max, string label = "" ) {
+    protected void PaintIntSlider( ref int value, int min, int max, string label = "") {
         value = EditorGUI.IntSlider( new Rect( 4, Y, position.width - Right, 20 ), label, value, min, max );
         AddRow();
     }
@@ -139,9 +139,18 @@ public class EditorBase : EditorWindow
         AddRow();
         return state;
     }
-    protected TextAsset PaintXMLLookup(TextAsset file)
+    protected TextAsset PaintXMLLookup(TextAsset file, string label, bool invokeOnChange)
     {
-        TextAsset v = (TextAsset)EditorGUI.ObjectField(new Rect(4, Y, position.width - Right, 20), file, typeof(TextAsset), false); AddRow();
+        TextAsset v = (TextAsset)EditorGUI.ObjectField(new Rect(4, Y, position.width - Right, 20), label, file, typeof(TextAsset), false); AddRow();
+
+        if (invokeOnChange)
+        {
+            if(file != v)
+            {
+                LoadProperties(v);
+            }
+        }
+
         return v;
     }
     protected AnimatorOverrideController PaintAnimationOverrideControllerLookup(AnimatorOverrideController animatorOverrideController)

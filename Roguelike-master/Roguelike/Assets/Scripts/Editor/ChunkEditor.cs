@@ -100,7 +100,7 @@ public class ChunkEditor : EditorWindow
             Height = Walls.size.y
         };
 
-        XMLUtility.Save<Chunk>( chunk, "Chunks/"+name );
+        XMLUtility.Save<Chunk>(chunk, "Chunks/", name);
         _newSceneName = string.Empty;
         Debug.Log( "Saved" );
     }

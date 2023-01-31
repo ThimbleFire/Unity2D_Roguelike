@@ -81,16 +81,17 @@ public class AccessPoint {
 public class Chunk {
 
     public Chunk Clone() {
-        var obj = new Chunk();
-
-        obj.Name = this.Name;
-        obj.Width = this.Width;
-        obj.Height = this.Height;
-        obj.Origin = this.Origin;
-        obj.Curios = this.Curios;
-        obj.Walls = this.Walls;
-        obj.Floors = this.Floors;
-        obj.Entrance = new List<AccessPoint>();
+        var obj = new Chunk
+        {
+            Name = this.Name,
+            Width = this.Width,
+            Height = this.Height,
+            Origin = this.Origin,
+            Curios = this.Curios,
+            Walls = this.Walls,
+            Floors = this.Floors,
+            Entrance = new List<AccessPoint>()
+        };
 
         foreach ( AccessPoint entrance in this.Entrance ) {
             obj.Entrance.Add( entrance.Clone() );

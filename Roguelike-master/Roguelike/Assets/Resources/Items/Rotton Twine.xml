@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Rotton Twine</Name>
+  <ItemType>CHEST</ItemType>
+  <SpriteUIFilename>animal_skin_1_old</SpriteUIFilename>
+  <animationName />
+  <ItemLevel>1</ItemLevel>
+  <DmgMin>0</DmgMin>
+  <DmgMax>0</DmgMax>
+  <DefMin>11</DefMin>
+  <DefMax>16</DefMax>
+  <Blockrate>0</Blockrate>
+  <Durability>0</Durability>
+  <Unique>true</Unique>
+  <Description />
+  <ReqStr>0</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>0</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>1</ReqLvl>
+  <Implicits />
+  <Prefixes>
+    <Prefix>
+      <type>Def_Dmg_Reduction_Phys</type>
+      <value>3</value>
+    </Prefix>
+    <Prefix>
+      <type>Plus_Attack_Rating</type>
+      <value>15</value>
+    </Prefix>
+  </Prefixes>
+  <Suffixes>
+    <Suffix>
+      <type>Plus_Life</type>
+      <value>21</value>
+    </Suffix>
+    <Suffix>
+      <type>Plus_Str</type>
+      <value>5</value>
+    </Suffix>
+  </Suffixes>
+</Item>

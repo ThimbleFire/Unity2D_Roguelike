@@ -49,12 +49,12 @@ public class Entity : MonoBehaviour {
     public const int BlockRecoveryBase = 5;
 
     public int IncItemFind { get; set; }
-    public int IncMagicFind => stats[(StatID)GearStats.Suffix.Plus_Magic_Find] + stats[(StatID)GearStats.Implicit.Plus_Magic_Find] + stats[(StatID)GearStats.Prefix.Plus_Magic_Find];
+    public int IncMagicFind => stats[(StatID)Item.Suffix.SType.Plus_Magic_Find] + stats[(StatID)Item.Implicit.IType.Plus_Magic_Find] + stats[(StatID)Item.Prefix.PType.Plus_Magic_Find];
 
     public string Name { get; set; }
     public int Level { get; set; }
     protected int SpeedBase { get; set; }
-    protected int Speed => SpeedBase + (int)stats[(StatID)GearStats.Implicit.Plus_Speed_Movement] + stats[(StatID)GearStats.Suffix.Plus_Speed_Movement];
+    protected int Speed => SpeedBase + (int)stats[(StatID)Item.Implicit.IType.Plus_Speed_Movement] + stats[(StatID)Item.Suffix.SType.Plus_Speed_Movement];
     protected int Life_Current { get; set; }
     protected int Life_MaxBase { get; set; }
     protected int Mana_Current { get; set; }
@@ -71,10 +71,10 @@ public class Entity : MonoBehaviour {
     protected int DexterityBase { get; set; }
     protected int ConstitutionBase { get; set; }
     protected int IntelligenceBase { get; set; }
-    public int Strength => stats[(StatID)GearStats.Suffix.Plus_Str] + StrengthBase;
-    public int Dexterity => stats[(StatID)GearStats.Suffix.Plus_Dex] + DexterityBase;
-    public int Constitution => stats[(StatID)GearStats.Suffix.Plus_Con] + ConstitutionBase;
-    public int Intelligence => stats[(StatID)GearStats.Suffix.Plus_Int] + IntelligenceBase;
+    public int Strength => stats[(StatID)Item.Suffix.SType.Plus_Str] + StrengthBase;
+    public int Dexterity => stats[(StatID)Item.Suffix.SType.Plus_Dex] + DexterityBase;
+    public int Constitution => stats[(StatID)Item.Suffix.SType.Plus_Con] + ConstitutionBase;
+    public int Intelligence => stats[(StatID)Item.Suffix.SType.Plus_Int] + IntelligenceBase;
 
     protected Dictionary<StatID, int> stats = new Dictionary<StatID, int>();
     protected SpriteRenderer spriteRenderer;
