@@ -66,6 +66,9 @@ public class Entity : MonoBehaviour {
     public int AttackRating { get; set; }
     public int ChanceToBlock { get; set; }
     protected int RangeOfAggression { get; set; }
+    protected int DefDmgReductionPhys => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Phys] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
+    protected int DefDmgReductionMagic => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Magic] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
+
 
     protected int StrengthBase { get; set; }
     protected int DexterityBase { get; set; }
@@ -182,14 +185,16 @@ public class Entity : MonoBehaviour {
 
         //Roll block
         if (BlockRecoveryTurnsRemaining == 0) {
-            chanceToHit = 15.0f + Mathf.Ceil(150.0f * attackerLevel / ChanceToBlock);
             value = Random.Range(0.0f, 100.0f);
-            if (chanceToHit < value) {
+            if (ChanceToBlock < value) {
+                AudioDevice.Play(block);
                 Entities.DrawFloatingText("Blocked", transform, Color.gray);
                 BlockRecoveryTurnsRemaining = BlockRecoveryBase;
                 return;
             }
         }
+        // reduce incoming damage by this entities flat damage reduction
+        incomingDamage -= DefDmgReductionPhys;
 
         // reduce incoming damage by armour rating. This code desparately needs refining.
         float actualIncomingDamage = incomingDamage;

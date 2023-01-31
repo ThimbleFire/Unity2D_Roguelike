@@ -17,13 +17,11 @@ public class PlayerCharacter : Navigator {
     protected int DmgEleLightningMax => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Lightning] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Lightning];
     protected int DmgElePoisonMin => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Poison] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Poison];
     protected int DmgElePoisonMax => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Poison] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Poison];
-    protected int DefDmgReductionPhys => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Phys] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
-    protected int DefDmgReductionMagic => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Magic] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
     protected int DefResFire => stats[(StatID)Item.Prefix.PType.Def_Ele_Res_All] + stats[(StatID)Item.Prefix.PType.Def_Ele_Res_Fire];
     protected int DefResCold => stats[(StatID)Item.Prefix.PType.Def_Ele_Res_All] + stats[(StatID)Item.Prefix.PType.Def_Ele_Res_Cold];
     protected int DefResLightning => stats[(StatID)Item.Prefix.PType.Def_Ele_Res_All] + stats[(StatID)Item.Prefix.PType.Def_Ele_Res_Lightning];
     protected int DefResPoison => stats[(StatID)Item.Prefix.PType.Def_Ele_Res_All] + stats[(StatID)Item.Prefix.PType.Def_Ele_Res_Poison];
-    protected float Defense => Dexterity / 2 + base.Defense + stats[StatID.Def_Phys_Flat];
+    protected float PCDefense => Dexterity / 2 + base.Defense + stats[StatID.Def_Phys_Flat];
     protected int OnHitLife => stats[(StatID)Item.Prefix.PType.On_Hit_Life];
     protected int OnKillLife => stats[(StatID)Item.Prefix.PType.On_Kill_Life];
     protected int OnHitMana => stats[(StatID)Item.Suffix.SType.On_Hit_Mana];
@@ -53,6 +51,9 @@ public class PlayerCharacter : Navigator {
         Life_Current = Life_Max;
 
         Inventory.OnEquipmentChange += Inventory_OnEquipmentChange;
+
+        Inventory.Pickup("Long Sword");
+        Inventory.Pickup("Animal Skin");
     }
 
     public override void Move() {
@@ -129,7 +130,7 @@ public class PlayerCharacter : Navigator {
                 DmgBasePhyMax -= itemStats.MaxDamage;
             }
         }
-        else
+        else if (itemStats.ItemType != Item.Type.PRIMARY)
         {
             if (adding)
             {
@@ -175,51 +176,5 @@ public class PlayerCharacter : Navigator {
         }
 
         base.PreTurn();
-    }
-
-    public override void RecieveDamage(int incomingDamage, float attackerCombatRating, float attackerLevel)
-    {
-        //Roll dodge
-        float CRvDR = attackerCombatRating / (attackerCombatRating + IncDefenseRating);
-        float ALvDL = attackerLevel / (attackerLevel + Level);
-        float chanceToHit = 200 * CRvDR * ALvDL;
-        float value = Random.Range(0.0f, 100.0f);
-        if (chanceToHit < value)
-        {
-            Entities.DrawFloatingText("Miss", transform, Color.gray);
-            return;
-        }
-
-        //Roll block
-        if (BlockRecoveryTurnsRemaining == 0)
-        {
-            chanceToHit = 15.0f + Mathf.Ceil(150.0f * attackerLevel / (ChanceToBlock + IncBlockRate));
-            value = Random.Range(0.0f, 100.0f);
-            if (chanceToHit < value)
-            {
-                Entities.DrawFloatingText("Blocked", transform, Color.gray);
-                BlockRecoveryTurnsRemaining = BlockRecoveryBase - IncBlockRecovery;
-                return;
-            }
-        }
-
-        // reduce incoming damage by this entities flat damage reduction
-        incomingDamage -= DefDmgReductionPhys;
-
-        // reduce incoming damage by armour rating. This code desparately needs refining.
-        float actualIncomingDamage = incomingDamage;
-        float percentReduction = Defense / 1000 * 70;
-        float percentLeftOver = 100 - percentReduction;
-        actualIncomingDamage *= percentLeftOver / 100;
-        incomingDamage = (int)actualIncomingDamage;
-
-        Entities.DrawFloatingText(incomingDamage.ToString(), transform, Color.red);
-        Life_Current -= incomingDamage;
-        AudioDevice.Play(onHit);
-
-        if (Life_Current <= 0)
-        {
-            Die();
-        }
     }
 }

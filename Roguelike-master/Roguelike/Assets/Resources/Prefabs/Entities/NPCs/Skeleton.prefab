@@ -119,4 +119,6 @@ MonoBehaviour:
   onAttack: {fileID: 0}
   onHit: {fileID: 0}
   onMove: {fileID: 0}
+  miss: {fileID: 0}
+  block: {fileID: 8300000, guid: 7e151cffde468a844b1c8cf077d72dfd, type: 3}
   _coordinates: {x: 0, y: 0, z: 0}

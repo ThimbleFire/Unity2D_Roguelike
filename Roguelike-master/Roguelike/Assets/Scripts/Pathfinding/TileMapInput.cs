@@ -21,19 +21,18 @@ public class TileMapInput : MonoBehaviour {
         
         Vector3 mouseWorldPos = Vector3.zero;
         
-        #if UNITY_STANDABLE_WIN
-        if ( UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() ) return;
-        mouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
-        #endif
 
-        #if UNITY_ANDROIOD
+#if UNITY_ANDROIOD
         if (Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began)
         {
             if ( UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject(Input.GetTouch(0).fingerId)) return;
             Vector2 touchPosition = Input.touches[0].position;
             mouseWorldPos = Camera.main.ScreenToWorldPoint( touchPosition.x, touchPosition.y, camera.nearClipPlane );            
         }
-        #endif
+#else
+        if ( UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject() ) return;
+        mouseWorldPos = Camera.main.ScreenToWorldPoint( Input.mousePosition );
+#endif
     
         Vector3Int coordinate = grid.WorldToCell( mouseWorldPos );
         if ( lastCoordinate != coordinate )

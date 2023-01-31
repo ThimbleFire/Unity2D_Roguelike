@@ -250,7 +250,7 @@ MonoBehaviour:
   onHit: {fileID: 8300000, guid: d8cecfa1176bc804dae95bd48e7d4f96, type: 3}
   onMove: {fileID: 8300000, guid: bf6ada5348551a74e8b6802327855a76, type: 3}
   miss: {fileID: 0}
-  block: {fileID: 0}
+  block: {fileID: 8300000, guid: 7e151cffde468a844b1c8cf077d72dfd, type: 3}
   _coordinates: {x: 0, y: 0, z: 0}
   _primary: {fileID: 420252273698254018}
 --- !u!1001 &750014835
