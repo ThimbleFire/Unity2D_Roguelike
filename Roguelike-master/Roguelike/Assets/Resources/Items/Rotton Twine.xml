@@ -2,7 +2,7 @@
 <Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Rotton Twine</Name>
   <ItemType>CHEST</ItemType>
-  <SpriteUIFilename>animal_skin_1_old</SpriteUIFilename>
+  <SpriteUIFilename>UI/Inventory/item/Chest/animal_skin_1_old</SpriteUIFilename>
   <animationName />
   <ItemLevel>1</ItemLevel>
   <DmgMin>0</DmgMin>

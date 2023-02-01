@@ -2,7 +2,7 @@
 <Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <Name>Long Sword</Name>
   <ItemType>PRIMARY</ItemType>
-  <SpriteUIFilename>long_sword_1_new</SpriteUIFilename>
+  <SpriteUIFilename>UI/Inventory/item/Primary/long_sword_1_new</SpriteUIFilename>
   <animationName />
   <ItemLevel>1</ItemLevel>
   <DmgMin>5</DmgMin>

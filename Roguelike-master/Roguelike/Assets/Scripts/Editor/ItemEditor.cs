@@ -78,9 +78,7 @@ public class ItemEditor : EditorBase
         Prefixes = activeItem.Prefixes;
         Suffixes = activeItem.Suffixes;
 
-        string path = "UI/Inventory/Item/" + activeItem.ItemType + "/" + activeItem.SpriteUIFilename;
-
-        SpriteUI = Resources.Load<Sprite>(path);
+        SpriteUI = Resources.Load<Sprite>(activeItem.SpriteUIFilename);
     }
 
     protected override void CreationWindow()
@@ -93,8 +91,13 @@ public class ItemEditor : EditorBase
         activeItem.Implicits = Implicits;
         activeItem.Prefixes = Prefixes;
         activeItem.Suffixes = Suffixes;
-        activeItem.SpriteUIFilename = SpriteUI == null ? string.Empty : SpriteUI.name;
-        activeItem.animationName = animatorOverrideController == null ? string.Empty : animatorOverrideController.name;
+
+        string filePath = AssetDatabase.GetAssetPath(SpriteUI).Substring("Assets/Resources/".Length);
+        filePath = filePath.Substring(0, filePath.Length - 4);
+        activeItem.SpriteUIFilename = SpriteUI == null ? string.Empty : filePath;
+
+        //filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring("Assets/Resources/".Length);
+        activeItem.animationName = animatorOverrideController == null ? string.Empty : filePath;
         XMLUtility.Save<Item>(activeItem, "Items/", activeItem.Name);
     }
 }

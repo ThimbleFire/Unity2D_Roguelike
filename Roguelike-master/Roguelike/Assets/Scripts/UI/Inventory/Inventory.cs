@@ -5,6 +5,7 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
     public static bool IsItemSelected = false;
 
     public RectTransform selectedCell;
+    private ItemStats itemBeingSelected;
 
     public delegate void OnEquipmentChangeHandler( ItemStats itemStats, bool adding );
     public static event OnEquipmentChangeHandler OnEquipmentChange;
@@ -29,44 +30,41 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
     }
 
     public void OnItemClick( UIItemOnClick t ) {
-        ItemStats itemBeingSelected = t.GetComponent<ItemStats>();
+
+        if(t.GetComponent<ItemStats>() != itemBeingSelected)
+        {
+            IsItemSelected = false;
+        }
 
         // To select the item
-        if ( IsItemSelected == false ) {
+        if ( IsItemSelected == false ) 
+        {
             IsItemSelected = true;
+            itemBeingSelected = t.GetComponent<ItemStats>();
             selectedCell.gameObject.SetActive( true );
             selectedCell.position = itemBeingSelected.GetComponent<RectTransform>().position;
             ItemStatBillboard.Draw( itemBeingSelected );
         }
-
-        //To click the item while it's already selected
-        else {
+        else 
+        {
             ItemStatBillboard.Hide();
             selectedCell.gameObject.SetActive( false );
             IsItemSelected = false;
 
             if (itemBeingSelected.Equipped == true)
             {
-                foreach (GearSlot iSlot in inventorySlots.slots)
-                {
-                    if (iSlot.itemStats == null)
-                    {
-                        OnEquipmentChange.Invoke(itemBeingSelected, false);
-                        iSlot.Unequip(itemBeingSelected);
-                        break;
-                    }
-                }
+                Transform emptyInventorySlotTransform = inventorySlots.GetEmpty().Unequip();
+                itemBeingSelected.transform.SetParent(emptyInventorySlotTransform);
+                itemBeingSelected.Equipped = false;
+                OnEquipmentChange.Invoke(itemBeingSelected, false);
             }
             else if (itemBeingSelected.Equipped == false)
             {
-                foreach (GearSlot gSlot in gearSlots.slots)
+                GearSlot slot = gearSlots.GetEmpty(itemBeingSelected.ItemType);
+                if (slot != null)
                 {
-                    if (itemBeingSelected.ItemType == gSlot.type)
-                    {
-                        OnEquipmentChange.Invoke(itemBeingSelected, true);
-                        gSlot.Equip(itemBeingSelected);
-                        break;
-                    }
+                    slot.Equip(itemBeingSelected);
+                    OnEquipmentChange.Invoke(itemBeingSelected, true);
                 }
             }
 
@@ -76,8 +74,7 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
 
     public static void Pickup(string itemName)
     {
-        Transform inventorySlotTransform = inventorySlots.GetEmptyTransform();
-
+        Transform inventorySlotTransform = inventorySlots.GetEmpty().transform;
         ItemStats itemStats = Instantiate(baseItem, inventorySlotTransform).GetComponent<ItemStats>();
         itemStats.Load(itemName);
     }

@@ -7,14 +7,13 @@ public class GearSlot : MonoBehaviour {
     public ItemStats itemStats = null;
 
     public void Equip( ItemStats itemBeingSelected ) {
-        this.itemStats = itemBeingSelected;
-        this.itemStats.Equipped = true;
-        this.itemStats.transform.SetParent( transform );
+        itemStats = itemBeingSelected;
+        itemStats.Equipped = true;
+        itemStats.transform.SetParent( transform );
     }
 
-    internal void Unequip( ItemStats itemBeingSelected ) {
-        itemBeingSelected.transform.SetParent( transform );
-        itemBeingSelected.Equipped = false;
-        this.itemStats = null;
+    internal Transform Unequip( ) {
+        itemStats = null;
+        return transform;
     }
 }

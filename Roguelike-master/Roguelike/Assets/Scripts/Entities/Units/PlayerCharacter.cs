@@ -54,6 +54,8 @@ public class PlayerCharacter : Navigator {
 
         Inventory.Pickup("Long Sword");
         Inventory.Pickup("Animal Skin");
+        Inventory.Pickup("Rotton Twine");
+        Inventory.Pickup("Shield of Debugging");
     }
 
     public override void Move() {
@@ -117,52 +119,90 @@ public class PlayerCharacter : Navigator {
 
     private void Inventory_OnEquipmentChange( ItemStats itemStats, bool adding )
     {
-        if (itemStats.ItemType == Item.Type.PRIMARY)
+        if (itemStats.MinDamage > 0)
         {
             if (adding)
             {
                 DmgBasePhyMin += itemStats.MinDamage;
-                DmgBasePhyMax += itemStats.MaxDamage;
             }
             else
             {
                 DmgBasePhyMin -= itemStats.MinDamage;
+            }
+            Debug.Log("DmgBasePhyMin: " + DmgBasePhyMin);
+        }
+        if (itemStats.MaxDamage > 0)
+        {
+            if (adding)
+            {
+                DmgBasePhyMax += itemStats.MaxDamage;
+            }
+            else
+            {
                 DmgBasePhyMax -= itemStats.MaxDamage;
             }
+            Debug.Log("DmgBasePhyMax: " + DmgBasePhyMax);
         }
-        else if (itemStats.ItemType != Item.Type.PRIMARY)
+        if (itemStats.Defense > 0)
         {
             if (adding)
             {
                 stats[StatID.Def_Phys_Flat] += itemStats.Defense;
-                ChanceToBlock += itemStats.Blockrate;
             }
             else
             {
                 stats[StatID.Def_Phys_Flat] -= itemStats.Defense;
+            }
+            Debug.Log("Base defense: " + stats[StatID.Def_Phys_Flat]);
+        }
+        if (itemStats.Blockrate > 0)
+        {
+            if (adding)
+            {
+                ChanceToBlock += itemStats.Blockrate;
+            }
+            else
+            {
                 ChanceToBlock -= itemStats.Blockrate;
             }
+            Debug.Log("Base chance to block: " + ChanceToBlock);
         }
+
         foreach ( Item.Prefix item in itemStats.Prefixes )
         {
-            if ( adding )
-                stats[( StatID )item.type] += item.value;
+            if (adding)
+            {
+                stats[(StatID)item.type] += item.value;
+            }
             else
-                stats[( StatID )item.type] -= item.value;
+            {
+                stats[(StatID)item.type] -= item.value;
+            }
+            Debug.Log((StatID)item.type + ": " + stats[(StatID)item.type]);
         }
-        foreach (Item.Suffix item in itemStats.Suffixes ) 
+        foreach (Item.Suffix item in itemStats.Suffixes)
         {
-            if ( adding )
-                stats[( StatID )item.type] += item.value;
+            if (adding)
+            {
+                stats[(StatID)item.type] += item.value;
+            }
             else
-                stats[( StatID )item.type] -= item.value;
+            {
+                stats[(StatID)item.type] -= item.value;
+            }
+            Debug.Log((StatID)item.type + ": " + stats[(StatID)item.type]);
         }
-        foreach (Item.Implicit item in itemStats.Implicits )
+        foreach (Item.Implicit item in itemStats.Implicits)
         {
-            if ( adding )
-                stats[( StatID )item.type] += item.value;
+            if (adding)
+            {
+                stats[(StatID)item.type] += item.value;
+            }
             else
-                stats[( StatID )item.type] -= item.value;
+            {
+                stats[(StatID)item.type] -= item.value;
+            }
+            Debug.Log((StatID)item.type + ": " + stats[(StatID)item.type]);
         }
     }
 

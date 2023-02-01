@@ -7,12 +7,12 @@ public class InventorySlots : MonoBehaviour
 {
     public GearSlot[] slots;
 
-    public Transform GetEmptyTransform()
+    public GearSlot GetEmpty()
     {
         foreach (GearSlot item in slots)
         {
             if (item.transform.childCount == 0)
-                return item.transform;
+                return item;
         }
 
         return null;
