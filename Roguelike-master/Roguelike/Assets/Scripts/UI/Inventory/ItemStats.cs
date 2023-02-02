@@ -22,6 +22,19 @@ public class ItemStats : MonoBehaviour
 
     public byte Rarity { get { return ( byte )( item.Prefixes.Count + item.Suffixes.Count ); } }
 
+    // We want to reduce the number of tooltip calls by defining it on item creation.
+
+    public bool HasAffix(Entity.StatID affix)
+    {
+        if(item.Implicits.Find(x=>x.type == (Item.Implicits)(byte)affix)) != null)
+            return true;
+        if(item.Prefixes.Find(x=>x.type == (Item.Prefixes)(byte)affix)) != null)
+            return true;
+        if(item.Suffixes.Find(x=>x.type == (Item.Suffixes)(byte)affix)) != null)
+            return true;
+        return false;
+    }
+
     public int MinDamage
     {
         get {
@@ -171,5 +184,10 @@ public class ItemStats : MonoBehaviour
     {
         item = XMLUtility.Load<Item>("Items/" + itemName);
         GetComponent<UnityEngine.UI.Image>().sprite = Resources.Load<Sprite>(item.SpriteUIFilename);
+    }
+
+    public void RefreshTooltip()
+    {
+        
     }
 }
