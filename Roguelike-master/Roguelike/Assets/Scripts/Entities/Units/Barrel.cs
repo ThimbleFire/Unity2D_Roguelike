@@ -12,7 +12,7 @@ public class Barrel : Entity
         DmgBasePhyMin = 0;
         DmgBasePhyMax = 0;
         AttackRating = 0;
-        Defense = 0;
+        DefenseBase = 0;
         DefenseRating = 1;
         ChanceToBlock = 0;
         Life_Current = 8;

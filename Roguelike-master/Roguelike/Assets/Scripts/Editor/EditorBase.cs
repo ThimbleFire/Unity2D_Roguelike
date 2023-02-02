@@ -159,15 +159,11 @@ public class EditorBase : EditorWindow
         return v;
     }
     
-    protected SerializedObject so;
-    private void OnEnable()
-    {
-        so = new SerializedObject(this);
-    }
-
     //You may want to put paint list at the bottom
+    protected SerializedObject so;
     protected void PaintList<T>(string label)
     {
+        so = new SerializedObject(this);
         EditorGUILayout.PropertyField(so.FindProperty(label));
         so.ApplyModifiedProperties();
     }

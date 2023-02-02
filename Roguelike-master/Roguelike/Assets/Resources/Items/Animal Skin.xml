@@ -10,7 +10,7 @@
   <DefMin>1</DefMin>
   <DefMax>2</DefMax>
   <Blockrate>0</Blockrate>
-  <Durability>0</Durability>
+  <Durability>8</Durability>
   <Unique>false</Unique>
   <Description />
   <ReqStr>0</ReqStr>

@@ -20,6 +20,13 @@ public class ItemStats : MonoBehaviour
     public List<Item.Prefix> Prefixes { get { return item.Prefixes; } }
     public List<Item.Suffix> Suffixes { get { return item.Suffixes; } }
 
+    public bool RequirementsMetStrength { get { return Entities.GetPCS.Strength >= item.ReqStr; } }
+    public bool RequirementsMetDexterity { get { return Entities.GetPCS.Dexterity >= item.ReqDex; } }
+    public bool RequirementsMetIntelligence { get { return Entities.GetPCS.Intelligence >= item.ReqInt; } }
+    public bool RequirementsMetLevel { get { return Entities.GetPCS.Level >= item.ReqLvl; } }
+    public bool RequirementsMetConstitution { get { return Entities.GetPCS.Constitution >= item.ReqCons; } }
+    public bool RequirementsMetAll { get { return RequirementsMetStrength && RequirementsMetDexterity && RequirementsMetIntelligence && RequirementsMetLevel && RequirementsMetConstitution; }  }
+
     public byte Rarity { get { return ( byte )( item.Prefixes.Count + item.Suffixes.Count ); } }
 
     // We want to reduce the number of tooltip calls by defining it on item creation.
@@ -113,41 +120,45 @@ public class ItemStats : MonoBehaviour
             if ( item.Durability > 0 )
                 t.Append( "\n" + hexGray + "Durability: " + hexEnd + item.Durability );
 
+
             if (item.ReqStr > 0)
             {
-                if (Entities.GetPCS.Strength < item.ReqStr)
-                    t.Append(hexRed);
-                else t.Append(hexGray);
+                if (RequirementsMetStrength)
+                    t.Append(hexGray);
+                else t.Append(hexRed);
                 t.Append(string.Format("\nRequired Strength: {0}{1}", item.ReqStr, hexEnd));
             }
             if (item.ReqDex > 0)
             {
-                if (Entities.GetPCS.Dexterity < item.ReqDex)
-                    t.Append(hexRed);
-                else t.Append(hexGray);
+                if (RequirementsMetDexterity)
+                    t.Append(hexGray);
+                else t.Append(hexRed);
                 t.Append(string.Format("\nRequired Dexterity: {0}{1}", item.ReqDex, hexEnd));
             }
             if (item.ReqInt > 0)
             {
-                if (Entities.GetPCS.Intelligence < item.ReqInt)
-                    t.Append(hexRed);
-                else t.Append(hexGray);
+                if (RequirementsMetIntelligence)
+                    t.Append(hexGray);
+                else t.Append(hexRed);
                 t.Append(string.Format("\nRequired Intelligence: {0}{1}", item.ReqInt, hexEnd));
             }
             if (item.ReqCons > 0)
             {
-                if (Entities.GetPCS.Constitution < item.ReqCons)
-                    t.Append(hexRed);
-                else t.Append(hexGray);
+                if (RequirementsMetConstitution)
+                    t.Append(hexGray);
+                else t.Append(hexRed);
                 t.Append(string.Format("\nRequired Constitution: {0}{1}", item.ReqCons, hexEnd));
             }
             if (item.ReqLvl > 0)
             {
-                if (Entities.GetPCS.Level < item.ReqLvl)
-                    t.Append(hexRed);
-                else t.Append(hexGray);
+                if (RequirementsMetLevel)
+                    t.Append(hexGray);
+                else t.Append(hexRed);
                 t.Append(string.Format("\nRequired Level: {0}{1}", item.ReqLvl, hexEnd));
             }
+
+            if(Rarity > 0)
+                t.Append("\n");
 
             foreach ( var implicitMod in item.Implicits ) 
                 t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )implicitMod.type], implicitMod.value ) + hexEnd );
@@ -156,7 +167,6 @@ public class ItemStats : MonoBehaviour
             foreach ( var suffix in item.Suffixes ) 
                 t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )suffix.type], suffix.value ) + hexEnd );
             
-
             if ( item.Description != string.Empty )
                 t.Append( "\n\n<i>" + item.Description + "</i>" );
 

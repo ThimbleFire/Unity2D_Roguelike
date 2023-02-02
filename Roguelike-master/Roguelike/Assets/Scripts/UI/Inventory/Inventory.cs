@@ -60,6 +60,9 @@ public class Inventory : MonoBehaviour, IItemClickHandler {
             }
             else if (itemBeingSelected.Equipped == false)
             {
+                if (itemBeingSelected.RequirementsMetAll == false)
+                    return;
+
                 GearSlot slot = gearSlots.GetEmpty(itemBeingSelected.ItemType);
                 if (slot != null)
                 {

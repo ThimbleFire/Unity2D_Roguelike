@@ -10,14 +10,14 @@
   <DefMin>4</DefMin>
   <DefMax>7</DefMax>
   <Blockrate>35</Blockrate>
-  <Durability>0</Durability>
+  <Durability>21</Durability>
   <Unique>true</Unique>
   <Description />
-  <ReqStr>5</ReqStr>
+  <ReqStr>12</ReqStr>
   <ReqInt>0</ReqInt>
   <ReqDex>0</ReqDex>
   <ReqCons>0</ReqCons>
-  <ReqLvl>1</ReqLvl>
+  <ReqLvl>3</ReqLvl>
   <Implicits>
     <Implicit>
       <type>Plus_Blockrate</type>

@@ -46,6 +46,7 @@ public class ItemEditor : EditorBase
             PaintIntField(ref activeItem.DefMin, "Min Defense");
             PaintIntField(ref activeItem.DefMax, "Max Defense");
             PaintIntField(ref activeItem.Blockrate, "Chance to block");
+            PaintIntField(ref activeItem.Durability, "Durability");
             PaintTextField(ref activeItem.Description, "Item Description");
             PaintIntSlider(ref activeItem.ReqStr, 0, 255, "Str Requirement");
             PaintIntSlider(ref activeItem.ReqDex, 0, 255, "Dex Requirement");

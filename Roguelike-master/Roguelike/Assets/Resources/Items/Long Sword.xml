@@ -5,15 +5,15 @@
   <SpriteUIFilename>UI/Inventory/item/Primary/long_sword_1_new</SpriteUIFilename>
   <animationName />
   <ItemLevel>1</ItemLevel>
-  <DmgMin>5</DmgMin>
+  <DmgMin>2</DmgMin>
   <DmgMax>7</DmgMax>
   <DefMin>0</DefMin>
   <DefMax>0</DefMax>
   <Blockrate>0</Blockrate>
-  <Durability>0</Durability>
+  <Durability>11</Durability>
   <Unique>false</Unique>
   <Description>Long Sword is Long</Description>
-  <ReqStr>5</ReqStr>
+  <ReqStr>0</ReqStr>
   <ReqInt>0</ReqInt>
   <ReqDex>0</ReqDex>
   <ReqCons>0</ReqCons>

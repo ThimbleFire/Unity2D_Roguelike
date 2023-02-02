@@ -7,7 +7,7 @@ public class NPCImp : Navigator {
         DmgBasePhyMax = 3;
         AttackRating = 8;
         DefenseRating = 1;
-        Defense = 5;
+        DefenseBase = 5;
         ChanceToBlock = 3;
         Life_Current = 8;
         SpeedBase = 1;

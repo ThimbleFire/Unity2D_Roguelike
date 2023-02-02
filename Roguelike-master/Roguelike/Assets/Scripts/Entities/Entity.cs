@@ -61,7 +61,7 @@ public class Entity : MonoBehaviour {
     protected int Mana_MaxBase { get; set; }
     protected int DmgBasePhyMin { get; set; }
     protected int DmgBasePhyMax { get; set; }
-    protected float Defense { get; set; }
+    protected float DefenseBase { get; set; }
     public int DefenseRating { get; set; }
     public int AttackRating { get; set; }
     public int ChanceToBlock { get; set; }
@@ -186,7 +186,7 @@ public class Entity : MonoBehaviour {
         //Roll block
         if (BlockRecoveryTurnsRemaining == 0) {
             value = Random.Range(0.0f, 100.0f);
-            if (ChanceToBlock < value) {
+            if (value <= ChanceToBlock) {
                 AudioDevice.Play(block);
                 Entities.DrawFloatingText("Blocked", transform, Color.gray);
                 BlockRecoveryTurnsRemaining = BlockRecoveryBase;
@@ -198,13 +198,17 @@ public class Entity : MonoBehaviour {
 
         // reduce incoming damage by armour rating. This code desparately needs refining.
         float actualIncomingDamage = incomingDamage;
-        float percentReduction = Defense / 1000 * 70;
+        float percentReduction = DefenseBase / 1000 * 70;
         float percentLeftOver = 100 - percentReduction;
         actualIncomingDamage *= percentLeftOver / 100;
-        
+        actualIncomingDamage = Mathf.Clamp(actualIncomingDamage, 1.0f, float.MaxValue);
+
         Entities.DrawFloatingText(((int)actualIncomingDamage).ToString(), transform, Color.red);
-        Life_Current -= incomingDamage;
+        Life_Current -= (int)actualIncomingDamage;
         AudioDevice.Play( onHit );
+
+        if(Name == "Player Chacter")
+            PlayerHealthBar.SetCurrentLife(Life_Current);
 
         if ( Life_Current <= 0 ) {
             Die();
@@ -219,7 +223,7 @@ public class Entity : MonoBehaviour {
     }
 
     protected virtual void Die() {
-        TextLog.Print( string.Format("<color=#FF0000>{0}</color> is slain", Name ) );
+        //TextLog.Print( string.Format("<color=#FF0000>{0}</color> is slain", Name ) );
         _animator.SetTrigger( "Die" );
         Pathfind.Unoccupy( _coordinates );
         Entities.Remove( this );
