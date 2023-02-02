@@ -33,12 +33,10 @@ public class ItemStats : MonoBehaviour
 
     public bool HasAffix(Entity.StatID affix)
     {
-        if(item.Implicits.Find(x=>x.type == (Item.Implicits)(byte)affix)) != null)
-            return true;
-        if(item.Prefixes.Find(x=>x.type == (Item.Prefixes)(byte)affix)) != null)
-            return true;
-        if(item.Suffixes.Find(x=>x.type == (Item.Suffixes)(byte)affix)) != null)
-            return true;
+        if (item.Implicits.Find(x => (byte)x.type == (byte)affix) != null) return true;
+        if (item.Prefixes.Find(x => (byte)x.type == (byte)affix) != null) return true;
+        if (item.Suffixes.Find(x => (byte)x.type == (byte)affix) != null) return true;
+        
         return false;
     }
 
@@ -120,52 +118,36 @@ public class ItemStats : MonoBehaviour
             if ( item.Durability > 0 )
                 t.Append( "\n" + hexGray + "Durability: " + hexEnd + item.Durability );
 
-
-            if (item.ReqStr > 0)
-            {
-                if (RequirementsMetStrength)
-                    t.Append(hexGray);
-                else t.Append(hexRed);
+            if (item.ReqStr > 0) {
+                t.Append(RequirementsMetStrength ? hexGray : hexRed);
                 t.Append(string.Format("\nRequired Strength: {0}{1}", item.ReqStr, hexEnd));
             }
-            if (item.ReqDex > 0)
-            {
-                if (RequirementsMetDexterity)
-                    t.Append(hexGray);
-                else t.Append(hexRed);
+            if (item.ReqDex > 0) {
+                t.Append(RequirementsMetDexterity ? hexGray : hexRed);
                 t.Append(string.Format("\nRequired Dexterity: {0}{1}", item.ReqDex, hexEnd));
             }
-            if (item.ReqInt > 0)
-            {
-                if (RequirementsMetIntelligence)
-                    t.Append(hexGray);
-                else t.Append(hexRed);
+            if (item.ReqInt > 0) {
+                t.Append(RequirementsMetIntelligence ? hexGray : hexRed);
                 t.Append(string.Format("\nRequired Intelligence: {0}{1}", item.ReqInt, hexEnd));
             }
-            if (item.ReqCons > 0)
-            {
-                if (RequirementsMetConstitution)
-                    t.Append(hexGray);
-                else t.Append(hexRed);
+            if (item.ReqCons > 0) {
+                t.Append(RequirementsMetConstitution ? hexGray : hexRed);
                 t.Append(string.Format("\nRequired Constitution: {0}{1}", item.ReqCons, hexEnd));
             }
-            if (item.ReqLvl > 0)
-            {
-                if (RequirementsMetLevel)
-                    t.Append(hexGray);
-                else t.Append(hexRed);
+            if (item.ReqLvl > 0) {
+                t.Append(RequirementsMetLevel ? hexGray : hexRed);
                 t.Append(string.Format("\nRequired Level: {0}{1}", item.ReqLvl, hexEnd));
             }
 
             if(Rarity > 0)
                 t.Append("\n");
 
-            foreach ( var implicitMod in item.Implicits ) 
-                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )implicitMod.type], implicitMod.value ) + hexEnd );
-            foreach ( var prefix in item.Prefixes ) 
-                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )prefix.type], prefix.value ) + hexEnd );
-            foreach ( var suffix in item.Suffixes ) 
-                t.Append( "\n" + hexMagic + string.Format( GearStats.Affix_Text[( byte )suffix.type], suffix.value ) + hexEnd );
+            foreach ( Item.Implicit implicitMod in item.Implicits ) 
+                t.Append( "\n" + hexMagic + string.Format( Item.Affix_Text[( byte )implicitMod.type], implicitMod.value ) + hexEnd );
+            foreach ( Item.Prefix prefixMod in item.Prefixes ) 
+                t.Append( "\n" + hexMagic + string.Format( Item.Affix_Text[( byte )prefixMod.type], prefixMod.value ) + hexEnd );
+            foreach ( Item.Suffix suffixMod in item.Suffixes ) 
+                t.Append( "\n" + hexMagic + string.Format( Item.Affix_Text[( byte )suffixMod.type], suffixMod.value ) + hexEnd );
             
             if ( item.Description != string.Empty )
                 t.Append( "\n\n<i>" + item.Description + "</i>" );

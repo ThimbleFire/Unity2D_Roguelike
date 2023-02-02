@@ -46,34 +46,63 @@ public class Entity : MonoBehaviour {
         Plus_Defence_Rating = 38,
         Plus_Blockrate = 39
     }
+    public int Experience_Current = 0;
+    public int Experience_Max = 32;
     public const int BlockRecoveryBase = 5;
-
+    public const int StaggerRecoveryBase = 1;
     public int IncItemFind { get; set; }
     public int IncMagicFind => stats[(StatID)Item.Suffix.SType.Plus_Magic_Find] + stats[(StatID)Item.Implicit.IType.Plus_Magic_Find] + stats[(StatID)Item.Prefix.PType.Plus_Magic_Find];
-
     public string Name { get; set; }
     public int Level { get; set; }
-    protected int SpeedBase { get; set; }
-    protected int Speed => SpeedBase + (int)stats[(StatID)Item.Implicit.IType.Plus_Speed_Movement] + stats[(StatID)Item.Suffix.SType.Plus_Speed_Movement];
-    protected int Life_Current { get; set; }
-    protected int Life_MaxBase { get; set; }
-    protected int Mana_Current { get; set; }
-    protected int Mana_MaxBase { get; set; }
-    protected int DmgBasePhyMin { get; set; }
-    protected int DmgBasePhyMax { get; set; }
-    protected float DefenseBase { get; set; }
+    public int SpeedBase { get; set; }
+    public int Speed => SpeedBase + (int)stats[(StatID)Item.Implicit.IType.Plus_Speed_Movement] + stats[(StatID)Item.Suffix.SType.Plus_Speed_Movement];
+    public int Life_Current { get; set; }
+    public int Life_MaxBase { get; set; }
+    public int Mana_Current { get; set; }
+    public int Mana_MaxBase { get; set; }
+    public int DmgBasePhyMin { get; set; }
+    public int DmgBasePhyMax { get; set; }
+    public float DefenseBase { get; set; }
     public int DefenseRating { get; set; }
     public int AttackRating { get; set; }
     public int ChanceToBlock { get; set; }
-    protected int RangeOfAggression { get; set; }
-    protected int DefDmgReductionPhys => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Phys] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
-    protected int DefDmgReductionMagic => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Magic] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
+    public int RangeOfAggression { get; set; }
+    public int DefDmgReductionPhys => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Phys] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
+    public int DefDmgReductionMagic => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Magic] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
+    public int Life_Max => Life_MaxBase + Constitution * 5 + stats[(StatID)Item.Suffix.SType.Plus_Life];
+    public int Mana_Max => Mana_MaxBase + Intelligence * 5 + stats[(StatID)Item.Prefix.PType.Plus_Mana];
+    public int DmgPhysMin => DmgBasePhyMin + Strength / 10 + stats[(StatID)Item.Suffix.SType.Dmg_Phys_Min];
+    public int DmgPhysMax => DmgBasePhyMax + Strength / 10 + stats[(StatID)Item.Suffix.SType.Dmg_Phys_Max];
+    public float Defense => DefenseBase * Dexterity / 10 + stats[StatID.Def_Phys_Flat];
+    public int DmgEleFireMin => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Fire] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Fire];
+    public int DmgEleFireMax => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Fire] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Fire];
+    public int DmgEleColdMin => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Cold] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Cold];
+    public int DmgEleColdMax => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Cold] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Cold];
+    public int DmgEleLightningMin => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Lightning] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Lightning];
+    public int DmgEleLightningMax => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Lightning] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Lightning];
+    public int DmgElePoisonMin => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Poison] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Poison];
+    public int DmgElePoisonMax => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Poison] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Poison];
+    public int DefResFire => stats[(StatID)Item.Prefix.PType.Def_Ele_Res_All] + stats[(StatID)Item.Prefix.PType.Def_Ele_Res_Fire];
+    public int DefResCold => stats[(StatID)Item.Prefix.PType.Def_Ele_Res_All] + stats[(StatID)Item.Prefix.PType.Def_Ele_Res_Cold];
+    public int DefResLightning => stats[(StatID)Item.Prefix.PType.Def_Ele_Res_All] + stats[(StatID)Item.Prefix.PType.Def_Ele_Res_Lightning];
+    public int DefResPoison => stats[(StatID)Item.Prefix.PType.Def_Ele_Res_All] + stats[(StatID)Item.Prefix.PType.Def_Ele_Res_Poison];
+    public int OnHitLife => stats[(StatID)Item.Prefix.PType.On_Hit_Life];
+    public int OnKillLife => stats[(StatID)Item.Prefix.PType.On_Kill_Life];
+    public int OnHitMana => stats[(StatID)Item.Suffix.SType.On_Hit_Mana];
+    public int OnKillMana => stats[(StatID)Item.Suffix.SType.On_Kill_Mana];
+    public int RegenLife => stats[(StatID)Item.Implicit.IType.Plus_Regen_Life] + stats[(StatID)Item.Suffix.SType.Plus_Regen_Life];
+    public int RegenMana => stats[(StatID)Item.Implicit.IType.Plus_Regen_Mana] + stats[(StatID)Item.Prefix.PType.Plus_Regen_Mana];
+    public int IncMoveSpeed => stats[(StatID)Item.Suffix.SType.Plus_Speed_Movement] + stats[(StatID)Item.Implicit.IType.Plus_Speed_Movement];
+    public int IncBlockRecovery => stats[(StatID)Item.Suffix.SType.Plus_Block_Recovery] + stats[(StatID)Item.Implicit.IType.Plus_Block_Recovery];
+    public int IncStaggerRecovery => stats[(StatID)Item.Suffix.SType.Plus_Stagger_Recovery] + stats[(StatID)Item.Implicit.IType.Plus_Stagger_Recovery];
+    public float IncBlockRate => stats[(StatID)Item.Suffix.SType.Plus_Blockrate] + stats[(StatID)Item.Implicit.IType.Plus_Blockrate];
+    public float IncAttackRating => Dexterity / 2 + stats[(StatID)Item.Prefix.PType.Plus_Attack_Rating];
+    public float IncDefenseRating => Dexterity / 4 + DefenseRating + stats[(StatID)Item.Suffix.SType.Plus_Defence_Rating];
 
-
-    protected int StrengthBase { get; set; }
-    protected int DexterityBase { get; set; }
-    protected int ConstitutionBase { get; set; }
-    protected int IntelligenceBase { get; set; }
+    public int StrengthBase { get; set; }
+    public int DexterityBase { get; set; }
+    public int ConstitutionBase { get; set; }
+    public int IntelligenceBase { get; set; }
     public int Strength => stats[(StatID)Item.Suffix.SType.Plus_Str] + StrengthBase;
     public int Dexterity => stats[(StatID)Item.Suffix.SType.Plus_Dex] + DexterityBase;
     public int Constitution => stats[(StatID)Item.Suffix.SType.Plus_Con] + ConstitutionBase;

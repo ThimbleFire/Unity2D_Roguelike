@@ -6,8 +6,7 @@ using UnityEngine;
 [XmlRoot("Item")]
 public class Item
 {
-    [Serializable]
-    public class Attribute
+    [Serializable] public class Attribute
     {
         public enum AType
         {
@@ -16,9 +15,7 @@ public class Item
         public AType type;
         public byte value;
     }
-
-    [Serializable]
-    public class Prefix
+    [Serializable] public class Prefix
     {
         public enum PType
         {
@@ -46,9 +43,7 @@ public class Item
         public PType type;
         public int value;
     }
-
-    [Serializable]
-    public class Suffix
+    [Serializable] public class Suffix
     {
         public enum SType
         {
@@ -88,9 +83,7 @@ public class Item
         public SType type;
         public int value;
     }
-
-    [Serializable]
-    public class Implicit
+    [Serializable] public class Implicit
     {
         public enum IType
         {
@@ -129,25 +122,22 @@ public class Item
     }
 
     public string Name = string.Empty;
-    public Type ItemType = Item.Type.ANY
-    public string SpriteUIFilename = string.Empty
-    public string animationName = string.Empty
+    public Type ItemType = Item.Type.ANY;
+    public string SpriteUIFilename = string.Empty;
+    public string animationName = string.Empty;
     public int ItemLevel = 0;
-    public int DmgMin, DmgMax = 0;
-    public int DefMin, DefMax = 0;
-    public int Blockrate  = 0;
-    public int Durability  = 0;
-    public bool Unique  = false;
+    public int DmgMin = 0, DmgMax = 0;
+    public int DefMin = 0, DefMax = 0;
+    public int Blockrate = 0;
+    public int Durability = 0;
+    public bool Unique = false;
     public string Description = string.Empty;
-    public int ReqStr, ReqInt, ReqDex, ReqCons, ReqLvl  = 0;
-    [XmlArray("Implicits")]
-    public List<Implicit> Implicits = new List<Implicit>();
-    [XmlArray("Prefixes")]
-    public List<Prefix> Prefixes = new List<Prefix>();
-    [XmlArray("Suffixes")]
-    public List<Suffix> Suffixes = new List<Suffix>();
+    public int ReqStr = 0, ReqInt = 0, ReqDex = 0, ReqCons = 0, ReqLvl  = 0;
+    [XmlArray("Implicits")] public List<Implicit> Implicits = new List<Implicit>();
+    [XmlArray("Prefixes")] public List<Prefix> Prefixes = new List<Prefix>();
+    [XmlArray("Suffixes")] public List<Suffix> Suffixes = new List<Suffix>();
 
-    public static string[] Affix_Text = new string[40]
+    public static readonly string[] Affix_Text = new string[40]
     {
         "+{0} to accuracy rating",
         "+{0} to minimum damage",

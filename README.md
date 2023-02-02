@@ -33,3 +33,8 @@ Stand adjacent to an aggressor, select them, then hit the sword icon to perform 
 ## Item Editor
 
 ![image](https://cdn.discordapp.com/attachments/237335760905306112/1069889145792626740/image.png)
+
+##Inventory Stats
+
+![image](https://cdn.discordapp.com/attachments/362981245929652228/1070730167011512320/Screenshot_20230202-153819.jpg)
+![image](https://cdn.discordapp.com/attachments/362981245929652228/1070730166793424926/Screenshot_20230202-153822.jpg)

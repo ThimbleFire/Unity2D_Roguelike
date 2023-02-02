@@ -13,7 +13,7 @@ public class PlayerHealthBar : MonoBehaviour
     private void Awake()
     {
         value = transform.Find("Value").GetComponent<RectTransform>();
-        limiter = transform.Find("Limiter").GetComponent<RectTransform>();
+        limiter = value.Find("Limiter").GetComponent<RectTransform>();
     }
 
     public static void SetMaximumLife(int m)
