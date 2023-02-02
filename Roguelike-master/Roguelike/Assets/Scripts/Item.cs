@@ -128,46 +128,74 @@ public class Item
         BELT
     }
 
-    public Item()
-    {
-        Name = string.Empty;
-        ItemType = Item.Type.ANY;
-        SpriteUIFilename = string.Empty;
-        ItemLevel = 0;
-        DmgMin = 0;
-        DmgMax = 0;
-        DefMin = 0;
-        DefMax = 0;
-        Blockrate = 0;
-        Durability = 0;
-        Implicits = new List<Implicit>();
-        Unique = false;
-        Prefixes = new List<Prefix>();
-        Suffixes = new List<Suffix>();
-        Description = string.Empty;
-        ReqStr = 0;
-        ReqInt = 0;
-        ReqDex = 0;
-        ReqCons = 0;
-        ReqLvl = 0;
-    }
-
-    public string Name;
-    public Type ItemType;
-    public string SpriteUIFilename;
-    public string animationName;
-    public int ItemLevel;
-    public int DmgMin, DmgMax;
-    public int DefMin, DefMax;
-    public int Blockrate;
-    public int Durability;
-    public bool Unique;
-    public string Description;
-    public int ReqStr, ReqInt, ReqDex, ReqCons, ReqLvl;
+    public string Name = string.Empty;
+    public Type ItemType = Item.Type.ANY
+    public string SpriteUIFilename = string.Empty
+    public string animationName = string.Empty
+    public int ItemLevel = 0;
+    public int DmgMin, DmgMax = 0;
+    public int DefMin, DefMax = 0;
+    public int Blockrate  = 0;
+    public int Durability  = 0;
+    public bool Unique  = false;
+    public string Description = string.Empty;
+    public int ReqStr, ReqInt, ReqDex, ReqCons, ReqLvl  = 0;
     [XmlArray("Implicits")]
-    public List<Implicit> Implicits;
+    public List<Implicit> Implicits = new List<Implicit>();
     [XmlArray("Prefixes")]
-    public List<Prefix> Prefixes;
+    public List<Prefix> Prefixes = new List<Prefix>();
     [XmlArray("Suffixes")]
-    public List<Suffix> Suffixes;
+    public List<Suffix> Suffixes = new List<Suffix>();
+
+    public static string[] Affix_Text = new string[40]
+    {
+        "+{0} to accuracy rating",
+        "+{0} to minimum damage",
+        "+{0} to maximum damage",
+        "{0}% increased damage",
+        "Adds {0} fire damage",
+        "Adds {0} cold damage",
+        "Adds {0} lightning damage",
+        "Adds {0} poison damage",
+
+        "+{0} to defense",
+        "{0}% increased defence",
+        "{0} physical damage reduction",
+        "{0} magical damage reduction",
+        "Damage reduced by {0}",
+
+        "{0}% to fire resistance",
+        "{0}% to cold resistance",
+        "{0}% to lightning resistance",
+        "{0}% to poison resistance",
+        "{0}% to all resistances",
+
+        "+{0} to life on hit",
+        "+{0} to life after each kill",
+
+        "+{0} to mana on hit",
+        "+{0} to mana after each kill",
+
+        "+{0} to life",
+        "+{0} to mana",
+
+        "+{0} to life regen per second",
+        "+{0} to mana regen per second",
+
+        "+{0} to strength",
+        "+{0} to dexterity",
+        "+{0} to constitution",
+        "+{0} to intelligence",
+        string.Empty,
+        string.Empty,
+        "+{0} movement range",
+        "+{0} block recovery",
+        "+{0} stagger recovery",
+
+        "+{0}% magic find",
+        "+{0} to maximum durability",
+        "+{0} to attack rating",
+        "+{0} to defence rating",
+        "+{0}% chance to block"
+    };
 }
