@@ -1,15 +1,18 @@
 public class Skeleton : Navigator {
     private void Start() {
         Name = "Skeleton";
-        RangeOfAggression = 1;
-        Level = 2;
+        Level = 1;
+        
         DmgBasePhyMin = 1;
-        DmgBasePhyMax = 3;
+        DmgBasePhyMax = 2;
         AttackRating = 8;
-        DefenseRating = 1;
+        
         DefenseBase = 5;
-        ChanceToBlock = 3;
-        Life_Current = 12;
-        SpeedBase = 1;
+        ChanceToBlock = 9;
+        
+        Experience_Current = 18; 
+        Life_Current = Random.Range(1, 4); //inclusive min, inclusive max
+        RangeOfAggression = 6;
+        SpeedBase = 4;
     }
 }
