@@ -97,7 +97,6 @@ public class Entity : MonoBehaviour {
     public int IncStaggerRecovery => stats[(StatID)Item.Suffix.SType.Plus_Stagger_Recovery] + stats[(StatID)Item.Implicit.IType.Plus_Stagger_Recovery];
     public float IncBlockRate => stats[(StatID)Item.Suffix.SType.Plus_Blockrate] + stats[(StatID)Item.Implicit.IType.Plus_Blockrate];
     public float IncAttackRating => Dexterity / 2 + stats[(StatID)Item.Prefix.PType.Plus_Attack_Rating];
-    public float IncDefenseRating => Dexterity / 4 + DefenseRating + stats[(StatID)Item.Suffix.SType.Plus_Defence_Rating];
 
     public int StrengthBase { get; set; }
     public int DexterityBase { get; set; }
