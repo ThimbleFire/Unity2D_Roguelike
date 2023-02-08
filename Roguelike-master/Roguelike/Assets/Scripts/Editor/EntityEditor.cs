@@ -66,7 +66,17 @@ public class EntityEditor : EditorBase
             }
             
             animatorOverrideController = 
-            PaintAnimationOverrideControllerLookup(animatorOverrideController);            
+            PaintAnimationOverrideControllerLookup(animatorOverrideController);
+            soundClip_onAttack1 = PaintSoundClipField(
+            soundClip_onAttack2 = PaintSoundClipField(
+            soundClip_onHit = PaintSoundClipField(
+            soundClip_onDeath = PaintSoundClipField(
+            soindClip_onAggro1 = PaintSoundClipField(
+            soindClip_onAggro2 = PaintSoundClipField(
+            soindClip_onIdle1 = PaintSoundClipField(
+            soindClip_onIdle2 = PaintSoundClipField(
+            soindClip_onIdle3 = PaintSoundClipField(
+            soindClip_onIdle4 = PaintSoundClipField
             PaintTextField(ref activeEntity.baseStats.Name, LBL_NAME);
             PaintIntField(ref activeEntity.baseStats.Level, LBL_LEVEL);
             PaintIntField(ref activeEntity.baseStats.Speed, LBL_SPEED);       
@@ -98,7 +108,8 @@ public class EntityEditor : EditorBase
             PaintIntField(ref activeEntity.baseStats.DmgLightMax, LBL_DMG_LIGHT_MAX);
             PaintIntField(ref activeEntity.baseStats.DmgPoisonMax, LBL_DMG_POISON_MAX);
             PaintIntField(ref activeEntity.baseStats.DmgEleAllMax, LBL_DMG_ELEMENTAL_MAX);
-        }
+  
+    }
         EditorGUILayout.EndScrollView();
         
         base.MainWindow();
