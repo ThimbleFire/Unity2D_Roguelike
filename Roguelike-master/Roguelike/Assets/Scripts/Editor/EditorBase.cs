@@ -158,12 +158,6 @@ public class EditorBase : EditorWindow
         AnimatorOverrideController v = (AnimatorOverrideController)EditorGUI.ObjectField(new Rect(4, Y, position.width - Right, 20), animatorOverrideController, typeof(AnimatorOverrideController), false); AddRow();
         return v;
     }
-
-    protected SoundClip PaintSoundClipField(SoundClip soundClip, string label)
-    {
-        SoundClip v = (SoundClip)EditorGUI.ObjectFieldRect(4, Y, position.width - Right, 20), soundClip, typeof(SoundClip), false); AddRow();
-        return v;
-    }
     
     //You may want to put paint list at the bottom
     protected SerializedObject so;
