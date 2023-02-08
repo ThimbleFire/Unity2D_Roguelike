@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public struct EntityBaseStats
+public class EntityBaseStats
 {
     public string animatorOverrideControllerFileName;
     
