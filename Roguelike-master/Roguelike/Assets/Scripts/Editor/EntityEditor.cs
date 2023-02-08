@@ -10,7 +10,7 @@ public class EntityEditor : EditorBase
     private const string LBL_TREASURE_CLASS = "Treasure Class";
     private const string LBL_SOUND_CLIPS_ON_ATTACK = "soundClips_onAttack";
     private const string LBL_SOUND_CLIPS_ON_HIT = "soundClips_onHit";
-    private const string LBL_SOUND_CLIPS_ON_DEATH = "soundClips_onDeath
+    private const string LBL_SOUND_CLIPS_ON_DEATH = "soundClips_onDeath;
     private const string LBL_SOUND_CLIPS_ON_AGGRO = "soundClips_onAggro";
     private const string LBL_SOUND_CLIPS_ON_IDLE = "soundClips_onIdle";
     private const string LBL_LIFE_MAX = "Maximum Life";
@@ -131,6 +131,7 @@ public class EntityEditor : EditorBase
 
     private const string S_RESOURCE_DIR = "Assets/Resources/";
     private const byte S_XML_EXTENSION_LENGTH = ".xml".Length;
+    private const byte S_OGG_EXTENSION_LENGTH = ".ogg".Length;
     
     private void Save()
     {
@@ -138,8 +139,35 @@ public class EntityEditor : EditorBase
         filePath = filePath.Substring(0, filePath.Length - S_XML_EXTENSION_LENGTH);
         activeEntity.animationName = animatorOverrideController == null ? string.Empty : filePath;
         
-        //loop types of sound clip and use above method to get file path, then store in activeEntity.soundClipFileNamesOn<action>;
-        
+        foreach( SoundClip soundClip in soundClips_onAttack ) {
+            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+            filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
+            activeEntity.soundClipFileNamesOnAttack.Add(filePath);
+        }
+    
+        foreach( SoundClip soundClip in soundClips_onHit ) {
+            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+            filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
+            activeEntity.soundClipFileNamesOnHit.Add(filePath);
+        }
+    
+        foreach( SoundClip soundClip in soundClips_onDeath ) {
+            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+            filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
+            activeEntity.soundClipFileNamesOnDeath.Add(filePath);
+        }
+    
+        foreach( SoundClip soundClip in soundClips_onAggro ) {
+            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+            filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
+            activeEntity.soundClipFileNamesOnAggro.Add(filePath);
+        }
+    
+        foreach( SoundClip soundClip in soundClips_onIdle ) {
+            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+            filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
+            activeEntity.soundClipFileNamesOnIdle.Add(filePath);
+        }
         
         XMLUtility.Save<EntityReplacement>(activeEntity, "Entities/", activeEntity.Name);
     }
