@@ -8,11 +8,11 @@ public class EntityEditor : EditorBase
     private const string LBL_LEVEL = "Level";
     private const string LBL_SPEED = "Speed";
     private const string LBL_TREASURE_CLASS = "Treasure Class";
-    private const string LBL_SOUND_CLIPS_ON_ATTACK = "SoundClips: On Attack";
-    private const string LBL_SOUND_CLIPS_ON_HIT = "SoundClips: On Hit";
-    private const string LBL_SOUND_CLIPS_ON_DEATH = "SoundClips: On Death";
-    private const string LBL_SOUND_CLIPS_ON_AGGRO = "SoundClips: On Aggro";
-    private const string LBL_SOUND_CLIPS_ON_IDLE = "SoundClips: On Idle";
+    private const string LBL_SOUND_CLIPS_ON_ATTACK = "soundClips_onAttack";
+    private const string LBL_SOUND_CLIPS_ON_HIT = "soundClips_onHit";
+    private const string LBL_SOUND_CLIPS_ON_DEATH = "soundClips_onDeath
+    private const string LBL_SOUND_CLIPS_ON_AGGRO = "soundClips_onAggro";
+    private const string LBL_SOUND_CLIPS_ON_IDLE = "soundClips_onIdle";
     private const string LBL_LIFE_MAX = "Maximum Life";
     private const string LBL_LIFE_CURRENT = "Current Life";
     private const string LBL_MANA_MAX = "Maximum Mana";
@@ -48,6 +48,11 @@ public class EntityEditor : EditorBase
     EntityReplacement activeEntity;
     TextAsset obj;
     UnityEngine.AnimatorOverrideController animatorOverrideController;
+    List<SoundClip> soundClips_onAttack = new List<SoundClip>();
+    List<SoundClip> soundClips_onHit = new List<SoundClip>();
+    List<SoundClip> soundClips_onDeath = new List<SoundClip>();
+    List<SoundClip> soundClips_onAggro = new List<SoundClip>();
+    List<SoundClip> soundClips_onIdle = new List<SoundClip>();
 
     [MenuItem("Window/Editor/Entities")]
     private static void ShowWindow()
@@ -72,11 +77,11 @@ public class EntityEditor : EditorBase
             
             animatorOverrideController = 
             PaintAnimationOverrideControllerLookup( animatorOverrideController );
-            soundClips_onAttack = PaintSoundClipField( soundClips_onAttack, LBL_SOUND_CLIPS_ON_ATTACK );
-            soundClips_onHit = PaintSoundClipField( soundClips_onHit, LBL_SOUND_CLIPS_ON_HIT );
-            soundClips_onDeath = PaintSoundClipField( soundClips_onDeath, LBL_SOUND_CLIPS_ON_DEATH );
-            soundClips_onAggro = PaintSoundClipField( soundClips_onAggro, LBL_SOUND_CLIPS_ON_AGGRO );
-            soundClips_onIdle = PaintSoundClipField( soundClips_onIdle, LBL_SOUND_CLIPS_ON_IDLE );
+            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_ATTACK );
+            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_HIT );
+            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_DEATH );
+            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_AGGRO );
+            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_IDLE );
             PaintTextField(ref activeEntity.baseStats.Name, LBL_NAME );
             PaintIntField(ref activeEntity.baseStats.Level, LBL_LEVEL );
             PaintIntField(ref activeEntity.baseStats.Speed, LBL_SPEED );       
@@ -108,7 +113,6 @@ public class EntityEditor : EditorBase
             PaintIntField(ref activeEntity.baseStats.DmgLightMax, LBL_DMG_LIGHT_MAX);
             PaintIntField(ref activeEntity.baseStats.DmgPoisonMax, LBL_DMG_POISON_MAX);
             PaintIntField(ref activeEntity.baseStats.DmgEleAllMax, LBL_DMG_ELEMENTAL_MAX);
-  
     }
         EditorGUILayout.EndScrollView();
         
@@ -133,6 +137,9 @@ public class EntityEditor : EditorBase
         string filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring(S_RESOURCE_DIR.Length);
         filePath = filePath.Substring(0, filePath.Length - S_XML_EXTENSION_LENGTH);
         activeEntity.animationName = animatorOverrideController == null ? string.Empty : filePath;
+        
+        //loop types of sound clip and use above method to get file path, then store in activeEntity.soundClipFileNamesOn<action>;
+        
         
         XMLUtility.Save<EntityReplacement>(activeEntity, "Entities/", activeEntity.Name);
     }
