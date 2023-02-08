@@ -7,6 +7,11 @@ using UnityEngine;
 public class EntityReplacement
 {
     public EntityBaseStats baseStats;
-    public string animationName;
+    public string animatorOverrideControllerFileName;
+    public List<string> soundClipFileNamesOnAttack;
+    public List<string> soundClipFileNamesOnHit;
+    public List<string> soundClipFileNamesOnDeath;
+    public List<string> soundClipFileNamesOnAggro;
+    public List<string> soundClipFileNamesOnIdle;
     public int spawnGroupSize;
 }
