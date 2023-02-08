@@ -6,7 +6,8 @@ public class EntityEditor : EditorBase
 {
     private const string LBL_NAME = "Name";
     private const string LBL_LEVEL = "Level";
-    private const string LBL_SPEED = "Speed";    
+    private const string LBL_SPEED = "Speed";
+    private const string LBL_TREASURE_CLASS = "Treasure Class";
     private const string LBL_LIFE_MAX = "Maximum Life";
     private const string LBL_LIFE_CURRENT = "Current Life";
     private const string LBL_MANA_MAX = "Maximum Mana";
@@ -67,7 +68,8 @@ public class EntityEditor : EditorBase
             PaintAnimationOverrideControllerLookup(animatorOverrideController);            
             PaintTextField(ref activeEntity.entityBaseStats.Name, LBL_NAME);
             PaintIntField(ref activeEntity.entityBaseStats.Level, LBL_LEVEL);
-            PaintIntField(ref activeEntity.entityBaseStats.Speed, LBL_SPEED);            
+            PaintIntField(ref activeEntity.entityBaseStats.Speed, LBL_SPEED);       
+            PaintIntField(ref activeEntity.entityBaseStats.TreasureClass, LBL_TREASURE_CLASS);            
             PaintIntField(ref activeEntity.entityBaseStats.LifeMax, LBL_LIFE_MAX);
             PaintIntField(ref activeEntity.entityBaseStats.ManaMax, LBL_MANA_MAX);            
             PaintIntField(ref activeEntity.entityBaseStats.RangeOfAggression, LBL_RANGE_OF_AGGRESSION);
