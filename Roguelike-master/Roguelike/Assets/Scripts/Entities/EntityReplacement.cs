@@ -8,10 +8,10 @@ public class EntityReplacement
 {
     public EntityBaseStats baseStats;
     public string animatorOverrideControllerFileName;
-    public List<string> soundClipFileNamesOnAttack;
-    public List<string> soundClipFileNamesOnHit;
-    public List<string> soundClipFileNamesOnDeath;
-    public List<string> soundClipFileNamesOnAggro;
-    public List<string> soundClipFileNamesOnIdle;
+    public List<string> soundClipFileNamesOnAttack = new List<string>();
+    public List<string> soundClipFileNamesOnHit = new List<string>();
+    public List<string> soundClipFileNamesOnDeath = new List<string>();
+    public List<string> soundClipFileNamesOnAggro = new List<string>();
+    public List<string> soundClipFileNamesOnIdle = new List<string>();
     public int spawnGroupSize;
 }
