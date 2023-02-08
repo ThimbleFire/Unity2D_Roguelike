@@ -8,6 +8,11 @@ public class EntityEditor : EditorBase
     private const string LBL_LEVEL = "Level";
     private const string LBL_SPEED = "Speed";
     private const string LBL_TREASURE_CLASS = "Treasure Class";
+    private const string LBL_SOUND_CLIPS_ON_ATTACK = "SoundClips: On Attack";
+    private const string LBL_SOUND_CLIPS_ON_HIT = "SoundClips: On Hit";
+    private const string LBL_SOUND_CLIPS_ON_DEATH = "SoundClips: On Death";
+    private const string LBL_SOUND_CLIPS_ON_AGGRO = "SoundClips: On Aggro";
+    private const string LBL_SOUND_CLIPS_ON_IDLE = "SoundClips: On Idle";
     private const string LBL_LIFE_MAX = "Maximum Life";
     private const string LBL_LIFE_CURRENT = "Current Life";
     private const string LBL_MANA_MAX = "Maximum Mana";
@@ -66,20 +71,15 @@ public class EntityEditor : EditorBase
             }
             
             animatorOverrideController = 
-            PaintAnimationOverrideControllerLookup(animatorOverrideController);
-            soundClip_onAttack1 = PaintSoundClipField(
-            soundClip_onAttack2 = PaintSoundClipField(
-            soundClip_onHit = PaintSoundClipField(
-            soundClip_onDeath = PaintSoundClipField(
-            soundClip_onAggro1 = PaintSoundClipField(
-            soundClip_onAggro2 = PaintSoundClipField(
-            soundClip_onIdle1 = PaintSoundClipField(
-            soundClip_onIdle2 = PaintSoundClipField(
-            soundClip_onIdle3 = PaintSoundClipField(
-            soundClip_onIdle4 = PaintSoundClipField
-            PaintTextField(ref activeEntity.baseStats.Name, LBL_NAME);
-            PaintIntField(ref activeEntity.baseStats.Level, LBL_LEVEL);
-            PaintIntField(ref activeEntity.baseStats.Speed, LBL_SPEED);       
+            PaintAnimationOverrideControllerLookup( animatorOverrideController );
+            soundClips_onAttack = PaintSoundClipField( soundClips_onAttack, LBL_SOUND_CLIPS_ON_ATTACK );
+            soundClips_onHit = PaintSoundClipField( soundClips_onHit, LBL_SOUND_CLIPS_ON_HIT );
+            soundClips_onDeath = PaintSoundClipField( soundClips_onDeath, LBL_SOUND_CLIPS_ON_DEATH );
+            soundClips_onAggro = PaintSoundClipField( soundClips_onAggro, LBL_SOUND_CLIPS_ON_AGGRO );
+            soundClips_onIdle = PaintSoundClipField( soundClips_onIdle, LBL_SOUND_CLIPS_ON_IDLE );
+            PaintTextField(ref activeEntity.baseStats.Name, LBL_NAME );
+            PaintIntField(ref activeEntity.baseStats.Level, LBL_LEVEL );
+            PaintIntField(ref activeEntity.baseStats.Speed, LBL_SPEED );       
             PaintIntField(ref activeEntity.baseStats.TreasureClass, LBL_TREASURE_CLASS);
             PaintIntField(ref activeEntity.spawnGroupSize, LBL_SPAWN_GROUP_SIZE);
             PaintIntField(ref activeEntity.baseStats.LifeMax, LBL_LIFE_MAX);
