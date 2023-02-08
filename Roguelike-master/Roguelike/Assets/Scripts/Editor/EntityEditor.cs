@@ -36,6 +36,7 @@ public class EntityEditor : EditorBase
     private const string LBL_DMG_LIGHT_MAX =  "Maximum Lightning Damage" ;
     private const string LBL_DMG_POISON_MAX =  "Maximum Poison Damage" ;
     private const string LBL_DMG_ELEMENTAL_ALL_MAX = "Maximum Elemental Damage" ;
+    private const string LBL_SPAWN_GROUP_SIZE = "Spawn Group Size";
     
     Vector2 scrollView;
 
@@ -66,36 +67,37 @@ public class EntityEditor : EditorBase
             
             animatorOverrideController = 
             PaintAnimationOverrideControllerLookup(animatorOverrideController);            
-            PaintTextField(ref activeEntity.entityBaseStats.Name, LBL_NAME);
-            PaintIntField(ref activeEntity.entityBaseStats.Level, LBL_LEVEL);
-            PaintIntField(ref activeEntity.entityBaseStats.Speed, LBL_SPEED);       
-            PaintIntField(ref activeEntity.entityBaseStats.TreasureClass, LBL_TREASURE_CLASS);            
-            PaintIntField(ref activeEntity.entityBaseStats.LifeMax, LBL_LIFE_MAX);
-            PaintIntField(ref activeEntity.entityBaseStats.ManaMax, LBL_MANA_MAX);            
-            PaintIntField(ref activeEntity.entityBaseStats.RangeOfAggression, LBL_RANGE_OF_AGGRESSION);
-            PaintIntField(ref activeEntity.entityBaseStats.Experience, LBL_EXPERIENCE);            
-            PaintIntField(ref activeEntity.entityBaseStats.ItemFind, LBL_ITEM_FIND);
-            PaintIntField(ref activeEntity.entityBaseStats.MagicFind, LBL_MAGIC_FIND);            
-            PaintIntField(ref activeEntity.entityBaseStats.ResFire, LBL_RES_FIRE);
-            PaintIntField(ref activeEntity.entityBaseStats.ResCold, LBL_RES_COLD);
-            PaintIntField(ref activeEntity.entityBaseStats.ResLight, LBL_RES_LIGHT);
-            PaintIntField(ref activeEntity.entityBaseStats.ResPoison, LBL_RES_POISON);
-            PaintIntField(ref activeEntity.entityBaseStats.ResAll, LBL_RES_ELEMENTAL_ALL);            
-            PaintIntField(ref activeEntity.entityBaseStats.AttackRating, LBL_ATTACK_RATING);
-            PaintIntField(ref activeEntity.entityBaseStats.ChanceToBlock, LBL_CHANCE_TO_BLOCK);
-            PaintIntField(ref activeEntity.entityBaseStats.Defense, LBL_DEFENSE);            
-            PaintIntField(ref activeEntity.entityBaseStats.DmgPhyMin, LBL_DMG_PHYSICAL_MIN);            
-            PaintIntField(ref activeEntity.entityBaseStats.DmgFireMin, LBL_DMG_FIRE_MIN);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgColdMin, LBL_DMG_COLD_MIN);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgLightMin, LBL_DMG_LIGHT_MIN);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgPoisonMin, LBL_DMG_POISON_MIN);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgEleAllMin, LBL_DMG_ELEMENTAL_MIN);            
-            PaintIntField(ref activeEntity.entityBaseStats.DmgPhyMax, LBL_DMG_PHYSICAL_MAX);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgFireMax, LBL_DMG_FIRE_MAX);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgColdMax, LBL_DMG_COLD_MAX);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgLightMax, LBL_DMG_LIGHT_MAX);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgPoisonMax, LBL_DMG_POISON_MAX);
-            PaintIntField(ref activeEntity.entityBaseStats.DmgEleAllMax, LBL_DMG_ELEMENTAL_MAX);
+            PaintTextField(ref activeEntity.baseStats.Name, LBL_NAME);
+            PaintIntField(ref activeEntity.baseStats.Level, LBL_LEVEL);
+            PaintIntField(ref activeEntity.baseStats.Speed, LBL_SPEED);       
+            PaintIntField(ref activeEntity.baseStats.TreasureClass, LBL_TREASURE_CLASS);
+            PaintIntField(ref activeEntity.spawnGroupSize, LBL_SPAWN_GROUP_SIZE);
+            PaintIntField(ref activeEntity.baseStats.LifeMax, LBL_LIFE_MAX);
+            PaintIntField(ref activeEntity.baseStats.ManaMax, LBL_MANA_MAX);            
+            PaintIntField(ref activeEntity.baseStats.RangeOfAggression, LBL_RANGE_OF_AGGRESSION);
+            PaintIntField(ref activeEntity.baseStats.Experience, LBL_EXPERIENCE);            
+            PaintIntField(ref activeEntity.baseStats.ItemFind, LBL_ITEM_FIND);
+            PaintIntField(ref activeEntity.baseStats.MagicFind, LBL_MAGIC_FIND);            
+            PaintIntField(ref activeEntity.baseStats.ResFire, LBL_RES_FIRE);
+            PaintIntField(ref activeEntity.baseStats.ResCold, LBL_RES_COLD);
+            PaintIntField(ref activeEntity.baseStats.ResLight, LBL_RES_LIGHT);
+            PaintIntField(ref activeEntity.baseStats.ResPoison, LBL_RES_POISON);
+            PaintIntField(ref activeEntity.baseStats.ResAll, LBL_RES_ELEMENTAL_ALL);            
+            PaintIntField(ref activeEntity.baseStats.AttackRating, LBL_ATTACK_RATING);
+            PaintIntField(ref activeEntity.baseStats.ChanceToBlock, LBL_CHANCE_TO_BLOCK);
+            PaintIntField(ref activeEntity.baseStats.Defense, LBL_DEFENSE);            
+            PaintIntField(ref activeEntity.baseStats.DmgPhyMin, LBL_DMG_PHYSICAL_MIN);            
+            PaintIntField(ref activeEntity.baseStats.DmgFireMin, LBL_DMG_FIRE_MIN);
+            PaintIntField(ref activeEntity.baseStats.DmgColdMin, LBL_DMG_COLD_MIN);
+            PaintIntField(ref activeEntity.baseStats.DmgLightMin, LBL_DMG_LIGHT_MIN);
+            PaintIntField(ref activeEntity.baseStats.DmgPoisonMin, LBL_DMG_POISON_MIN);
+            PaintIntField(ref activeEntity.baseStats.DmgEleAllMin, LBL_DMG_ELEMENTAL_MIN);            
+            PaintIntField(ref activeEntity.baseStats.DmgPhyMax, LBL_DMG_PHYSICAL_MAX);
+            PaintIntField(ref activeEntity.baseStats.DmgFireMax, LBL_DMG_FIRE_MAX);
+            PaintIntField(ref activeEntity.baseStats.DmgColdMax, LBL_DMG_COLD_MAX);
+            PaintIntField(ref activeEntity.baseStats.DmgLightMax, LBL_DMG_LIGHT_MAX);
+            PaintIntField(ref activeEntity.baseStats.DmgPoisonMax, LBL_DMG_POISON_MAX);
+            PaintIntField(ref activeEntity.baseStats.DmgEleAllMax, LBL_DMG_ELEMENTAL_MAX);
         }
         EditorGUILayout.EndScrollView();
         
@@ -112,16 +114,14 @@ public class EntityEditor : EditorBase
         activeEntity = XMLUtility.Load<EntityReplacement>(textAsset);
     }
 
-    protected override void CreationWindow()
-    {
-        base.CreationWindow();  
-    }
-
+    private const string S_RESOURCE_DIR = "Assets/Resources/";
+    private const byte S_XML_EXTENSION_LENGTH = ".xml".Length;
+    
     private void Save()
     {
-        string filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring("Assets/Resources/".Length);
-        filePath = filePath.Substring(0, filePath.Length - 4);
-        activeEntity.animatorOverrideControllerFileName = animatorOverrideController == null ? string.Empty : filePath;
+        string filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring(S_RESOURCE_DIR.Length);
+        filePath = filePath.Substring(0, filePath.Length - S_XML_EXTENSION_LENGTH);
+        activeEntity.animationName = animatorOverrideController == null ? string.Empty : filePath;
         
         XMLUtility.Save<EntityReplacement>(activeEntity, "Entities/", activeEntity.Name);
     }
