@@ -3,6 +3,8 @@ using System;
 [Serializable]
 public struct EntityBaseStats
 {
+    public string animatorOverrideControllerFileName;
+    
     public string Name;
     public int Level;
     public int Speed;
