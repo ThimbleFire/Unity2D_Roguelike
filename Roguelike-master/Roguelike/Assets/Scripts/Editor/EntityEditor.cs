@@ -132,6 +132,7 @@ public class EntityEditor : EditorBase
     private const string S_RESOURCE_DIR = "Assets/Resources/";
     private const byte S_XML_EXTENSION_LENGTH = ".xml".Length;
     private const byte S_OGG_EXTENSION_LENGTH = ".ogg".Length;
+    private const string S_ENTITIES_DIR = "Entities/";
     
     private void Save()
     {
@@ -169,6 +170,6 @@ public class EntityEditor : EditorBase
             activeEntity.soundClipFileNamesOnIdle.Add(filePath);
         }
         
-        XMLUtility.Save<EntityReplacement>(activeEntity, "Entities/", activeEntity.Name);
+        XMLUtility.Save<EntityReplacement>(activeEntity, S_ENTITIES_DIR, activeEntity.Name);
     }
 }
