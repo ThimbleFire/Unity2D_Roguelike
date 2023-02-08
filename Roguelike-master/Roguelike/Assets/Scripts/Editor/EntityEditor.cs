@@ -10,7 +10,7 @@ public class EntityEditor : EditorBase
     private const string LBL_TREASURE_CLASS = "Treasure Class";
     private const string LBL_SOUND_CLIPS_ON_ATTACK = "soundClips_onAttack";
     private const string LBL_SOUND_CLIPS_ON_HIT = "soundClips_onHit";
-    private const string LBL_SOUND_CLIPS_ON_DEATH = "soundClips_onDeath;
+    private const string LBL_SOUND_CLIPS_ON_DEATH = "soundClips_onDeath";
     private const string LBL_SOUND_CLIPS_ON_AGGRO = "soundClips_onAggro";
     private const string LBL_SOUND_CLIPS_ON_IDLE = "soundClips_onIdle";
     private const string LBL_LIFE_MAX = "Maximum Life";
