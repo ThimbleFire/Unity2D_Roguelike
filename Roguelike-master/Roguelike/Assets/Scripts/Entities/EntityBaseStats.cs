@@ -2,15 +2,7 @@ using System;
 
 [Serializable]
 public class EntityBaseStats
-{
-    public string animatorOverrideControllerFileName;
-    
-    public List<string> soundClipFileNamesOnAttack = new List<string>();
-    public List<string> soundClipFileNamesOnHit = new List<string>();
-    public List<string> soundClipFileNamesOnDeath = new List<string>();
-    public List<string> soundClipFileNamesOnAggro = new List<string>();
-    public List<string> soundClipFileNamesOnIdle = new List<string>();
-    
+{    
     public string Name;
     public int Level;
     public int Speed;
