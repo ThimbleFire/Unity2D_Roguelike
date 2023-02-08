@@ -71,12 +71,12 @@ public class EntityEditor : EditorBase
             soundClip_onAttack2 = PaintSoundClipField(
             soundClip_onHit = PaintSoundClipField(
             soundClip_onDeath = PaintSoundClipField(
-            soindClip_onAggro1 = PaintSoundClipField(
-            soindClip_onAggro2 = PaintSoundClipField(
-            soindClip_onIdle1 = PaintSoundClipField(
-            soindClip_onIdle2 = PaintSoundClipField(
-            soindClip_onIdle3 = PaintSoundClipField(
-            soindClip_onIdle4 = PaintSoundClipField
+            soundClip_onAggro1 = PaintSoundClipField(
+            soundClip_onAggro2 = PaintSoundClipField(
+            soundClip_onIdle1 = PaintSoundClipField(
+            soundClip_onIdle2 = PaintSoundClipField(
+            soundClip_onIdle3 = PaintSoundClipField(
+            soundClip_onIdle4 = PaintSoundClipField
             PaintTextField(ref activeEntity.baseStats.Name, LBL_NAME);
             PaintIntField(ref activeEntity.baseStats.Level, LBL_LEVEL);
             PaintIntField(ref activeEntity.baseStats.Speed, LBL_SPEED);       
