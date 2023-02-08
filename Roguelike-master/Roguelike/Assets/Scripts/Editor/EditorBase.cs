@@ -159,7 +159,7 @@ public class EditorBase : EditorWindow
         return v;
     }
 
-    protected SoundClip PaintSoundClipField(SoundClip soundClip)
+    protected SoundClip PaintSoundClipField(SoundClip soundClip, string label)
     {
         SoundClip v = (SoundClip)EditorGUI.ObjectFieldRect(4, Y, position.width - Right, 20), soundClip, typeof(SoundClip), false); AddRow();
         return v;
