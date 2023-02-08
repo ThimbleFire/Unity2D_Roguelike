@@ -9,6 +9,8 @@ public class EntityEditor : EditorBase
     EntityReplacement activeEntity;
     TextAsset obj;
     UnityEngine.AnimatorOverrideController animatorOverrideController;
+    string animatorOverrideControllerPath;
+    string animatorOverrideControllerFileName;
 
     [MenuItem("Window/Editor/Entities")]
     private static void ShowWindow()
@@ -30,11 +32,46 @@ public class EntityEditor : EditorBase
             {
                 Save();
             }
-            PaintTextField(ref activeEntity.Name, "Entity Name");
-            activeEntity.ItemType = (Item.Type)PaintPopup(ItemStats.Type_Text, (int)activeEntity.ItemType, "Item Type");
-            PaintSpriteField(ref SpriteUI);
+            
             animatorOverrideController = PaintAnimationOverrideControllerLookup(animatorOverrideController);
-            PaintIntField(ref activeEntity.ItemLevel, "Entity Level");
+            
+            PaintTextField(ref activeEntity.entityBaseStats.Name, "Entity Name");
+            PaintIntField(ref activeEntity.entityBaseStats.Level, "Entity Level");
+            PaintIntField(ref activeEntity.entityBaseStats.Speed, "Entity Speed");
+            
+            PaintIntField(ref activeEntity.entityBaseStats.LifeMax, "Entity Max Life");
+            PaintIntField(ref activeEntity.entityBaseStats.ManaMax, "Entity Max Mana");
+            
+            PaintIntField(ref activeEntity.entityBaseStats.RangeOfAggression, "Entity Aggression Range");
+            PaintIntField(ref activeEntity.entityBaseStats.Experience, "Entity Experience On Death");
+            
+            PaintIntField(ref activeEntity.entityBaseStats.ItemFind, "Entity ItemFind");
+            PaintIntField(ref activeEntity.entityBaseStats.MagicFind, "Entity MagicFind");
+            
+            PaintIntField(ref activeEntity.entityBaseStats.ResFire, "Entity ResFire");
+            PaintIntField(ref activeEntity.entityBaseStats.ResCold, "Entity ResCold");
+            PaintIntField(ref activeEntity.entityBaseStats.ResLight, "Entity ResLight");
+            PaintIntField(ref activeEntity.entityBaseStats.ResPoison, "Entity ResPoison");
+            PaintIntField(ref activeEntity.entityBaseStats.ResAll, "Entity ResAll");
+            
+            PaintIntField(ref activeEntity.entityBaseStats.AttackRating, "Entity AttackRating");
+            PaintIntField(ref activeEntity.entityBaseStats.ChanceToBlock, "Entity ChanceToBlock");
+            PaintIntField(ref activeEntity.entityBaseStats.Defense, "Entity Defense");
+            
+            PaintIntField(ref activeEntity.entityBaseStats.DmgPhyMin, "Entity DmgPhyMin");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgPhyMax, "Entity DmgPhyMax");
+            
+            PaintIntField(ref activeEntity.entityBaseStats.DmgFireMin, "Entity DmgFireMin");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgColdMin, "Entity DmgColdMin");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgLightMin, "Entity DmgLightMin");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgPoisonMin, "Entity DmgPoisonMin");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgEleAllMin, "Entity DmgEleAllMin");
+            
+            PaintIntField(ref activeEntity.entityBaseStats.DmgFireMax, "Entity DmgFireMax");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgColdMax, "Entity DmgColdMax");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgLightMax, "Entity DmgLightMax");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgPoisonMax, "Entity DmgPoisonMax");
+            PaintIntField(ref activeEntity.entityBaseStats.DmgEleAllMax, "Entity DmgEleAllMax");
         }
         EditorGUILayout.EndScrollView();
         
