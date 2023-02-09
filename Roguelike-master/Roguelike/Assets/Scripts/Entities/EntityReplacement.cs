@@ -18,5 +18,7 @@ public class EntityReplacement
     [XmlArray("SCOnDeath")] public List<string> soundClipFileNamesOnDeath = new List<string>();
     [XmlArray("SCOnAggro")] public List<string> soundClipFileNamesOnAggro = new List<string>();
     [XmlArray("SCOnIdle")] public List<string> soundClipFileNamesOnIdle = new List<string>();
-    public int spawnGroupSize;
+
+    public int spawnGroupSize_min;
+    public int spawnGroupSize_max;
 }

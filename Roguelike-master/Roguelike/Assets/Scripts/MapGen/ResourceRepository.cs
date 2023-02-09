@@ -30,12 +30,12 @@ public class ResourceRepository : MonoBehaviour {
             Tile.Add( tile.name, tile );
         }
 
-        GameObject[] entityPrefabs = Resources.LoadAll<GameObject>("Prefabs/Entities/NPCs/");
+        //GameObject[] entityPrefabs = Resources.LoadAll<GameObject>("Prefabs/Entities/NPCs/");
 
-        Prefab = new Dictionary<string, GameObject>();
-        foreach ( GameObject item in entityPrefabs ) {
-            Prefab.Add( item.name, item );
-        }
+        //Prefab = new Dictionary<string, GameObject>();
+        //foreach ( GameObject item in entityPrefabs ) {
+        //    Prefab.Add( item.name, item );
+        //}
     }
 
     public static ItemStats GetItemMatchingCriteria(Item.Type itemType, byte mlvl, byte TC)

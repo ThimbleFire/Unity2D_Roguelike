@@ -1,25 +1,25 @@
 <?xml version="1.0"?>
 <Entity xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <baseStats>
-    <Name>Skeleton</Name>
+    <Name>Imp</Name>
     <Level>1</Level>
     <Speed>4</Speed>
     <RangeOfAggression>5</RangeOfAggression>
-    <Experience>33</Experience>
+    <Experience>18</Experience>
     <TreasureClass>1</TreasureClass>
-    <LifeMax>12</LifeMax>
+    <LifeMax>4</LifeMax>
     <LifeCurrent>0</LifeCurrent>
     <ManaMax>0</ManaMax>
     <ManaCurrent>0</ManaCurrent>
     <ItemFind>0</ItemFind>
     <MagicFind>0</MagicFind>
     <AttackRating>8</AttackRating>
-    <ChanceToBlock>3</ChanceToBlock>
+    <ChanceToBlock>9</ChanceToBlock>
     <Defense>5</Defense>
     <ResFire>0</ResFire>
     <ResCold>0</ResCold>
     <ResLight>0</ResLight>
-    <ResPoison>50</ResPoison>
+    <ResPoison>0</ResPoison>
     <ResAll>0</ResAll>
     <DmgPhyMin>2</DmgPhyMin>
     <DmgFireMin>0</DmgFireMin>
@@ -34,12 +34,12 @@
     <DmgPoisonMax>0</DmgPoisonMax>
     <DmgEleAllMax>0</DmgEleAllMax>
   </baseStats>
-  <animatorOverrideControllerFileName>AnimationControllerOverrides/Skeleton Animation Controller Override</animatorOverrideControllerFileName>
+  <animatorOverrideControllerFileName>AnimationControllerOverrides/imp-1_controller_OVERRIDE</animatorOverrideControllerFileName>
   <SCOnAttack />
   <SCOnHit />
   <SCOnDeath />
   <SCOnAggro />
   <SCOnIdle />
-  <spawnGroupSize_min>1</spawnGroupSize_min>
-  <spawnGroupSize_max>2</spawnGroupSize_max>
+  <spawnGroupSize_min>2</spawnGroupSize_min>
+  <spawnGroupSize_max>3</spawnGroupSize_max>
 </Entity>

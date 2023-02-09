@@ -2,6 +2,14 @@
 
 This is an untitled roguelike project. It features turn based movement and combat. It is being developed for Android.
 
+## Loading
+
+BoardManager calls Game.LoadSession. This loads the player's game save.
+It gets the area level the player was last in.
+This area level is used by ResourceRepository to load the correct enemies when BoardManager builds the map.
+
+TODO Character creation screen / new game & load game.
+
 ## Combat
 
 ### Block

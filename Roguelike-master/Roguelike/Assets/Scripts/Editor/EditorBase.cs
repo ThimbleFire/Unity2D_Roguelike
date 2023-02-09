@@ -107,6 +107,28 @@ public class EditorBase : EditorWindow
         EditorGUIUtility.wideMode = false;
         AddRow();
     }
+    protected void PaintIntRange(ref int min, ref int max, int minRange, int maxRange, string label = "")
+    {
+        float _min = min;
+        float _max = max;
+
+        EditorGUIUtility.wideMode = true;
+        EditorGUI.MinMaxSlider(
+            new Rect(4, Y, position.width - 112, 20),
+            new GUIContent(string.Format(label, min, max)),
+            ref _min,
+            ref _max,
+            minRange,
+            maxRange
+            );
+        EditorGUI.IntField(new Rect(position.width - 102, Y - 1, 50, 20), min);
+        EditorGUI.IntField(new Rect(position.width - 51, Y - 1, 50, 20), max);
+        EditorGUIUtility.wideMode = false;
+
+        min = Mathf.FloorToInt(_min);
+        max = Mathf.FloorToInt(_max);
+        AddRow();
+    }
     protected void PaintHorizontalLine() {
         Handles.color = Color.gray;
         Handles.DrawLine( new Vector3( 4, Y + 11 ), new Vector3( position.width - Right, Y + 11 ) ); AddRow();

@@ -24,19 +24,15 @@ public class EntityEditor : EditorBase
     private const string LBL_ATTACK_RATING = "Attack Rating" ;
     private const string LBL_CHANCE_TO_BLOCK = "Chance to Block" ;
     private const string LBL_DEFENSE = "Defense" ;    
-    private const string LBL_DMG_PHYSICAL_MIN = "Minimum Physical Damage" ;
-    private const string LBL_DMG_FIRE_MIN = "Minimum Fire Damage" ;
-    private const string LBL_DMG_COLD_MIN ="Minimum Cold Damage" ;
-    private const string LBL_DMG_LIGHT_MIN = "Minimum Lightning Damage" ;
-    private const string LBL_DMG_POISON_MIN = "Minimum Poison Damage" ;
-    private const string LBL_DMG_ELEMENTAL_ALL_MIN ="Minimum Elemental Damage" ;
-    private const string LBL_DMG_PHYSICAL_MAX = "Maximum Physical Damage" ;
-    private const string LBL_DMG_FIRE_MAX =  "Maximum Fire Damage" ;
-    private const string LBL_DMG_COLD_MAX = "Maximum Cold Damage" ;
-    private const string LBL_DMG_LIGHT_MAX =  "Maximum Lightning Damage" ;
-    private const string LBL_DMG_POISON_MAX =  "Maximum Poison Damage" ;
-    private const string LBL_DMG_ELEMENTAL_ALL_MAX = "Maximum Elemental Damage" ;
-    private const string LBL_SPAWN_GROUP_SIZE = "Spawn Group Size";
+
+    private const string LBL_DMG_PHYSICAL = "Physical Damage" ;
+    private const string LBL_DMG_FIRE = "Fire Damage" ;
+    private const string LBL_DMG_COLD = "Cold Damage" ;
+    private const string LBL_DMG_LIGHT = "Lightning Damage" ;
+    private const string LBL_DMG_POISON = "Poison Damage" ;
+    private const string LBL_DMG_ELEMENTAL_ALL = "Elemental Damage" ;
+
+    private const string LBL_SPAWN_GROUP_SIZE = "Group Size";
     private const string LBL_SOUND_CLIPS_ON_ATTACK = "AudioClips_onAttack";
     private const string LBL_SOUND_CLIPS_ON_HIT = "AudioClips_onHit";
     private const string LBL_SOUND_CLIPS_ON_DEATH = "AudioClips_onDeath";
@@ -82,7 +78,7 @@ public class EntityEditor : EditorBase
             PaintIntField(ref activeEntity.baseStats.Level, LBL_LEVEL );
             PaintIntField(ref activeEntity.baseStats.Speed, LBL_SPEED );       
             PaintIntField(ref activeEntity.baseStats.TreasureClass, LBL_TREASURE_CLASS);
-            PaintIntField(ref activeEntity.spawnGroupSize, LBL_SPAWN_GROUP_SIZE);
+            PaintIntRange(ref activeEntity.spawnGroupSize_min, ref activeEntity.spawnGroupSize_max, 1, 5, LBL_SPAWN_GROUP_SIZE);
             PaintIntField(ref activeEntity.baseStats.LifeMax, LBL_LIFE_MAX);
             PaintIntField(ref activeEntity.baseStats.ManaMax, LBL_MANA_MAX);            
             PaintIntField(ref activeEntity.baseStats.RangeOfAggression, LBL_RANGE_OF_AGGRESSION);
@@ -96,19 +92,15 @@ public class EntityEditor : EditorBase
             PaintIntField(ref activeEntity.baseStats.ResAll, LBL_RES_ELEMENTAL_ALL);            
             PaintIntField(ref activeEntity.baseStats.AttackRating, LBL_ATTACK_RATING);
             PaintIntField(ref activeEntity.baseStats.ChanceToBlock, LBL_CHANCE_TO_BLOCK);
-            PaintIntField(ref activeEntity.baseStats.Defense, LBL_DEFENSE);            
-            PaintIntField(ref activeEntity.baseStats.DmgPhyMin, LBL_DMG_PHYSICAL_MIN);            
-            PaintIntField(ref activeEntity.baseStats.DmgFireMin, LBL_DMG_FIRE_MIN);
-            PaintIntField(ref activeEntity.baseStats.DmgColdMin, LBL_DMG_COLD_MIN);
-            PaintIntField(ref activeEntity.baseStats.DmgLightMin, LBL_DMG_LIGHT_MIN);
-            PaintIntField(ref activeEntity.baseStats.DmgPoisonMin, LBL_DMG_POISON_MIN);
-            PaintIntField(ref activeEntity.baseStats.DmgEleAllMin, LBL_DMG_ELEMENTAL_ALL_MIN);            
-            PaintIntField(ref activeEntity.baseStats.DmgPhyMax, LBL_DMG_PHYSICAL_MAX);
-            PaintIntField(ref activeEntity.baseStats.DmgFireMax, LBL_DMG_FIRE_MAX);
-            PaintIntField(ref activeEntity.baseStats.DmgColdMax, LBL_DMG_COLD_MAX);
-            PaintIntField(ref activeEntity.baseStats.DmgLightMax, LBL_DMG_LIGHT_MAX);
-            PaintIntField(ref activeEntity.baseStats.DmgPoisonMax, LBL_DMG_POISON_MAX);
-            PaintIntField(ref activeEntity.baseStats.DmgEleAllMax, LBL_DMG_ELEMENTAL_ALL_MAX);
+            PaintIntField(ref activeEntity.baseStats.Defense, LBL_DEFENSE);
+
+            PaintIntRange(ref activeEntity.baseStats.DmgPhyMin, ref activeEntity.baseStats.DmgPhyMax, 0, 300, LBL_DMG_PHYSICAL);
+            PaintIntRange(ref activeEntity.baseStats.DmgFireMin, ref activeEntity.baseStats.DmgFireMax, 0, 300, LBL_DMG_FIRE);
+            PaintIntRange(ref activeEntity.baseStats.DmgColdMin, ref activeEntity.baseStats.DmgColdMax, 0, 300, LBL_DMG_COLD);
+            PaintIntRange(ref activeEntity.baseStats.DmgLightMin, ref activeEntity.baseStats.DmgLightMax, 0, 300, LBL_DMG_LIGHT);
+            PaintIntRange(ref activeEntity.baseStats.DmgPoisonMin, ref activeEntity.baseStats.DmgPoisonMax, 0, 300, LBL_DMG_POISON);
+            PaintIntRange(ref activeEntity.baseStats.DmgEleAllMin, ref activeEntity.baseStats.DmgEleAllMax, 0, 300, LBL_DMG_ELEMENTAL_ALL);
+
             PaintList<AudioClip>( LBL_SOUND_CLIPS_ON_ATTACK );
             PaintList<AudioClip>( LBL_SOUND_CLIPS_ON_HIT );
             PaintList<AudioClip>( LBL_SOUND_CLIPS_ON_DEATH );

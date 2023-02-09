@@ -21,6 +21,8 @@ public class BoardManager : MonoBehaviour {
         PlayerPrefs.DeleteAll();
         Width = 64;
         Height = 64;
+
+        Game.LoadSession();
     }
 
     private void Start() {
@@ -30,6 +32,10 @@ public class BoardManager : MonoBehaviour {
     }
 
     public static void Build() {
+
+        // Establish what area level we're building
+        // Tell the resource loader to load enemies belonging to this area
+
         tileMapGround.ClearAllTiles();
         tileMapWalls.ClearAllTiles();
         tileMapCurios.ClearAllTiles();
