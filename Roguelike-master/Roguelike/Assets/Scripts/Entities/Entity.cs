@@ -70,8 +70,8 @@ public class Entity : MonoBehaviour {
     public int RangeOfAggression { get; set; }
     public int DefDmgReductionPhys => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Phys] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
     public int DefDmgReductionMagic => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Magic] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
-    public int Life_Max => Life_MaxBase + Constitution * 5 + stats[(StatID)Item.Suffix.SType.Plus_Life];
-    public int Mana_Max => Mana_MaxBase + Intelligence * 5 + stats[(StatID)Item.Prefix.PType.Plus_Mana];
+    public float Life_Max => Life_MaxBase + Constitution * 3 + stats[(StatID)Item.Suffix.SType.Plus_Life] + Level * 2;
+    public float Mana_Max => Mana_MaxBase + Mathf.Floor(Intelligence * 1.5f) + stats[(StatID)Item.Prefix.PType.Plus_Mana] + Mathf.Floor(Level * 1.5f);
     public int DmgPhysMin => DmgBasePhyMin + Strength / 10 + stats[(StatID)Item.Suffix.SType.Dmg_Phys_Min];
     public int DmgPhysMax => DmgBasePhyMax + Strength / 10 + stats[(StatID)Item.Suffix.SType.Dmg_Phys_Max];
     public float Defense => DefenseBase * Dexterity / 10 + stats[StatID.Def_Phys_Flat];
@@ -98,7 +98,6 @@ public class Entity : MonoBehaviour {
     public int IncStaggerRecovery => stats[(StatID)Item.Suffix.SType.Plus_Stagger_Recovery] + stats[(StatID)Item.Implicit.IType.Plus_Stagger_Recovery];
     public float IncBlockRate => stats[(StatID)Item.Suffix.SType.Plus_Blockrate] + stats[(StatID)Item.Implicit.IType.Plus_Blockrate];
     public float IncAttackRating => Dexterity / 2 + stats[(StatID)Item.Prefix.PType.Plus_Attack_Rating];
-    public float IncDefenseRating => Dexterity / 4 + DefenseRating + stats[(StatID)Item.Suffix.SType.Plus_Defence_Rating];
 
     public int StrengthBase { get; set; }
     public int DexterityBase { get; set; }

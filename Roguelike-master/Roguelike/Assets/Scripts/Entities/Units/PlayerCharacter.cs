@@ -13,12 +13,12 @@ public class PlayerCharacter : Navigator {
         Level = 1;
         DmgBasePhyMin = 2;
         DmgBasePhyMax = 3;
-        StrengthBase = 5;
         AttackRating = 5;
-        IntelligenceBase = 5;
-        ConstitutionBase = 5;
-        DexterityBase = 5;
-        Life_MaxBase = 15;
+        StrengthBase = 25;
+        ConstitutionBase = 25;
+        DexterityBase = 20;
+        IntelligenceBase = 15;
+        Life_MaxBase = 55;
         Life_Current = Life_Max;
 
         PlayerHealthBar.SetMaximumLife(Life_Max);
