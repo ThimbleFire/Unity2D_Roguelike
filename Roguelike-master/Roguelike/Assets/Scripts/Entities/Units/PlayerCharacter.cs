@@ -19,9 +19,9 @@ public class PlayerCharacter : Navigator {
         DexterityBase = 20;
         IntelligenceBase = 15;
         Life_MaxBase = 55;
-        Life_Current = Life_Max;
+        Life_Current = Life_MaxBase;
 
-        PlayerHealthBar.SetMaximumLife(Life_Max);
+        PlayerHealthBar.SetMaximumLife(Life_MaxBase);
         PlayerHealthBar.SetCurrentLife(Life_Current);
         Inventory.RefreshCharacterStats(this);
 
@@ -172,7 +172,7 @@ public class PlayerCharacter : Navigator {
                 stats[(StatID)item.type] -= item.value;
             }
         }
-        PlayerHealthBar.SetMaximumLife(Life_Max);
+        PlayerHealthBar.SetMaximumLife(Life_MaxBase);
         Inventory.RefreshCharacterStats(this);
     }
 
@@ -181,7 +181,7 @@ public class PlayerCharacter : Navigator {
         //regen life
         if (Life_Current < Life_Max && RegenLife > 0)
         {
-            Life_Current = Mathf.Clamp(Life_Current + RegenLife, 0, Life_Max);
+            Life_Current = Mathf.Clamp(Life_Current + RegenLife, 0, Life_MaxBase);
             Entities.DrawFloatingText(RegenLife.ToString(), transform, Color.green);
         }
 

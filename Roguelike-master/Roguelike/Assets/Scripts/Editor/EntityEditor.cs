@@ -8,11 +8,6 @@ public class EntityEditor : EditorBase
     private const string LBL_LEVEL = "Level";
     private const string LBL_SPEED = "Speed";
     private const string LBL_TREASURE_CLASS = "Treasure Class";
-    private const string LBL_SOUND_CLIPS_ON_ATTACK = "soundClips_onAttack";
-    private const string LBL_SOUND_CLIPS_ON_HIT = "soundClips_onHit";
-    private const string LBL_SOUND_CLIPS_ON_DEATH = "soundClips_onDeath";
-    private const string LBL_SOUND_CLIPS_ON_AGGRO = "soundClips_onAggro";
-    private const string LBL_SOUND_CLIPS_ON_IDLE = "soundClips_onIdle";
     private const string LBL_LIFE_MAX = "Maximum Life";
     private const string LBL_LIFE_CURRENT = "Current Life";
     private const string LBL_MANA_MAX = "Maximum Mana";
@@ -42,17 +37,22 @@ public class EntityEditor : EditorBase
     private const string LBL_DMG_POISON_MAX =  "Maximum Poison Damage" ;
     private const string LBL_DMG_ELEMENTAL_ALL_MAX = "Maximum Elemental Damage" ;
     private const string LBL_SPAWN_GROUP_SIZE = "Spawn Group Size";
+    private const string LBL_SOUND_CLIPS_ON_ATTACK = "AudioClips_onAttack";
+    private const string LBL_SOUND_CLIPS_ON_HIT = "AudioClips_onHit";
+    private const string LBL_SOUND_CLIPS_ON_DEATH = "AudioClips_onDeath";
+    private const string LBL_SOUND_CLIPS_ON_AGGRO = "AudioClips_onAggro";
+    private const string LBL_SOUND_CLIPS_ON_IDLE = "AudioClips_onIdle";
     
     Vector2 scrollView;
 
     EntityReplacement activeEntity;
     TextAsset obj;
     UnityEngine.AnimatorOverrideController animatorOverrideController;
-    List<SoundClip> soundClips_onAttack = new List<SoundClip>();
-    List<SoundClip> soundClips_onHit = new List<SoundClip>();
-    List<SoundClip> soundClips_onDeath = new List<SoundClip>();
-    List<SoundClip> soundClips_onAggro = new List<SoundClip>();
-    List<SoundClip> soundClips_onIdle = new List<SoundClip>();
+    public List<AudioClip> AudioClips_onAttack = new List<AudioClip>();
+    public List<AudioClip> AudioClips_onHit = new List<AudioClip>();
+    public List<AudioClip> AudioClips_onDeath = new List<AudioClip>();
+    public List<AudioClip> AudioClips_onAggro = new List<AudioClip>();
+    public List<AudioClip> AudioClips_onIdle = new List<AudioClip>();
 
     [MenuItem("Window/Editor/Entities")]
     private static void ShowWindow()
@@ -62,6 +62,7 @@ public class EntityEditor : EditorBase
 
     private void Awake()
     {
+        so = new SerializedObject(this);
         activeEntity = new EntityReplacement();
     }
 
@@ -77,11 +78,6 @@ public class EntityEditor : EditorBase
             
             animatorOverrideController = 
             PaintAnimationOverrideControllerLookup( animatorOverrideController );
-            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_ATTACK );
-            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_HIT );
-            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_DEATH );
-            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_AGGRO );
-            PaintList<SoundClip>( LBL_SOUND_CLIPS_ON_IDLE );
             PaintTextField(ref activeEntity.baseStats.Name, LBL_NAME );
             PaintIntField(ref activeEntity.baseStats.Level, LBL_LEVEL );
             PaintIntField(ref activeEntity.baseStats.Speed, LBL_SPEED );       
@@ -106,17 +102,20 @@ public class EntityEditor : EditorBase
             PaintIntField(ref activeEntity.baseStats.DmgColdMin, LBL_DMG_COLD_MIN);
             PaintIntField(ref activeEntity.baseStats.DmgLightMin, LBL_DMG_LIGHT_MIN);
             PaintIntField(ref activeEntity.baseStats.DmgPoisonMin, LBL_DMG_POISON_MIN);
-            PaintIntField(ref activeEntity.baseStats.DmgEleAllMin, LBL_DMG_ELEMENTAL_MIN);            
+            PaintIntField(ref activeEntity.baseStats.DmgEleAllMin, LBL_DMG_ELEMENTAL_ALL_MIN);            
             PaintIntField(ref activeEntity.baseStats.DmgPhyMax, LBL_DMG_PHYSICAL_MAX);
             PaintIntField(ref activeEntity.baseStats.DmgFireMax, LBL_DMG_FIRE_MAX);
             PaintIntField(ref activeEntity.baseStats.DmgColdMax, LBL_DMG_COLD_MAX);
             PaintIntField(ref activeEntity.baseStats.DmgLightMax, LBL_DMG_LIGHT_MAX);
             PaintIntField(ref activeEntity.baseStats.DmgPoisonMax, LBL_DMG_POISON_MAX);
-            PaintIntField(ref activeEntity.baseStats.DmgEleAllMax, LBL_DMG_ELEMENTAL_MAX);
-    }
+            PaintIntField(ref activeEntity.baseStats.DmgEleAllMax, LBL_DMG_ELEMENTAL_ALL_MAX);
+            PaintList<AudioClip>( LBL_SOUND_CLIPS_ON_ATTACK );
+            PaintList<AudioClip>( LBL_SOUND_CLIPS_ON_HIT );
+            PaintList<AudioClip>( LBL_SOUND_CLIPS_ON_DEATH );
+            PaintList<AudioClip>( LBL_SOUND_CLIPS_ON_AGGRO );
+            PaintList<AudioClip>( LBL_SOUND_CLIPS_ON_IDLE );
+        }
         EditorGUILayout.EndScrollView();
-        
-        base.MainWindow();
     }
 
     protected override void ResetProperties()
@@ -127,49 +126,46 @@ public class EntityEditor : EditorBase
     protected override void LoadProperties(TextAsset textAsset)
     {
         activeEntity = XMLUtility.Load<EntityReplacement>(textAsset);
-    }
 
-    private const string S_RESOURCE_DIR = "Assets/Resources/";
-    private const byte S_XML_EXTENSION_LENGTH = ".xml".Length;
-    private const byte S_OGG_EXTENSION_LENGTH = ".ogg".Length;
-    private const string S_ENTITIES_DIR = "Entities/";
+        animatorOverrideController = Resources.Load<AnimatorOverrideController>(activeEntity.animatorOverrideControllerFileName);
+    }
     
     private void Save()
     {
-        string filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring(S_RESOURCE_DIR.Length);
-        filePath = filePath.Substring(0, filePath.Length - S_XML_EXTENSION_LENGTH);
-        activeEntity.animationName = animatorOverrideController == null ? string.Empty : filePath;
+        string filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring(S_RESOURCE_DIR_LENGTH);
+        filePath = filePath.Substring(0, filePath.Length - S_OVERRIDECONTROLLER_LENGTH);
+        activeEntity.animatorOverrideControllerFileName = animatorOverrideController == null ? string.Empty : filePath;
         
-        foreach( SoundClip soundClip in soundClips_onAttack ) {
-            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+        foreach( AudioClip AudioClip in AudioClips_onAttack ) {
+            filePath = AssetDatabase.GetAssetPath(AudioClip).Substring(S_RESOURCE_DIR_LENGTH);
             filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
             activeEntity.soundClipFileNamesOnAttack.Add(filePath);
         }
     
-        foreach( SoundClip soundClip in soundClips_onHit ) {
-            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+        foreach( AudioClip AudioClip in AudioClips_onHit ) {
+            filePath = AssetDatabase.GetAssetPath(AudioClip).Substring(S_RESOURCE_DIR_LENGTH);
             filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
             activeEntity.soundClipFileNamesOnHit.Add(filePath);
         }
     
-        foreach( SoundClip soundClip in soundClips_onDeath ) {
-            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+        foreach( AudioClip AudioClip in AudioClips_onDeath ) {
+            filePath = AssetDatabase.GetAssetPath(AudioClip).Substring(S_RESOURCE_DIR_LENGTH);
             filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
             activeEntity.soundClipFileNamesOnDeath.Add(filePath);
         }
     
-        foreach( SoundClip soundClip in soundClips_onAggro ) {
-            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+        foreach( AudioClip AudioClip in AudioClips_onAggro ) {
+            filePath = AssetDatabase.GetAssetPath(AudioClip).Substring(S_RESOURCE_DIR_LENGTH);
             filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
             activeEntity.soundClipFileNamesOnAggro.Add(filePath);
         }
     
-        foreach( SoundClip soundClip in soundClips_onIdle ) {
-            filePath = AssetDatabase.GetAssetPath(soundClip).Substring(S_RESOURCE_DIR.Length);
+        foreach( AudioClip AudioClip in AudioClips_onIdle ) {
+            filePath = AssetDatabase.GetAssetPath(AudioClip).Substring(S_RESOURCE_DIR_LENGTH);
             filePath = filePath.Substring(0, filePath.Length - S_OGG_EXTENSION_LENGTH);
             activeEntity.soundClipFileNamesOnIdle.Add(filePath);
         }
-        
-        XMLUtility.Save<EntityReplacement>(activeEntity, S_ENTITIES_DIR, activeEntity.Name);
+
+        XMLUtility.Save<EntityReplacement>(activeEntity, S_ENTITIES_DIR, activeEntity.baseStats.Name);
     }
 }

@@ -96,15 +96,19 @@ public class ItemEditor : EditorBase
         activeItem.Prefixes = Prefixes;
         activeItem.Suffixes = Suffixes;
 
-        string filePath = AssetDatabase.GetAssetPath(SpriteUI).Substring("Assets/Resources/".Length);
-        filePath = filePath.Substring(0, filePath.Length - 4);
+        string 
+        
+        // UI Sprite
+        filePath = AssetDatabase.GetAssetPath(SpriteUI).Substring(S_RESOURCE_DIR_LENGTH);
+        filePath = filePath.Substring(0, filePath.Length - S_PNG_EXTENSION_LENGTH);
         activeItem.SpriteUIFilename = SpriteUI == null ? string.Empty : filePath;
 
-        //filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring("Assets/Resources/".Length);
+        // Animation
+        filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring(S_RESOURCE_DIR_LENGTH);
+        filePath = filePath.Substring(0, filePath.Length - S_OVERRIDECONTROLLER_LENGTH);
         activeItem.animationName = animatorOverrideController == null ? string.Empty : filePath;
 
-        System.Text.StringBuilder t = new System.Text.StringBuilder();
-        t.Append("Items/");
+        System.Text.StringBuilder t = new System.Text.StringBuilder(S_ITEMS_DIR);
         t.Append(activeItem.ItemType);
         t.Append("/");
         t.Append(activeItem.qlvl);
