@@ -12,4 +12,11 @@ public class NPCImp : Navigator {
         Life_Current = 8;
         SpeedBase = 1;
     }
+
+    protected override void Die()
+    {
+        LootDropper.RollLoot(transform, Level, TC);
+
+        base.Die();
+    }
 }

@@ -6,7 +6,8 @@ using UnityEngine;
 [XmlRoot("Item")]
 public class Item
 {
-    [Serializable] public class Attribute
+    [Serializable] 
+    public class Attribute
     {
         public enum AType
         {
@@ -15,7 +16,8 @@ public class Item
         public AType type;
         public byte value;
     }
-    [Serializable] public class Prefix
+    [Serializable] 
+    public class Prefix
     {
         public enum PType
         {
@@ -43,7 +45,8 @@ public class Item
         public PType type;
         public int value;
     }
-    [Serializable] public class Suffix
+    [Serializable] 
+    public class Suffix
     {
         public enum SType
         {
@@ -83,7 +86,8 @@ public class Item
         public SType type;
         public int value;
     }
-    [Serializable] public class Implicit
+    [Serializable] 
+    public class Implicit
     {
         public enum IType
         {
@@ -125,17 +129,23 @@ public class Item
     public Type ItemType = Item.Type.ANY;
     public string SpriteUIFilename = string.Empty;
     public string animationName = string.Empty;
-    public int ItemLevel = 0;
-    public int DmgMin = 0, DmgMax = 0;
-    public int DefMin = 0, DefMax = 0;
-    public int Blockrate = 0;
-    public int Durability = 0;
-    public bool Unique = false;
-    public string Description = string.Empty;
-    public int ReqStr = 0, ReqInt = 0, ReqDex = 0, ReqCons = 0, ReqLvl  = 0;
-    [XmlArray("Implicits")] public List<Implicit> Implicits = new List<Implicit>();
-    [XmlArray("Prefixes")] public List<Prefix> Prefixes = new List<Prefix>();
-    [XmlArray("Suffixes")] public List<Suffix> Suffixes = new List<Suffix>();
+    public int DmgMin, DmgMax;
+    public int DefMin, DefMax;
+    public int Blockrate;
+    public int Durability;
+    public bool Unique;
+    public string Description;
+    public int ReqStr, ReqInt, ReqDex, ReqCons, ReqLvl;
+    public int qlvl; //qlvl equals ilvl + rarity. If mlvl >= qlvl && enemy TC >= this.TC = enemy can potentially drop this item.
+    public byte ilvl; //level of the enemy that dropped it determines the level of affixes that can roll on it.
+    [XmlArray("Implicits")]
+    public List<Implicit> Implicits;
+    [XmlArray("Prefixes")]
+    public List<Prefix> Prefixes;
+    [XmlArray("Suffixes")]
+    public List<Suffix> Suffixes;
+
+    //QLVL IS ESSENTIALLY TC
 
     public static readonly string[] Affix_Text = new string[40]
     {

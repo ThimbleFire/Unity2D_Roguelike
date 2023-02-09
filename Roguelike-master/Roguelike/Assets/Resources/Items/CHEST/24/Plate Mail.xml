@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Plate Mail</Name>
+  <ItemType>CHEST</ItemType>
+  <SpriteUIFilename>UI/Inventory/item/Chest/orcish_platemail</SpriteUIFilename>
+  <animationName />
+  <DmgMin>0</DmgMin>
+  <DmgMax>0</DmgMax>
+  <DefMin>108</DefMin>
+  <DefMax>116</DefMax>
+  <Blockrate>0</Blockrate>
+  <Durability>60</Durability>
+  <Unique>false</Unique>
+  <Description />
+  <ReqStr>65</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>0</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>24</qlvl>
+  <ilvl>0</ilvl>
+  <Implicits />
+  <Prefixes />
+  <Suffixes />
+</Item>

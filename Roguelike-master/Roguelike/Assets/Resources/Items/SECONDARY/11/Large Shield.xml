@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Large Shield</Name>
+  <ItemType>SECONDARY</ItemType>
+  <SpriteUIFilename>UI/Inventory/item/Secondary/shield_3_round</SpriteUIFilename>
+  <animationName />
+  <DmgMin>0</DmgMin>
+  <DmgMax>0</DmgMax>
+  <DefMin>12</DefMin>
+  <DefMax>14</DefMax>
+  <Blockrate>35</Blockrate>
+  <Durability>24</Durability>
+  <Unique>false</Unique>
+  <Description />
+  <ReqStr>34</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>0</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>11</qlvl>
+  <ilvl>0</ilvl>
+  <Implicits />
+  <Prefixes />
+  <Suffixes />
+</Item>

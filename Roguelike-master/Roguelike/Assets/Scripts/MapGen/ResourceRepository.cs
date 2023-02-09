@@ -38,8 +38,21 @@ public class ResourceRepository : MonoBehaviour {
         }
     }
 
-    public static ItemStats GetItemMatchingCriteria(int v, Item.Type itemType, int entityDifficulty)
+    public static ItemStats GetItemMatchingCriteria(Item.Type itemType, byte mlvl, byte TC)
     {
+        if (mlvl % 3 != 0)
+            mlvl = (byte)(Mathf.Round(mlvl / 3) * 3);
+
+        for (int i = mlvl * 3; i > 0; i-=3)
+        {
+            if (Random.Range(1, 100) < 50)
+                continue;
+
+            float roll = Random.Range(0.0f, 100.0f);
+
+            //Item[] list = TC[mlvl/3].FindAll(x=>x.ItemType == itemType);
+        }
+
         return null;
     }
 

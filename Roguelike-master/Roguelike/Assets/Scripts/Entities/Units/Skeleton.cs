@@ -12,4 +12,11 @@ public class Skeleton : Navigator {
         Life_Current = 12;
         SpeedBase = 1;
     }
+
+    protected override void Die()
+    {
+        LootDropper.RollLoot(transform, Level, TC);
+
+        base.Die();
+    }
 }

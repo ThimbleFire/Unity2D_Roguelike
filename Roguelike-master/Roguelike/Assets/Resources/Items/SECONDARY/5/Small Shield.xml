@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Small Shield</Name>
+  <ItemType>SECONDARY</ItemType>
+  <SpriteUIFilename>UI/Inventory/item/Secondary/buckler_1_new</SpriteUIFilename>
+  <animationName />
+  <DmgMin>0</DmgMin>
+  <DmgMax>0</DmgMax>
+  <DefMin>8</DefMin>
+  <DefMax>10</DefMax>
+  <Blockrate>25</Blockrate>
+  <Durability>16</Durability>
+  <Unique>false</Unique>
+  <Description />
+  <ReqStr>12</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>0</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>5</qlvl>
+  <ilvl>0</ilvl>
+  <Implicits />
+  <Prefixes />
+  <Suffixes />
+</Item>

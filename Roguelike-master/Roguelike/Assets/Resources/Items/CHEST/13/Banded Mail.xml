@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Banded Mail</Name>
+  <ItemType>CHEST</ItemType>
+  <SpriteUIFilename>UI/Inventory/item/Chest/banded_mail_1</SpriteUIFilename>
+  <animationName />
+  <DmgMin>0</DmgMin>
+  <DmgMax>0</DmgMax>
+  <DefMin>56</DefMin>
+  <DefMax>60</DefMax>
+  <Blockrate>0</Blockrate>
+  <Durability>36</Durability>
+  <Unique>false</Unique>
+  <Description />
+  <ReqStr>44</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>0</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>13</qlvl>
+  <ilvl>0</ilvl>
+  <Implicits />
+  <Prefixes />
+  <Suffixes />
+</Item>

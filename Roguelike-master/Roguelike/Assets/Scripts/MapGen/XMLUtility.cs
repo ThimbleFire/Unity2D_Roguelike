@@ -6,6 +6,10 @@ public class XMLUtility {
 
     public static void Save<T>( T item, string directory, string name ) {
         XmlSerializer serialWrite = new XmlSerializer( typeof(T));
+
+        if (Directory.Exists(Application.dataPath + "/Resources/" + directory) == false)
+            Directory.CreateDirectory(Application.dataPath + "/Resources/" + directory);
+
         Stream stream = new FileStream(Application.dataPath + "/Resources/" + directory + name + ".xml",   FileMode.Create , FileAccess.Write );
         serialWrite.Serialize( stream, item );
         stream.Close();

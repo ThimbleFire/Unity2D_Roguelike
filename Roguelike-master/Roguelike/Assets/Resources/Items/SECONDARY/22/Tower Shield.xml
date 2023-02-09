@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Tower Shield</Name>
+  <ItemType>SECONDARY</ItemType>
+  <SpriteUIFilename>UI/Inventory/item/Secondary/large_shield_2_new</SpriteUIFilename>
+  <animationName />
+  <DmgMin>0</DmgMin>
+  <DmgMax>0</DmgMax>
+  <DefMin>22</DefMin>
+  <DefMax>25</DefMax>
+  <Blockrate>38</Blockrate>
+  <Durability>60</Durability>
+  <Unique>false</Unique>
+  <Description />
+  <ReqStr>75</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>0</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>22</qlvl>
+  <ilvl>0</ilvl>
+  <Implicits />
+  <Prefixes />
+  <Suffixes />
+</Item>

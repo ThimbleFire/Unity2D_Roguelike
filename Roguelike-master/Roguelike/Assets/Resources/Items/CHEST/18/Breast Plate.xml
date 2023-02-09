@@ -1,23 +1,24 @@
 <?xml version="1.0"?>
 <Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
-  <Name>Animal Skin</Name>
+  <Name>Breast Plate</Name>
   <ItemType>CHEST</ItemType>
-  <SpriteUIFilename>UI/Inventory/item/Chest/animal_skin_1_new</SpriteUIFilename>
+  <SpriteUIFilename>UI/Inventory/item/Chest/leather_armor_2</SpriteUIFilename>
   <animationName />
-  <ItemLevel>1</ItemLevel>
   <DmgMin>0</DmgMin>
   <DmgMax>0</DmgMax>
-  <DefMin>1</DefMin>
-  <DefMax>2</DefMax>
+  <DefMin>65</DefMin>
+  <DefMax>68</DefMax>
   <Blockrate>0</Blockrate>
-  <Durability>8</Durability>
+  <Durability>50</Durability>
   <Unique>false</Unique>
   <Description />
-  <ReqStr>0</ReqStr>
+  <ReqStr>30</ReqStr>
   <ReqInt>0</ReqInt>
   <ReqDex>0</ReqDex>
   <ReqCons>0</ReqCons>
-  <ReqLvl>1</ReqLvl>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>18</qlvl>
+  <ilvl>0</ilvl>
   <Implicits />
   <Prefixes />
   <Suffixes />

@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Long Sword</Name>
+  <ItemType>PRIMARY</ItemType>
+  <SpriteUIFilename>UI/Inventory/item/Primary/long_sword_2</SpriteUIFilename>
+  <animationName />
+  <DmgMin>5</DmgMin>
+  <DmgMax>21</DmgMax>
+  <DefMin>0</DefMin>
+  <DefMax>0</DefMax>
+  <Blockrate>0</Blockrate>
+  <Durability>44</Durability>
+  <Unique>false</Unique>
+  <Description />
+  <ReqStr>55</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>39</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>20</qlvl>
+  <ilvl>0</ilvl>
+  <Implicits />
+  <Prefixes />
+  <Suffixes />
+</Item>

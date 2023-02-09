@@ -24,7 +24,11 @@ public class ItemEditor : EditorBase
 
     private void Awake()
     {
+        so = new SerializedObject(this);
         activeItem = new Item();
+        Implicits = new List<Item.Implicit>();
+        Prefixes = new List<Item.Prefix>();
+        Suffixes = new List<Item.Suffix>();
     }
 
     protected override void MainWindow()
@@ -40,19 +44,19 @@ public class ItemEditor : EditorBase
             activeItem.ItemType = (Item.Type)PaintPopup(ItemStats.Type_Text, (int)activeItem.ItemType, "Item Type");
             PaintSpriteField(ref SpriteUI);
             animatorOverrideController = PaintAnimationOverrideControllerLookup(animatorOverrideController);
-            PaintIntField(ref activeItem.ItemLevel, "Item Level");
+            PaintIntField(ref activeItem.qlvl, "Quality Level");
             PaintIntField(ref activeItem.DmgMin, "Min Damage");
             PaintIntField(ref activeItem.DmgMax, "Max Damage");
             PaintIntField(ref activeItem.DefMin, "Min Defense");
             PaintIntField(ref activeItem.DefMax, "Max Defense");
-            PaintIntField(ref activeItem.Blockrate, "Chance to block");
+            PaintIntField(ref activeItem.Blockrate, "Chance to Block");
             PaintIntField(ref activeItem.Durability, "Durability");
             PaintTextField(ref activeItem.Description, "Item Description");
             PaintIntSlider(ref activeItem.ReqStr, 0, 255, "Str Requirement");
             PaintIntSlider(ref activeItem.ReqDex, 0, 255, "Dex Requirement");
             PaintIntSlider(ref activeItem.ReqInt, 0, 255, "Int Requirement");
             PaintIntSlider(ref activeItem.ReqCons, 0, 255, "Con Requirement");
-            PaintIntSlider(ref activeItem.ReqLvl, 0, 60, "Lvl Requirement");
+            PaintIntSlider(ref activeItem.ReqLvl, 0, 60, "Lvl Requirement"); 
             if (Checkbox(ref activeItem.Unique, "Unique"))
             {
                 PaintList<Item.Prefix>("Prefixes");
@@ -61,7 +65,6 @@ public class ItemEditor : EditorBase
             PaintList<Item.Implicit>("Implicits");
         }
         EditorGUILayout.EndScrollView();
-        
 
         base.MainWindow();
     }
@@ -99,6 +102,14 @@ public class ItemEditor : EditorBase
 
         //filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring("Assets/Resources/".Length);
         activeItem.animationName = animatorOverrideController == null ? string.Empty : filePath;
-        XMLUtility.Save<Item>(activeItem, "Items/", activeItem.Name);
-    }
+
+        System.Text.StringBuilder t = new System.Text.StringBuilder();
+        t.Append("Items/");
+        t.Append(activeItem.ItemType);
+        t.Append("/");
+        t.Append(activeItem.qlvl);
+        t.Append("/");
+
+        XMLUtility.Save<Item>(activeItem, t.ToString(), activeItem.Name);
+    }    
 }

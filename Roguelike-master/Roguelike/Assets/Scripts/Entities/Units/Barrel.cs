@@ -17,11 +17,12 @@ public class Barrel : Entity
         ChanceToBlock = 0;
         Life_Current = 8;
         SpeedBase = 0;
+        TC = 1;
     }
     
     protected override void Die()
     {
-        LootDropper.RollLoot(transform, Level);
+        LootDropper.RollLoot(transform, Level, TC);
         
         base.Die();
     }

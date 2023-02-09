@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Mirror Shield</Name>
+  <ItemType>SECONDARY</ItemType>
+  <SpriteUIFilename>UI/Inventory/item/Secondary/shield_of_reflection</SpriteUIFilename>
+  <animationName />
+  <DmgMin>0</DmgMin>
+  <DmgMax>0</DmgMax>
+  <DefMin>10</DefMin>
+  <DefMax>30</DefMax>
+  <Blockrate>50</Blockrate>
+  <Durability>40</Durability>
+  <Unique>false</Unique>
+  <Description />
+  <ReqStr>25</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>0</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>19</qlvl>
+  <ilvl>0</ilvl>
+  <Implicits />
+  <Prefixes />
+  <Suffixes />
+</Item>

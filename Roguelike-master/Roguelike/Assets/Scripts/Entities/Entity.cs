@@ -46,14 +46,15 @@ public class Entity : MonoBehaviour {
         Plus_Defence_Rating = 38,
         Plus_Blockrate = 39
     }
-    public int Experience_Current = 0;
-    public int Experience_Max = 32;
+    public byte TC { get; set; } = 1;
+    public int Experience_Current { get; set; } = 0;
+    public int Experience_Max { get; set; } = 32;
     public const int BlockRecoveryBase = 5;
     public const int StaggerRecoveryBase = 1;
     public int IncItemFind { get; set; }
     public int IncMagicFind => stats[(StatID)Item.Suffix.SType.Plus_Magic_Find] + stats[(StatID)Item.Implicit.IType.Plus_Magic_Find] + stats[(StatID)Item.Prefix.PType.Plus_Magic_Find];
     public string Name { get; set; }
-    public int Level { get; set; }
+    public byte Level { get; set; }
     public int SpeedBase { get; set; }
     public int Speed => SpeedBase + (int)stats[(StatID)Item.Implicit.IType.Plus_Speed_Movement] + stats[(StatID)Item.Suffix.SType.Plus_Speed_Movement];
     public int Life_Current { get; set; }
