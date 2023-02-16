@@ -5,7 +5,6 @@ using UnityEngine.Tilemaps;
 public class ResourceRepository : MonoBehaviour {
     private static List<Chunk> ChunksInMemory;
     public static Dictionary<string, TileBase> Tile;
-    public static Dictionary<string, GameObject> Prefab;
     public static Chunk Town;
 
     private void Awake() {
@@ -29,13 +28,6 @@ public class ResourceRepository : MonoBehaviour {
         foreach ( TileBase tile in t ) {
             Tile.Add( tile.name, tile );
         }
-
-        //GameObject[] entityPrefabs = Resources.LoadAll<GameObject>("Prefabs/Entities/NPCs/");
-
-        //Prefab = new Dictionary<string, GameObject>();
-        //foreach ( GameObject item in entityPrefabs ) {
-        //    Prefab.Add( item.name, item );
-        //}
     }
 
     public static ItemStats GetItemMatchingCriteria(Item.Type itemType, byte mlvl, byte TC)
@@ -125,33 +117,5 @@ public class ResourceRepository : MonoBehaviour {
         }
 
         return chunksByDirection[Random.Range( 0, chunksByDirection.Count )];
-    }
-
-    public static GameObject GetUnit( string prefabName ) {
-        return Prefab[prefabName];
-    }
-
-    public static GameObject GetRandomEnemyByLevel(int difficulty)
-    {
-        int num;
-        string prefabName = string.Empty;
-
-        switch (difficulty)
-        {
-            case 0:
-                num = Random.Range(0, System.Enum.GetNames(typeof(Entities.ENEMY_LEVEL_0)).Length);
-                prefabName = System.Enum.ToObject(typeof(Entities.ENEMY_LEVEL_0), num).ToString();
-                break;
-            case 1:
-                num = Random.Range(0, System.Enum.GetNames(typeof(Entities.ENEMY_LEVEL_1)).Length);
-                prefabName = System.Enum.ToObject(typeof(Entities.ENEMY_LEVEL_1), num).ToString();
-                break;
-            case 2:
-                num = Random.Range(0, System.Enum.GetNames(typeof(Entities.ENEMY_LEVEL_2)).Length);
-                prefabName = System.Enum.ToObject(typeof(Entities.ENEMY_LEVEL_2), num).ToString();
-                break;
-        }
-        
-        return Prefab[prefabName];
     }
 }

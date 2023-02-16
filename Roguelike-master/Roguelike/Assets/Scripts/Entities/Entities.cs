@@ -56,14 +56,12 @@ public class Entities : MonoBehaviour {
 
     public static void RollMob( Vector3Int spawnPosition, int difficulty ) {
 
-        GameObject prefab = ResourceRepository.GetRandomEnemyByLevel(difficulty);
-        GameObject instance = Instantiate( prefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform );
-        Entity entity = instance.GetComponent<Entity>();
-        entity._coordinates = spawnPosition;
+        //GameObject prefab = ResourceRepository.GetRandomEnemyByLevel(difficulty);
+        //GameObject instance = Instantiate( prefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform );
+        //Entity entity = instance.GetComponent<Entity>();
+        //entity._coordinates = spawnPosition;
 
-        s_entities.Add( entity );
-
-        
+        //s_entities.Add( entity );
     }
 
     public static void DrawFloatingText(string message, Transform unitTransform, Color color)
@@ -82,18 +80,8 @@ public class Entities : MonoBehaviour {
         go.transform.position = unitTransform.position;
     }
 
-    public static void BarrelSpawn(Vector3Int spawnPosition)
-    {
-        GameObject prefab = ResourceRepository.GetUnit("barrel");
-        GameObject instance = Instantiate(prefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform);
-        Entity entity = instance.GetComponent<Entity>();
-        entity._coordinates = spawnPosition;
-
-        s_entities.Add(entity);
-    }
-
     public static void PlayerSpawn( Vector3Int spawnPosition ) {
-        GameObject prefab = ResourceRepository.GetUnit("PlayerCharacter");
+        GameObject prefab = Resources.Load("Prefabs/Entities/NPCs/PlayerCharacter") as GameObject;
         GameObject instance = Instantiate( prefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform );
         Entity entity = instance.GetComponent<PlayerCharacter>();
         entity._coordinates = spawnPosition;

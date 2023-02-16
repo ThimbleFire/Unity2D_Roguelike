@@ -14,6 +14,7 @@ public class ItemStats : MonoBehaviour
     public const string hexEnd = "</color>";
 
     private Item item;
+    public int qLvl { get { return item.qlvl; } }
 
     public Item.Type ItemType { get { return item.ItemType; } }
     public List<Item.Implicit> Implicits { get { return item.Implicits; } }

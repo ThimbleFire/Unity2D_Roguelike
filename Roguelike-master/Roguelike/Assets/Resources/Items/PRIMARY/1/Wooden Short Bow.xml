@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<Item xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <Name>Wooden Short Bow</Name>
+  <ItemType>PRIMARY</ItemType>
+  <SpriteUIFilename>UI/Inventory/item/Primary/ranged/bow_1</SpriteUIFilename>
+  <animationName />
+  <DmgMin>1</DmgMin>
+  <DmgMax>7</DmgMax>
+  <DefMin>0</DefMin>
+  <DefMax>0</DefMax>
+  <Blockrate>0</Blockrate>
+  <Durability>16</Durability>
+  <Unique>false</Unique>
+  <ReqStr>0</ReqStr>
+  <ReqInt>0</ReqInt>
+  <ReqDex>0</ReqDex>
+  <ReqCons>0</ReqCons>
+  <ReqLvl>0</ReqLvl>
+  <qlvl>1</qlvl>
+  <ilvl>0</ilvl>
+  <Implicits />
+  <Prefixes />
+  <Suffixes />
+</Item>

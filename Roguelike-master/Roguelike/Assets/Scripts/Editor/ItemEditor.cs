@@ -8,7 +8,6 @@ public class ItemEditor : EditorBase
 
     Item activeItem;
     TextAsset obj;
-    AnimatorOverrideController animationOverrideController;
     public List<Item.Implicit> Implicits = new List<Item.Implicit>();
     public List<Item.Prefix> Prefixes = new List<Item.Prefix>();
     public List<Item.Suffix> Suffixes = new List<Item.Suffix>();
@@ -96,17 +95,23 @@ public class ItemEditor : EditorBase
         activeItem.Prefixes = Prefixes;
         activeItem.Suffixes = Suffixes;
 
-        string 
-        
+        string filePath = string.Empty;
+
         // UI Sprite
-        filePath = AssetDatabase.GetAssetPath(SpriteUI).Substring(S_RESOURCE_DIR_LENGTH);
-        filePath = filePath.Substring(0, filePath.Length - S_PNG_EXTENSION_LENGTH);
-        activeItem.SpriteUIFilename = SpriteUI == null ? string.Empty : filePath;
+        if (SpriteUI != null)
+        {
+            filePath = AssetDatabase.GetAssetPath(SpriteUI).Substring(S_RESOURCE_DIR_LENGTH);
+            filePath = filePath.Substring(0, filePath.Length - S_PNG_EXTENSION_LENGTH);
+            activeItem.SpriteUIFilename = SpriteUI == null ? string.Empty : filePath;
+        }
 
         // Animation
-        filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring(S_RESOURCE_DIR_LENGTH);
-        filePath = filePath.Substring(0, filePath.Length - S_OVERRIDECONTROLLER_LENGTH);
-        activeItem.animationName = animatorOverrideController == null ? string.Empty : filePath;
+        if (animatorOverrideController != null)
+        {
+            filePath = AssetDatabase.GetAssetPath(animatorOverrideController).Substring(S_RESOURCE_DIR_LENGTH);
+            filePath = filePath.Substring(0, filePath.Length - S_OVERRIDECONTROLLER_LENGTH);
+            activeItem.animationName = animatorOverrideController == null ? string.Empty : filePath;
+        }
 
         System.Text.StringBuilder t = new System.Text.StringBuilder(S_ITEMS_DIR);
         t.Append(activeItem.ItemType);

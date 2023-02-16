@@ -3,6 +3,10 @@
 public class PlayerCharacter : Navigator {
 
     public Animator _primary;
+    public enum Class
+    {
+        Melee, Ranged, Magic
+    }
 
     private const int UNARMED_DMG_PHYS_MIN = 2;
     private const int UNARMED_DMG_PHYS_MAX = 3;
@@ -27,10 +31,9 @@ public class PlayerCharacter : Navigator {
 
         Inventory.OnEquipmentChange += Inventory_OnEquipmentChange;
 
-        Inventory.Pickup("Long Sword");
-        Inventory.Pickup("Animal Skin");
-        Inventory.Pickup("Rotton Twine");
-        Inventory.Pickup("Shield of Debugging");
+        Inventory.Pickup("Primary/1/Short Sword");
+        Inventory.Pickup("Chest/1/Animal Skin");
+        Inventory.Pickup("Secondary/1/Buckler");
     }
 
     public override void Move() {
