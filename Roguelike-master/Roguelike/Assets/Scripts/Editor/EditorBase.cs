@@ -10,9 +10,11 @@ public class EditorBase : EditorWindow
     protected readonly int S_RESOURCE_DIR_LENGTH = "Assets/Resources/".Length;
     protected readonly int S_OGG_EXTENSION_LENGTH = ".ogg".Length;
     protected readonly int S_PNG_EXTENSION_LENGTH = ".png".Length;
+    protected readonly int S_XML_EXTENSION_LENGTH = ".xml".Length;
     protected readonly int S_OVERRIDECONTROLLER_LENGTH = ".overrideController".Length;
     protected const string S_ENTITIES_DIR = "Entities/";
     protected const string S_ITEMS_DIR = "Items/";
+    protected const string S_MAPDATA_DIR = "Maps/";
 
     private const byte Right = 20;
     private Vector2 scrollPos;
