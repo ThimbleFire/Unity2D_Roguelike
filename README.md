@@ -5,6 +5,10 @@ This is an untitled roguelike project. It features turn based movement and comba
 ## TODO
 
 Add a MapEditor. The map editor stores a directory to a list of chunks and enemies suitable for that map. It also stores a path to the next and previous map. 
+    Add Area Level to the map editor
+
+When the player character creates their character, it creates a new save file. The map name is saved in this. When the gameplay scene is opened, board manager reads the saved data and loads the character and the map. Rooms create enemies specified in the mapdata. Map data also has a previous and next string which is the path to the previous and next level. When loading a level, the seed is saved so if the player returns to that level, the map layout persists.
+However in Diablo 2 fasion, we might conider purging this list of seeds when the game is closed.
 
 ## Loading
 
