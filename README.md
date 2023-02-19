@@ -2,13 +2,15 @@
 
 This is an untitled roguelike project. It features turn based movement and combat. It is being developed for Android.
 
+## TODO
+
+Add a MapEditor. The map editor stores a directory to a list of chunks and enemies suitable for that map. It also stores a path to the next and previous map. 
+
 ## Loading
 
 BoardManager calls Game.LoadSession. This loads the player's game save.
 It gets the area level the player was last in.
 This area level is used by ResourceRepository to load the correct enemies when BoardManager builds the map.
-
-TODO Character creation screen / new game & load game.
 
 ## Combat
 
