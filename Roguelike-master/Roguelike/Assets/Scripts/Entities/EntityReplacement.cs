@@ -4,21 +4,29 @@ using System.Xml.Serialization;
 using UnityEngine;
 
 [XmlRoot("Entity")]
-public class EntityReplacement
+public class EntityReplacement : ICloneable
 {
     public EntityReplacement()
     {
         baseStats = new EntityBaseStats();
     }
 
+    [SerializeField]
     public EntityBaseStats baseStats;
     public string animatorOverrideControllerFileName;
-    [XmlArray("SCOnAttack")] public List<string> soundClipFileNamesOnAttack = new List<string>();
-    [XmlArray("SCOnHit")] public List<string> soundClipFileNamesOnHit = new List<string>();
-    [XmlArray("SCOnDeath")] public List<string> soundClipFileNamesOnDeath = new List<string>();
-    [XmlArray("SCOnAggro")] public List<string> soundClipFileNamesOnAggro = new List<string>();
-    [XmlArray("SCOnIdle")] public List<string> soundClipFileNamesOnIdle = new List<string>();
+    [XmlArray("SCOnAttack")] public List<string> soundClipFileNamesOnAttack;
+    [XmlArray("SCOnHit")] public List<string> soundClipFileNamesOnHit;
+    [XmlArray("SCOnDeath")] public List<string> soundClipFileNamesOnDeath;
+    [XmlArray("SCOnAggro")] public List<string> soundClipFileNamesOnAggro;
+    [XmlArray("SCOnIdle")] public List<string> soundClipFileNamesOnIdle;
 
     public int spawnGroupSize_min;
     public int spawnGroupSize_max;
+
+    public object Clone()
+    {
+        baseStats = (EntityBaseStats)baseStats.Clone();
+
+        return this.MemberwiseClone();
+    }
 }

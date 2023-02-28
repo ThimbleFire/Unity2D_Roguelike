@@ -12,7 +12,7 @@ public class MapEditor : EditorBase
 
     MapData activeMapData;
     TextAsset obj;
-    string mapName = string.Empty;
+    int mapNumber = 0;
     string chunkDirectory = string.Empty;
     public List<TextAsset> EnemyList = new List<TextAsset>();
 
@@ -25,7 +25,7 @@ public class MapEditor : EditorBase
     private void Awake()
     {
         so = new SerializedObject(this);
-        activeEntity = new EntityReplacement();
+        activeMapData = new MapData();
     }
 
     protected override void MainWindow()
@@ -38,9 +38,9 @@ public class MapEditor : EditorBase
                 Save();
             }
                         
-            PaintTextField(ref mapName, S_LBL_MAP_NAME);
+            PaintIntField(ref mapNumber, S_LBL_MAP_NAME);
             PaintTextField(ref chunkDirectory, S_LBL_CHUNK_DIRECTORY);
-            PaintList(S_LBL_ENEMY_LIST);
+            PaintList<TextAsset>(S_LBL_ENEMY_LIST);
         }
         EditorGUILayout.EndScrollView();
     }
@@ -64,7 +64,7 @@ public class MapEditor : EditorBase
             filePath = filePath.Substring(0, filePath.Length - S_XML_EXTENSION_LENGTH);
             activeMapData.EnemyList.Add(filePath);
         }
-        
-        XMLUtility.Save<MapData>(activeMapData, S_MAPDATA_DIR, activeMapData.MapName);
+
+        XMLUtility.Save<MapData>(activeMapData, S_MAPDATA_DIR, activeMapData.MapNumber.ToString());
     }
 }

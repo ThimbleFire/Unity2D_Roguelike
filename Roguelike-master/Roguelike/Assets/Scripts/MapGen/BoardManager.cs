@@ -12,22 +12,24 @@ public class BoardManager : MonoBehaviour {
     public static int Width { get; set; }
     public static int Height { get; set; }
 
+    private static SaveState saveState;
+
     private void Awake() {
         tileMapGround = GameObject.Find( "Ground" ).GetComponent<Tilemap>();
         tileMapWalls = GameObject.Find( "Walls" ).GetComponent<Tilemap>();
         tileMapCurios = GameObject.Find( "Curio" ).GetComponent<Tilemap>();
 
         Application.targetFrameRate = 60;
-        PlayerPrefs.DeleteAll();
         Width = 64;
         Height = 64;
 
-        Game.LoadSession();
+        saveState = Game.LoadState();
+        ResourceRepository.LoadMapData(saveState.MapIndex);
     }
 
     private void Start() {
-        RoomLimit = 32;
 
+        RoomLimit = 32;
         Build();
     }
 
@@ -40,7 +42,7 @@ public class BoardManager : MonoBehaviour {
         tileMapWalls.ClearAllTiles();
         tileMapCurios.ClearAllTiles();
 
-        MapFactory.Build();
+        MapFactory.Build(saveState.MapSeed);
 
         tileMapWalls.CompressBounds();
         tileMapGround.CompressBounds();

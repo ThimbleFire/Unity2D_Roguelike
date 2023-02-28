@@ -46,35 +46,22 @@ public class Entity : MonoBehaviour {
         Plus_Defence_Rating = 38,
         Plus_Blockrate = 39
     }
-    public byte TC { get; set; } = 1;
-    public int Experience_Current { get; set; } = 0;
-    public int Experience_Max { get; set; } = 32;
+
     public const int BlockRecoveryBase = 5;
-    public const int StaggerRecoveryBase = 1;
-    public int IncItemFind { get; set; }
+    public const int StaggerRecoveryBase = 1; // Stagger is not yet implemented.
+
+    [SerializeField]
+    public EntityReplacement _base { get; set; }
+    
     public int IncMagicFind => stats[(StatID)Item.Suffix.SType.Plus_Magic_Find] + stats[(StatID)Item.Implicit.IType.Plus_Magic_Find] + stats[(StatID)Item.Prefix.PType.Plus_Magic_Find];
-    public string Name { get; set; }
-    public byte Level { get; set; }
-    public int SpeedBase { get; set; }
-    public int Speed => SpeedBase + (int)stats[(StatID)Item.Implicit.IType.Plus_Speed_Movement] + stats[(StatID)Item.Suffix.SType.Plus_Speed_Movement];
-    public int Life_Current { get; set; }
-    public int Life_MaxBase { get; set; }
-    public int Mana_Current { get; set; }
-    public int Mana_MaxBase { get; set; }
-    public int DmgBasePhyMin { get; set; }
-    public int DmgBasePhyMax { get; set; }
-    public float DefenseBase { get; set; }
-    public int DefenseRating { get; set; }
-    public int AttackRating { get; set; }
-    public int ChanceToBlock { get; set; }
-    public int RangeOfAggression { get; set; }
+    public int Speed => _base.baseStats.Speed + (int)stats[(StatID)Item.Implicit.IType.Plus_Speed_Movement] + stats[(StatID)Item.Suffix.SType.Plus_Speed_Movement];
     public int DefDmgReductionPhys => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Phys] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
     public int DefDmgReductionMagic => stats[(StatID)Item.Prefix.PType.Def_Dmg_Reduction_Magic] + stats[(StatID)Item.Suffix.SType.Def_Dmg_Reduction_All] + stats[(StatID)Item.Implicit.IType.Def_Dmg_Reduction_All];
-    public float Life_Max => Life_MaxBase + Constitution * 3 + stats[(StatID)Item.Suffix.SType.Plus_Life] + Level * 2;
-    public float Mana_Max => Mana_MaxBase + Mathf.Floor(Intelligence * 1.5f) + stats[(StatID)Item.Prefix.PType.Plus_Mana] + Mathf.Floor(Level * 1.5f);
-    public int DmgPhysMin => DmgBasePhyMin + Strength / 10 + stats[(StatID)Item.Suffix.SType.Dmg_Phys_Min];
-    public int DmgPhysMax => DmgBasePhyMax + Strength / 10 + stats[(StatID)Item.Suffix.SType.Dmg_Phys_Max];
-    public float Defense => DefenseBase * Dexterity / 10 + stats[StatID.Def_Phys_Flat];
+    public float Life_Max => _base.baseStats.LifeMax + Constitution * 3 + stats[(StatID)Item.Suffix.SType.Plus_Life] + _base.baseStats.Level * 2;
+    public float Mana_Max => _base.baseStats.ManaMax + Mathf.Floor(Intelligence * 1.5f) + stats[(StatID)Item.Prefix.PType.Plus_Mana] + Mathf.Floor(_base.baseStats.Level * 1.5f);
+    public int DmgPhysMin => _base.baseStats.DmgPhyMin + Strength / 10 + stats[(StatID)Item.Suffix.SType.Dmg_Phys_Min];
+    public int DmgPhysMax => _base.baseStats.DmgPhyMax + Strength / 10 + stats[(StatID)Item.Suffix.SType.Dmg_Phys_Max];
+    public float Defense => _base.baseStats.Defense + (Dexterity / 10) + stats[StatID.Def_Phys_Flat];
     public int DmgEleFireMin => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Fire] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Fire];
     public int DmgEleFireMax => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Fire] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Fire];
     public int DmgEleColdMin => stats[(StatID)Item.Prefix.PType.Dmg_Ele_Cold] + stats[(StatID)Item.Suffix.SType.Dmg_Ele_Cold];
@@ -96,17 +83,12 @@ public class Entity : MonoBehaviour {
     public int IncMoveSpeed => stats[(StatID)Item.Suffix.SType.Plus_Speed_Movement] + stats[(StatID)Item.Implicit.IType.Plus_Speed_Movement];
     public int IncBlockRecovery => stats[(StatID)Item.Suffix.SType.Plus_Block_Recovery] + stats[(StatID)Item.Implicit.IType.Plus_Block_Recovery];
     public int IncStaggerRecovery => stats[(StatID)Item.Suffix.SType.Plus_Stagger_Recovery] + stats[(StatID)Item.Implicit.IType.Plus_Stagger_Recovery];
-    public float IncBlockRate => stats[(StatID)Item.Suffix.SType.Plus_Blockrate] + stats[(StatID)Item.Implicit.IType.Plus_Blockrate];
-    public float IncAttackRating => Dexterity / 2 + stats[(StatID)Item.Prefix.PType.Plus_Attack_Rating];
-
-    public int StrengthBase { get; set; }
-    public int DexterityBase { get; set; }
-    public int ConstitutionBase { get; set; }
-    public int IntelligenceBase { get; set; }
-    public int Strength => stats[(StatID)Item.Suffix.SType.Plus_Str] + StrengthBase;
-    public int Dexterity => stats[(StatID)Item.Suffix.SType.Plus_Dex] + DexterityBase;
-    public int Constitution => stats[(StatID)Item.Suffix.SType.Plus_Con] + ConstitutionBase;
-    public int Intelligence => stats[(StatID)Item.Suffix.SType.Plus_Int] + IntelligenceBase;
+    public float IncBlockRate => stats[(StatID)Item.Suffix.SType.Plus_Blockrate] + stats[(StatID)Item.Implicit.IType.Plus_Blockrate] + _base.baseStats.ChanceToBlock;
+    public float IncAttackRating => Dexterity / 2 + stats[(StatID)Item.Prefix.PType.Plus_Attack_Rating] + _base.baseStats.AttackRating;
+    public int Strength => stats[(StatID)Item.Suffix.SType.Plus_Str] + _base.baseStats.Strength;
+    public int Dexterity => stats[(StatID)Item.Suffix.SType.Plus_Dex] + _base.baseStats.Dexterity;
+    public int Constitution => stats[(StatID)Item.Suffix.SType.Plus_Con] + _base.baseStats.Constitution;
+    public int Intelligence => stats[(StatID)Item.Suffix.SType.Plus_Int] + _base.baseStats.Intelligence;
 
     protected Dictionary<StatID, int> stats = new Dictionary<StatID, int>();
     protected SpriteRenderer spriteRenderer;
@@ -117,7 +99,7 @@ public class Entity : MonoBehaviour {
             int disY = Mathf.Abs( Entities.GetPCS._coordinates.y - _coordinates.y );
             int distance = disX + disY;
 
-            return distance <= RangeOfAggression;
+            return distance <= _base.baseStats.RangeOfAggression;
         }
     }
 
@@ -154,7 +136,7 @@ public class Entity : MonoBehaviour {
     /// </summary>
     public virtual void Action() {
 
-        if(SpeedBase == 0)
+        if(_base.baseStats.Speed == 0)
         {
             Entities.Step(false);
             return;
@@ -172,7 +154,7 @@ public class Entity : MonoBehaviour {
         if ( distance == 1 ) {
             Attack();
             AttackSplash.Show( playerCharacterCoordinates, AttackSplash.Type.Pierce );
-            Entities.Attack( playerCharacterCoordinates, Random.Range( DmgBasePhyMin, DmgBasePhyMax + 1 ), AttackRating, Level );
+            Entities.Attack( playerCharacterCoordinates, Random.Range(_base.baseStats.DmgPhyMin, _base.baseStats.DmgPhyMax + 1 ), _base.baseStats.AttackRating, _base.baseStats.Level );
             return;
         }
 
@@ -203,8 +185,8 @@ public class Entity : MonoBehaviour {
     public virtual void RecieveDamage( int incomingDamage, float attackerCombatRating, float attackerLevel ) {
 
         //Roll dodge
-        float CRvDR = attackerCombatRating / (attackerCombatRating + DefenseRating);
-        float ALvDL = attackerLevel / (attackerLevel + Level);
+        float CRvDR = attackerCombatRating / (attackerCombatRating + Defense);
+        float ALvDL = attackerLevel / (attackerLevel + _base.baseStats.Level);
         float chanceToHit = 200 * CRvDR * ALvDL;
         float value = Random.Range(0.0f, 100.0f);
         if (chanceToHit < value) {
@@ -215,7 +197,7 @@ public class Entity : MonoBehaviour {
         //Roll block
         if (BlockRecoveryTurnsRemaining == 0) {
             value = Random.Range(0.0f, 100.0f);
-            if (value <= ChanceToBlock) {
+            if (value <= _base.baseStats.ChanceToBlock) {
                 AudioDevice.Play(block);
                 Entities.DrawFloatingText("Blocked", transform, Color.gray);
                 BlockRecoveryTurnsRemaining = BlockRecoveryBase;
@@ -227,19 +209,19 @@ public class Entity : MonoBehaviour {
 
         // reduce incoming damage by armour rating. This code desparately needs refining.
         float actualIncomingDamage = incomingDamage;
-        float percentReduction = DefenseBase / 1000 * 70;
+        float percentReduction = _base.baseStats.Defense / 1000 * 70;
         float percentLeftOver = 100 - percentReduction;
         actualIncomingDamage *= percentLeftOver / 100;
         actualIncomingDamage = Mathf.Clamp(actualIncomingDamage, 1.0f, float.MaxValue);
 
         Entities.DrawFloatingText(((int)actualIncomingDamage).ToString(), transform, Color.red);
-        Life_Current -= (int)actualIncomingDamage;
+        _base.baseStats.LifeCurrent -= (int)actualIncomingDamage;
         AudioDevice.Play( onHit );
 
-        if(Name == "Player Chacter")
-            PlayerHealthBar.SetCurrentLife(Life_Current);
+        if(_base.baseStats.Name == "Player Chacter")
+            PlayerHealthBar.SetCurrentLife(_base.baseStats.LifeCurrent);
 
-        if ( Life_Current <= 0 ) {
+        if (_base.baseStats.LifeCurrent <= 0 ) {
             Die();
         }
     }
@@ -275,5 +257,15 @@ public class Entity : MonoBehaviour {
             transform.localScale = -dir.x > 0 ? new Vector3( 1.0f, 1.0f ) : new Vector3( -1.0f, 1.0f );
             _animator.SetBool( "Moving", true );
         }
+    }
+
+    public void SetEntity(EntityReplacement replacement)
+    {
+        _base = replacement;
+
+        _base.baseStats.LifeCurrent = (int)Life_Max;
+        _base.baseStats.ManaCurrent = (int)Mana_Max;
+
+        this._animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(replacement.animatorOverrideControllerFileName);
     }
 }

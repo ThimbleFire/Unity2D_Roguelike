@@ -10,38 +10,13 @@ public class Entities : MonoBehaviour {
     public static Entity GetTurnTaker => s_entities[s_Turn];
     public static GameObject floatingTextParent;
     public static GameObject teleportsmoke;
-
-    public enum ENEMY_LEVEL_0
-    {
-        Imp,
-        ImpTrident,
-        Skeleton
-    }
-    public enum ENEMY_LEVEL_1
-    {
-
-    }
-    public enum ENEMY_LEVEL_2
-    {
-
-    }
-    public enum ENEMY_LEVEL_3
-    {
-
-    }
-    public enum ENEMY_LEVEL_4
-    {
-
-    }
-    public enum ENEMY_LEVEL_5
-    {
-
-    }
+    public static GameObject EnemyPrefab;
 
     private void Awake() {
         Transform = gameObject.transform;
         floatingTextParent = Resources.Load("Prefabs/Floating Text") as GameObject;
         teleportsmoke = Resources.Load("Prefabs/Puff of smoke") as GameObject;
+        EnemyPrefab = Resources.Load<GameObject>("Prefabs/Entities/NPCs/Enemy");
     }
 
     public static List<Entity> Search( Vector3Int coordinates ) => s_entities.FindAll( x => x._coordinates == coordinates );
@@ -56,12 +31,12 @@ public class Entities : MonoBehaviour {
 
     public static void RollMob( Vector3Int spawnPosition, int difficulty ) {
 
-        //GameObject prefab = ResourceRepository.GetRandomEnemyByLevel(difficulty);
-        //GameObject instance = Instantiate( prefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform );
-        //Entity entity = instance.GetComponent<Entity>();
-        //entity._coordinates = spawnPosition;
-
-        //s_entities.Add( entity );
+        EntityReplacement replacement = ResourceRepository.GetRandomAvailableEnemy();
+        GameObject instance = Instantiate(EnemyPrefab, spawnPosition + Vector3.up * 0.75f + Vector3.right * 0.5f, Quaternion.identity, Transform);
+        Entity entity = instance.GetComponent<Entity>();
+        entity._coordinates = spawnPosition;
+        entity.SetEntity(replacement);
+        s_entities.Add(entity);
     }
 
     public static void DrawFloatingText(string message, Transform unitTransform, Color color)

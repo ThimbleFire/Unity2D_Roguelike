@@ -12,28 +12,34 @@ public class PlayerCharacter : Navigator {
     private const int UNARMED_DMG_PHYS_MAX = 3;
 
     private void Start() {
-        Name = "Player Chacter";
-        SpeedBase = 4;
-        Level = 1;
-        DmgBasePhyMin = 2;
-        DmgBasePhyMax = 3;
-        AttackRating = 5;
-        StrengthBase = 25;
-        ConstitutionBase = 25;
-        DexterityBase = 20;
-        IntelligenceBase = 15;
-        Life_MaxBase = 55;
-        Life_Current = Life_MaxBase;
+        SaveState state = Game.LoadState();
 
-        PlayerHealthBar.SetMaximumLife(Life_MaxBase);
-        PlayerHealthBar.SetCurrentLife(Life_Current);
+        _base = new EntityReplacement();
+        _base.baseStats.Name = state.PlayerName;
+        _base.baseStats.Speed = state.PlayerSpeed;
+        _base.baseStats.Experience = state.PlayerExperience;
+        _base.baseStats.Level = Mathf.Clamp(_base.baseStats.Experience / 4 * (_base.baseStats.Experience - 1 + 300 * 2 * (_base.baseStats.Experience - 1 / 7)), 1, 99);
+        _base.baseStats.DmgPhyMin = 2;
+        _base.baseStats.DmgPhyMax = 3;
+        _base.baseStats.AttackRating = 5;
+        _base.baseStats.Strength = state.playerBaseStrength;
+        _base.baseStats.Constitution = state.playerBaseConstitution;
+        _base.baseStats.Dexterity = state.playerBaseDexterity;
+        _base.baseStats.Intelligence = state.playerBaseIntelligence;
+        _base.baseStats.LifeMax = state.PlayerLifeMax;
+        _base.baseStats.LifeCurrent = state.PlayerLifeCurrent;
+        _base.baseStats.ManaMax = state.PlayerManaMax;
+        _base.baseStats.ManaCurrent = state.PlayerManaCurrent;
+
+        PlayerHealthBar.SetMaximumLife((int)Life_Max);
+        PlayerHealthBar.SetCurrentLife(_base.baseStats.LifeCurrent);
         Inventory.RefreshCharacterStats(this);
 
         Inventory.OnEquipmentChange += Inventory_OnEquipmentChange;
 
-        Inventory.Pickup("Primary/1/Short Sword");
-        Inventory.Pickup("Chest/1/Animal Skin");
-        Inventory.Pickup("Secondary/1/Buckler");
+        //Inventory.Pickup("Primary/1/Short Sword");
+        //Inventory.Pickup("Chest/1/Animal Skin");
+        //Inventory.Pickup("Secondary/1/Buckler");
     }
 
     public override void Move() {
@@ -87,7 +93,7 @@ public class PlayerCharacter : Navigator {
         HUDControls.Hide();
 
         AttackSplash.Show( TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash );
-        Entities.Attack( TileMapCursor.SelectedTileCoordinates, Random.Range( DmgPhysMin, DmgPhysMax ), AttackRating + IncAttackRating, Level );
+        Entities.Attack( TileMapCursor.SelectedTileCoordinates, Random.Range( DmgPhysMin, DmgPhysMax ), IncAttackRating, _base.baseStats.Level);
 
         if (_primary != null)
             _primary.SetTrigger( "Attack" );
@@ -101,22 +107,22 @@ public class PlayerCharacter : Navigator {
         {
             if (adding)
             {
-                DmgBasePhyMin = itemStats.MinDamage;
+                _base.baseStats.DmgPhyMin = itemStats.MinDamage;
             }
             else
             {
-                DmgBasePhyMin = UNARMED_DMG_PHYS_MIN;
+                _base.baseStats.DmgPhyMin = UNARMED_DMG_PHYS_MIN;
             }
         }
         if (itemStats.MaxDamage > 0)
         {
             if (adding)
             {
-                DmgBasePhyMax = itemStats.MaxDamage;
+                _base.baseStats.DmgPhyMax = itemStats.MaxDamage;
             }
             else
             {
-                DmgBasePhyMax = UNARMED_DMG_PHYS_MAX;
+                _base.baseStats.DmgPhyMax = UNARMED_DMG_PHYS_MAX;
             }
         }
         if (itemStats.Defense > 0)
@@ -134,11 +140,11 @@ public class PlayerCharacter : Navigator {
         {
             if (adding)
             {
-                ChanceToBlock += itemStats.Blockrate;
+                _base.baseStats.ChanceToBlock += itemStats.Blockrate;
             }
             else
             {
-                ChanceToBlock -= itemStats.Blockrate;
+                _base.baseStats.ChanceToBlock -= itemStats.Blockrate;
             }
         }
 
@@ -175,16 +181,16 @@ public class PlayerCharacter : Navigator {
                 stats[(StatID)item.type] -= item.value;
             }
         }
-        PlayerHealthBar.SetMaximumLife(Life_MaxBase);
+        PlayerHealthBar.SetMaximumLife((int)Life_Max);
         Inventory.RefreshCharacterStats(this);
     }
 
     public override void PreTurn()
     {
         //regen life
-        if (Life_Current < Life_Max && RegenLife > 0)
+        if (_base.baseStats.LifeCurrent < Life_Max && RegenLife > 0)
         {
-            Life_Current = Mathf.Clamp(Life_Current + RegenLife, 0, Life_MaxBase);
+            _base.baseStats.LifeCurrent = Mathf.Clamp(_base.baseStats.LifeCurrent + RegenLife, 0, (int)Life_Max);
             Entities.DrawFloatingText(RegenLife.ToString(), transform, Color.green);
         }
 

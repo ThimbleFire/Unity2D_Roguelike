@@ -136,7 +136,7 @@ public class Room {
                 case "Dungeon_Tileset_118":
                 case "Dungeon_Tileset_117":
                 case "Dungeon_Tileset_116":
-                    //Entities.RollMob( Position + data.position, 0 );
+                    Entities.RollMob( Position + data.position, 0 );
                     break;
 
                 case "Dungeon_Tileset_119":

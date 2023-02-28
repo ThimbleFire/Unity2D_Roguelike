@@ -24,7 +24,7 @@ public class ItemStats : MonoBehaviour
     public bool RequirementsMetStrength { get { return Entities.GetPCS.Strength >= item.ReqStr; } }
     public bool RequirementsMetDexterity { get { return Entities.GetPCS.Dexterity >= item.ReqDex; } }
     public bool RequirementsMetIntelligence { get { return Entities.GetPCS.Intelligence >= item.ReqInt; } }
-    public bool RequirementsMetLevel { get { return Entities.GetPCS.Level >= item.ReqLvl; } }
+    public bool RequirementsMetLevel { get { return Entities.GetPCS._base.baseStats.Level >= item.ReqLvl; } }
     public bool RequirementsMetConstitution { get { return Entities.GetPCS.Constitution >= item.ReqCons; } }
     public bool RequirementsMetAll { get { return RequirementsMetStrength && RequirementsMetDexterity && RequirementsMetIntelligence && RequirementsMetLevel && RequirementsMetConstitution; }  }
 

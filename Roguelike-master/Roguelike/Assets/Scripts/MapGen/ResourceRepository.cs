@@ -6,11 +6,11 @@ public class ResourceRepository : MonoBehaviour {
     private static List<Chunk> ChunksInMemory;
     public static Dictionary<string, TileBase> Tile;
     public static Chunk Town;
+    public static List<EntityReplacement> AvailableEnemies;
 
-    private void Awake() {
-        // load maps
-        UnityEngine.Object[] objs = Resources.LoadAll("Chunks/");
-
+    public static void LoadMapData(int mapIndex)
+    {
+        UnityEngine.Object[] objs = Resources.LoadAll("Chunks/" + mapIndex + "/");
         ChunksInMemory = new List<Chunk>();
         for ( int i = 0; i < objs.Length; i++ ) {
             Chunk r = XMLUtility.Load<Chunk>( objs[i] );
@@ -21,19 +21,30 @@ public class ResourceRepository : MonoBehaviour {
                 ChunksInMemory.Add( r );
         }
 
-        // load tiles
-
         TileBase[] t = Resources.LoadAll<TileBase>( "Dungeon Tileset/" );
         Tile = new Dictionary<string, TileBase>();
         foreach ( TileBase tile in t ) {
             Tile.Add( tile.name, tile );
         }
+
+        Object obj = Resources.Load("Maps/" + mapIndex);
+        MapData mapData = XMLUtility.Load<MapData>(obj);
+        AvailableEnemies = new List<EntityReplacement>();
+        foreach (string path in mapData.EnemyList)
+        {
+            AvailableEnemies.Add(XMLUtility.Load<EntityReplacement>(path));
+        }
     }
 
-    public static ItemStats GetItemMatchingCriteria(Item.Type itemType, byte mlvl, byte TC)
+    public static EntityReplacement GetRandomAvailableEnemy()
+    {
+        return AvailableEnemies[Random.Range(0, AvailableEnemies.Count)];
+    }
+
+    public static ItemStats GetItemMatchingCriteria(Item.Type itemType, int mlvl, int TC)
     {
         if (mlvl % 3 != 0)
-            mlvl = (byte)(Mathf.Round(mlvl / 3) * 3);
+            mlvl = (int)(Mathf.Round(mlvl / 3) * 3);
 
         for (int i = mlvl * 3; i > 0; i-=3)
         {

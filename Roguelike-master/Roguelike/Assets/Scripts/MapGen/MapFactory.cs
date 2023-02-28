@@ -5,11 +5,10 @@ public class MapFactory {
     public static int AvailableEntrances = 0;
     public static int PlacedRooms = 0;
 
-    public static void Build() {
+    public static void Build(int seed = 0) {
         PlacedRooms = 0;
         AvailableEntrances = 0;
 
-        int seed = Random.Range( int.MinValue, int.MaxValue );
         Random.InitState( seed );
 
         List<Room> rooms = new List<Room>() { new Room() };
@@ -20,10 +19,10 @@ public class MapFactory {
             int index = Random.Range( 0, prototypes.Count );
             Room prototype = prototypes[index];
 
-            // Get that prototypes parent
+            // Get that prototype's parent
             Room parent = prototype.Parent;
 
-            // Build a room based on the protoype
+            // Build a child room based on the protoype
             Room child = new Room( parent, prototype.parentOutput, true );
 
             // Is the child room in bounds
@@ -32,6 +31,7 @@ public class MapFactory {
             if ( !result )
                 continue;
 
+            // Get the child's prototypes
             List<Room> childPrototypes = new List<Room>(child.GetPrototypes);
 
             // Are the child's prototype rooms within bounds
@@ -124,18 +124,12 @@ public class MapFactory {
     }
 
     public static Vector2Int GetDirVector2Int( AccessPoint.Dir direction ) {
-        switch ( direction ) {
-            case AccessPoint.Dir.UP:
-                return Vector2Int.up;
-
-            case AccessPoint.Dir.DOWN:
-                return Vector2Int.down;
-
-            case AccessPoint.Dir.LEFT:
-                return Vector2Int.left;
-
-            case AccessPoint.Dir.RIGHT:
-                return Vector2Int.right;
+        switch (direction)
+        {
+            case AccessPoint.Dir.UP: return Vector2Int.up;
+            case AccessPoint.Dir.DOWN: return Vector2Int.down;
+            case AccessPoint.Dir.LEFT: return Vector2Int.left;
+            case AccessPoint.Dir.RIGHT: return Vector2Int.right;
         }
 
         return Vector2Int.zero;

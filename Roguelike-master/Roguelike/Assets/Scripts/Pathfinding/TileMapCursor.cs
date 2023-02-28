@@ -57,14 +57,14 @@ public class TileMapCursor : MonoBehaviour {
         }
         else
         {
-            s_SelectedText.text = entities[0].Name;
+            s_SelectedText.text = entities[0]._base.baseStats.Name;
 
             int distance = Pathfind.GetDistance(playerCharacter._coordinates, coordinate);
 
             if(distance == 10 || distance == 14)
-                OnTargetInMeleeRange.Invoke(coordinate, entities[0].Name);
+                OnTargetInMeleeRange.Invoke(coordinate, entities[0]._base.baseStats.Name);
 
-            OnEntitySelected.Invoke(coordinate, entities[0].Name);
+            OnEntitySelected.Invoke(coordinate, entities[0]._base.baseStats.Name);
         }
     }
 

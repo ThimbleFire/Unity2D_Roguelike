@@ -7,13 +7,13 @@ public class LootDropper
     private static float DropUniqueChance { get { return 0.005f + ( 0.00005f * Entities.GetPCS.IncMagicFind ) / 2; } }
     private static float DropMagicChance { get { return 0.095f + ( 0.00095f * Entities.GetPCS.IncMagicFind ) / 2; } }
 
-    public static void RollLoot(Transform _transform, byte mlvl, byte TC)
+    public static void RollLoot(Transform _transform, int mlvl, int TC)
     {
         // Are we dropping an item
         
         int roll = Random.Range(0, 100);
         
-        bool itemIsDropping = roll < BaseItemFind + Entities.GetPCS.IncItemFind;
+        bool itemIsDropping = roll < BaseItemFind + Entities.GetPCS._base.baseStats.ItemFind;
         
         if(itemIsDropping == false)
             return;

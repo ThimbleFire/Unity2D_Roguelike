@@ -1,7 +1,7 @@
 using System;
 
 [Serializable]
-public class EntityBaseStats
+public class EntityBaseStats : ICloneable
 {    
     public string Name;
     public int Level;
@@ -9,15 +9,12 @@ public class EntityBaseStats
     public int RangeOfAggression;
     public int Experience;
     public int TreasureClass;
-    
     public int LifeMax;
     public int LifeCurrent;
     public int ManaMax;
     public int ManaCurrent;
-    
     public int ItemFind;
     public int MagicFind;
-    
     public int AttackRating;
     public int ChanceToBlock;
     public int Defense;
@@ -38,4 +35,13 @@ public class EntityBaseStats
     public int DmgLightMax;
     public int DmgPoisonMax;
     public int DmgEleAllMax;
+    public int Strength;
+    public int Dexterity;
+    public int Constitution;
+    public int Intelligence;
+
+    public object Clone()
+    {
+        return this.MemberwiseClone();
+    }
 }

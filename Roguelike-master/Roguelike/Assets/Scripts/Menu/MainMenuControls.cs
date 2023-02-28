@@ -20,7 +20,6 @@ public class MainMenuControls : MonoBehaviour
     public void NewGameOrContinue()
     {
         if(Game.SessionExists) {
-            Game.LoadSession();
             UnityEngine.SceneManagement.SceneManager.LoadScene("Gameplay");
             return;
         }

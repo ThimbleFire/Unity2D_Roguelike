@@ -1,0 +1,8 @@
+<?xml version="1.0"?>
+<Data xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <MapNumber>0</MapNumber>
+  <EnemyList>
+    <string>Entities/Imp</string>
+    <string>Entities/Skeleton</string>
+  </EnemyList>
+</Data>

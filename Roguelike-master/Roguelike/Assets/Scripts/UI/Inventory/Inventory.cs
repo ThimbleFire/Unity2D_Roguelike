@@ -105,11 +105,11 @@ public class Inventory : MonoBehaviour, IItemClickHandler, IItemClickOffHandler 
 
 
         System.Text.StringBuilder stringBuilder = new System.Text.StringBuilder();
-        stringBuilder.AppendLine(string.Format("Level: {0}", playerEntity.Level));
-        stringBuilder.AppendLine(string.Format("Experience: {0} / {1}", playerEntity.Experience_Current, playerEntity.Experience_Max));
+        stringBuilder.AppendLine(string.Format("Level: {0}", playerEntity._base.baseStats.Level));
+        stringBuilder.AppendLine(string.Format("Experience: {0} / {1}", playerEntity._base.baseStats.Experience, playerEntity._base.baseStats.Experience));
         stringBuilder.AppendLine();
-        stringBuilder.AppendLine(string.Format("Life: {0} / {1}", playerEntity.Life_Current, playerEntity.Life_Max));
-        stringBuilder.AppendLine(string.Format("Mana: {0} / {1}", playerEntity.Mana_Current, playerEntity.Mana_Max));
+        stringBuilder.AppendLine(string.Format("Life: {0} / {1}", playerEntity._base.baseStats.LifeCurrent, playerEntity.Life_Max));
+        stringBuilder.AppendLine(string.Format("Mana: {0} / {1}", playerEntity._base.baseStats.ManaCurrent, playerEntity.Mana_Max));
         stringBuilder.AppendLine();
         stringBuilder.AppendLine(string.Format("Strength: {0}", playerEntity.Strength));
         stringBuilder.AppendLine(string.Format("Dexterity: {0}", playerEntity.Dexterity));
@@ -118,7 +118,7 @@ public class Inventory : MonoBehaviour, IItemClickHandler, IItemClickOffHandler 
         stringBuilder.AppendLine();
         stringBuilder.AppendLine("<u>On Attack</u>");
         stringBuilder.AppendLine();
-        stringBuilder.AppendLine(string.Format("Attack Rating: {0}", playerEntity.AttackRating));
+        stringBuilder.AppendLine(string.Format("Attack Rating: {0}", playerEntity.IncAttackRating));
         stringBuilder.AppendLine(string.Format("Attack Damage: {0} - {1}", playerEntity.DmgPhysMin, playerEntity.DmgPhysMax));
         stringBuilder.AppendLine(string.Format("Elemental Dmg: {8}{0} - {1}{12}, {9}{2} - {3}{12}, {10}{4} - {5}{12}, {11}{6} - {7}{12}",
             playerEntity.DmgEleFireMin, playerEntity.DmgEleFireMax,
@@ -132,8 +132,7 @@ public class Inventory : MonoBehaviour, IItemClickHandler, IItemClickOffHandler 
         stringBuilder.AppendLine("<u>Defences</u>");
         stringBuilder.AppendLine();
         stringBuilder.AppendLine(string.Format("Defence: {0}", playerEntity.Defense));
-        stringBuilder.AppendLine(string.Format("Defence Rating: {0}", playerEntity.DefenseRating));
-        stringBuilder.AppendLine(string.Format("Block Chance: {0}", playerEntity.ChanceToBlock));
+        stringBuilder.AppendLine(string.Format("Block Chance: {0}", playerEntity.IncBlockRate));
         stringBuilder.AppendLine(string.Format("Block Recovery: {0}", Entity.BlockRecoveryBase - playerEntity.IncBlockRecovery));
         stringBuilder.AppendLine(string.Format("Stagger Recovery: {0}", Entity.StaggerRecoveryBase - playerEntity.IncStaggerRecovery));
         stringBuilder.AppendLine(string.Format("Resistances: {4}{0}{8}, {5}{1}{8}, {6}{2}{8}, {7}{3}{8}",
