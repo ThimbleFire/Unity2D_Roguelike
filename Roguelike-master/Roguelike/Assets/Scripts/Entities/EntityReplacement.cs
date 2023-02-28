@@ -25,8 +25,17 @@ public class EntityReplacement : ICloneable
 
     public object Clone()
     {
-        baseStats = (EntityBaseStats)baseStats.Clone();
-
-        return this.MemberwiseClone();
+        return new EntityReplacement()
+        {
+            baseStats = (EntityBaseStats)baseStats.Clone(),
+            animatorOverrideControllerFileName = animatorOverrideControllerFileName,
+            soundClipFileNamesOnAttack = soundClipFileNamesOnAttack,
+            soundClipFileNamesOnHit = soundClipFileNamesOnHit,
+            soundClipFileNamesOnDeath = soundClipFileNamesOnDeath,
+            soundClipFileNamesOnAggro = soundClipFileNamesOnAggro,
+            soundClipFileNamesOnIdle = soundClipFileNamesOnIdle,
+            spawnGroupSize_min = spawnGroupSize_min,
+            spawnGroupSize_max = spawnGroupSize_max,
+        };
     }
 }

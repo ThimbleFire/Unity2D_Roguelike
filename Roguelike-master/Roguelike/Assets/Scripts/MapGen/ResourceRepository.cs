@@ -38,7 +38,7 @@ public class ResourceRepository : MonoBehaviour {
 
     public static EntityReplacement GetRandomAvailableEnemy()
     {
-        return AvailableEnemies[Random.Range(0, AvailableEnemies.Count)];
+        return (EntityReplacement)AvailableEnemies[Random.Range(0, AvailableEnemies.Count)].Clone();
     }
 
     public static ItemStats GetItemMatchingCriteria(Item.Type itemType, int mlvl, int TC)

@@ -42,6 +42,45 @@ public class EntityBaseStats : ICloneable
 
     public object Clone()
     {
-        return this.MemberwiseClone();
+        //EntityBaseStats a = (EntityBaseStats)this.MemberwiseClone();
+        return new EntityBaseStats()
+        {
+            Name = Name,
+            Level = Level,
+            Speed = Speed,
+            RangeOfAggression = RangeOfAggression,
+            Experience = Experience,
+            TreasureClass = TreasureClass,
+            LifeMax = LifeMax,
+            LifeCurrent = LifeCurrent,
+            ManaMax = ManaMax,
+            ManaCurrent = ManaCurrent,
+            ItemFind = ItemFind,
+            MagicFind = MagicFind,
+            AttackRating = AttackRating,
+            ChanceToBlock = ChanceToBlock,
+            Defense = Defense,
+            ResFire = ResFire,
+            ResCold = ResCold,
+            ResLight = ResLight,
+            ResPoison = ResPoison,
+            ResAll = ResAll,
+            DmgPhyMin = DmgPhyMin,
+            DmgFireMin = DmgFireMin,
+            DmgColdMin = DmgColdMin,
+            DmgLightMin = DmgLightMin,
+            DmgPoisonMin = DmgPoisonMin,
+            DmgEleAllMin = DmgEleAllMin,
+            DmgPhyMax = DmgPhyMax,
+            DmgFireMax = DmgFireMax,
+            DmgColdMax = DmgColdMax,
+            DmgLightMax = DmgLightMax,
+            DmgPoisonMax = DmgPoisonMax,
+            DmgEleAllMax = DmgEleAllMax,
+            Strength = Strength,
+            Dexterity = Dexterity,
+            Constitution = Constitution,
+            Intelligence = Intelligence,
+        };
     }
 }
