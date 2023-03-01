@@ -252,6 +252,10 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 844728481292203072, guid: d80ae2c0b75f4e847850c3b84325d6b3, type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 844728481292203072, guid: d80ae2c0b75f4e847850c3b84325d6b3, type: 3}
       propertyPath: m_PointLightInnerRadius
       value: 5
       objectReference: {fileID: 0}
@@ -387,7 +391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 786910420283290671, guid: a2cd58851b3bc454faf4ed821021f531, type: 3}
       propertyPath: m_FalloffIntensity
-      value: 0.9
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 786910420283290671, guid: a2cd58851b3bc454faf4ed821021f531, type: 3}
       propertyPath: m_ApplyToSortingLayers.Array.size

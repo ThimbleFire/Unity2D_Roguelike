@@ -20,14 +20,14 @@ namespace AlwaysEast
         {
             MaximumLife = m;
 
-            limiter.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MaximumLife * 5);
+            limiter.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MaximumLife * 1);
         }
 
         public static void SetCurrentLife(int c)
         {
             CurrentLife = c;
 
-            value.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CurrentLife * 5);
+            value.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CurrentLife * 1);
         }
     }
 }

@@ -18,7 +18,7 @@ namespace AlwaysEast
         private void Awake()
         {
             Transform = gameObject.transform;
-            floatingTextParent = Resources.Load("Prefabs/Floating Text") as GameObject;
+            floatingTextParent = Resources.Load("Prefabs/Floating Text/Floating Text") as GameObject;
             EnemyPrefab = Resources.Load<GameObject>("Prefabs/Entities/NPCs/Enemy");
         }
 

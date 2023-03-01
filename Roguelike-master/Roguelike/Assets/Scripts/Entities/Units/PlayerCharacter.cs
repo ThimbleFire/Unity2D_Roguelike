@@ -235,6 +235,7 @@ namespace AlwaysEast
             AudioDevice.Play(onHit);
 
             PlayerHealthBar.SetCurrentLife(_base.baseStats.LifeCurrent);
+            Inventory.RefreshCharacterStats(this);
 
             if (_base.baseStats.LifeCurrent <= 0)
             {
