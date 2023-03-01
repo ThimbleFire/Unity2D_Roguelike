@@ -132,11 +132,12 @@ namespace AlwaysEast
             {
                 switch (data.name)
                 {
+                    //Lights
                     case "Dungeon_Tileset_91":
                     case "Dungeon_Tileset_90":
                     case "Dungeon_Tileset_93":
                     case "Dungeon_Tileset_95":
-                        BoardManager.Instantiate(Resources.Load<GameObject>("Prefabs/Light - Wall Light"), Position + data.position, Quaternion.identity);
+                        //BoardManager.Instantiate(Resources.Load<GameObject>("Prefabs/Light - Wall Light"), Position + data.position, Quaternion.identity);
                         BoardManager.tileMapCurios.SetTile(Position + data.position, ResourceRepository.Tile[data.name]);
                         break;
                     //Hide curios that are triggers and build helpers

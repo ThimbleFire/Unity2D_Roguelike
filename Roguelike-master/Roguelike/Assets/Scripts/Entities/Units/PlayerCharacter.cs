@@ -4,8 +4,6 @@ namespace AlwaysEast
 {
     public class PlayerCharacter : Navigator
     {
-
-        public Animator _primary;
         public enum Class
         {
             Melee, Ranged, Magic
@@ -64,8 +62,8 @@ namespace AlwaysEast
             if (_chain.Count == 0)
                 return;
 
-            if (_primary != null)
-                _primary.SetBool("Moving", true);
+            //if (_primary != null)
+            //    _primary.SetBool("Moving", true);
 
             AudioDevice.Play(onMove);
 
@@ -76,8 +74,8 @@ namespace AlwaysEast
 
         protected override void OnArrival()
         {
-            if (_primary != null)
-                _primary.SetBool("Moving", false);
+            //if (_primary != null)
+            //    _primary.SetBool("Moving", false);
 
             base.OnArrival();
         }
@@ -101,8 +99,8 @@ namespace AlwaysEast
             AttackSplash.Show(TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash);
             Entities.Attack(TileMapCursor.SelectedTileCoordinates, Random.Range(DmgPhysMin, DmgPhysMax), IncAttackRating, _base.baseStats.Level);
 
-            if (_primary != null)
-                _primary.SetTrigger("Attack");
+            //if (_primary != null)
+            //    _primary.SetTrigger("Attack");
 
             base.Attack();
         }
