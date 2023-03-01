@@ -97,7 +97,7 @@ namespace AlwaysEast
         protected Dictionary<StatID, int> stats = new Dictionary<StatID, int>();
         protected SpriteRenderer spriteRenderer;
 
-        public bool isAggressive
+        public bool IsAggressive
         {
             get
             {
@@ -147,7 +147,6 @@ namespace AlwaysEast
         /// </summary>
         public virtual void Action()
         {
-
             if (_base.baseStats.Speed == 0)
             {
                 Entities.Step(false);
@@ -161,9 +160,8 @@ namespace AlwaysEast
             int disX = Mathf.Abs(playerCharacterCoordinates.x - _coordinates.x);
             int disY = Mathf.Abs(playerCharacterCoordinates.y - _coordinates.y);
 
-            int distance = disX + disY;
-
-            if (distance == 1)
+            bool canAttack = disX + disY == 1;
+            if (canAttack)
             {
                 Attack();
                 AttackSplash.Show(playerCharacterCoordinates, AttackSplash.Type.Pierce);
@@ -171,82 +169,23 @@ namespace AlwaysEast
                 return;
             }
 
-            if (isAggressive)
+            if (IsAggressive)
             {
                 _chain = Pathfind.GetPath(_coordinates, playerCharacterCoordinates, false);
 
-                if (_chain == null)
-                {
-                    Entities.Step(spriteRenderer.isVisible);
-                    return;
-                }
-                if (_chain.Count == 0)
+                if (IsNullOrDefault(_chain))
                 {
                     Entities.Step(spriteRenderer.isVisible);
                     return;
                 }
             }
-            else
-            {
-                //There's a 1 in 10 chance idling NPCs will talk
-                //if ( UnityEngine.Random.Range( 0, 10 ) == 0 )
-                //    SpeechBubble.Show( transform, SpeechBubble.Type.Talking );
-
-                _chain = Pathfind.Wander(_coordinates);
-            }
-
+            else _chain = Pathfind.Wander(_coordinates);
+            
             if (spriteRenderer.isVisible)
                 AudioDevice.Play(onMove);
         }
 
-        public virtual void RecieveDamage(int incomingDamage, float attackerCombatRating, float attackerLevel)
-        {
-
-            //Roll dodge
-            float CRvDR = attackerCombatRating / (attackerCombatRating + Defense);
-            float ALvDL = attackerLevel / (attackerLevel + _base.baseStats.Level);
-            float chanceToHit = 200 * CRvDR * ALvDL;
-            float value = Random.Range(0.0f, 100.0f);
-            if (chanceToHit < value)
-            {
-                Entities.DrawFloatingText("Miss", transform, Color.gray);
-                return;
-            }
-
-            //Roll block
-            if (BlockRecoveryTurnsRemaining == 0)
-            {
-                value = Random.Range(0.0f, 100.0f);
-                if (value <= _base.baseStats.ChanceToBlock)
-                {
-                    AudioDevice.Play(block);
-                    Entities.DrawFloatingText("Blocked", transform, Color.gray);
-                    BlockRecoveryTurnsRemaining = BlockRecoveryBase;
-                    return;
-                }
-            }
-            // reduce incoming damage by this entities flat damage reduction
-            incomingDamage -= DefDmgReductionPhys;
-
-            // reduce incoming damage by armour rating. This code desparately needs refining.
-            float actualIncomingDamage = incomingDamage;
-            float percentReduction = _base.baseStats.Defense / 1000 * 70;
-            float percentLeftOver = 100 - percentReduction;
-            actualIncomingDamage *= percentLeftOver / 100;
-            actualIncomingDamage = Mathf.Clamp(actualIncomingDamage, 1.0f, float.MaxValue);
-
-            Entities.DrawFloatingText(((int)actualIncomingDamage).ToString(), transform, Color.red);
-            _base.baseStats.LifeCurrent -= (int)actualIncomingDamage;
-            AudioDevice.Play(onHit);
-
-            if (_base.baseStats.Name == "Player Chacter")
-                PlayerHealthBar.SetCurrentLife(_base.baseStats.LifeCurrent);
-
-            if (_base.baseStats.LifeCurrent <= 0)
-            {
-                Die();
-            }
-        }
+        public virtual void RecieveDamage(int incomingDamage, float attackerCombatRating, float attackerLevel) { }
 
         public virtual void PreTurn()
         {
@@ -294,6 +233,11 @@ namespace AlwaysEast
             _base.baseStats.ManaCurrent = (int)Mana_Max;
 
             this._animator.runtimeAnimatorController = Resources.Load<AnimatorOverrideController>(replacement.animatorOverrideControllerFileName);
+        }
+
+        public static bool IsNullOrDefault<T>(T value)
+        {
+            return object.Equals(value, default(T));
         }
     }
 }

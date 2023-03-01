@@ -4,7 +4,6 @@ namespace AlwaysEast
 {
     public class AttackSplash : MonoBehaviour
     {
-
         public enum Type
         {
             Slash, Slash_Critical, Pierce, Pierce_Critical

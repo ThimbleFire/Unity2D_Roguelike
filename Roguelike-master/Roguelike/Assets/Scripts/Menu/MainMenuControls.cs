@@ -32,19 +32,19 @@ namespace AlwaysEast
 
         public void NewGameMelee()
         {
-            Game.NewSession(PlayerCharacter.Class.Melee);
+            Game.NewSession(Enums.Class.Melee);
             SceneManager.LoadScene("Gameplay");
         }
 
         public void NewGameRanged()
         {
-            Game.NewSession(PlayerCharacter.Class.Ranged);
+            Game.NewSession(Enums.Class.Ranged);
             SceneManager.LoadScene("Gameplay");
         }
 
         public void NewGameMagic()
         {
-            Game.NewSession(PlayerCharacter.Class.Magic);
+            Game.NewSession(Enums.Class.Magic);
             SceneManager.LoadScene("Gameplay");
         }
 

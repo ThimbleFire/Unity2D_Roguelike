@@ -10,7 +10,7 @@ namespace AlwaysEast
 
         public static bool SessionExists { get { return File.Exists(path); } }
 
-        public static void NewSession(PlayerCharacter.Class startingClass)
+        public static void NewSession(Enums.Class startingClass)
         {
             SaveState saveState = new SaveState()
             {
@@ -23,7 +23,7 @@ namespace AlwaysEast
 
             switch (startingClass)
             {
-                case PlayerCharacter.Class.Melee:
+                case Enums.Class.Melee:
                     saveState.playerBaseStrength = 25;
                     saveState.playerBaseDexterity = 20;
                     saveState.playerBaseIntelligence = 15;
@@ -36,7 +36,7 @@ namespace AlwaysEast
                     //PlayerPrefs.SetString("Primary", "Items/PRIMARY/1/Short Sword");
                     //PlayerPrefs.SetString("Secondary", "Items/SECONDARY/1/Buckler");
                     break;
-                case PlayerCharacter.Class.Ranged:
+                case Enums.Class.Ranged:
                     saveState.playerBaseStrength = 20;
                     saveState.playerBaseDexterity = 15;
                     saveState.playerBaseIntelligence = 15;
@@ -48,7 +48,7 @@ namespace AlwaysEast
                     saveState.PlayerManaCurrent = 40;
                     //PlayerPrefs.SetString("Primary", "Items/PRIMARY/1/Short Wooden Bow");
                     break;
-                case PlayerCharacter.Class.Magic:
+                case Enums.Class.Magic:
                     saveState.playerBaseStrength = 10;
                     saveState.playerBaseDexterity = 25;
                     saveState.playerBaseIntelligence = 35;

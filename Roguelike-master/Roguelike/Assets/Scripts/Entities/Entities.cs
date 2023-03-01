@@ -19,7 +19,6 @@ namespace AlwaysEast
         {
             Transform = gameObject.transform;
             floatingTextParent = Resources.Load("Prefabs/Floating Text") as GameObject;
-            teleportsmoke = Resources.Load("Prefabs/Puff of smoke") as GameObject;
             EnemyPrefab = Resources.Load<GameObject>("Prefabs/Entities/NPCs/Enemy");
         }
 
@@ -56,12 +55,6 @@ namespace AlwaysEast
             text.color = color;
         }
 
-        public static void DrawTeleport(Transform unitTransform)
-        {
-            GameObject go = GameObject.Instantiate(teleportsmoke, null);
-            go.transform.position = unitTransform.position;
-        }
-
         public static void PlayerSpawn(Vector3Int spawnPosition)
         {
             GameObject prefab = Resources.Load("Prefabs/Entities/NPCs/PlayerCharacter") as GameObject;
@@ -71,10 +64,6 @@ namespace AlwaysEast
             CameraController.SetFollowTarget(entity.transform);
 
             s_entities.Add(entity);
-        }
-
-        public static void RollFriend(Vector3Int spawnPosition)
-        {
         }
 
         public static void Action()
@@ -111,7 +100,6 @@ namespace AlwaysEast
         public static void Remove(Entity entity)
         {
             s_entities.Remove(entity);
-            //GameObject.Destroy( entity.gameObject );
             entity.name += " (Dead)";
         }
 
@@ -122,7 +110,7 @@ namespace AlwaysEast
             if (s_Turn >= s_entities.Count)
                 s_Turn = 0;
 
-            if (s_entities[s_Turn].isAggressive || s_Turn == 0)
+            if (s_entities[s_Turn].IsAggressive || s_Turn == 0)
                 CameraController.SetFollowTarget(s_entities[s_Turn].transform);
 
             if (s_Turn == 0)
@@ -131,14 +119,10 @@ namespace AlwaysEast
                 HUDControls.Show();
             }
             else
-            {
                 if (pause)
                     running = true;
                 else
-                {
                     Action();
-                }
-            }
         }
 
         private static bool running = false;
