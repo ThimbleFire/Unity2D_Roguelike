@@ -1,154 +1,155 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Serialization;
-using UnityEngine;
 
-[XmlRoot("Item")]
-public class Item
+namespace AlwaysEast
 {
-    [Serializable] 
-    public class Attribute
+    [XmlRoot("Item")]
+    public class Item
     {
-        public enum AType
+        [Serializable]
+        public class Attribute
         {
-            Level, Strength, Dexterity, Constitution, Intelligence
+            public enum AType
+            {
+                Level, Strength, Dexterity, Constitution, Intelligence
+            }
+            public AType type;
+            public byte value;
         }
-        public AType type;
-        public byte value;
-    }
-    [Serializable] 
-    public class Prefix
-    {
-        public enum PType
+        [Serializable]
+        public class Prefix
         {
-            Dmg_Ele_Fire = 4,
-            Dmg_Ele_Cold = 5,
-            Dmg_Ele_Lightning = 6,
-            Dmg_Ele_Poison = 7,
-            Dmg_Phys_Percent = 3,
-            Def_Phys_Percent = 9,
-            Def_Dmg_Reduction_Phys = 10,
-            Def_Dmg_Reduction_Magic = 11,
-            Def_Ele_Res_Fire = 13,
-            Def_Ele_Res_Cold = 14,
-            Def_Ele_Res_Lightning = 15,
-            Def_Ele_Res_Poison = 16,
-            Def_Ele_Res_All = 17,
-            On_Hit_Life = 18,
-            On_Kill_Life = 19,
-            Plus_Mana = 23,
-            Plus_Regen_Mana = 25,
-            Plus_Magic_Find = 35,
-            Plus_Item_Find = 36,
-            Plus_Attack_Rating = 37
+            public enum PType
+            {
+                Dmg_Ele_Fire = 4,
+                Dmg_Ele_Cold = 5,
+                Dmg_Ele_Lightning = 6,
+                Dmg_Ele_Poison = 7,
+                Dmg_Phys_Percent = 3,
+                Def_Phys_Percent = 9,
+                Def_Dmg_Reduction_Phys = 10,
+                Def_Dmg_Reduction_Magic = 11,
+                Def_Ele_Res_Fire = 13,
+                Def_Ele_Res_Cold = 14,
+                Def_Ele_Res_Lightning = 15,
+                Def_Ele_Res_Poison = 16,
+                Def_Ele_Res_All = 17,
+                On_Hit_Life = 18,
+                On_Kill_Life = 19,
+                Plus_Mana = 23,
+                Plus_Regen_Mana = 25,
+                Plus_Magic_Find = 35,
+                Plus_Item_Find = 36,
+                Plus_Attack_Rating = 37
+            }
+            public PType type;
+            public int value;
         }
-        public PType type;
-        public int value;
-    }
-    [Serializable] 
-    public class Suffix
-    {
-        public enum SType
+        [Serializable]
+        public class Suffix
         {
-            Plus_Str = 26,
-            Plus_Dex = 27,
-            Plus_Con = 28,
-            Plus_Int = 29,
+            public enum SType
+            {
+                Plus_Str = 26,
+                Plus_Dex = 27,
+                Plus_Con = 28,
+                Plus_Int = 29,
 
-            Def_Phys_Flat = 8,
-            Dmg_Phys_Min = 1,
-            Dmg_Phys_Max = 2,
+                Def_Phys_Flat = 8,
+                Dmg_Phys_Min = 1,
+                Dmg_Phys_Max = 2,
 
-            Dmg_Ele_Fire = 4,
-            Dmg_Ele_Cold = 5,
-            Dmg_Ele_Lightning = 6,
-            Dmg_Ele_Poison = 8,
+                Dmg_Ele_Fire = 4,
+                Dmg_Ele_Cold = 5,
+                Dmg_Ele_Lightning = 6,
+                Dmg_Ele_Poison = 8,
 
-            On_Kill_Mana = 20,
-            On_Hit_Mana = 21,
+                On_Kill_Mana = 20,
+                On_Hit_Mana = 21,
 
-            Plus_Speed_Phys = 30,
-            Plus_Speed_Magic = 31,
-            Plus_Speed_Movement = 32,
-            Plus_Block_Recovery = 33,
-            Plus_Stagger_Recovery = 34,
+                Plus_Speed_Phys = 30,
+                Plus_Speed_Magic = 31,
+                Plus_Speed_Movement = 32,
+                Plus_Block_Recovery = 33,
+                Plus_Stagger_Recovery = 34,
 
-            Def_Dmg_Reduction_All = 12,
+                Def_Dmg_Reduction_All = 12,
 
-            Plus_Life = 22,
-            Plus_Regen_Life = 24,
+                Plus_Life = 22,
+                Plus_Regen_Life = 24,
 
-            Plus_Magic_Find = 35,
-            Plus_Item_Find = 36,
-            Plus_Defence_Rating = 38,
-            Plus_Blockrate = 39,
+                Plus_Magic_Find = 35,
+                Plus_Item_Find = 36,
+                Plus_Defence_Rating = 38,
+                Plus_Blockrate = 39,
+            }
+            public SType type;
+            public int value;
         }
-        public SType type;
-        public int value;
-    }
-    [Serializable] 
-    public class Implicit
-    {
-        public enum IType
+        [Serializable]
+        public class Implicit
         {
-            Plus_Magic_Find = 35,
-            Plus_Life = 22,
-            Plus_Mana = 23,
-            Def_Ele_Res_All = 17,
-            Plus_Speed_Phys = 30,
-            Plus_Speed_Magic = 31,
-            Plus_Speed_Movement = 32,
-            Plus_Block_Recovery = 33,
-            Plus_Stagger_Recovery = 34,
-            Def_Dmg_Reduction_All = 12,
-            Plus_Regen_Life = 24,
-            Plus_Regen_Mana = 25,
-            Plus_Blockrate = 39,
+            public enum IType
+            {
+                Plus_Magic_Find = 35,
+                Plus_Life = 22,
+                Plus_Mana = 23,
+                Def_Ele_Res_All = 17,
+                Plus_Speed_Phys = 30,
+                Plus_Speed_Magic = 31,
+                Plus_Speed_Movement = 32,
+                Plus_Block_Recovery = 33,
+                Plus_Stagger_Recovery = 34,
+                Def_Dmg_Reduction_All = 12,
+                Plus_Regen_Life = 24,
+                Plus_Regen_Mana = 25,
+                Plus_Blockrate = 39,
+            }
+            public IType type;
+            public int value;
         }
-        public IType type;
-        public int value;
-    }
 
-    public enum Type
-    {
-        ANY,
-        HEAD,
-        CHEST,
-        GLOVES,
-        LEGS,
-        FEET,
-        PRIMARY,
-        SECONDARY,
-        RING,
-        NECK,
-        CONSUMABLE,
-        BELT
-    }
+        public enum Type
+        {
+            ANY,
+            HEAD,
+            CHEST,
+            GLOVES,
+            LEGS,
+            FEET,
+            PRIMARY,
+            SECONDARY,
+            RING,
+            NECK,
+            CONSUMABLE,
+            BELT
+        }
 
-    public string Name = string.Empty;
-    public Type ItemType = Item.Type.ANY;
-    public string SpriteUIFilename = string.Empty;
-    public string animationName = string.Empty;
-    public int DmgMin, DmgMax;
-    public int DefMin, DefMax;
-    public int Blockrate;
-    public int Durability;
-    public bool Unique;
-    public string Description;
-    public int ReqStr, ReqInt, ReqDex, ReqCons, ReqLvl;
-    public int qlvl; //qlvl equals ilvl + rarity. If mlvl >= qlvl && enemy TC >= this.TC = enemy can potentially drop this item.
-    public byte ilvl; //level of the enemy that dropped it determines the level of affixes that can roll on it.
-    [XmlArray("Implicits")]
-    public List<Implicit> Implicits;
-    [XmlArray("Prefixes")]
-    public List<Prefix> Prefixes;
-    [XmlArray("Suffixes")]
-    public List<Suffix> Suffixes;
+        public string Name = string.Empty;
+        public Type ItemType = Item.Type.ANY;
+        public string SpriteUIFilename = string.Empty;
+        public string animationName = string.Empty;
+        public int DmgMin, DmgMax;
+        public int DefMin, DefMax;
+        public int Blockrate;
+        public int Durability;
+        public bool Unique;
+        public string Description;
+        public int ReqStr, ReqInt, ReqDex, ReqCons, ReqLvl;
+        public int qlvl; //qlvl equals ilvl + rarity. If mlvl >= qlvl && enemy TC >= this.TC = enemy can potentially drop this item.
+        public byte ilvl; //level of the enemy that dropped it determines the level of affixes that can roll on it.
+        [XmlArray("Implicits")]
+        public List<Implicit> Implicits;
+        [XmlArray("Prefixes")]
+        public List<Prefix> Prefixes;
+        [XmlArray("Suffixes")]
+        public List<Suffix> Suffixes;
 
-    //QLVL IS ESSENTIALLY TC
+        //QLVL IS ESSENTIALLY TC
 
-    public static readonly string[] Affix_Text = new string[40]
-    {
+        public static readonly string[] Affix_Text = new string[40]
+        {
         "+{0} to accuracy rating",
         "+{0} to minimum damage",
         "+{0} to maximum damage",
@@ -197,5 +198,6 @@ public class Item
         "+{0} to attack rating",
         "+{0} to defence rating",
         "+{0}% chance to block"
-    };
+        };
+    }
 }

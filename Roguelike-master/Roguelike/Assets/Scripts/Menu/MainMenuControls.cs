@@ -1,52 +1,56 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
-public class MainMenuControls : MonoBehaviour
+namespace AlwaysEast
 {
-    public UnityEngine.UI.Text newGmaOrContinue;
-
-    private void Awake()
+    public class MainMenuControls : MonoBehaviour
     {
-        bool saveExists = Game.SessionExists;
+        public Text newGmaOrContinue;
 
-        if(saveExists)
+        private void Awake()
         {
-            if(newGmaOrContinue != null)
-                newGmaOrContinue.text = "Continue";
-        }
-    }
+            bool saveExists = Game.SessionExists;
 
-    public void NewGameOrContinue()
-    {
-        if(Game.SessionExists) {
-            UnityEngine.SceneManagement.SceneManager.LoadScene("Gameplay");
-            return;
+            if (saveExists)
+            {
+                if (newGmaOrContinue != null)
+                    newGmaOrContinue.text = "Continue";
+            }
         }
 
-        UnityEngine.SceneManagement.SceneManager.LoadScene("CharacterCreation");
-    }
+        public void NewGameOrContinue()
+        {
+            if (Game.SessionExists)
+            {
+                SceneManager.LoadScene("Gameplay");
+                return;
+            }
 
-    public void NewGameMelee()
-    {
-        Game.NewSession(PlayerCharacter.Class.Melee);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Gameplay");
-    }
+            SceneManager.LoadScene("CharacterCreation");
+        }
 
-    public void NewGameRanged()
-    {
-        Game.NewSession(PlayerCharacter.Class.Ranged);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Gameplay");
-    }
+        public void NewGameMelee()
+        {
+            Game.NewSession(PlayerCharacter.Class.Melee);
+            SceneManager.LoadScene("Gameplay");
+        }
 
-    public void NewGameMagic()
-    {
-        Game.NewSession(PlayerCharacter.Class.Magic);
-        UnityEngine.SceneManagement.SceneManager.LoadScene("Gameplay");
-    }
+        public void NewGameRanged()
+        {
+            Game.NewSession(PlayerCharacter.Class.Ranged);
+            SceneManager.LoadScene("Gameplay");
+        }
 
-    public void CloseGame()
-    {
-        Application.Quit();
+        public void NewGameMagic()
+        {
+            Game.NewSession(PlayerCharacter.Class.Magic);
+            SceneManager.LoadScene("Gameplay");
+        }
+
+        public void CloseGame()
+        {
+            Application.Quit();
+        }
     }
 }

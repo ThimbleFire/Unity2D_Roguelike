@@ -1,32 +1,33 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerHealthBar : MonoBehaviour
+namespace AlwaysEast
 {
-    private static RectTransform value;
-    private static RectTransform limiter;
-
-    private static int MaximumLife { get; set; }
-    private static int CurrentLife { get; set; }
-
-    private void Awake()
+    public class PlayerHealthBar : MonoBehaviour
     {
-        value = transform.Find("Value").GetComponent<RectTransform>();
-        limiter = value.Find("Limiter").GetComponent<RectTransform>();
-    }
+        private static RectTransform value;
+        private static RectTransform limiter;
 
-    public static void SetMaximumLife(int m)
-    {
-        MaximumLife = m;
+        private static int MaximumLife { get; set; }
+        private static int CurrentLife { get; set; }
 
-        limiter.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MaximumLife * 5);
-    }
+        private void Awake()
+        {
+            value = transform.Find("Value").GetComponent<RectTransform>();
+            limiter = value.Find("Limiter").GetComponent<RectTransform>();
+        }
 
-    public static void SetCurrentLife(int c)
-    {
-        CurrentLife = c;
+        public static void SetMaximumLife(int m)
+        {
+            MaximumLife = m;
 
-        value.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CurrentLife * 5);
+            limiter.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, MaximumLife * 5);
+        }
+
+        public static void SetCurrentLife(int c)
+        {
+            CurrentLife = c;
+
+            value.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, CurrentLife * 5);
+        }
     }
 }

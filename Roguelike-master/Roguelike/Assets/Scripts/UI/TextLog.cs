@@ -1,8 +1,9 @@
-using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+namespace AlwaysEast
+{
     public class TextLog : MonoBehaviour
     {
         private static Text[] textElement;
@@ -11,21 +12,24 @@ using UnityEngine.UI;
 
         public static void Print(string message)
         {
-            if ( messages.Count < textElement.Length )
-                messages.Add( message );
-            else {
-                messages.RemoveAt( 0 );
-                messages.Add( message );
+            if (messages.Count < textElement.Length)
+                messages.Add(message);
+            else
+            {
+                messages.RemoveAt(0);
+                messages.Add(message);
             }
 
             Refresh();
         }
 
-        private static void Refresh() {
+        private static void Refresh()
+        {
 
-            for ( int i = 0; i < messages.Count; i++ )
+            for (int i = 0; i < messages.Count; i++)
             {
                 textElement[i].text = messages[i];
             }
         }
+    }
 }

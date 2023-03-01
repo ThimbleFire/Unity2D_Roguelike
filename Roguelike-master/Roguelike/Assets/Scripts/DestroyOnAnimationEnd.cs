@@ -1,18 +1,19 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class DestroyOnAnimationEnd : MonoBehaviour
+namespace AlwaysEast
 {
-    public void DestroyParent()
+    public class DestroyOnAnimationEnd : MonoBehaviour
     {
-        GameObject parent = gameObject.transform.parent.gameObject;
+        public void DestroyParent()
+        {
+            GameObject parent = gameObject.transform.parent.gameObject;
 
-        Destroy(parent);
-    }
+            Destroy(parent);
+        }
 
-    public void Destroy()
-    {
-        Destroy(gameObject);
+        public void Destroy()
+        {
+            Destroy(gameObject);
+        }
     }
 }

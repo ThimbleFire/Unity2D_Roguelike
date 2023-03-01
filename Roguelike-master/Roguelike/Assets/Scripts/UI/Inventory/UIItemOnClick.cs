@@ -1,9 +1,15 @@
-﻿using UnityEngine;
+﻿using EventSystems;
+using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class UIItemOnClick : MonoBehaviour, IPointerClickHandler {
+namespace AlwaysEast
+{
+    public class UIItemOnClick : MonoBehaviour, IPointerClickHandler
+    {
 
-    public void OnPointerClick( PointerEventData eventData ) {
-        ExecuteEvents.ExecuteHierarchy<IItemClickHandler>( gameObject, null, ( x, y ) => x.OnItemClick( this ) );
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            ExecuteEvents.ExecuteHierarchy<IItemClickHandler>(gameObject, null, (x, y) => x.OnItemClick(this));
+        }
     }
 }

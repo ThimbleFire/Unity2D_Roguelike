@@ -1,20 +1,20 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class InventorySlots : MonoBehaviour
+namespace AlwaysEast
 {
-    public GearSlot[] slots;
-
-    public GearSlot GetEmpty()
+    public class InventorySlots : MonoBehaviour
     {
-        foreach (GearSlot item in slots)
-        {
-            if (item.transform.childCount == 0)
-                return item;
-        }
+        public GearSlot[] slots;
 
-        return null;
+        public GearSlot GetEmpty()
+        {
+            foreach (GearSlot item in slots)
+            {
+                if (item.transform.childCount == 0)
+                    return item;
+            }
+
+            return null;
+        }
     }
 }

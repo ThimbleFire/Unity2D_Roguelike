@@ -1,11 +1,13 @@
 using UnityEngine;
 using UnityEngine.EventSystems;
 
-public class ItemDeselect : MonoBehaviour, IPointerClickHandler
+namespace AlwaysEast
 {
-
-    public void OnPointerClick(PointerEventData eventData)
+    public class ItemDeselect : MonoBehaviour, IPointerClickHandler
     {
-        ExecuteEvents.ExecuteHierarchy<IItemClickOffHandler>(gameObject, null, (x, y) => x.OnItemClickOff());
+        public void OnPointerClick(PointerEventData eventData)
+        {
+            ExecuteEvents.ExecuteHierarchy<EventSystems.IItemClickOffHandler>(gameObject, null, (x, y) => x.OnItemClickOff());
+        }
     }
 }

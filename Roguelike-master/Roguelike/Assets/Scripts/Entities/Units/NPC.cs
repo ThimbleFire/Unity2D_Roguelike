@@ -1,13 +1,20 @@
-public class NPC : Navigator {
 
-    private void Start() {
+namespace AlwaysEast
+{
 
-    }
-
-    protected override void Die()
+    public class NPC : Navigator
     {
-        LootDropper.RollLoot(transform, _base.baseStats.Level, _base.baseStats.TreasureClass);
 
-        base.Die();
+        private void Start()
+        {
+
+        }
+
+        protected override void Die()
+        {
+            LootDropper.RollLoot(transform, _base.baseStats.Level, _base.baseStats.TreasureClass);
+
+            base.Die();
+        }
     }
 }
