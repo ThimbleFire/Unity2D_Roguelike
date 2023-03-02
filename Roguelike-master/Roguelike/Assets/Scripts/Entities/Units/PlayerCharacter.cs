@@ -182,6 +182,17 @@ namespace AlwaysEast
             Inventory.RefreshCharacterStats(this);
         }
 
+        public static T ModifyStats<T>(bool adding, List<T> itemStats)
+        {
+            foreach(T, value in itemStats)
+            {
+                if ( adding )
+                    stats[(StatID)item.type] += value;
+                else
+                    stats[(StatID)item.type] -= value;
+            }
+        }
+
         public override void PreTurn()
         {
             //regen life
