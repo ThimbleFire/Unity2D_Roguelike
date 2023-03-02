@@ -28,7 +28,10 @@ namespace AlwaysEast
     [System.Serializable]
     public class ItemProfile
     {
+        /// type is the SLOT type, not the item type
         public ItemState.Type Type;
+
+        /// itemPath is the itemType/qlvl/itemName
         public string ItemPath;
     }
 }

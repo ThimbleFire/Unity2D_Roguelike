@@ -60,24 +60,33 @@ namespace AlwaysEast
                 selectedCell.gameObject.SetActive(false);
                 IsItemSelected = false;
 
-                if (itemBeingSelected.Equipped == true)
+                if (itemBeingSelected.itemLocation == ItemStats.ItemLocation.EQUIPPED)
                 {
-                    Transform emptyInventorySlotTransform = inventorySlots.GetEmpty().Unequip();
-                    itemBeingSelected.transform.SetParent(emptyInventorySlotTransform);
-                    itemBeingSelected.Equipped = false;
+                    // remove the item from equipment
+                    gearSlots.GetOccupied(itemBeingSelected.ItemType).Unequip();
+
+                    // place the item in the inventory
+                    GearSlot emptyInventorySlot = inventorySlots.GetEmpty();
+                    emptyInventorySlot.EquipInventory(itemBeingSelected);
+
+                    // tell the player characters stats to change
                     OnGearChange(itemBeingSelected, false);
                 }
-                else if (itemBeingSelected.Equipped == false)
+                else if (itemBeingSelected.itemLocation == ItemStats.ItemLocation.INVENTORY)
                 {
                     if (itemBeingSelected.RequirementsMetAll == false)
                         return;
 
                     GearSlot slot = gearSlots.GetEmpty(itemBeingSelected.ItemType);
-                    if (slot != null)
-                    {
-                        slot.Equip(itemBeingSelected);
-                        OnGearChange(itemBeingSelected, true);
-                    }
+                    if (slot == null)
+                        return;
+
+                    // remove the item from the inventory
+                    // we need a way to get the inventory slot that the item belongs to, in order to call unequip (unequip the item from the inventory slot)
+
+                    // place the item in the equipment
+                    slot.Equip(itemBeingSelected);
+                    OnGearChange(itemBeingSelected, true);
                 }
 
                 itemBeingSelected = null;

@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8988204459080461655}
   - component: {fileID: 8988204459080461648}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv16
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,7 +114,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459090809290
 GameObject:
@@ -130,7 +129,7 @@ GameObject:
   - component: {fileID: 8988204459090809142}
   - component: {fileID: 8988204459090809143}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -230,7 +229,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459150088671
 GameObject:
@@ -246,7 +244,7 @@ GameObject:
   - component: {fileID: 8988204459150088645}
   - component: {fileID: 8988204459150088644}
   m_Layer: 5
-  m_Name: GearSlot (9)
+  m_Name: GLOVES
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -322,7 +320,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 3
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204459150088644
 MonoBehaviour:
@@ -362,7 +359,7 @@ GameObject:
   - component: {fileID: 8988204459282819360}
   - component: {fileID: 8988204459282819361}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv5
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -462,7 +459,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459298213835
 GameObject:
@@ -478,7 +474,7 @@ GameObject:
   - component: {fileID: 8988204459298213687}
   - component: {fileID: 8988204459298213680}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv6
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -578,7 +574,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459401986224
 GameObject:
@@ -594,7 +589,7 @@ GameObject:
   - component: {fileID: 8988204459401986238}
   - component: {fileID: 8988204459401986237}
   m_Layer: 5
-  m_Name: GearSlot (6)
+  m_Name: SECONDARY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -670,7 +665,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 7
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204459401986237
 MonoBehaviour:
@@ -817,7 +811,7 @@ GameObject:
   - component: {fileID: 8988204459470731744}
   - component: {fileID: 8988204459470731745}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv7
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -917,7 +911,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459471770972
 GameObject:
@@ -933,7 +926,7 @@ GameObject:
   - component: {fileID: 8988204459471770968}
   - component: {fileID: 8988204459471770969}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv9
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1033,7 +1026,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459482139924
 GameObject:
@@ -1049,7 +1041,7 @@ GameObject:
   - component: {fileID: 8988204459482139922}
   - component: {fileID: 8988204459482139921}
   m_Layer: 5
-  m_Name: GearSlot (5)
+  m_Name: PRIMARY
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1125,7 +1117,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 6
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204459482139921
 MonoBehaviour:
@@ -1165,7 +1156,7 @@ GameObject:
   - component: {fileID: 8988204459507854415}
   - component: {fileID: 8988204459507854408}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv18
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1265,7 +1256,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459556936999
 GameObject:
@@ -1281,7 +1271,7 @@ GameObject:
   - component: {fileID: 8988204459556936995}
   - component: {fileID: 8988204459556937004}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv20
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1381,7 +1371,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459586050476
 GameObject:
@@ -1397,7 +1386,7 @@ GameObject:
   - component: {fileID: 8988204459586050472}
   - component: {fileID: 8988204459586050473}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv23
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1497,7 +1486,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459597654161
 GameObject:
@@ -1513,7 +1501,7 @@ GameObject:
   - component: {fileID: 8988204459597654173}
   - component: {fileID: 8988204459597654174}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv22
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1613,7 +1601,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459634413160
 GameObject:
@@ -1629,7 +1616,7 @@ GameObject:
   - component: {fileID: 8988204459634413140}
   - component: {fileID: 8988204459634413141}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv15
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1729,7 +1716,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459636327254
 GameObject:
@@ -1745,7 +1731,7 @@ GameObject:
   - component: {fileID: 8988204459636327250}
   - component: {fileID: 8988204459636327251}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1845,7 +1831,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459648154932
 GameObject:
@@ -1861,7 +1846,7 @@ GameObject:
   - component: {fileID: 8988204459648154928}
   - component: {fileID: 8988204459648154929}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv11
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1961,7 +1946,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459653942610
 GameObject:
@@ -2046,7 +2030,7 @@ GameObject:
   - component: {fileID: 8988204459710459936}
   - component: {fileID: 8988204459710459943}
   m_Layer: 5
-  m_Name: GearSlot
+  m_Name: CHEST
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2122,7 +2106,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 2
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204459710459943
 MonoBehaviour:
@@ -2162,7 +2145,7 @@ GameObject:
   - component: {fileID: 8988204459771874017}
   - component: {fileID: 8988204459771874018}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv21
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2262,7 +2245,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459883792948
 GameObject:
@@ -2278,7 +2260,7 @@ GameObject:
   - component: {fileID: 8988204459883792951}
   - component: {fileID: 8988204459883792950}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv27
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2378,7 +2360,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459894207821
 GameObject:
@@ -2394,7 +2375,7 @@ GameObject:
   - component: {fileID: 8988204459894207817}
   - component: {fileID: 8988204459894207818}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv13
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2494,7 +2475,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459898376600
 GameObject:
@@ -2510,7 +2490,7 @@ GameObject:
   - component: {fileID: 8988204459898376603}
   - component: {fileID: 8988204459898376602}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv28
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2610,7 +2590,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459924231425
 GameObject:
@@ -2626,7 +2605,7 @@ GameObject:
   - component: {fileID: 8988204459924231437}
   - component: {fileID: 8988204459924231438}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv10
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2726,7 +2705,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204459949328902
 GameObject:
@@ -2742,7 +2720,7 @@ GameObject:
   - component: {fileID: 8988204459949328908}
   - component: {fileID: 8988204459949328899}
   m_Layer: 5
-  m_Name: GearSlot (1)
+  m_Name: BELT
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2818,7 +2796,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 11
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204459949328899
 MonoBehaviour:
@@ -2858,7 +2835,7 @@ GameObject:
   - component: {fileID: 8988204460188231917}
   - component: {fileID: 8988204460188231916}
   m_Layer: 5
-  m_Name: GearSlot (2)
+  m_Name: LEGS
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2934,7 +2911,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 4
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204460188231916
 MonoBehaviour:
@@ -2974,7 +2950,7 @@ GameObject:
   - component: {fileID: 8988204460196991863}
   - component: {fileID: 8988204460196991862}
   m_Layer: 5
-  m_Name: GearSlot (8)
+  m_Name: NECK
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3050,7 +3026,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 9
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204460196991862
 MonoBehaviour:
@@ -3176,7 +3151,7 @@ GameObject:
   - component: {fileID: 8988204460229460503}
   - component: {fileID: 8988204460229460496}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv24
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3276,7 +3251,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204460254340836
 GameObject:
@@ -3484,7 +3458,7 @@ GameObject:
   - component: {fileID: 8988204460349491553}
   - component: {fileID: 8988204460349491552}
   m_Layer: 5
-  m_Name: GearSlot (3)
+  m_Name: FEET
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3560,7 +3534,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 5
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204460349491552
 MonoBehaviour:
@@ -3600,7 +3573,7 @@ GameObject:
   - component: {fileID: 8988204460451746128}
   - component: {fileID: 8988204460451746129}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv19
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3700,7 +3673,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204460492990159
 GameObject:
@@ -3716,7 +3688,7 @@ GameObject:
   - component: {fileID: 8988204460492990155}
   - component: {fileID: 8988204460492990004}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv8
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3816,7 +3788,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204460508937730
 GameObject:
@@ -3832,7 +3803,7 @@ GameObject:
   - component: {fileID: 8988204460508937736}
   - component: {fileID: 8988204460508937743}
   m_Layer: 5
-  m_Name: GearSlot (7)
+  m_Name: RING
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3908,7 +3879,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 8
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204460508937743
 MonoBehaviour:
@@ -3948,7 +3918,7 @@ GameObject:
   - component: {fileID: 8988204460520486401}
   - component: {fileID: 8988204460520486400}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv29
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4048,7 +4018,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204460653913718
 GameObject:
@@ -4064,7 +4033,7 @@ GameObject:
   - component: {fileID: 8988204460653913713}
   - component: {fileID: 8988204460653913712}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv30
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4164,7 +4133,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204460668303589
 GameObject:
@@ -4180,7 +4148,7 @@ GameObject:
   - component: {fileID: 8988204460668303585}
   - component: {fileID: 8988204460668303586}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv12
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4280,7 +4248,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204460686551276
 GameObject:
@@ -4296,7 +4263,7 @@ GameObject:
   - component: {fileID: 8988204460686551272}
   - component: {fileID: 8988204460686551273}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv4
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4396,7 +4363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204460883143108
 GameObject:
@@ -4487,7 +4453,7 @@ GameObject:
   - component: {fileID: 8988204460932765083}
   - component: {fileID: 8988204460932765060}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv17
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4587,7 +4553,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204460945879512
 GameObject:
@@ -4737,7 +4702,7 @@ GameObject:
   - component: {fileID: 8988204460972730766}
   - component: {fileID: 8988204460972730767}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv14
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4837,7 +4802,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204461077823731
 GameObject:
@@ -4853,7 +4817,7 @@ GameObject:
   - component: {fileID: 8988204461077823742}
   - component: {fileID: 8988204461077823741}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv26
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4953,7 +4917,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204461087853061
 GameObject:
@@ -4969,7 +4932,7 @@ GameObject:
   - component: {fileID: 8988204461087853059}
   - component: {fileID: 8988204461087853058}
   m_Layer: 5
-  m_Name: GearSlot (4)
+  m_Name: HEAD
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5045,7 +5008,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!114 &8988204461087853058
 MonoBehaviour:
@@ -5085,7 +5047,7 @@ GameObject:
   - component: {fileID: 8988204461138784387}
   - component: {fileID: 8988204461138784396}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv3
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5185,7 +5147,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204461201169073
 GameObject:
@@ -5201,7 +5162,7 @@ GameObject:
   - component: {fileID: 8988204461201169084}
   - component: {fileID: 8988204461201169075}
   m_Layer: 5
-  m_Name: Inv Slot
+  m_Name: Inv25
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -5301,7 +5262,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 0
-  character: {fileID: 0}
   itemStats: {fileID: 0}
 --- !u!1 &8988204461226184578
 GameObject:

@@ -6,10 +6,16 @@ namespace AlwaysEast
 {
     public class ItemStats : MonoBehaviour
     {
-        public bool Equipped = false;
+        public enum ItemLocation
+        {
+            FLOOR, INVENTORY, EQUIPPED
+        }
+
+        public ItemLocation itemLocation { get; set; } = ItemLocation.FLOOR;
 
         private ItemState item;
         public int QLvl { get { return item.qlvl; } }
+        public string Path { get { return ItemType + "/" + QLvl + "/" + item.Name; } }
 
         public ItemState.Type ItemType { get { return item.ItemType; } }
         public List<ItemState.Implicit> Implicits { get { return item.Implicits; } }

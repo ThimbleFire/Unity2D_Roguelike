@@ -18,5 +18,18 @@ namespace AlwaysEast
             }
             return null;
         }
+
+        public GearSlot GetOccupied(ItemState.Type itemType)
+        {
+            foreach (GearSlot slot in slots)
+            {
+                if (slot.type == itemType)
+                {
+                    if (slot.transform.childCount == 1)
+                        return slot;
+                }
+            }
+            return null;
+        }
     }
 }

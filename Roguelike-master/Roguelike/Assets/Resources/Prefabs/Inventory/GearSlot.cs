@@ -9,27 +9,55 @@ namespace AlwaysEast
 
         private void Start()
         {
-            ItemProfile itemProfile = Game.LoadState<ItemProfile>(type.ToString() + ".east");
+            ItemProfile itemProfile = Game.LoadState<ItemProfile>(gameObject.name + ".east");
 
             if (itemProfile == null)
                 return;
 
+            if (itemProfile.ItemPath == null)
+                return;
+
             ItemStats item = Inventory.Pickup(itemProfile);
-            Equip(item);
+            
+            if (type == ItemState.Type.ANY)
+                EquipInventory(item);
+            else
+                Equip(item);
+            
             Inventory.OnGearChange(item, true);
         }
 
         public void Equip(ItemStats itemBeingSelected)
         {
             itemStats = itemBeingSelected;
-            itemStats.Equipped = true;
+            itemStats.itemLocation = ItemStats.ItemLocation.EQUIPPED;
             itemStats.transform.SetParent(transform);
         }
 
-        internal Transform Unequip()
+        public void EquipInventory(ItemStats itemBeingSelected)
         {
+            itemStats = itemBeingSelected;
+            itemStats.itemLocation = ItemStats.ItemLocation.INVENTORY;
+            itemStats.transform.SetParent(transform);
+        }
+
+        public void Unequip()
+        {
+            itemStats.itemLocation = ItemStats.ItemLocation.INVENTORY;
             itemStats = null;
-            return transform;
+        }
+
+        private void OnApplicationQuit()
+        {
+            ItemProfile itemProfile = new ItemProfile();
+
+            if (itemStats != null)
+            {
+                itemProfile.ItemPath = itemStats.Path;
+                itemProfile.Type = type;
+            }
+            
+            Game.SaveState(itemProfile, gameObject.name + ".east");
         }
     }
 }
