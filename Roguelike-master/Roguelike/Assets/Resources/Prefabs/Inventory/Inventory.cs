@@ -65,7 +65,7 @@ namespace AlwaysEast
                     Transform emptyInventorySlotTransform = inventorySlots.GetEmpty().Unequip();
                     itemBeingSelected.transform.SetParent(emptyInventorySlotTransform);
                     itemBeingSelected.Equipped = false;
-                    OnEquipmentChange.Invoke(itemBeingSelected, false);
+                    OnGearChange(itemBeingSelected, false);
                 }
                 else if (itemBeingSelected.Equipped == false)
                 {
@@ -76,12 +76,17 @@ namespace AlwaysEast
                     if (slot != null)
                     {
                         slot.Equip(itemBeingSelected);
-                        OnEquipmentChange.Invoke(itemBeingSelected, true);
+                        OnGearChange(itemBeingSelected, true);
                     }
                 }
 
                 itemBeingSelected = null;
             }
+        }
+
+        public static void OnGearChange(ItemStats itemStats, bool equipping)
+        {
+            OnEquipmentChange.Invoke(itemStats, equipping);
         }
 
         public void OnItemClickOff()
@@ -96,6 +101,13 @@ namespace AlwaysEast
             Transform inventorySlotTransform = inventorySlots.GetEmpty().transform;
             ItemStats itemStats = Instantiate(baseItem, inventorySlotTransform).GetComponent<ItemStats>();
             itemStats.Load(itemName);
+        }
+
+        public static ItemStats Pickup(ItemProfile itemProfile)
+        {
+            ItemStats itemStats = Instantiate(baseItem, null).GetComponent<ItemStats>();
+            itemStats.Load(itemProfile.ItemPath);
+            return itemStats;
         }
 
         public static void RefreshCharacterStats(Entity playerEntity)

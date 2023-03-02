@@ -6,83 +6,100 @@ namespace AlwaysEast
 {
     public class Game
     {
-        public static readonly string path = Application.persistentDataPath + "/GameSave.ae";
-
-        public static bool SessionExists { get { return File.Exists(path); } }
+        public static bool SessionExists { get { return File.Exists(Application.persistentDataPath + "/CharacterProfile.east"); } }
 
         public static void NewSession(Enums.Class startingClass)
         {
-            SaveState saveState = new SaveState()
+            CharacterProfile characterProfile = new CharacterProfile()
             {
-                MapIndex = 0,
-                MapSeed = Random.Range(int.MinValue, int.MaxValue),
                 PlayerExperience = 0,
                 PlayerResAll = 0,
                 PlayerName = "Player Character"
             };
 
+            MapProfile mapProfile = new MapProfile()
+            {
+                MapIndex = 0,
+                MapSeed = Random.Range(int.MinValue, int.MaxValue)
+            };
+
+            ItemProfile itemProfile = new ItemProfile();
+
             switch (startingClass)
             {
                 case Enums.Class.Melee:
-                    saveState.playerBaseStrength = 25;
-                    saveState.playerBaseDexterity = 20;
-                    saveState.playerBaseIntelligence = 15;
-                    saveState.playerBaseConstitution = 25;
-                    saveState.PlayerSpeed = 4;
-                    saveState.PlayerLifeMax = 50;
-                    saveState.PlayerManaMax = 25;
-                    //PlayerPrefs.SetString("Primary", "Items/PRIMARY/1/Short Sword");
-                    //PlayerPrefs.SetString("Secondary", "Items/SECONDARY/1/Buckler");
+                    characterProfile.playerBaseStrength = 25;
+                    characterProfile.playerBaseDexterity = 20;
+                    characterProfile.playerBaseIntelligence = 15;
+                    characterProfile.playerBaseConstitution = 25;
+                    characterProfile.PlayerSpeed = 4;
+                    characterProfile.PlayerLifeMax = -22;
+                    characterProfile.PlayerManaMax = 15;
+
+                    itemProfile.ItemPath = "PRIMARY/1/Short Sword";
+                    itemProfile.Type = ItemState.Type.PRIMARY;
+                    SaveState(itemProfile, "PRIMARY.east");
+
+                    itemProfile.ItemPath = "SECONDARY/1/Buckler";
+                    itemProfile.Type = ItemState.Type.SECONDARY;
+                    SaveState(itemProfile, "SECONDARY.east");
                     break;
                 case Enums.Class.Ranged:
-                    saveState.playerBaseStrength = 20;
-                    saveState.playerBaseDexterity = 15;
-                    saveState.playerBaseIntelligence = 15;
-                    saveState.playerBaseConstitution = 20;
-                    saveState.PlayerSpeed = 4;
-                    saveState.PlayerLifeMax = 40;
-                    saveState.PlayerManaMax = 40;
-                    //PlayerPrefs.SetString("Primary", "Items/PRIMARY/1/Short Wooden Bow");
+                    characterProfile.playerBaseStrength = 20;
+                    characterProfile.playerBaseDexterity = 15;
+                    characterProfile.playerBaseIntelligence = 15;
+                    characterProfile.playerBaseConstitution = 20;
+                    characterProfile.PlayerSpeed = 4;
+                    characterProfile.PlayerLifeMax = -22;
+                    characterProfile.PlayerManaMax = 40;
+
+                    itemProfile.ItemPath = "PRIMARY/1/Wooden Short Bow";
+                    itemProfile.Type = ItemState.Type.PRIMARY;
+                    SaveState(itemProfile, "PRIMARY.east");
                     break;
                 case Enums.Class.Magic:
-                    saveState.playerBaseStrength = 10;
-                    saveState.playerBaseDexterity = 25;
-                    saveState.playerBaseIntelligence = 35;
-                    saveState.playerBaseConstitution = 10;
-                    saveState.PlayerSpeed = 4;
-                    saveState.PlayerLifeMax = 30;
-                    saveState.PlayerManaMax = 50;
-                    //PlayerPrefs.SetString("Primary", "Items/PRIMARY/1/Short Staff");
+                    characterProfile.playerBaseStrength = 10;
+                    characterProfile.playerBaseDexterity = 25;
+                    characterProfile.playerBaseIntelligence = 35;
+                    characterProfile.playerBaseConstitution = 10;
+                    characterProfile.PlayerSpeed = 4;
+                    characterProfile.PlayerLifeMax = -22;
+                    characterProfile.PlayerManaMax = 50;
+
+                    itemProfile.ItemPath = "PRIMARY/1/Short Staff";
+                    itemProfile.Type = ItemState.Type.PRIMARY;
+                    SaveState(itemProfile, "PRIMARY.east");
                     break;
             }
 
-            saveState.PlayerManaCurrent = saveState.PlayerManaMax + Mathf.FloorToInt(saveState.playerBaseIntelligence * 1.5f) + 1;
-            saveState.PlayerLifeCurrent = saveState.PlayerLifeMax + saveState.playerBaseConstitution * 3 + 2;
-            SaveState(saveState);
+            characterProfile.PlayerManaCurrent = characterProfile.PlayerManaMax + Mathf.FloorToInt(characterProfile.playerBaseIntelligence * 1.5f) + 1;
+            characterProfile.PlayerLifeCurrent = characterProfile.PlayerLifeMax + characterProfile.playerBaseConstitution * 3 + 2;
+            SaveState(characterProfile, "CharacterProfile.east");
+            SaveState(mapProfile, "MapProfile.east");
         }
 
-        public static void SaveState(SaveState state)
+        public static void SaveState<T>(T state, string filename)
         {
             BinaryFormatter formatter = new BinaryFormatter();
-            FileStream stream = new FileStream(path, FileMode.Create);
+            FileStream stream = new FileStream(Application.persistentDataPath + "/" + filename, FileMode.Create);
             formatter.Serialize(stream, state);
             stream.Close();
         }
 
-        public static SaveState LoadState()
+        public static T LoadState<T>(string filename)
         {
-            if (SessionExists)
+            if (File.Exists(Application.persistentDataPath + "/" + filename))
             {
                 BinaryFormatter formatter = new BinaryFormatter();
-                FileStream stream = new FileStream(path, FileMode.Open);
-                SaveState SaveState = (SaveState)formatter.Deserialize(stream);
+                FileStream stream = new FileStream(Application.persistentDataPath + "/" + filename, FileMode.Open);
+                T product = (T)formatter.Deserialize(stream);
                 stream.Close();
-                return SaveState;
+                return product;
             }
             else
             {
-                Debug.LogError("File not found in " + path);
-                return null;
+                Debug.LogWarning("File not found in " + Application.persistentDataPath + "/" + filename);
+                return default;
             }
         }
     }

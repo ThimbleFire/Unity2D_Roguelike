@@ -8,11 +8,11 @@ namespace AlwaysEast
     {
         Vector2 scrollView;
 
-        Item activeItem;
+        ItemState activeItem;
         TextAsset obj;
-        public List<Item.Implicit> Implicits = new List<Item.Implicit>();
-        public List<Item.Prefix> Prefixes = new List<Item.Prefix>();
-        public List<Item.Suffix> Suffixes = new List<Item.Suffix>();
+        public List<ItemState.Implicit> Implicits = new List<ItemState.Implicit>();
+        public List<ItemState.Prefix> Prefixes = new List<ItemState.Prefix>();
+        public List<ItemState.Suffix> Suffixes = new List<ItemState.Suffix>();
         public UnityEngine.Sprite SpriteUI;
         public UnityEngine.AnimatorOverrideController animatorOverrideController;
 
@@ -26,10 +26,10 @@ namespace AlwaysEast
         private void Awake()
         {
             so = new SerializedObject(this);
-            activeItem = new Item();
-            Implicits = new List<Item.Implicit>();
-            Prefixes = new List<Item.Prefix>();
-            Suffixes = new List<Item.Suffix>();
+            activeItem = new ItemState();
+            Implicits = new List<ItemState.Implicit>();
+            Prefixes = new List<ItemState.Prefix>();
+            Suffixes = new List<ItemState.Suffix>();
         }
 
         protected override void MainWindow()
@@ -42,7 +42,7 @@ namespace AlwaysEast
                     Save();
                 }
                 PaintTextField(ref activeItem.Name, "Item Name");
-                activeItem.ItemType = (Item.Type)PaintPopup(Helper.ItemTypeNames, (int)activeItem.ItemType, "Item Type");
+                activeItem.ItemType = (ItemState.Type)PaintPopup(Helper.ItemTypeNames, (int)activeItem.ItemType, "Item Type");
                 PaintSpriteField(ref SpriteUI);
                 animatorOverrideController = PaintAnimationOverrideControllerLookup(animatorOverrideController);
                 PaintIntField(ref activeItem.qlvl, "Quality Level");
@@ -60,10 +60,10 @@ namespace AlwaysEast
                 PaintIntSlider(ref activeItem.ReqLvl, 0, 60, "Lvl Requirement");
                 if (Checkbox(ref activeItem.Unique, "Unique"))
                 {
-                    PaintList<Item.Prefix>("Prefixes");
-                    PaintList<Item.Suffix>("Suffixes");
+                    PaintList<ItemState.Prefix>("Prefixes");
+                    PaintList<ItemState.Suffix>("Suffixes");
                 }
-                PaintList<Item.Implicit>("Implicits");
+                PaintList<ItemState.Implicit>("Implicits");
             }
             EditorGUILayout.EndScrollView();
 
@@ -77,7 +77,7 @@ namespace AlwaysEast
 
         protected override void LoadProperties(TextAsset textAsset)
         {
-            activeItem = XMLUtility.Load<Item>(textAsset);
+            activeItem = XMLUtility.Load<ItemState>(textAsset);
 
             Implicits = activeItem.Implicits;
             Prefixes = activeItem.Prefixes;
@@ -121,7 +121,7 @@ namespace AlwaysEast
             t.Append(activeItem.qlvl);
             t.Append("/");
 
-            XMLUtility.Save<Item>(activeItem, t.ToString(), activeItem.Name);
+            XMLUtility.Save<ItemState>(activeItem, t.ToString(), activeItem.Name);
         }
     }
 }

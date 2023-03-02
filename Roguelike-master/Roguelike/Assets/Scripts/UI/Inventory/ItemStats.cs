@@ -8,13 +8,13 @@ namespace AlwaysEast
     {
         public bool Equipped = false;
 
-        private Item item;
+        private ItemState item;
         public int QLvl { get { return item.qlvl; } }
 
-        public Item.Type ItemType { get { return item.ItemType; } }
-        public List<Item.Implicit> Implicits { get { return item.Implicits; } }
-        public List<Item.Prefix> Prefixes { get { return item.Prefixes; } }
-        public List<Item.Suffix> Suffixes { get { return item.Suffixes; } }
+        public ItemState.Type ItemType { get { return item.ItemType; } }
+        public List<ItemState.Implicit> Implicits { get { return item.Implicits; } }
+        public List<ItemState.Prefix> Prefixes { get { return item.Prefixes; } }
+        public List<ItemState.Suffix> Suffixes { get { return item.Suffixes; } }
 
         public bool RequirementsMetStrength { get { return Entities.GetPCS.TotalStrength >= item.ReqStr; } }
         public bool RequirementsMetDexterity { get { return Entities.GetPCS.TotalDexterity >= item.ReqDex; } }
@@ -39,8 +39,8 @@ namespace AlwaysEast
         {
             get
             {
-                Item.Suffix s = item.Suffixes.Find(x => x.type == Item.Suffix.SType.Dmg_Phys_Min);
-                Item.Prefix p = item.Prefixes.Find(x => x.type == Item.Prefix.PType.Dmg_Phys_Percent);
+                ItemState.Suffix s = item.Suffixes.Find(x => x.type == ItemState.Suffix.SType.Dmg_Phys_Min);
+                ItemState.Prefix p = item.Prefixes.Find(x => x.type == ItemState.Prefix.PType.Dmg_Phys_Percent);
 
                 if (s != null && p != null) return (int)((item.DmgMin + s.value) * (p.value / 100.0f + 1));
                 if (s != null) return item.DmgMin + s.value;
@@ -53,8 +53,8 @@ namespace AlwaysEast
         {
             get
             {
-                Item.Suffix s = item.Suffixes.Find(x => x.type == Item.Suffix.SType.Dmg_Phys_Max);
-                Item.Prefix p = item.Prefixes.Find(x => x.type == Item.Prefix.PType.Dmg_Phys_Percent);
+                ItemState.Suffix s = item.Suffixes.Find(x => x.type == ItemState.Suffix.SType.Dmg_Phys_Max);
+                ItemState.Prefix p = item.Prefixes.Find(x => x.type == ItemState.Prefix.PType.Dmg_Phys_Percent);
 
                 if (s != null && p != null) return (int)((item.DmgMax + s.value) * (p.value / 100.0f + 1));
                 if (s != null) return item.DmgMax + s.value;
@@ -67,8 +67,8 @@ namespace AlwaysEast
         {
             get
             {
-                Item.Suffix s = item.Suffixes.Find(x => x.type == Item.Suffix.SType.Def_Phys_Flat);
-                Item.Prefix p = item.Prefixes.Find(x => x.type == Item.Prefix.PType.Def_Phys_Percent);
+                ItemState.Suffix s = item.Suffixes.Find(x => x.type == ItemState.Suffix.SType.Def_Phys_Flat);
+                ItemState.Prefix p = item.Prefixes.Find(x => x.type == ItemState.Prefix.PType.Def_Phys_Percent);
 
                 if (s != null && p != null) return (int)((item.DefMin + s.value) * (p.value / 100.0f + 1));
                 if (s != null) return item.DefMin + s.value;
@@ -81,8 +81,8 @@ namespace AlwaysEast
         {
             get
             {
-                Item.Suffix s = item.Suffixes.Find(x => x.type == Item.Suffix.SType.Plus_Blockrate);
-                Item.Implicit i = item.Implicits.Find(x => x.type == Item.Implicit.IType.Plus_Blockrate);
+                ItemState.Suffix s = item.Suffixes.Find(x => x.type == ItemState.Suffix.SType.Plus_Blockrate);
+                ItemState.Implicit i = item.Implicits.Find(x => x.type == ItemState.Implicit.IType.Plus_Blockrate);
 
                 if (s != null && i != null) return item.Blockrate + s.value + i.value;
                 if (s != null) return item.Blockrate + s.value;
@@ -101,7 +101,7 @@ namespace AlwaysEast
                 System.Text.StringBuilder t = new System.Text.StringBuilder(
                     item.Unique ? Helper.hexUnique : Helper.hexWhite);
                 t.Append(item.Name);
-                t.Append(Helper.hexEnd);
+                t.AppendLine(Helper.hexEnd);
 
                 t.AppendLine(Helper.ItemTypeNames[(byte)item.ItemType]);
 
@@ -116,9 +116,9 @@ namespace AlwaysEast
                 if (item.ReqLvl > 0)        t.AppendLine(string.Format(Helper.LBL_REQUIRED_LEVEL, item.ReqLvl, Helper.hexEnd, RequirementsMetStrength ? Helper.hexGray : Helper.hexRed));
                 if (Rarity > 0)             t.AppendLine();
 
-                item.Implicits.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(Item.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
-                item.Prefixes.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(Item.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
-                item.Suffixes.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(Item.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
+                item.Implicits.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(ItemState.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
+                item.Prefixes.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(ItemState.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
+                item.Suffixes.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(ItemState.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
 
                 if (item.Description != string.Empty)
                     t.AppendLine().AppendLine("<i>" + item.Description + "</i>");
@@ -129,7 +129,7 @@ namespace AlwaysEast
 
         public void Load(string itemName)
         {
-            item = XMLUtility.Load<Item>("Items/" + itemName);
+            item = XMLUtility.Load<ItemState>("Items/" + itemName);
             GetComponent<Image>().sprite = Resources.Load<Sprite>(item.SpriteUIFilename);
         }
     }

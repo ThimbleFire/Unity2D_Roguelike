@@ -6,7 +6,7 @@ namespace AlwaysEast
     {
         public GearSlot[] slots;
 
-        public GearSlot GetEmpty(Item.Type itemType)
+        public GearSlot GetEmpty(ItemState.Type itemType)
         {
             foreach (GearSlot slot in slots)
             {

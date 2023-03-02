@@ -15,7 +15,7 @@ namespace AlwaysEast
         public static int Width { get; set; }
         public static int Height { get; set; }
 
-        private static SaveState saveState;
+        private static MapProfile MapProfile { get; set; }
 
         private void Awake()
         {
@@ -27,28 +27,23 @@ namespace AlwaysEast
             Width = 64;
             Height = 64;
 
-            saveState = Game.LoadState();
-            ResourceRepository.LoadMapData(saveState.MapIndex);
+            MapProfile = Game.LoadState<MapProfile>("MapProfile.east");
+            ResourceRepository.LoadMapData(MapProfile.MapIndex);
         }
 
         private void Start()
         {
-
             RoomLimit = 32;
             Build();
         }
 
         public static void Build()
         {
-
-            // Establish what area level we're building
-            // Tell the resource loader to load enemies belonging to this area
-
             tileMapGround.ClearAllTiles();
             tileMapWalls.ClearAllTiles();
             tileMapCurios.ClearAllTiles();
 
-            MapFactory.Build(saveState.MapSeed);
+            MapFactory.Build(MapProfile.MapSeed);
 
             tileMapWalls.CompressBounds();
             tileMapGround.CompressBounds();

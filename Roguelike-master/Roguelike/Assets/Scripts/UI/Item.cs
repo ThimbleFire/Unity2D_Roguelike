@@ -4,8 +4,9 @@ using System.Xml.Serialization;
 
 namespace AlwaysEast
 {
+    [System.Serializable]
     [XmlRoot("Item")]
-    public class Item
+    public class ItemState
     {
         [Serializable]
         public class Attribute
@@ -127,7 +128,7 @@ namespace AlwaysEast
         }
 
         public string Name = string.Empty;
-        public Type ItemType = Item.Type.ANY;
+        public Type ItemType = ItemState.Type.ANY;
         public string SpriteUIFilename = string.Empty;
         public string animationName = string.Empty;
         public int DmgMin, DmgMax;

@@ -4,9 +4,20 @@ namespace AlwaysEast
 {
     public class GearSlot : MonoBehaviour
     {
-        public Item.Type type;
-        public GameObject character;
+        public ItemState.Type type;
         public ItemStats itemStats = null;
+
+        private void Start()
+        {
+            ItemProfile itemProfile = Game.LoadState<ItemProfile>(type.ToString() + ".east");
+
+            if (itemProfile == null)
+                return;
+
+            ItemStats item = Inventory.Pickup(itemProfile);
+            Equip(item);
+            Inventory.OnGearChange(item, true);
+        }
 
         public void Equip(ItemStats itemBeingSelected)
         {

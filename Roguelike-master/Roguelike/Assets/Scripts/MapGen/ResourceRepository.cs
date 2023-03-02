@@ -46,7 +46,7 @@ namespace AlwaysEast
             return (EntityReplacement)AvailableEnemies[Random.Range(0, AvailableEnemies.Count)].Clone();
         }
 
-        public static ItemStats GetItemMatchingCriteria(Item.Type itemType, int mlvl, int TC)
+        public static ItemStats GetItemMatchingCriteria(ItemState.Type itemType, int mlvl, int TC)
         {
             if (mlvl % 3 != 0)
                 mlvl = (int)(Mathf.Round(mlvl / 3) * 3);

@@ -2,11 +2,8 @@
 namespace AlwaysEast
 {
     [System.Serializable]
-    public class SaveState
+    public class CharacterProfile
     {
-        public int MapIndex;
-        public int MapSeed;
-
         public string PlayerName;
         public int PlayerSpeed;
         public int PlayerExperience;
@@ -19,5 +16,19 @@ namespace AlwaysEast
         public int playerBaseDexterity;
         public int playerBaseConstitution;
         public int playerBaseIntelligence;
+    }
+
+    [System.Serializable]
+    public class MapProfile
+    {
+        public int MapIndex;
+        public int MapSeed;
+    }
+
+    [System.Serializable]
+    public class ItemProfile
+    {
+        public ItemState.Type Type;
+        public string ItemPath;
     }
 }

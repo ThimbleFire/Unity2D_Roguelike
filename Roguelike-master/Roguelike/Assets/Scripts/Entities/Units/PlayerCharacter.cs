@@ -9,7 +9,7 @@ namespace AlwaysEast
 
         private void Start()
         {
-            SaveState state = Game.LoadState();
+            CharacterProfile state = Game.LoadState<CharacterProfile>("CharacterProfile.east");
 
             _base = new EntityReplacement();
             _base.baseStats.Name = state.PlayerName;
@@ -33,10 +33,6 @@ namespace AlwaysEast
             Inventory.RefreshCharacterStats(this);
 
             Inventory.OnEquipmentChange += Inventory_OnEquipmentChange;
-
-            //Inventory.Pickup("Primary/1/Short Sword");
-            //Inventory.Pickup("Chest/1/Animal Skin");
-            //Inventory.Pickup("Secondary/1/Buckler");
         }
 
         public override void Move()
@@ -99,10 +95,10 @@ namespace AlwaysEast
 
         private void Inventory_OnEquipmentChange(ItemStats itemStats, bool adding)
         {
-            stats[Enums.StatID.Dmg_Phys_Min] = adding ? itemStats.MinDamage : UNARMED_DMG_PHYS_MIN; //this will cause errors if we equip gear that raises physical min damage that is not a primary weapon
-            stats[Enums.StatID.Dmg_Phys_Max] = adding ? itemStats.MaxDamage : UNARMED_DMG_PHYS_MAX; //this will cause errors if we equip gear that raises physical max damage that is not a primary weapon
+            _base.baseStats.DmgPhyMin = adding ? itemStats.MinDamage : UNARMED_DMG_PHYS_MIN; //this will cause errors if we equip gear that raises physical min damage that is not a primary weapon
+            _base.baseStats.DmgPhyMax = adding ? itemStats.MaxDamage : UNARMED_DMG_PHYS_MAX; //this will cause errors if we equip gear that raises physical max damage that is not a primary weapon
             stats[Enums.StatID.Def_Phys_Flat] += adding ? itemStats.Defense : -itemStats.Defense;
-            stats[Enums.StatID.Plus_Blockrate] += adding ? itemStats.Blockrate : -itemStats.Blockrate;
+            _base.baseStats.ChanceToBlock += adding ? itemStats.Blockrate : -itemStats.Blockrate;
             itemStats.Prefixes.ForEach(p => stats[(Enums.StatID)p.type] += adding ? p.value : -p.value);
             itemStats.Suffixes.ForEach(p => stats[(Enums.StatID)p.type] += adding ? p.value : -p.value);
             itemStats.Implicits.ForEach(p => stats[(Enums.StatID)p.type] += adding ? p.value : -p.value);

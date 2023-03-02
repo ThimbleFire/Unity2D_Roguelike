@@ -22,7 +22,7 @@ namespace AlwaysEast
 
             // determine type of item being dropped
 
-            Item.Type itemType = (Item.Type)Random.Range(0, System.Enum.GetNames(typeof(Item.Type)).Length);
+            ItemState.Type itemType = (ItemState.Type)Random.Range(0, System.Enum.GetNames(typeof(ItemState.Type)).Length);
 
             // determine the rarity of the item being dropped
 
