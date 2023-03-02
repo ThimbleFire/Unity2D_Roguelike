@@ -32,6 +32,7 @@ namespace AlwaysEast
             itemStats = itemBeingSelected;
             itemStats.itemLocation = ItemStats.ItemLocation.EQUIPPED;
             itemStats.transform.SetParent(transform);
+            itemStats.gearSlot = this;
         }
 
         public void EquipInventory(ItemStats itemBeingSelected)
@@ -39,10 +40,12 @@ namespace AlwaysEast
             itemStats = itemBeingSelected;
             itemStats.itemLocation = ItemStats.ItemLocation.INVENTORY;
             itemStats.transform.SetParent(transform);
+            itemStats.gearSlot = this;
         }
 
         public void Unequip()
         {
+            itemStats.gearSlot = null;
             itemStats.itemLocation = ItemStats.ItemLocation.INVENTORY;
             itemStats = null;
         }

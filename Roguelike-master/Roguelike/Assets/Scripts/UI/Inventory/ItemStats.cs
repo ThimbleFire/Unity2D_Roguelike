@@ -12,6 +12,7 @@ namespace AlwaysEast
         }
 
         public ItemLocation itemLocation { get; set; } = ItemLocation.FLOOR;
+        public GearSlot gearSlot;
 
         private ItemState item;
         public int QLvl { get { return item.qlvl; } }

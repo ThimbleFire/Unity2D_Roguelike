@@ -82,8 +82,9 @@ namespace AlwaysEast
                         return;
 
                     // remove the item from the inventory
+                    itemBeingSelected.gearSlot.Unequip();
                     // we need a way to get the inventory slot that the item belongs to, in order to call unequip (unequip the item from the inventory slot)
-
+                     
                     // place the item in the equipment
                     slot.Equip(itemBeingSelected);
                     OnGearChange(itemBeingSelected, true);

@@ -28,6 +28,11 @@ namespace AlwaysEast
             toggleInventoryButton.transform.SetAsLastSibling();
         }
 
+        private void OnApplicationQuit()
+        {
+            ToggleInventory();
+        }
+
         public static void Show() => mobileButton.SetActive(true);
 
         public static void Hide() => mobileButton.SetActive(false);
