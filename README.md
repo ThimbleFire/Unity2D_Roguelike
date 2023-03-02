@@ -4,8 +4,7 @@ This is an untitled roguelike project. It features turn based movement and comba
 
 ## TODO
 
-Change entity class to use interfaces instead of inheritance.
-
+Tidy up resource repository.
 
 ## Spooky darkness
 
