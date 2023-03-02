@@ -4,7 +4,7 @@ using UnityEngine;
 namespace AlwaysEast
 {
     [RequireComponent(typeof(Animator))]
-    public class Entity : MonoBehaviour
+    public abstract class Entity : MonoBehaviour
     {
 
         public enum StatID
