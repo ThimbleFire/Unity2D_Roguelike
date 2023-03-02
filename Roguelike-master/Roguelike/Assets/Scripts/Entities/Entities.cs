@@ -12,7 +12,6 @@ namespace AlwaysEast
         public static Entity GetPCS => s_entities[0];
         public static Entity GetTurnTaker => s_entities[s_Turn];
         public static GameObject floatingTextParent;
-        public static GameObject teleportsmoke;
         public static GameObject EnemyPrefab;
 
         private void Awake()
