@@ -14,7 +14,8 @@ namespace AlwaysEast
             {
                 PlayerExperience = 0,
                 PlayerResAll = 0,
-                PlayerName = "Player Character"
+                PlayerName = "Player Character",
+                PlayerSpeed = 4
             };
 
             MapProfile mapProfile = new MapProfile()
@@ -32,7 +33,6 @@ namespace AlwaysEast
                     characterProfile.playerBaseDexterity = 20;
                     characterProfile.playerBaseIntelligence = 15;
                     characterProfile.playerBaseConstitution = 25;
-                    characterProfile.PlayerSpeed = 4;
                     characterProfile.PlayerLifeMax = -22;
                     characterProfile.PlayerManaMax = 15;
 
@@ -49,7 +49,6 @@ namespace AlwaysEast
                     characterProfile.playerBaseDexterity = 15;
                     characterProfile.playerBaseIntelligence = 15;
                     characterProfile.playerBaseConstitution = 20;
-                    characterProfile.PlayerSpeed = 4;
                     characterProfile.PlayerLifeMax = -22;
                     characterProfile.PlayerManaMax = 40;
 
@@ -62,7 +61,6 @@ namespace AlwaysEast
                     characterProfile.playerBaseDexterity = 25;
                     characterProfile.playerBaseIntelligence = 35;
                     characterProfile.playerBaseConstitution = 10;
-                    characterProfile.PlayerSpeed = 4;
                     characterProfile.PlayerLifeMax = -22;
                     characterProfile.PlayerManaMax = 50;
 
