@@ -99,51 +99,10 @@ namespace AlwaysEast
 
         private void Inventory_OnEquipmentChange(ItemStats itemStats, bool adding)
         {
-            if (itemStats.MinDamage > 0)
-            {
-                if (adding)
-                {
-                    _base.baseStats.DmgPhyMin = itemStats.MinDamage;
-                }
-                else
-                {
-                    _base.baseStats.DmgPhyMin = UNARMED_DMG_PHYS_MIN;
-                }
-            }
-            if (itemStats.MaxDamage > 0)
-            {
-                if (adding)
-                {
-                    _base.baseStats.DmgPhyMax = itemStats.MaxDamage;
-                }
-                else
-                {
-                    _base.baseStats.DmgPhyMax = UNARMED_DMG_PHYS_MAX;
-                }
-            }
-            if (itemStats.Defense > 0)
-            {
-                if (adding)
-                {
-                    stats[StatID.Def_Phys_Flat] += itemStats.Defense;
-                }
-                else
-                {
-                    stats[StatID.Def_Phys_Flat] -= itemStats.Defense;
-                }
-            }
-            if (itemStats.Blockrate > 0)
-            {
-                if (adding)
-                {
-                    _base.baseStats.ChanceToBlock += itemStats.Blockrate;
-                }
-                else
-                {
-                    _base.baseStats.ChanceToBlock -= itemStats.Blockrate;
-                }
-            }
-
+            _base.baseStats.DmgPhyMin = adding ? itemStats.MinDamage : UNARMED_DMG_PHYS_MIN; //this will cause errors if we equip gear that raises physical min damage that is not a primary weapon
+            _base.baseStats.DmgPhyMax = adding ? itemStats.MaxDamage : UNARMED_DMG_PHYS_MAX; //this will cause errors if we equip gear that raises physical max damage that is not a primary weapon
+            stats[StatID.Def_Phys_Flat] += adding ? itemStats.Defense : -itemStats.Defense;
+            _base.baseStats.ChanceToBlock += adding ? itemStats.Blockrate : -itemStats.Blockrate;
             itemStats.Prefixes.ForEach(p => stats[(StatID)item.type] += adding ? p.value : -p.value);
             itemStats.Suffixes.ForEach(p => stats[(StatID)item.type] += adding ? p.value : -p.value);
             itemStats.Implicits.ForEach(p => stats[(StatID)item.type] += adding ? p.value : -p.value);
