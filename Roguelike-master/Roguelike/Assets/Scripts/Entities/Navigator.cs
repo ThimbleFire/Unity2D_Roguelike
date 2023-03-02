@@ -66,7 +66,7 @@ namespace AlwaysEast
             }
 
             //Once it's moved its all the tiles it can, it calls on arrival.
-            if (stepsTaken++ == Speed)
+            if (stepsTaken++ == TotalSpeed)
                 OnArrival();
         }
 

@@ -22,7 +22,7 @@ namespace AlwaysEast
         public override void RecieveDamage(int incomingDamage, float attackerCombatRating, float attackerLevel)
         {
             //Roll dodge
-            float CRvDR = attackerCombatRating / (attackerCombatRating + Defense);
+            float CRvDR = attackerCombatRating / (attackerCombatRating + TotalDefense);
             float ALvDL = attackerLevel / (attackerLevel + _base.baseStats.Level);
             float chanceToHit = 200 * CRvDR * ALvDL;
             float value = Random.Range(0.0f, 100.0f);
@@ -46,11 +46,11 @@ namespace AlwaysEast
             }
 
             // reduce incoming damage by this entities flat damage reduction
-            incomingDamage -= DefDmgReductionPhys;
+            incomingDamage -= TotalDefDmgReductionPhys;
 
             // reduce incoming damage by armour. This code desparately needs refining.
             float actualIncomingDamage = incomingDamage;
-            float percentReduction = Defense / 1000 * 70;
+            float percentReduction = TotalDefense / 1000 * 70;
             float percentLeftOver = 100 - percentReduction;
             actualIncomingDamage *= percentLeftOver / 100;
             actualIncomingDamage = Mathf.Clamp(actualIncomingDamage, 1.0f, float.MaxValue);

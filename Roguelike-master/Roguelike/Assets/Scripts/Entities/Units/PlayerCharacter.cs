@@ -28,7 +28,7 @@ namespace AlwaysEast
             _base.baseStats.ManaMax = state.PlayerManaMax;
             _base.baseStats.ManaCurrent = state.PlayerManaCurrent;
 
-            PlayerHealthBar.SetMaximumLife((int)Life_Max);
+            PlayerHealthBar.SetMaximumLife((int)TotalLifeMax);
             PlayerHealthBar.SetCurrentLife(_base.baseStats.LifeCurrent);
             Inventory.RefreshCharacterStats(this);
 
@@ -51,7 +51,7 @@ namespace AlwaysEast
 
             _chain = Pathfind.GetPath(_coordinates, TileMapCursor.SelectedTileCoordinates, false);
 
-            if (IsNullOrDefault(_chain))
+            if (Helper.IsNullOrDefault(_chain))
                 return;
 
             //if (_primary != null)
@@ -89,7 +89,7 @@ namespace AlwaysEast
             HUDControls.Hide();
 
             AttackSplash.Show(TileMapCursor.SelectedTileCoordinates, AttackSplash.Type.Slash);
-            Entities.Attack(TileMapCursor.SelectedTileCoordinates, Random.Range(DmgPhysMin, DmgPhysMax), IncAttackRating, _base.baseStats.Level);
+            Entities.Attack(TileMapCursor.SelectedTileCoordinates, Random.Range(TotalDmgPhysMin, TotalDmgPhysMax), TotalAttackRating, _base.baseStats.Level);
 
             //if (_primary != null)
             //    _primary.SetTrigger("Attack");
@@ -99,25 +99,25 @@ namespace AlwaysEast
 
         private void Inventory_OnEquipmentChange(ItemStats itemStats, bool adding)
         {
-            _base.baseStats.DmgPhyMin = adding ? itemStats.MinDamage : UNARMED_DMG_PHYS_MIN; //this will cause errors if we equip gear that raises physical min damage that is not a primary weapon
-            _base.baseStats.DmgPhyMax = adding ? itemStats.MaxDamage : UNARMED_DMG_PHYS_MAX; //this will cause errors if we equip gear that raises physical max damage that is not a primary weapon
-            stats[StatID.Def_Phys_Flat] += adding ? itemStats.Defense : -itemStats.Defense;
-            _base.baseStats.ChanceToBlock += adding ? itemStats.Blockrate : -itemStats.Blockrate;
-            itemStats.Prefixes.ForEach(p => stats[(StatID)item.type] += adding ? p.value : -p.value);
-            itemStats.Suffixes.ForEach(p => stats[(StatID)item.type] += adding ? p.value : -p.value);
-            itemStats.Implicits.ForEach(p => stats[(StatID)item.type] += adding ? p.value : -p.value);
+            stats[Enums.StatID.Dmg_Phys_Min] = adding ? itemStats.MinDamage : UNARMED_DMG_PHYS_MIN; //this will cause errors if we equip gear that raises physical min damage that is not a primary weapon
+            stats[Enums.StatID.Dmg_Phys_Max] = adding ? itemStats.MaxDamage : UNARMED_DMG_PHYS_MAX; //this will cause errors if we equip gear that raises physical max damage that is not a primary weapon
+            stats[Enums.StatID.Def_Phys_Flat] += adding ? itemStats.Defense : -itemStats.Defense;
+            stats[Enums.StatID.Plus_Blockrate] += adding ? itemStats.Blockrate : -itemStats.Blockrate;
+            itemStats.Prefixes.ForEach(p => stats[(Enums.StatID)p.type] += adding ? p.value : -p.value);
+            itemStats.Suffixes.ForEach(p => stats[(Enums.StatID)p.type] += adding ? p.value : -p.value);
+            itemStats.Implicits.ForEach(p => stats[(Enums.StatID)p.type] += adding ? p.value : -p.value);
 
-            PlayerHealthBar.SetMaximumLife((int)Life_Max);
+            PlayerHealthBar.SetMaximumLife((int)TotalLifeMax);
             Inventory.RefreshCharacterStats(this);
         }
 
         public override void PreTurn()
         {
             //regen life
-            if (_base.baseStats.LifeCurrent < Life_Max && RegenLife > 0)
+            if (_base.baseStats.LifeCurrent < TotalLifeMax && TotalRegenLife > 0)
             {
-                _base.baseStats.LifeCurrent = Mathf.Clamp(_base.baseStats.LifeCurrent + RegenLife, 0, (int)Life_Max);
-                Entities.DrawFloatingText(RegenLife.ToString(), transform, Color.green);
+                _base.baseStats.LifeCurrent = Mathf.Clamp(_base.baseStats.LifeCurrent + TotalRegenLife, 0, (int)TotalLifeMax);
+                Entities.DrawFloatingText(TotalRegenLife.ToString(), transform, Color.green);
             }
 
             base.PreTurn();
@@ -126,7 +126,7 @@ namespace AlwaysEast
         public override void RecieveDamage(int incomingDamage, float attackerCombatRating, float attackerLevel)
         {
             //Roll dodge
-            float CRvDR = attackerCombatRating / (attackerCombatRating + Defense);
+            float CRvDR = attackerCombatRating / (attackerCombatRating + TotalDefense);
             float ALvDL = attackerLevel / (attackerLevel + _base.baseStats.Level);
             float chanceToHit = 200 * CRvDR * ALvDL;
             float value = Random.Range(0.0f, 100.0f);
@@ -140,7 +140,7 @@ namespace AlwaysEast
             if (BlockRecoveryTurnsRemaining == 0)
             {
                 value = Random.Range(0.0f, 100.0f);
-                if (value <= _base.baseStats.ChanceToBlock)
+                if (value <= TotalBlockRate)
                 {
                     AudioDevice.Play(block);
                     Entities.DrawFloatingText("Blocked", transform, Color.gray);
@@ -150,11 +150,11 @@ namespace AlwaysEast
             }
 
             // reduce incoming damage by this entities flat damage reduction
-            incomingDamage -= DefDmgReductionPhys;
+            incomingDamage -= TotalDefDmgReductionPhys;
 
             // reduce incoming damage by armour. This code desparately needs refining.
             float actualIncomingDamage = incomingDamage;
-            float percentReduction = Defense / 1000 * 70;
+            float percentReduction = TotalDefense / 1000 * 70;
             float percentLeftOver = 100 - percentReduction;
             actualIncomingDamage *= percentLeftOver / 100;
             actualIncomingDamage = Mathf.Clamp(actualIncomingDamage, 1.0f, float.MaxValue);

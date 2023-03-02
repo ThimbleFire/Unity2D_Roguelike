@@ -112,42 +112,42 @@ namespace AlwaysEast
             stringBuilder.AppendLine(string.Format("Level: {0}", playerEntity._base.baseStats.Level));
             stringBuilder.AppendLine(string.Format("Experience: {0} / {1}", playerEntity._base.baseStats.Experience, playerEntity._base.baseStats.Experience));
             stringBuilder.AppendLine();
-            stringBuilder.AppendLine(string.Format("Life: {0} / {1}", playerEntity._base.baseStats.LifeCurrent, playerEntity.Life_Max));
-            stringBuilder.AppendLine(string.Format("Mana: {0} / {1}", playerEntity._base.baseStats.ManaCurrent, playerEntity.Mana_Max));
+            stringBuilder.AppendLine(string.Format("Life: {0} / {1}", playerEntity._base.baseStats.LifeCurrent, playerEntity.TotalLifeMax));
+            stringBuilder.AppendLine(string.Format("Mana: {0} / {1}", playerEntity._base.baseStats.ManaCurrent, playerEntity.TotalManaMax));
             stringBuilder.AppendLine();
-            stringBuilder.AppendLine(string.Format("Strength: {0}", playerEntity.Strength));
-            stringBuilder.AppendLine(string.Format("Dexterity: {0}", playerEntity.Dexterity));
-            stringBuilder.AppendLine(string.Format("Intelligence: {0}", playerEntity.Intelligence));
-            stringBuilder.AppendLine(string.Format("Constitution: {0}", playerEntity.Constitution));
+            stringBuilder.AppendLine(string.Format("Strength: {0}", playerEntity.TotalStrength));
+            stringBuilder.AppendLine(string.Format("Dexterity: {0}", playerEntity.TotalDexterity));
+            stringBuilder.AppendLine(string.Format("Intelligence: {0}", playerEntity.TotalIntelligence));
+            stringBuilder.AppendLine(string.Format("Constitution: {0}", playerEntity.TotalConstitution));
             stringBuilder.AppendLine();
             stringBuilder.AppendLine("<u>On Attack</u>");
             stringBuilder.AppendLine();
-            stringBuilder.AppendLine(string.Format("Attack Rating: {0}", playerEntity.IncAttackRating));
-            stringBuilder.AppendLine(string.Format("Attack Damage: {0} - {1}", playerEntity.DmgPhysMin, playerEntity.DmgPhysMax));
+            stringBuilder.AppendLine(string.Format("Attack Rating: {0}", playerEntity.TotalAttackRating));
+            stringBuilder.AppendLine(string.Format("Attack Damage: {0} - {1}", playerEntity.TotalDmgPhysMin, playerEntity.TotalDmgPhysMax));
             stringBuilder.AppendLine(string.Format("Elemental Dmg: {8}{0} - {1}{12}, {9}{2} - {3}{12}, {10}{4} - {5}{12}, {11}{6} - {7}{12}",
-                playerEntity.DmgEleFireMin, playerEntity.DmgEleFireMax,
-                playerEntity.DmgEleColdMin, playerEntity.DmgEleColdMax,
-                playerEntity.DmgEleLightningMin, playerEntity.DmgEleLightningMax,
-                playerEntity.DmgElePoisonMin, playerEntity.DmgElePoisonMax,
+                playerEntity.TotalDmgEleFireMin, playerEntity.TotalDmgEleFireMax,
+                playerEntity.TotalDmgEleColdMin, playerEntity.TotalDmgEleColdMax,
+                playerEntity.TotalDmgEleLightningMin, playerEntity.TotalDmgEleLightningMax,
+                playerEntity.TotalDmgElePoisonMin, playerEntity.TotalDmgElePoisonMax,
                 hexFire, hexIce, hexLightning, hexPoison, hexEnd));
-            stringBuilder.AppendLine(string.Format("Resources on Hit: {2}{0}{4}, {3}{1}{4}", playerEntity.OnHitLife, playerEntity.OnHitMana, hexLife, hexMana, hexEnd));
-            stringBuilder.AppendLine(string.Format("Resources on Kill: {2}{0}{4}, {3}{1}{4}", playerEntity.OnKillLife, playerEntity.OnKillMana, hexLife, hexMana, hexEnd));
+            stringBuilder.AppendLine(string.Format("Resources on Hit: {2}{0}{4}, {3}{1}{4}", playerEntity.TotalOnHitLife, playerEntity.TotalOnHitMana, hexLife, hexMana, hexEnd));
+            stringBuilder.AppendLine(string.Format("Resources on Kill: {2}{0}{4}, {3}{1}{4}", playerEntity.TotalOnKillLife, playerEntity.TotalOnKillMana, hexLife, hexMana, hexEnd));
             stringBuilder.AppendLine();
             stringBuilder.AppendLine("<u>Defences</u>");
             stringBuilder.AppendLine();
-            stringBuilder.AppendLine(string.Format("Defence: {0}", playerEntity.Defense));
-            stringBuilder.AppendLine(string.Format("Block Chance: {0}", playerEntity.IncBlockRate));
-            stringBuilder.AppendLine(string.Format("Block Recovery: {0}", Entity.BlockRecoveryBase - playerEntity.IncBlockRecovery));
-            stringBuilder.AppendLine(string.Format("Stagger Recovery: {0}", Entity.StaggerRecoveryBase - playerEntity.IncStaggerRecovery));
+            stringBuilder.AppendLine(string.Format("Defence: {0}", playerEntity.TotalDefense));
+            stringBuilder.AppendLine(string.Format("Block Chance: {0}", playerEntity.TotalBlockRate));
+            stringBuilder.AppendLine(string.Format("Block Recovery: {0}", Entity.BlockRecoveryBase - playerEntity.TotalBlockRecovery));
+            stringBuilder.AppendLine(string.Format("Stagger Recovery: {0}", Entity.StaggerRecoveryBase - playerEntity.TotalStaggerRecovery));
             stringBuilder.AppendLine(string.Format("Resistances: {4}{0}{8}, {5}{1}{8}, {6}{2}{8}, {7}{3}{8}",
-                playerEntity.DefResFire, playerEntity.DefResCold,
-                playerEntity.DefResLightning, playerEntity.DefResPoison,
+                playerEntity.TotalDefResFire, playerEntity.TotalDefResCold,
+                playerEntity.TotalDefResLightning, playerEntity.TotalDefResPoison,
                 hexFire, hexIce, hexLightning, hexPoison, hexEnd));
             stringBuilder.AppendLine();
             stringBuilder.AppendLine("<u>Other</u>");
             stringBuilder.AppendLine();
-            stringBuilder.AppendLine(string.Format("Movement rating: {0}", playerEntity.Speed));
-            stringBuilder.AppendLine(string.Format("Resource regen: {2}{0}{4}, {3}{1}{4}", playerEntity.RegenLife, playerEntity.RegenMana, hexLife, hexMana, hexEnd));
+            stringBuilder.AppendLine(string.Format("Movement rating: {0}", playerEntity.TotalSpeed));
+            stringBuilder.AppendLine(string.Format("Resource regen: {2}{0}{4}, {3}{1}{4}", playerEntity.TotalRegenLife, playerEntity.TotalRegenMana, hexLife, hexMana, hexEnd));
 
             characterStatsLabel.text = stringBuilder.ToString();
         }

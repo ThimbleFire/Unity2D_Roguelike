@@ -30,9 +30,7 @@ namespace AlwaysEast
                     saveState.playerBaseConstitution = 25;
                     saveState.PlayerSpeed = 4;
                     saveState.PlayerLifeMax = 50;
-                    saveState.PlayerLifeCurrent = 50;
                     saveState.PlayerManaMax = 25;
-                    saveState.PlayerManaCurrent = 25;
                     //PlayerPrefs.SetString("Primary", "Items/PRIMARY/1/Short Sword");
                     //PlayerPrefs.SetString("Secondary", "Items/SECONDARY/1/Buckler");
                     break;
@@ -43,9 +41,7 @@ namespace AlwaysEast
                     saveState.playerBaseConstitution = 20;
                     saveState.PlayerSpeed = 4;
                     saveState.PlayerLifeMax = 40;
-                    saveState.PlayerLifeCurrent = 40;
                     saveState.PlayerManaMax = 40;
-                    saveState.PlayerManaCurrent = 40;
                     //PlayerPrefs.SetString("Primary", "Items/PRIMARY/1/Short Wooden Bow");
                     break;
                 case Enums.Class.Magic:
@@ -55,13 +51,13 @@ namespace AlwaysEast
                     saveState.playerBaseConstitution = 10;
                     saveState.PlayerSpeed = 4;
                     saveState.PlayerLifeMax = 30;
-                    saveState.PlayerLifeCurrent = 30;
                     saveState.PlayerManaMax = 50;
-                    saveState.PlayerManaCurrent = 50;
                     //PlayerPrefs.SetString("Primary", "Items/PRIMARY/1/Short Staff");
                     break;
             }
 
+            saveState.PlayerManaCurrent = saveState.PlayerManaMax + Mathf.FloorToInt(saveState.playerBaseIntelligence * 1.5f) + 1;
+            saveState.PlayerLifeCurrent = saveState.PlayerLifeMax + saveState.playerBaseConstitution * 3 + 2;
             SaveState(saveState);
         }
 

@@ -4,7 +4,6 @@ namespace AlwaysEast
 {
     public class GearSlot : MonoBehaviour
     {
-
         public Item.Type type;
         public GameObject character;
         public ItemStats itemStats = null;

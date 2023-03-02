@@ -7,34 +7,27 @@ namespace AlwaysEast
     public class ItemStats : MonoBehaviour
     {
         public bool Equipped = false;
-        public const string hexMagic = "<color=#4850B8>";
-        public const string hexRare = "<color=#FFFF00>";
-        public const string hexGray = "<color=#8A8A8A>";
-        public const string hexRed = "<color=#FF0000>";
-        public const string hexUnique = "<color=#908858>";
-        public const string hexWhite = "<color=#FFFFFF>";
-        public const string hexEnd = "</color>";
 
         private Item item;
-        public int qLvl { get { return item.qlvl; } }
+        public int QLvl { get { return item.qlvl; } }
 
         public Item.Type ItemType { get { return item.ItemType; } }
         public List<Item.Implicit> Implicits { get { return item.Implicits; } }
         public List<Item.Prefix> Prefixes { get { return item.Prefixes; } }
         public List<Item.Suffix> Suffixes { get { return item.Suffixes; } }
 
-        public bool RequirementsMetStrength { get { return Entities.GetPCS.Strength >= item.ReqStr; } }
-        public bool RequirementsMetDexterity { get { return Entities.GetPCS.Dexterity >= item.ReqDex; } }
-        public bool RequirementsMetIntelligence { get { return Entities.GetPCS.Intelligence >= item.ReqInt; } }
+        public bool RequirementsMetStrength { get { return Entities.GetPCS.TotalStrength >= item.ReqStr; } }
+        public bool RequirementsMetDexterity { get { return Entities.GetPCS.TotalDexterity >= item.ReqDex; } }
+        public bool RequirementsMetIntelligence { get { return Entities.GetPCS.TotalIntelligence >= item.ReqInt; } }
         public bool RequirementsMetLevel { get { return Entities.GetPCS._base.baseStats.Level >= item.ReqLvl; } }
-        public bool RequirementsMetConstitution { get { return Entities.GetPCS.Constitution >= item.ReqCons; } }
+        public bool RequirementsMetConstitution { get { return Entities.GetPCS.TotalConstitution >= item.ReqCons; } }
         public bool RequirementsMetAll { get { return RequirementsMetStrength && RequirementsMetDexterity && RequirementsMetIntelligence && RequirementsMetLevel && RequirementsMetConstitution; } }
 
         public byte Rarity { get { return (byte)(item.Prefixes.Count + item.Suffixes.Count); } }
 
         // We want to reduce the number of tooltip calls by defining it on item creation.
 
-        public bool HasAffix(Entity.StatID affix)
+        public bool HasAffix(Enums.StatID affix)
         {
             if (item.Implicits.Find(x => (byte)x.type == (byte)affix) != null) return true;
             if (item.Prefixes.Find(x => (byte)x.type == (byte)affix) != null) return true;
@@ -42,7 +35,6 @@ namespace AlwaysEast
 
             return false;
         }
-
         public int MinDamage
         {
             get
@@ -106,94 +98,39 @@ namespace AlwaysEast
         {
             get
             {
-
                 System.Text.StringBuilder t = new System.Text.StringBuilder(
-                    item.Unique ? hexUnique : hexWhite);
+                    item.Unique ? Helper.hexUnique : Helper.hexWhite);
                 t.Append(item.Name);
-                t.Append(hexEnd);
+                t.Append(Helper.hexEnd);
 
-                t.Append("\n" + Type_Text[(byte)item.ItemType]);
+                t.AppendLine(Helper.ItemTypeNames[(byte)item.ItemType]);
 
-                if (item.DmgMin > 0)
-                    t.Append("\n" + hexGray + "One-hand damage: " + hexEnd + hexMagic + MinDamage + " to " + MaxDamage + hexEnd);
+                if (item.DmgMin > 0)        t.AppendLine(Helper.hexGray + Helper.LBL_ONE_HAND_DAMAGE + Helper.hexEnd + Helper.hexMagic + MinDamage + " to " + MaxDamage + Helper.hexEnd);
+                if (item.Blockrate > 0)     t.AppendLine(Helper.hexGray + Helper.LBL_CHANCE_TO_BLOCK + Helper.hexEnd + Helper.hexMagic + Blockrate + Helper.hexEnd);
+                if (item.DefMin > 0)        t.AppendLine(Helper.hexGray + Helper.LBL_DEFENSE + Helper.hexEnd + Helper.hexMagic + Defense + Helper.hexEnd);
+                if (item.Durability > 0)    t.AppendLine(Helper.hexGray + Helper.LBL_DURABILITY + Helper.hexEnd + item.Durability);
+                if (item.ReqStr > 0)        t.AppendLine(string.Format(Helper.LBL_REQUIRED_STRENGTH, item.ReqStr, Helper.hexEnd, RequirementsMetStrength ? Helper.hexGray : Helper.hexRed));
+                if (item.ReqDex > 0)        t.AppendLine(string.Format(Helper.LBL_REQUIRED_DEXTERITY, item.ReqDex, Helper.hexEnd, RequirementsMetStrength ? Helper.hexGray : Helper.hexRed));
+                if (item.ReqInt > 0)        t.AppendLine(string.Format(Helper.LBL_REQUIRED_INTELLIGENCE, item.ReqInt, Helper.hexEnd, RequirementsMetStrength ? Helper.hexGray : Helper.hexRed));                
+                if (item.ReqCons > 0)       t.AppendLine(string.Format(Helper.LBL_REQUIRED_CONSTITUTION, item.ReqCons, Helper.hexEnd, RequirementsMetStrength ? Helper.hexGray : Helper.hexRed));
+                if (item.ReqLvl > 0)        t.AppendLine(string.Format(Helper.LBL_REQUIRED_LEVEL, item.ReqLvl, Helper.hexEnd, RequirementsMetStrength ? Helper.hexGray : Helper.hexRed));
+                if (Rarity > 0)             t.AppendLine();
 
-                if (item.Blockrate > 0)
-                    t.Append("\n" + hexGray + "Chance to block: " + hexEnd + hexMagic + Blockrate + hexEnd);
-
-                if (item.DefMin > 0)
-                    t.Append("\n" + hexGray + "Defense: " + hexEnd + hexMagic + Defense + hexEnd);
-
-                if (item.Durability > 0)
-                    t.Append("\n" + hexGray + "Durability: " + hexEnd + item.Durability);
-
-                if (item.ReqStr > 0)
-                {
-                    t.Append(RequirementsMetStrength ? hexGray : hexRed);
-                    t.Append(string.Format("\nRequired Strength: {0}{1}", item.ReqStr, hexEnd));
-                }
-                if (item.ReqDex > 0)
-                {
-                    t.Append(RequirementsMetDexterity ? hexGray : hexRed);
-                    t.Append(string.Format("\nRequired Dexterity: {0}{1}", item.ReqDex, hexEnd));
-                }
-                if (item.ReqInt > 0)
-                {
-                    t.Append(RequirementsMetIntelligence ? hexGray : hexRed);
-                    t.Append(string.Format("\nRequired Intelligence: {0}{1}", item.ReqInt, hexEnd));
-                }
-                if (item.ReqCons > 0)
-                {
-                    t.Append(RequirementsMetConstitution ? hexGray : hexRed);
-                    t.Append(string.Format("\nRequired Constitution: {0}{1}", item.ReqCons, hexEnd));
-                }
-                if (item.ReqLvl > 0)
-                {
-                    t.Append(RequirementsMetLevel ? hexGray : hexRed);
-                    t.Append(string.Format("\nRequired Level: {0}{1}", item.ReqLvl, hexEnd));
-                }
-
-                if (Rarity > 0)
-                    t.Append("\n");
-
-                foreach (Item.Implicit implicitMod in item.Implicits)
-                    t.Append("\n" + hexMagic + string.Format(Item.Affix_Text[(byte)implicitMod.type], implicitMod.value) + hexEnd);
-                foreach (Item.Prefix prefixMod in item.Prefixes)
-                    t.Append("\n" + hexMagic + string.Format(Item.Affix_Text[(byte)prefixMod.type], prefixMod.value) + hexEnd);
-                foreach (Item.Suffix suffixMod in item.Suffixes)
-                    t.Append("\n" + hexMagic + string.Format(Item.Affix_Text[(byte)suffixMod.type], suffixMod.value) + hexEnd);
+                item.Implicits.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(Item.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
+                item.Prefixes.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(Item.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
+                item.Suffixes.ForEach(p => t.AppendLine(Helper.hexMagic + string.Format(Item.Affix_Text[(byte)p.type], p.value) + Helper.hexEnd));
 
                 if (item.Description != string.Empty)
-                    t.Append("\n\n<i>" + item.Description + "</i>");
+                    t.AppendLine().AppendLine("<i>" + item.Description + "</i>");
 
                 return t.ToString();
             }
         }
 
-        public static string[] Type_Text = new string[12]
-        {
-        "Any",
-        "Helmet",
-        "Chest",
-        "Gloves",
-        "Legs",
-        "Feet",
-        "Weapon",
-        "Offhand",
-        "Ring",
-        "Amulet",
-        "Consumable",
-        "Belt"
-        };
-
         public void Load(string itemName)
         {
             item = XMLUtility.Load<Item>("Items/" + itemName);
             GetComponent<Image>().sprite = Resources.Load<Sprite>(item.SpriteUIFilename);
-        }
-
-        public void RefreshTooltip()
-        {
-
         }
     }
 }

@@ -42,7 +42,7 @@ namespace AlwaysEast
                     Save();
                 }
                 PaintTextField(ref activeItem.Name, "Item Name");
-                activeItem.ItemType = (Item.Type)PaintPopup(ItemStats.Type_Text, (int)activeItem.ItemType, "Item Type");
+                activeItem.ItemType = (Item.Type)PaintPopup(Helper.ItemTypeNames, (int)activeItem.ItemType, "Item Type");
                 PaintSpriteField(ref SpriteUI);
                 animatorOverrideController = PaintAnimationOverrideControllerLookup(animatorOverrideController);
                 PaintIntField(ref activeItem.qlvl, "Quality Level");
