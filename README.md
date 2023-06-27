@@ -4,7 +4,14 @@ This is an untitled roguelike project. It features turn based movement and comba
 
 ## TODO
 
-Tidy up resource repository.
+* [ ] Get the character equipping items
+* [ ] Make the UI pixel perfect
+* [ ] Make the UI suitable for mobile
+* [ ] Remove AccessPoints in exchange for a simple Vector2Int
+* [ ] Specify the position of 'access points' and their height / width so coridoors aren't always central to one another and are of different sizes
+* [ ] Make weapon animations use animation curves so we don't have to draw every sprite frame
+* [ ] Review NPC behaviour code
+* [ ] Review block and miss code
 
 ## Spooky darkness
 
